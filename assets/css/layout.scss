@@ -1,0 +1,63 @@
+// main layout
+// .app {
+//   background: #f5f4f3;
+//   height: 100%;
+//   display: grid;
+//   grid-template-columns: 1fr;
+//   grid-template-rows: repeat(3, auto);
+//   grid-gap: 0;
+//   grid-template-areas:
+//     "header"
+//     "main"
+//     "footer";
+//   align-content: space-between;
+// }
+
+// defining grid areas
+html,
+body {
+  @media (max-width: $mobile) {
+    height: 100%;
+  }
+}
+header {
+  grid-area: header;
+}
+main {
+  grid-area: main;
+  padding: 0;
+}
+footer {
+  grid-area: footer;
+  @media (max-width: $mobile) {
+    margin-bottom: 56px;
+  }
+}
+
+// Now declaring container widths
+.container-fluid {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.container {
+  margin: 0;
+  padding: 0;
+  @media (min-width: $mobile-large) {
+    max-width: calc(100% - 48px);
+    width: calc(100% - 48px);
+    margin: 0 auto;
+  }
+  @media (min-width: $tablet) {
+    max-width: 700px;
+    width: 700px;
+  }
+  @media (min-width: $desktop) {
+    max-width: 960px;
+    width: 960px;
+  }
+  @media (min-width: $widescreen) {
+    max-width: 1168px;
+    width: 1168px;
+  }
+}

@@ -1,0 +1,187 @@
+// Initial variables //
+$primary: #64ccc9;
+$accent: #66c0be;
+$secondary: #002650;
+$secondary-dark: #000d19;
+$success: #94d500;
+$grey: #686868;
+$grey-secondary: #686868;
+$lightgrey: #b4b5b3;
+$lightergrey: #fafafa;
+$info: #fff;
+$danger: #df4661;
+$red: #ef664f;
+$link: #fff;
+$link-hover: $primary;
+$border-radius: 100px;
+
+// Fonts //
+$family-primary: "neuzeit-grotesk", Helvetica, Arial, sans-serif;
+$family-serif: "magneta", Helvetica, Arial, serif;
+// Font sizes //
+$font-size: 16px;
+$font-medium: 14px;
+$font-small: 11px;
+
+a,
+.link {
+  text-decoration: none;
+  &--is-underlined {
+    text-decoration: underline;
+  }
+}
+p,
+figcaption {
+  font-size: $font-size;
+  font-weight: 300;
+}
+strong {
+  font-weight: bold;
+}
+
+.is-success {
+  color: $success;
+}
+.is-grey {
+  color: $grey;
+}
+.is-danger {
+  color: $danger;
+}
+
+// Breakpoints
+$mobile: 576px;
+$mobile-large: 577px;
+$tablet: 768px;
+$desktop: 1008px;
+$widescreen: 1200px;
+$fullhd: 1392px;
+
+// Gutter
+$gap: 24px;
+
+// ==========================================================================
+// Base – Mixins
+// ==========================================================================
+@mixin line-clamp($numLines, $lineHeight: 1.412) {
+  overflow: hidden;
+  text-overflow: -o-ellipsis-lastline;
+  text-overflow: ellipsis;
+  display: block;
+  /* autoprefixer: off */
+  display: -webkit-box;
+  -webkit-line-clamp: $numLines;
+  -moz-binding: url("/ellipsis.xml#ellipsis");
+  -webkit-box-orient: vertical;
+  max-height: $numLines * $lineHeight + unquote("em");
+}
+
+// Breakpoint sizes
+// Example usage @include breakpoint(x) { ... }; - where x is the device
+@mixin breakpoint($bp) {
+  @if $bp == xl {
+    @media only screen and (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $bp == l {
+    @media only screen and (min-width: $breakpoint-l) {
+      @content;
+    }
+  } @else if $bp == m {
+    @media only screen and (min-width: $breakpoint-m) {
+      @content;
+    }
+  }
+}
+
+// Font sizes (primary sizing in `rem` units with a fallback of `px`)
+// Example usage @include font-size(18);
+@mixin font-size($size) {
+  $remValue: $size / 16;
+  $pxValue: ($size);
+  font-size: $pxValue + px;
+  font-size: $remValue + rem;
+}
+
+// Line height sizes (primary sizing in `rem` units with a fallback of `px`)
+// Example usage @include line-height(22);
+@mixin line-height($size) {
+  $remValue: $size / 16;
+  $pxValue: ($size);
+  line-height: $pxValue + px;
+  line-height: $remValue + rem;
+}
+
+// Background Color with Opacity
+// Example Usage: @include bg-rgba(#111, 50%);
+@mixin background-alpha($color, $alpha) {
+  $opacity: $alpha / 100%;
+  $rgba: rgba($color, $opacity);
+  background: $color;
+  background: rgba($color, $opacity);
+}
+
+// Animations
+// Example Usage @mixin animation(1s);
+@mixin animation($duration: 1s) {
+  animation-duration: $duration;
+  animation-fill-mode: both;
+}
+
+@mixin opacity($percentOpacity: 50%) {
+  $opacity: $percentOpacity / 100%;
+  -webkit-opacity: $opacity;
+  -moz-opacity: $opacity;
+  opacity: $opacity;
+}
+
+// Arrows
+// Example Usage @mixin arrow(4px, #000, up);
+@mixin arrow($size: 5px, $color: #333, $direction: right) {
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    border: $size solid transparent;
+    z-index: -1;
+    @if $direction == right {
+      top: 50%;
+      left: 100%;
+      border-left-color: $color;
+      transform: translate3d(0, -50%, 0);
+    } @else if $direction == left {
+      top: 50%;
+      left: 0;
+      border-right-color: $color;
+      transform: translate3d(-100%, -50%, 0);
+    } @else if $direction == down {
+      top: 100%;
+      left: 50%;
+      border-top-color: $color;
+      transform: translate3d(-50%, 0, 0);
+    } @else if $direction == up {
+      top: 0;
+      left: 50%;
+      border-bottom-color: $color;
+      transform: translate3d(-50%, -100%, 0);
+    }
+  }
+}
+
+// force hardware accelleration on any item
+@mixin accellerate($name) {
+  will-change: $name;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@mixin absolutify() {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
