@@ -6,7 +6,6 @@
 
 <script>
   import debounce from 'lodash/debounce'
-  // import API from '~/assets/api.js'
 
   var timer = null
 
