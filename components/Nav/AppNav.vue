@@ -1,41 +1,77 @@
 <template>
-<div class="navigation-bar">
-  <cookie-box></cookie-box>
-  <div class="navigation" :class="{'is-padded': getNavPadding, 'blue-bg': checkStyle}">
-    <nav role="navigation" class="container-fluid grid-wrapper is-gapless navbar">
+  <div class="navigation-bar">
+    <div class="navigation">
+      <nav 
+        role="navigation" 
+        class="container is-flex navbar">
+        <nuxt-link 
+          to="/" 
+          @click="refreshPage()" 
+          class="logo col--8-mobile col--4-tablet is-center">
+          <img 
+            src="/images/logo-mobile.jpg" 
+            alt="">
+        </nuxt-link>
+      
+        <div 
+          v-if="$store.state.window && $store.state.window < 1024"
+          @click="$store.commit('openMenu')"
+          class="menu menu--mobile"
+        >
+          <i class="fa fa-menu menu--mobile__burger"/>
+        </div>
+      
+      
+        <ul 
+          v-else 
+          class="menu menu--desktop">
+          <nuxt-link
+            :to="`/${menu}`"
+            v-for="(menu, index) in menuItems"
+            :key="index"
+          >
+            {{ menu === '' ? 'Home' : menu }}
+          </nuxt-link>
 
-    </nav>
+        </ul>
+      </nav>
+    </div>
+
+    <no-ssr>
+      <vue-media :query="{maxWidth: 1024}">
+        <div 
+          style="z-index: 9999" 
+          class="modal-container is-hidden-desktop">
+          <app-menu-mobile 
+            :menu-items="menuItems"
+          />
+        </div>
+      </vue-media>
+    </no-ssr>
   </div>
-
-</div>
-
+  
 </template>
 
 <script>
-  import debounce from "lodash/debounce";
+  import debounce from 'lodash/debounce'
 
   export default {
-    name: "AppNav",
-    components: {
-      CookieBox: () => import("@/components/UI/CookieBox")
-    },
+    name: 'AppNav',
     data () {
       return {
-      };
+        menuItems: ['', 'about', 'contact']
+      }
+    },
+    components: {
+      AppMenuMobile: () => import('@/components/Nav/AppMenuMobile')
     },
     methods: {
       refreshPage () {
-        if (this.$route.path === "/") {
-          window.location.reload();
-          window.scrollTo(0, 0);
+        if (this.$route.path === '/') {
+          window.location.reload()
+          window.scrollTo(0, 0)
         }
       }
-    },
-    watch: {
-    },
-    computed: {
-    },
-    created () {
     },
     async mounted () {
       if (process.browser) {
@@ -43,230 +79,108 @@
         var connection =
           navigator.connection ||
           navigator.mozConnection ||
-          navigator.webkitConnection;
+          navigator.webkitConnection
         if (connection != null) {
-          var type = connection.type;
-          let vm = this;
+          var type = connection.type
+          let vm = this
           function updateConnectionStatus () {
-            // console.log(
-            //   "Connection type changed from " + type + " to " + connection.type
-            // );
-            vm.$store.commit("setConnection", connection.type);
+            console.log(
+              'Connection type changed from ' + type + ' to ' + connection.type
+            )
+            vm.$store.commit('setConnection', connection.type)
           }
-          connection.addEventListener("typechange", updateConnectionStatus);
+          connection.addEventListener('typechange', updateConnectionStatus)
         }
         // console.log("Connection type: " + type);
-        this.$store.commit("setConnection", type);
+        this.$store.commit('setConnection', type)
         // on load trigger window width mutation once
-        this.$store.commit("windowResize", window.innerWidth);
+        this.$store.commit('windowResize', window.innerWidth)
 
         window.onNuxtReady(app => {
           // resize triggers window width mutation
           window.addEventListener(
-            "resize",
+            'resize',
             debounce(() => {
-              // console.log("window resize");
-              this.$store.commit("windowResize", window.innerWidth);
+              console.log('window resize')
+              this.$store.commit('windowResize', window.innerWidth)
             }, 300)
-          );
-        });
+          )
+        })
 
         // route management for menus/state/transitions
-        this.$root.$on("routeChanged", () => {
-          let body = document.querySelector("body");
-          let html = document.querySelector("html");
+        this.$root.$on('routeChanged', () => {
+          // console.log('route changed, transitioning')
+          this.$store.commit('resetMenus')
+          let body = document.querySelector('body')
+          let html = document.querySelector('html')
           if (body && html) {
-            body.style.overflow = "visible";
-            html.style.overflow = "visible";
-            body.style.position = "static";
+            body.style.overflow = 'visible'
+            html.style.overflow = 'visible'
+            body.style.position = 'static'
           }
-        });
+        })
       }
     }
-  };
+  }
 </script>
 
 <style lang="scss" scoped>
   .navigation {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    // bottom: 0;
     width: 100%;
     z-index: 5;
-    height: 100px;
+    height: 60px;
+    background-color: transparent;
+    box-shadow: unset;
     margin: 0 auto;
-    &.is-padded {
-      @media (min-width: $tablet) {
-        padding-top: 52px;
-      }
-    }
-    &.blue-bg {
-      // background: $secondary;
-      background: #00172c;
-      height: 86px;
-      &.is-padded {
-        @media (min-width: $tablet) {
-          padding-top: 0;
-          margin-top: 52px;
-        }
-      }
-    }
     .navbar {
       align-items: center;
-      padding: 0 15px;
+      // padding: 0 15px;
       height: 100%;
-      position: absolute;
-      left: 0;
-      right: 0;
-      width: 100%;
-      display: flex;
       justify-content: space-between;
-      .logo {
-        margin: 0;
-        margin-top: 8px;
-      }
+      align-items: center;
       @media (min-width: $tablet) {
-        padding: 0 36px;
+        // padding: 0 36px;
       }
-    }
-    i {
-      color: white;
-      font-size: 14px;
-      @media (min-width: $tablet) {
-        font-size: 16px;
+      img {
+        width: 40px;
+        height: 40px;
       }
-    }
-  }
-  .menu {
-    &:hover {
-      .menu-icon {
-        margin-bottom: 6px;
-      }
-    }
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    @media (min-width: $desktop) {
-      flex-basis: 159px;
-    }
-    &--desktop {
-      .menu-icons {
-        margin-left: 8px;
-        margin-top: 2px;
-      }
-    }
-    .text {
-      color: white;
-      margin-left: 15px;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1;
-      @media (min-width: $tablet) {
-        font-size: 16px;
-        margin-left: 0;
-      }
-    }
-    .destination {
-      margin-right: 6px;
-      margin-left: 0;
-      &:hover {
-        + i {
-          transform: rotate(180deg);
+      .menu {
+        &--mobile {
+          display: block;
         }
-      }
-      + i {
-        transition: transform 0.3s ease-in-out;
-        transform-origin: center;
-        &:hover {
-          transform: rotate(180deg);
-        }
-      }
-    }
-    .menu-icon {
-      display: block;
-      margin-bottom: 3px;
-      background: #ffffff;
-      border-radius: 1px;
-      opacity: 1;
-      height: 1px;
-      width: 15px;
-      transition: all 0.3s ease-in-out;
-    }
-    .menu-icons {
-      @media (min-width: $tablet) {
-        &:hover {
-          .menu-icon {
-            margin-bottom: 6px;
+        &--desktop {
+          display: flex;
+          justify-content: space-around;
+          a {
+            cursor: pointer;
+            font-size: $font-size + 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: white;
+            transition: color 0.3s ease-in-out;
+            &.nuxt-link-active,
+            &:hover {
+              font-weight: bold;
+              color: $red;
+            }
+            &:not(:last-child) {
+              margin-right: $gap;
+            }
           }
         }
       }
     }
-    span:hover {
-      + .menu-icon {
-        margin-bottom: 6px;
-      }
-    }
     i {
-      font-size: 14px;
-      width: 14px;
-      &:before {
-        width: 14px;
-        font-size: 14px;
-      }
-      @media (min-width: $tablet) {
-        font-size: 16px;
-        width: 16px;
-        &:before {
-          font-size: 16px;
-          width: 16px;
-        }
-      }
-    }
-  }
-  .logo {
-    cursor: pointer;
-    margin: 0 auto;
-    margin-top: 8px;
-    background-image: url("/images/logo-text.svg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 150px;
-    height: 25px;
-    @media (min-width: $tablet) {
-      width: 180px;
-      height: 30px;
-    }
-  }
-  .search {
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    span {
-      font-size: 14px;
-      line-height: 1;
-      color: white;
-      font-weight: 400;
-      margin-left: 32px;
-      @media (min-width: $tablet) {
-        font-size: 16px;
-        &:first-child {
-          margin-left: 0;
-        }
-      }
-    }
-    .search {
-      display: inline-block;
-      margin-left: 8px;
+      color: $grey;
       cursor: pointer;
-      background-image: url("/images/08__search.svg");
-      background-repeat: no-repeat;
-      background-size: contain;
-      width: 13px;
-      height: 13px;
-      transform: rotate(-90deg);
+      font-size: 14px;
+      @media (min-width: $tablet) {
+        font-size: 16px;
+      }
     }
   }
 </style>

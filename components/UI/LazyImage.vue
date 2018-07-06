@@ -1,6 +1,6 @@
 <template>
   <div 
-    v-if="image != null && image && image.sizes != null"
+    v-if="image.url != null && imageMobile.url != null"
     class="lazy-image" 
     :style="`background-image: url('${thumbnail}'`"
     @click="clickIt" 
@@ -9,8 +9,8 @@
     <no-ssr>
       <vue-media :query="{maxWidth: 576}">
         <progressive-img
-          :src="image.sizes.small"
-          :alt="image.alt"
+          :src="imageMobile.url"
+          :alt="imageMobile.alt"
           @onLoad.once="imageLoaded"
           @onError="capture($event)"
           :placeholder="thumbnail"
@@ -69,12 +69,15 @@
 
 <script>
   export default {
-    name: "LazyImage",
+    name: 'LazyImage',
     props: {
       image: {
         type: [Object, Boolean]
       },
-      title: "",
+      imageMobile: {
+        type: [Object, Boolean]
+      },
+      title: '',
       link: {
         default: false
       },
@@ -83,7 +86,7 @@
       },
       type: {
         type: String,
-        default: ""
+        default: ''
       },
       blogNav: {
         type: Boolean,
@@ -131,52 +134,37 @@
     },
     methods: {
       capture (event) {
-        return false;
+        return false
       },
       imageLoaded (event) {
-        if (!this.destination) {
-          // console.log("image loaded", event);
-          this.$store.commit("removeLoader");
-        }
+        console.log('image loaded', event)
       },
       clickIt () {
-        if (this.link && this.event == null) {
-          if (this.$route.path === this.link) {
-            window.location.reload();
-          } else {
-            this.$store.commit("routeTransition");
-            let link =
-              this.type === "post" ? `/journal/${this.link}` : `/${this.link}`;
-            this.$router.push(link);
-          }
-        } else if (!this.link && this.event) {
-          // emit AppCarousel click event
-          this.$root.$emit("clicked", this.event);
-        }
+        // go to page of case study
       }
     },
     computed: {
       getImage () {
         if (this.isThumb) {
-          return this.image.sizes.small;
+          return this.image.sizes.small
         } else if (
-          this.$store.state.connection === "cellular" ||
-          this.$store.state.connection === "other"
+          this.$store.state.connection === 'cellular' ||
+          this.$store.state.connection === 'other'
         ) {
-          return this.image.sizes.medium;
-        } else return false;
+          return this.image.sizes.medium
+        } else return false
       },
 
       thumbnail () {
         if (this.noPlaceHolder) {
-          return false;
+          return false
         }
         if (this.image != null) {
-          return this.image.sizes.thumbnail;
-        } else return "https://placehold.it/150x150";
+          return this.image.sizes.thumbnail
+        } else return 'https://placehold.it/150x150'
       }
     }
-  };
+  }
 </script>
 
 <style lang="scss">
@@ -360,7 +348,7 @@
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            content: "";
+            content: '';
             background: #9b9b9b;
             height: 1px;
             width: 50px;

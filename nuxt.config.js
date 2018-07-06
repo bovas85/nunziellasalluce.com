@@ -1,5 +1,5 @@
-const Config = require('./assets/config');
-const axios = require('axios');
+const Config = require('./assets/config')
+// const axios = require('axios')
 
 module.exports = {
   /*
@@ -9,7 +9,9 @@ module.exports = {
   head: {
     titleTemplate: titleChunk => {
       // If undefined or blank then we don't need the hyphen
-      return titleChunk ? `${titleChunk} - Nunziella Salluce Design` : 'Nunziella Salluce Design';
+      return titleChunk
+        ? `${titleChunk} - Nunziella Salluce Design`
+        : 'Nunziella Salluce Design'
     },
     htmlAttrs: {
       lang: 'en'
@@ -27,14 +29,12 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content:
-          ''
+        content: ''
       },
       {
         hid: 'keywords',
         name: 'keywords',
-        content:
-          ''
+        content: ''
       },
       {
         hid: 'image',
@@ -45,8 +45,7 @@ module.exports = {
       {
         hid: 'description',
         itemprop: 'description',
-        content:
-          ''
+        content: ''
       },
       {
         hid: 'image',
@@ -58,12 +57,15 @@ module.exports = {
         name: 'twitter:card',
         content: ''
       },
-      { hid: 'twitter:title', name: 'twitter:title', content: 'Nunziella Salluce Design' },
+      {
+        hid: 'twitter:title',
+        name: 'twitter:title',
+        content: 'Nunziella Salluce Design'
+      },
       {
         hid: 'twitter:description',
         name: 'twitter:description',
-        content:
-          ''
+        content: ''
       },
       { hid: 'twitter:site', name: 'twitter:site', content: '@lucettinas' },
       {
@@ -76,7 +78,11 @@ module.exports = {
         name: 'twitter:image',
         content: '/images/logo.svg'
       },
-      { hid: 'og:title', name: 'og:title', content: 'Nunziella Salluce Design' },
+      {
+        hid: 'og:title',
+        name: 'og:title',
+        content: 'Nunziella Salluce Design'
+      },
       { hid: 'og:url', name: 'og:url', content: Config.client },
       {
         hid: 'og:site_name',
@@ -86,8 +92,7 @@ module.exports = {
       {
         hid: 'og:description',
         name: 'og:description',
-        content:
-          ''
+        content: ''
       },
       { hid: 'og:locale', name: 'og:locale', content: 'en_GB' },
       { hid: 'og:type', name: 'og:type', content: 'website' },
@@ -106,8 +111,7 @@ module.exports = {
     short_name: 'Nunziella Salluce',
     theme_color: '#13294b',
     display: 'minimal-ui',
-    description:
-      ''
+    description: ''
   },
   /*
   ** Build configuration
@@ -132,7 +136,7 @@ module.exports = {
           options: {
             // fix: true
           }
-        });
+        })
       }
     }
   },
@@ -173,6 +177,7 @@ module.exports = {
   plugins: [
     { src: '~/plugins/vue-media.js', ssr: false },
     { src: '~/plugins/vue-intersect', ssr: false },
-    { src: "~/plugins/nuxt-swiper.js", ssr: false }
+    { src: '~/plugins/nuxt-swiper.js', ssr: false },
+    { src: '~/plugins/vue-progressive-image.js', ssr: false }
   ]
-};
+}

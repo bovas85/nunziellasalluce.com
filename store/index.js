@@ -9,9 +9,24 @@ const createStore = () => {
       homePage: [],
       caseStudies: [],
       window: 320,
-      connection: null
+      connection: null,
+      navOpen: false,
+      current: null,
+      modalOpen: false
     },
     mutations: {
+      resetMenus (state) {
+        state.modalOpen = false
+        state.navOpen = false
+      },
+      closeMenu (state) {
+        state.navOpen = false
+        state.modalOpen = false
+      },
+      openMenu (state) {
+        state.navOpen = true
+        state.modalOpen = true
+      },
       sortCaseStudies (state, obj) {
         // sorting alphabetically
         if (obj != null) {
@@ -47,18 +62,25 @@ const createStore = () => {
         if (!arr.length || count === 3) {
           count = 0
           arr = []
-          let home = await app.$axios.get(Config.wpDomain + Config.api.homePage)
-          arr.push(home.data)
-          console.log('============= Server Init API calls =============')
-          commit('setHomePage', home.data)
-          console.log('home')
+          try {
+            let home = await app.$axios.get(
+              Config.wpDomain + Config.api.homePage
+            )
+            arr.push(home.data)
+            console.log('============= Server Init API calls =============')
+            commit('setHomePage', home.data)
+            console.log('home')
 
-          let caseStudies = await app.$axios.get(
-            Config.wpDomain + Config.api.caseStudies
-          )
-          arr.push(caseStudies.data)
-          commit('setCaseStudies', caseStudies.data)
-          console.log('case studies')
+            let caseStudies = await app.$axios.get(
+              Config.wpDomain + Config.api.caseStudies
+            )
+            arr.push(caseStudies.data)
+            commit('setCaseStudies', caseStudies.data)
+            console.log('case studies')
+          } catch (e) {
+            console.log('error with API')
+            arr = []
+          }
         } else {
           console.log('using cached api')
           commit('setHomePage', arr[0])

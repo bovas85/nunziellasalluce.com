@@ -14,7 +14,7 @@ $widescreen: 1200px !default;
 $fullhd: 1392px !default;
 @import "~bulma/sass/base/helpers";
 
-// @import "./variables";
+@import "./variables";
 @import "./grid_base";
 @import "./fonts";
 @import "./helpers";
@@ -47,88 +47,27 @@ body {
 // Main pages Layout
 @import "./layout";
 
-// animations
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease-in-out;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-.fade-leave,
-.fade-enter-to {
-  opacity: 1;
+// rule of thirds
+h1 {
+  font-size: $font-size * 1.4 * 1.4 * 1.4 * 1.4;
+  line-height: 1.1;
+  font-weight: 600;
 }
 
-.left-enter-active,
-.left-leave-active {
-  transition: transform 0.3s ease-in-out;
-}
-.left-enter,
-.left-leave-to {
-  transform: translateX(-100%);
-}
-.left-leave,
-.left-enter-to {
-  transform: translateX(0%);
+h2 {
+  font-size: $font-size * 1.4 * 1.4 * 1.4;
+  line-height: 1.1;
+  font-weight: 600;
 }
 
-.right-enter-active,
-.right-leave-active {
-  transition: transform 1s ease-in-out;
-}
-.right-enter {
-  transform: translateX(100%);
-}
-.right-leave-to {
-  transform: translateX(-100%);
+h3 {
+  font-size: $font-size * 1.4 * 1.4;
+  font-weight: 400;
 }
 
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.4s;
-}
-.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-
-@keyframes navslide {
-  // animate when clicking on menu item on submenu
-  0% {
-    transform: translateX(-200%); // first, slide to the left
-  }
-  50% {
-    opacity: 0;
-    transform: translateX(-200%); // hide the navbar but keep left
-  }
-  55% {
-    transform: translateX(200%); // once hidden, move right
-  }
-  75% {
-    transform: translateX(200%); // make sure it's still hidden
-  }
-  100% {
-    transform: translateX(
-      200%
-    ); // now show again (fill-mode: forward keeps it here for second animation)
-    opacity: 1;
-  }
-}
-
-// layouts
-.body-wrapper {
-  background: #fafafa !important;
-  margin: 0;
-  padding: 0;
-  @media (min-width: $tablet) {
-    margin: 0;
-    padding: 15px 0;
-  }
-}
-.body {
-  margin: 0 !important;
-  @media (min-width: $tablet) {
-    margin: 0 15px !important;
-  }
+h4,
+h5,
+h6 {
+  font-size: $font-size * 1.4;
+  font-weight: 400;
 }

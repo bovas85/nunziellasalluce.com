@@ -16,8 +16,8 @@ $link-hover: $primary;
 $border-radius: 100px;
 
 // Fonts //
-$family-primary: "neuzeit-grotesk", Helvetica, Arial, sans-serif;
-$family-serif: "magneta", Helvetica, Arial, serif;
+$family-primary: "Muli", Helvetica, Arial, sans-serif;
+
 // Font sizes //
 $font-size: 16px;
 $font-medium: 14px;
@@ -55,10 +55,10 @@ $mobile-large: 577px;
 $tablet: 768px;
 $desktop: 1008px;
 $widescreen: 1200px;
-$fullhd: 1392px;
+$fullhd: 1440px;
 
 // Gutter
-$gap: 24px;
+$gap: 32px;
 
 // ==========================================================================
 // Base – Mixins
