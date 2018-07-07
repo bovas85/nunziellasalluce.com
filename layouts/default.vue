@@ -1,23 +1,25 @@
 <template>
   <div class="app">
-    <app-nav></app-nav>
+    <the-nav />
     <div class="app-main">
       <nuxt/>
     </div>
+    <the-footer />
   </div>
 </template>
 
 <script>
-import AppNav from '@/components/Nav/AppNav'
+  import TheNav from '@/components/Nav/TheNav'
+  import TheFooter from '@/components/Footers/TheFooter'
 
-export default {
-  components: {
-    AppNav
+  export default {
+    components: {
+      TheNav,
+      TheFooter
+    }
   }
-}
 </script>
 
 
-<style lang="scss">
-
+<style lang="scss" scoped>
 </style>

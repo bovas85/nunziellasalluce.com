@@ -56,14 +56,14 @@
   import debounce from 'lodash/debounce'
 
   export default {
-    name: 'AppNav',
+    name: 'TheNav',
     data () {
       return {
         menuItems: ['', 'about', 'contact']
       }
     },
     components: {
-      AppMenuMobile: () => import('@/components/Nav/AppMenuMobile')
+      TheMenuMobile: () => import('@/components/Nav/TheMenuMobile')
     },
     methods: {
       refreshPage () {

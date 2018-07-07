@@ -1,27 +1,27 @@
 <template>
   <div class="app" :class="{'is-offline': !$root.online}">
-    <app-nav></app-nav>
+    <the-nav />
     <div class="app-main static" :class="{'fixed': $store.state.openModal}">
       <nuxt/>
     </div>
-    <app-footer></app-footer>
+    <the-footer />
   </div>
 </template>
 
 <script>
-  import AppNav from "@/components/Nav/AppNav";
-  import AppFooter from "@/components/Footers/AppFooter";
+  import TheNav from '@/components/Nav/TheNav'
+  import TheFooter from '@/components/Footers/TheFooter'
 
   export default {
     components: {
-      AppNav,
-      AppFooter,
-      CookieBox: () => import("@/components/UI/CookieBox")
+      TheNav,
+      TheFooter
+      // CookieBox: () => import("@/components/UI/CookieBox")
     }
-  };
+  }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .static {
     .header {
       width: 100%;
@@ -113,7 +113,7 @@
           padding: 0;
           margin-bottom: 10px;
           &:before {
-            content: "";
+            content: '';
             position: absolute;
             top: -20px;
             left: 0;
@@ -142,7 +142,7 @@
       }
       position: relative;
       &::after {
-        content: "You are offline, please save the form.";
+        content: 'You are offline, please save the form.';
         display: block;
         position: absolute;
         top: -60px;

@@ -32,7 +32,7 @@
 
 <script>
   export default {
-    name: 'AppMenuMobile',
+    name: 'TheMenuMobile',
     props: {
       menuItems: {
         type: Array,
