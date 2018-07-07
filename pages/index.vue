@@ -13,6 +13,36 @@
         :data='caseStudies'
       />
     </section>
+
+    <section class="capabilities" v-if='$store.state.homePage'>
+      <h2 class="has-text-centered">My Capabilities</h2>
+      <div class="container">
+        <div class="svg-icons">
+          <div class="round-icon">
+            <img src="https://placehold.it/40x40" alt="" />
+          </div>
+          <div class="line"></div>
+          <div class="round-icon">
+            <img src="https://placehold.it/40x40" alt="" />
+          </div>
+          <div class="line"></div>
+          <div class="round-icon">
+            <img src="https://placehold.it/40x40" alt="" />
+          </div>
+          <div class="text-left">
+            some text
+          </div>
+          <span></span>
+          <div class="text-center">
+            some text
+          </div>
+          <span></span>
+          <div class="text-right">
+            some text
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 </template>
 
@@ -66,11 +96,81 @@
       }
     }
     &.case-studies {
-      margin: $gap * 1.5 0 $gap * 4;
+      margin: $gap * 1.5 0 $gap * 2;
       overflow: hidden;
 
       h2 {
         padding: 0 0 $gap * 1.5;
+      }
+    }
+    &.capabilities {
+      margin: 0 0 $gap * 2;
+
+      h2 {
+        padding-bottom: $gap * 2;
+      }
+
+      .svg-icons {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+
+        @media (min-width: $tablet) {
+          grid-template-columns: 40px 1fr 40px 1fr 40px; // icon --- icon --- icon, the lines flex
+        }
+
+        .round-icon img {
+          border-radius: 100%;
+        }
+
+        @media (max-width: $tablet - 1) {
+          .text-left {
+            grid-row: 2;
+          }
+
+          .text-center {
+            grid-row: 4;
+          }
+
+          .text-right {
+            grid-row: 6;
+          }
+        }
+
+        span {
+          display: none;
+
+          @media (min-width: $tablet) {
+            display: block;
+          }
+        }
+
+        .line {
+          position: relative;
+          display: block;
+          width: 100%;
+          height: 100%;
+
+          display: none;
+
+          @media (min-width: $tablet) {
+            display: block;
+          }
+
+          &:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            background-color: black;
+            background-repeat: repeat;
+            background-position: center center;
+            width: 100%;
+            height: 2px;
+          }
+        }
       }
     }
   }
