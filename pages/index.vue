@@ -7,13 +7,28 @@
       </div>
     </section>
     
-    <section class="case-studies section" v-if='caseStudies && caseStudies != null'>
+    <section class="case-studies section" v-if='caseStudies'>
       <h2 class="has-text-centered">Case Studies</h2>
       <the-carousel
         :data='caseStudies'
       />
     </section>
 
+    <section class="the-process">
+      <h2>The Process</h2>
+      <no-ssr>
+        <vue-media :query="{maxWidth: 767}">
+          <img src="https://placehold.it/800x600" alt="the process description here" />  
+        </vue-media>
+      </no-ssr>
+      <no-ssr>
+        <vue-media :query="{minWidth: 768}">
+          <img src="https://placehold.it/1920x1080" alt="the process description">
+          <p>some text about the process</p>
+        </vue-media>
+      </no-ssr>
+    </section>
+    
     <section class="capabilities" v-if='$store.state.homePage'>
       <h2 class="has-text-centered">My Capabilities</h2>
       <div class="container">
@@ -43,6 +58,59 @@
         </div>
       </div>
     </section>
+
+    <section class="testimonials">
+      <h2 class="has-text-centered">What people say about me</h2>
+      <div class="testimonial">
+        <!-- component with image and text + title / job -->
+        <img src="https://placehold.it/60x60" alt="name of person">
+        <blockquote>
+          Some testimonial here
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
+          -- Title, job position
+        </blockquote>
+      </div>
+      <div class="testimonial">
+        
+        <!-- component with image and text + title / job -->
+        <img src="https://placehold.it/60x60" alt="name of person">
+        <blockquote>
+          Some testimonial here
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
+          -- Title, job position
+        </blockquote>
+      </div>
+      <div class="testimonial">
+        
+        <!-- component with image and text + title / job -->
+        <img src="https://placehold.it/60x60" alt="name of person">
+        <blockquote>
+          Some testimonial here
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
+          -- Title, job position
+        </blockquote>
+      </div>
+      <div class="testimonial">
+        
+        <!-- component with image and text + title / job -->
+        <img src="https://placehold.it/60x60" alt="name of person">
+        <blockquote>
+          Some testimonial here
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
+          -- Title, job position
+        </blockquote>
+      </div>
+      <div class="testimonial">
+        
+        <!-- component with image and text + title / job -->
+        <img src="https://placehold.it/60x60" alt="name of person">
+        <blockquote>
+          Some testimonial here
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
+          -- Title, job position
+        </blockquote>
+      </div>
+    </section>
   </main>
 </template>
 
@@ -63,6 +131,7 @@
     methods: {},
     computed: {
       caseStudies () {
+        if (!this.$store.state.caseStudies.length) return false
         return this.$store.state.caseStudies
       }
     }
@@ -101,6 +170,12 @@
 
       h2 {
         padding: 0 0 $gap * 1.5;
+      }
+    }
+    &.the-process {
+      img {
+        max-width: 100%;
+        object-fit: cover;
       }
     }
     &.capabilities {
@@ -171,6 +246,32 @@
             height: 2px;
           }
         }
+      }
+    }
+    &.testimonials {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding: $gap 0;
+
+      h2 {
+        flex-basis: 100%;
+        padding-bottom: $gap;
+      }
+
+      .testimonial {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        flex-basis: calc(33.3333% - 16px);
+        margin: 16px auto;
+      }
+      img {
+        border-radius: 100%;
+        width: 60px;
+        height: 60px;
       }
     }
   }
