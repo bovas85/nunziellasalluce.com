@@ -15,7 +15,7 @@
     </section>
 
     <section class="the-process">
-      <h2>The Process</h2>
+      <h2 class="has-text-centered">The Process</h2>
       <no-ssr>
         <vue-media :query="{maxWidth: 767}">
           <img src="https://placehold.it/800x600" alt="the process description here" />  
@@ -59,70 +59,31 @@
       </div>
     </section>
 
-    <section class="testimonials">
+    <section class="testimonials" v-if="testimonials && testimonials.length">
       <h2 class="has-text-centered">What people say about me</h2>
-      <div class="testimonial">
-        <!-- component with image and text + title / job -->
-        <img src="https://placehold.it/60x60" alt="name of person">
-        <blockquote>
-          Some testimonial here
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
-          -- Title, job position
-        </blockquote>
-      </div>
-      <div class="testimonial">
-        
-        <!-- component with image and text + title / job -->
-        <img src="https://placehold.it/60x60" alt="name of person">
-        <blockquote>
-          Some testimonial here
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
-          -- Title, job position
-        </blockquote>
-      </div>
-      <div class="testimonial">
-        
-        <!-- component with image and text + title / job -->
-        <img src="https://placehold.it/60x60" alt="name of person">
-        <blockquote>
-          Some testimonial here
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
-          -- Title, job position
-        </blockquote>
-      </div>
-      <div class="testimonial">
-        
-        <!-- component with image and text + title / job -->
-        <img src="https://placehold.it/60x60" alt="name of person">
-        <blockquote>
-          Some testimonial here
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
-          -- Title, job position
-        </blockquote>
-      </div>
-      <div class="testimonial">
-        
-        <!-- component with image and text + title / job -->
-        <img src="https://placehold.it/60x60" alt="name of person">
-        <blockquote>
-          Some testimonial here
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores.
-          -- Title, job position
-        </blockquote>
-      </div>
+      <the-testimonial 
+        v-for="(testimonial, index) in testimonials"
+        :key="index"
+        :data="testimonial"
+      />
     </section>
   </main>
 </template>
 
 <script>
+  import testimonials from '~/assets/testimonials.js'
+
   export default {
     scrollToTop: true,
     data () {
-      return {}
+      return {
+        testimonials: testimonials
+      }
     },
     components: {
       CaseStudy: () => import('@/components/UI/CaseStudy'),
-      TheCarousel: () => import('@/components/Sliders/TheCarousel')
+      TheCarousel: () => import('@/components/Sliders/TheCarousel'),
+      TheTestimonial: () => import('@/components/UI/TheTestimonial')
     },
     head () {
       return { title: 'Home' }
@@ -165,7 +126,7 @@
       }
     }
     &.case-studies {
-      margin: $gap * 1.5 0 $gap * 2;
+      margin: $gap * 1.5 0;
       overflow: hidden;
 
       h2 {
@@ -173,16 +134,20 @@
       }
     }
     &.the-process {
+      h2 {
+        padding: $gap * 2 0;
+      }
+
       img {
         max-width: 100%;
         object-fit: cover;
       }
     }
     &.capabilities {
-      margin: 0 0 $gap * 2;
+      margin: 0;
 
       h2 {
-        padding-bottom: $gap * 2;
+        padding: $gap * 3;
       }
 
       .svg-icons {
@@ -248,30 +213,17 @@
         }
       }
     }
+
     &.testimonials {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
       align-items: flex-start;
-      padding: $gap 0;
+      margin-bottom: $gap * 2.5;
 
       h2 {
         flex-basis: 100%;
-        padding-bottom: $gap;
-      }
-
-      .testimonial {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        flex-basis: calc(33.3333% - 16px);
-        margin: 16px auto;
-      }
-      img {
-        border-radius: 100%;
-        width: 60px;
-        height: 60px;
+        padding: $gap * 3 0;
       }
     }
   }
