@@ -2,20 +2,24 @@
   <main class="home">
     <section class="section hero">
       <div class="container is-flex-column">
-        <h1>Nunziella Salluce Design</h1>
+        <h1 class="jumbo">Nunziella Salluce Design</h1>
         <h3>Multi-disciplinary UI / UX and Visual Designer</h3>
       </div>
     </section>
 
     <section class="case-studies section" v-if='caseStudies'>
-      <h2 class="has-text-centered">Case Studies</h2>
+      <div class="container">
+        <h1>Case Studies</h1>
+      </div>
       <the-carousel
         :data='caseStudies'
       />
     </section>
 
     <section class="the-process">
-      <h2 class="has-text-centered">The Process</h2>
+      <div class="container">
+        <h1>The Process</h1>
+      </div>
       <no-ssr>
         <vue-media :query="{maxWidth: 767}">
           <img src="https://placehold.it/800x600" alt="the process description here" />
@@ -30,7 +34,9 @@
     </section>
 
     <section class="capabilities" v-if='$store.state.homePage'>
-      <h2 class="has-text-centered">My Capabilities</h2>
+      <div class="container">
+        <h1>My Capabilities</h1>
+      </div>
       <div class="container">
         <div class="svg-icons">
           <div class="round-icon">
@@ -60,7 +66,9 @@
     </section>
 
     <section class="testimonials container" v-if="testimonials && testimonials.length">
-      <h2 class="has-text-centered">What people say about me</h2>
+      <div class="container">
+        <h1>What people say about me</h1>
+      </div>
       <the-testimonial
         v-for="(testimonial, index) in testimonials"
         :key="index"
@@ -100,6 +108,11 @@
 </script>
 
 <style lang="scss" scoped>
+  // general h1 max width
+  h1 {
+    max-width: 500px;
+  }
+
   section {
     &.hero {
       background-image: url('https://fillmurray.com/600/800');
@@ -120,22 +133,26 @@
       justify-content: flex-end;
       padding: 0 0 80px 0;
 
+      h1 {
+        max-width: 410px;
+        padding: 0 0 $gap;
+      }
+
       h1,
       h3 {
         color: white;
       }
     }
     &.case-studies {
-      margin: $gap * 1.5 0;
       overflow: hidden;
 
-      h2 {
-        padding: 0 0 $gap * 1.5;
+      h1 {
+        max-width: 260px;
       }
     }
     &.the-process {
-      h2 {
-        padding: $gap * 2 0;
+      h1 {
+        max-width: 260px;
       }
 
       img {
@@ -146,10 +163,6 @@
     }
     &.capabilities {
       margin: 0;
-
-      h2 {
-        padding: $gap * 3;
-      }
 
       .svg-icons {
         display: grid;
@@ -222,9 +235,8 @@
       align-items: flex-start;
       margin-bottom: $gap * 2.5;
 
-      h2 {
+      h1 {
         flex-basis: 100%;
-        padding: $gap * 3 0;
       }
     }
   }

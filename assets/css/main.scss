@@ -4,7 +4,7 @@
  * Licensed under MIT (https://styleguide.nakedtesting.com/license)
  */
 $gap: 24px;
-@import "~bulma/sass/utilities/_all";
+@import '~bulma/sass/utilities/_all';
 
 // Breakpoints
 $mobile: 576px !default; // used for max-width only
@@ -16,13 +16,13 @@ $desktop: 1024px !default;
 $widescreen: 1200px !default;
 $fullhd: 1392px !default;
 
-@import "~bulma/sass/base/helpers";
+@import '~bulma/sass/base/helpers';
 
-@import "./variables";
-@import "./grid_base";
-@import "./fonts";
-@import "./helpers";
-@import "./animations";
+@import './variables';
+@import './grid_base';
+@import './fonts';
+@import './helpers';
+@import './animations';
 
 // Initial Styles + resets
 html,
@@ -46,32 +46,42 @@ body {
   margin: 0;
 }
 
-@import "./elements";
+@import './elements';
 
 // Main pages Layout
-@import "./layout";
+@import './layout';
 
 // rule of thirds
+$rule: 1.4;
+
+h1.jumbo {
+  font-size: $font-size * $rule * 4;
+  line-height: 1;
+  font-weight: 800;
+  padding: $gap * 3 0;
+}
+
 h1 {
-  font-size: $font-size * 1.4 * 1.4 * 1.4 * 1.4;
-  line-height: 1.1;
-  font-weight: 600;
+  font-size: $font-size * $rule * 3;
+  line-height: 1;
+  font-weight: 800;
+  padding: $gap * 3 0;
 }
 
 h2 {
-  font-size: $font-size * 1.4 * 1.4 * 1.4;
+  font-size: $font-size * $rule * 2;
   line-height: 1.1;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 h3 {
-  font-size: $font-size * 1.4 * 1.4;
+  font-size: $font-size * $rule * $rule;
   font-weight: 400;
 }
 
 h4,
 h5,
 h6 {
-  font-size: $font-size * 1.4;
-  font-weight: 400;
+  font-size: $font-size * $rule;
+  font-weight: 300;
 }

@@ -86,6 +86,8 @@ $gap: 32px;
 // $desktop: 1008px;
 // $widescreen: 1200px;
 // $fullhd: 1440px;
+//
+// @include media(sm);
 @mixin media($bp) {
   @if $bp == xxl {
     @media only screen and (min-width: $fullhd) {

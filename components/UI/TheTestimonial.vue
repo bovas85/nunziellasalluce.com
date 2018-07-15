@@ -53,7 +53,7 @@
         padding-top: $gap / 3;
         display: block;
         font-style: normal;
-        font-weight: 600;
+        font-weight: 800;
       }
     }
   }
