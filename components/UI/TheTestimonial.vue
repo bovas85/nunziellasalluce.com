@@ -4,7 +4,7 @@
         <blockquote>
             {{testimonial.text}}
             <span class='author'>
-            -- {{testimonial.name}}, {{testimonial.position}}
+              {{testimonial.name}}, {{testimonial.position}}
             </span>
         </blockquote>
     </div>
@@ -36,22 +36,25 @@
 
     img {
       border-radius: 100%;
-      width: 60px;
-      height: 60px;
+      width: 130px;
+      height: 130px;
       object-fit: contain;
       margin: 0 auto;
       margin-bottom: $gap / 2;
     }
 
     blockquote {
-      font-style: italic;
-      font-weight: 400;
-      border-left: 3px solid #ccc;
-      padding-left: $gap / 2;
+      max-width: 540px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 600;
+      margin-top: 60px;
 
       span {
-        padding-top: $gap / 3;
+        padding-top: $gap * 1.5;
         display: block;
+        color: $subtitle;
         font-style: normal;
         font-weight: 800;
       }

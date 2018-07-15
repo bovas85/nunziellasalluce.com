@@ -60,11 +60,34 @@
       <div class="container">
         <h1>What people say about me</h1>
       </div>
-      <the-testimonial
-        v-for="(testimonial, index) in testimonials"
-        :key="index"
-        :data="testimonial"
-      />
+      <div class="wrapper">
+        <transition-group name="fadeIn" mode="out-in">
+          <the-testimonial
+            v-for="(testimonial, index) in testimonials"
+            :key="testimonial"
+            v-if="currentTestimonial === index"
+            :data="testimonial"
+          />
+        </transition-group>
+        <div class="arrows" role="carousel">
+          <div
+            class="arrow arrow--left"
+            role="navigation"
+            aria-label="previous testimonial"
+            @click="currentTestimonial > 0 ? currentTestimonial-- : null"
+          >
+            <img src="/images/arrow.svg" alt="arrow-left">
+          </div>
+          <div
+            class="arrow arrow--right"
+            role="navigation"
+            aria-label="next testimonial"
+            @click="currentTestimonial < testimonials.length - 1 ? currentTestimonial++ : null"
+          >
+            <img src="/images/arrow.svg" alt="arrow-right">
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 </template>
@@ -77,7 +100,8 @@
     scrollToTop: true,
     data () {
       return {
-        testimonials: testimonials
+        testimonials: testimonials,
+        currentTestimonial: 0
       }
     },
     components: {
@@ -218,9 +242,45 @@
     &.testimonials {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
-      align-items: flex-start;
-      margin-bottom: $gap * 2.5;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: $gap * 3;
+
+      .wrapper {
+        position: relative;
+      }
+
+      .arrows {
+        top: 100px;
+        width: 100%;
+        height: 1px;
+        cursor: pointer;
+        position: absolute;
+        display: flex;
+        align-items: center;
+      }
+      .arrow {
+        position: absolute;
+        &--left {
+          left: 50px;
+          transform: rotate(90deg);
+          transform-origin: center;
+
+          @include media(md) {
+            left: 100px;
+          }
+        }
+
+        &--right {
+          right: 50px;
+          transform: rotate(-90deg);
+          transform-origin: center;
+
+          @include media(md) {
+            right: 100px;
+          }
+        }
+      }
 
       h1 {
         flex-basis: 100%;

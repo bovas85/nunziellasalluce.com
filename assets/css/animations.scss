@@ -22,12 +22,21 @@
 }
 
 .fadeIn-leave-active {
-  animation: blurOut 1s ease-in both 0.2s;
+  animation: fadeOut 0.6s ease-in both;
+  overflow-y: hidden !important;
+}
+
+.fadeIn-enter-active {
+  animation: fadeIn 0.6s ease-in both;
+}
+
+.fadeIn-leave-active {
+  animation: fadeOut 0.6s ease-in both 0.2s;
   // overflow-y: hidden !important;
 }
 
 .fadeIn-enter-active {
-  animation: blurIn 1s ease-in both 0.2s;
+  animation: fadeIn 0.6s ease-in both 0.2s;
 }
 
 .slide-leave-active {
@@ -55,6 +64,23 @@
   }
   to {
     filter: blur(0px);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 1;
   }
 }
 
