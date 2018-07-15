@@ -41,17 +41,17 @@
         <div class="skill col--4-tablet">
           <img src="https://placehold.it/800x800" alt="">
           <h3>Title</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, vel!</p>
+          <p>Mobile Applications  Interface Web User  Interfaces User  Experience Design</p>
         </div>
         <div class="skill col--4-tablet padded-top">
           <img src="https://placehold.it/800x800" alt="">
           <h3>Title</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, vel!</p>
+          <p>Mobile Applications  Interface Web User  Interfaces User  Experience Design</p>
         </div>
         <div class="skill col--4-tablet">
           <img src="https://placehold.it/800x800" alt="">
           <h3>Title</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, vel!</p>
+          <p>Mobile Applications  Interface Web User  Interfaces User  Experience Design</p>
         </div>
       </div>
     </section>
@@ -194,9 +194,9 @@
       }
     }
     &.capabilities {
-      margin: 0;
-
       .skill {
+        max-width: 220px;
+        margin: 0 auto;
         img {
           border-radius: 100%;
         }
