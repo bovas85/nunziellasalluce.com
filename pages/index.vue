@@ -101,9 +101,7 @@
       if (process.browser) {
         window.onNuxtReady(app => {
           setTimeout(() => {
-            if (window.innerWidth > 576) {
-              this.handleScroll();
-            }
+            this.handleScroll();
           }, 1000)
         })
       }
