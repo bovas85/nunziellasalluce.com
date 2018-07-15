@@ -7,7 +7,7 @@
       </div>
     </section>
 
-    <section class="case-studies section" v-if='caseStudies'>
+    <section class="case-studies section step" v-if='caseStudies'>
       <div class="container">
         <h1>Case Studies</h1>
       </div>
@@ -96,8 +96,48 @@
     head () {
       return { title: 'Home' }
     },
-    mounted () {},
-    methods: {},
+    mounted () {
+      if (process.browser) {
+        window.onNuxtReady(app => {
+          if (window.innerWidth > 576) {
+            this.handleScroll();
+          }
+        })
+      }
+    },
+    methods: {
+      handleStepEnter () {
+        console.log('enter');
+      },
+      handleStepExit () {
+        console.log('exit');
+      },
+      handleScroll () {
+          const scroller = this.scrollama();
+
+          // setup the instance, pass callback functions
+          const step = scroller
+            .setup({
+              step: ".step",
+              offset: 0.5,
+              debug: true
+            })
+            .onStepEnter(this.handleStepEnter)
+            .onStepExit(this.handleStepExit)
+
+          step.resize();
+          step.enable();
+
+          window.addEventListener(
+            "resize",
+            debounce(function () {
+              // console.log('resizing')
+              step.resize();
+            }, 150),
+            { passive: true }
+          );
+      }
+    },
     computed: {
       caseStudies () {
         if (!this.$store.state.caseStudies.length) return false
