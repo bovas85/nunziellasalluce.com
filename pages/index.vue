@@ -61,15 +61,16 @@
         <h1>What people say about me</h1>
       </div>
       <div class="wrapper">
-        <transition-group name="fadeIn" mode="out-in">
+        <transition-group tag="div" name="fade" mode="out-in">
           <the-testimonial
             v-for="(testimonial, index) in testimonials"
-            :key="testimonial"
+            :key="testimonial.id"
             v-if="currentTestimonial === index"
             :data="testimonial"
           />
         </transition-group>
-        <div class="arrows" role="carousel">
+
+        <div class="arrows" role="pagination">
           <div
             class="arrow arrow--left"
             role="navigation"
@@ -247,6 +248,10 @@
       margin-bottom: $gap * 3;
 
       .wrapper {
+        position: relative;
+      }
+
+      .testimonial-group {
         position: relative;
       }
 

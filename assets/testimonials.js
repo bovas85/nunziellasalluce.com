@@ -1,5 +1,6 @@
 const testimonials = [
   {
+    id: 0,
     acf: {
       image: {
         url: 'https://placehold.it/130x130',
@@ -17,6 +18,7 @@ const testimonials = [
     }
   },
   {
+    id: 1,
     acf: {
       image: {
         url: 'https://placehold.it/130x130',
@@ -34,6 +36,7 @@ const testimonials = [
     }
   },
   {
+    id: 2,
     acf: {
       image: {
         url: 'https://placehold.it/130x130',
@@ -51,6 +54,7 @@ const testimonials = [
     }
   },
   {
+    id: 3,
     acf: {
       image: {
         url: 'https://placehold.it/130x130',
@@ -68,6 +72,7 @@ const testimonials = [
     }
   },
   {
+    id: 4,
     acf: {
       image: {
         url: 'https://placehold.it/130x130',

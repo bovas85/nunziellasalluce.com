@@ -11,7 +11,7 @@
           <the-logo
             :width="50"
             :height="31"
-            :fill="[$store.state.menuScrolled ? '#f4a261' : 'white']"
+            :fill="$store.state.menuScrolled ? '#f4a261' : 'white'"
           />
         </nuxt-link>
 
