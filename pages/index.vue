@@ -38,29 +38,20 @@
         <h1>My Capabilities</h1>
       </div>
       <div class="container">
-        <div class="svg-icons">
-          <div class="round-icon">
-            <img src="https://placehold.it/40x40" alt="" />
-          </div>
-          <div class="line"></div>
-          <div class="round-icon">
-            <img src="https://placehold.it/40x40" alt="" />
-          </div>
-          <div class="line"></div>
-          <div class="round-icon">
-            <img src="https://placehold.it/40x40" alt="" />
-          </div>
-          <div class="text-left">
-            some text
-          </div>
-          <span></span>
-          <div class="text-center">
-            some text
-          </div>
-          <span></span>
-          <div class="text-right">
-            some text
-          </div>
+        <div class="skill col--4-tablet">
+          <img src="https://placehold.it/800x800" alt="">
+          <h3>Title</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, vel!</p>
+        </div>
+        <div class="skill col--4-tablet padded-top">
+          <img src="https://placehold.it/800x800" alt="">
+          <h3>Title</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, vel!</p>
+        </div>
+        <div class="skill col--4-tablet">
+          <img src="https://placehold.it/800x800" alt="">
+          <h3>Title</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, vel!</p>
         </div>
       </div>
     </section>
@@ -205,66 +196,21 @@
     &.capabilities {
       margin: 0;
 
-      .svg-icons {
-        display: grid;
-        grid-template-columns: 1fr;
-        justify-items: center;
-        text-align: center;
-
-        @media (min-width: $tablet) {
-          grid-template-columns: 40px 1fr 40px 1fr 40px; // icon --- icon --- icon, the lines flex
-        }
-
-        .round-icon img {
+      .skill {
+        img {
           border-radius: 100%;
         }
 
-        @media (max-width: $tablet - 1) {
-          .text-left {
-            grid-row: 2;
-          }
-
-          .text-center {
-            grid-row: 4;
-          }
-
-          .text-right {
-            grid-row: 6;
-          }
+        h3 {
+          margin: $gap / 2 0;
         }
 
-        span {
-          display: none;
-
-          @media (min-width: $tablet) {
-            display: block;
-          }
+        p {
+          font-size: $font-size * $rule;
         }
 
-        .line {
-          position: relative;
-          display: block;
-          width: 100%;
-          height: 100%;
-
-          display: none;
-
-          @media (min-width: $tablet) {
-            display: block;
-          }
-
-          &:after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            background-color: black;
-            background-repeat: repeat;
-            background-position: center center;
-            width: 100%;
-            height: 2px;
-          }
+        &.padded-top {
+          padding-top: 46px;
         }
       }
     }

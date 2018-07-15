@@ -3,7 +3,6 @@
  * Copyright 2017-2018 Alessandro Giordo
  * Licensed under MIT (https://styleguide.nakedtesting.com/license)
  */
-$gap: 24px;
 @import '~bulma/sass/utilities/_all';
 
 // Breakpoints
@@ -52,8 +51,6 @@ body {
 @import './layout';
 
 // rule of thirds
-$rule: 1.4;
-
 h1.jumbo {
   font-size: $font-size * $rule * 4;
   line-height: 1;
