@@ -66,7 +66,7 @@ const createStore = () => {
          * Also, if using nuxt generate, nuxtServerInit will be called for every page
          * Because of this caching, the API calls will only be done once
          */
-        if (!arr.length || count === 3) {
+        if (!arr.length || count > 0) {
           count = 0;
           arr = [];
           try {

@@ -8,9 +8,11 @@
           to="/"
           @click="refreshPage()"
           class="logo col--8-mobile col--4-tablet is-center">
-          <img
-            src="/images/logo-mobile.jpg"
-            alt="">
+          <the-logo
+            :width="50"
+            :height="31"
+            :fill="[$store.state.menuScrolled ? '#f4a261' : 'white']"
+          />
         </nuxt-link>
 
         <div
@@ -54,16 +56,18 @@
 
 <script>
   import debounce from 'lodash/debounce'
+  import TheLogo from '@/components/Icons/TheLogo'
 
   export default {
     name: 'TheNav',
     data () {
       return {
-        menuItems: ['', 'about', 'contact']
+        menuItems: ['', 'projects', 'contact']
       }
     },
     components: {
-      TheMenuMobile: () => import('@/components/Nav/TheMenuMobile')
+      TheMenuMobile: () => import('@/components/Nav/TheMenuMobile'),
+      TheLogo
     },
     methods: {
       refreshPage () {
@@ -131,15 +135,11 @@
     left: 0;
     width: 100%;
     z-index: 5;
-    height: 60px;
+    height: 90px;
     background-color: transparent;
     box-shadow: unset;
     margin: 0 auto;
-    transition: background-color 0.3s ease-in-out;
-
-    &.scrolled {
-      background-color: #f0efef;
-    }
+    transition: all 0.3s ease-in-out;
 
     .navbar {
       align-items: center;
@@ -157,8 +157,10 @@
         }
       }
       img {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 31px;
+        object-fit: contain;
+        stroke: $primary;
       }
       .menu {
         &--mobile {
@@ -170,14 +172,12 @@
           a {
             cursor: pointer;
             font-size: $font-size + 4px;
-            text-transform: uppercase;
-            font-weight: 600;
+            text-transform: capitalize;
+            font-weight: 400;
             color: white;
             transition: color 0.3s ease-in-out;
-            &.nuxt-link-active,
-            &:hover {
-              font-weight: bold;
-              color: $red;
+            &.nuxt-link-active {
+              color: $primary;
             }
             &:not(:last-child) {
               margin-right: $gap;
@@ -185,48 +185,73 @@
           }
         }
       }
+      a {
+        position: relative;
+        padding: $gap / 3 0;
+      }
+
+      a:hover {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      a:before,
+      a:after {
+        content: '';
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: -2px;
+        background: #fff;
+      }
+
+      a:before {
+        left: 0;
+      }
+
+      a:after {
+        right: 0;
+        background: #fff;
+        transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+
+      a:hover:before {
+        background: #fff;
+        width: 100%;
+        transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+
+      a:hover:after {
+        background: transparent;
+        width: 100%;
+        transition: 0s;
+      }
     }
 
-    a {
-      position: relative;
-      padding: $gap / 3 0;
-    }
+    &.scrolled {
+      background-color: #f0efef;
+      box-shadow: 0 0 4px 1px $secondary-gray;
 
-    a:hover {
-      color: #fff;
-      text-decoration: none;
-    }
+      .navbar a {
+        color: $secondary;
 
-    a:before,
-    a:after {
-      content: '';
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      bottom: -2px;
-      background: #fff;
-    }
+        &:before,
+        &:after {
+          background: $primary;
+        }
 
-    a:before {
-      left: 0;
-    }
+        &:hover:before {
+          background: $primary;
+          width: 100%;
+          transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
 
-    a:after {
-      right: 0;
-      background: #fff;
-      transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
-    }
-
-    a:hover:before {
-      background: #fff;
-      width: 100%;
-      transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
-    }
-
-    a:hover:after {
-      background: transparent;
-      width: 100%;
-      transition: 0s;
+        &:hover:after {
+          background: transparent;
+          width: 100%;
+          transition: 0s;
+        }
+      }
     }
 
     i {

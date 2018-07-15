@@ -1,6 +1,6 @@
 <template>
   <div class="carousel" v-if="data != null && data.length">
-    
+
     <div @mouseover="hovering = true" @mouseleave="hovering = false" ref="Carousel" v-swiper:blogSwiper="swiperOption" >
       <div class="app-carousel swiper-wrapper">
         <div class="swiper-slide" v-for="(item, index) in data" :key="index">
@@ -13,14 +13,14 @@
           ></lazy-image>
           <div class="text-section">
             <h2>{{item.acf.title}}</h2>
-            <h3>{{item.acf.intro}}</h3>
+            <h3 class="subtitle">{{item.acf.intro}}</h3>
           </div>
         </div>
-        
+
       </div>
       <!-- slider arrows -->
-      <div class="prev"></div>
-      <div class="next"></div>
+      <div class="prev">Prev</div>
+      <div class="next">Next</div>
     </div>
   </div>
 </template>
@@ -59,12 +59,12 @@
           slidesPerView: 'auto',
           centeredSlides: true,
           // freeMode: true,
-          spaceBetween: 12,
+          spaceBetween: 32,
           // speed: 200,
           autoplay: false,
           loop: true,
           // autoHeight: true,
-          paginationHide: true,
+          paginationHide: false,
           pagination: '.swiper-pagination'
         }
       }
@@ -329,37 +329,41 @@
       background-image: unset;
       top: 0;
       right: unset;
-      width: 15vw;
+      width: 11vw;
       height: 100%;
       bottom: 0;
       z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
     }
     .prev {
       left: -32px;
-      opacity: 0;
+      opacity: 1;
       background: linear-gradient(
         to left,
         rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.6) 100%
+        rgba(0, 0, 0, 0.4) 100%
       );
       transition: opacity 0.3s ease-in-out;
-      &:hover {
-        opacity: 1;
-      }
+      // &:hover {
+      //   opacity: 1;
+      // }
     }
     .next {
       left: unset;
       right: -32px;
-      opacity: 0;
+      opacity: 1;
       background: linear-gradient(
         to right,
         rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.6) 100%
+        rgba(0, 0, 0, 0.4) 100%
       );
       transition: opacity 0.3s ease-in-out;
-      &:hover {
-        opacity: 1;
-      }
+      // &:hover {
+      //   opacity: 1;
+      // }
     }
   }
   .swiper-wrapper {
@@ -413,14 +417,19 @@
       display: flex;
       flex-direction: column;
       text-align: center;
-      opacity: 0;
-      z-index: 0;
-      transition: all .3s ease-in-out;
+      opacity: 1;
+      z-index: 1;
+
+      .subtitle {
+        opacity: 0;
+        transform: translateY(500%);
+        transition: all 0.4s ease-in-out;
+      }
     }
     &:hover {
-      .text-section {
+      .text-section .subtitle {
         opacity: 1;
-        z-index: 1;
+        transform: translateY(0);
       }
     }
     img {
