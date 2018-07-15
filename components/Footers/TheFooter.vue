@@ -11,27 +11,19 @@
       <div class="right-section">
         <div class="social-and-logos">
           <h3>Follow me</h3>
-          <ul class="social-list social">
+          <ul class="social-list">
               <li class="social__icon">
-                  <a href="https://www.facebook.com/" rel="noopener" target="_blank">
-                      <i class="fa social__icon--facebook"></i>
-                  </a>
+                  <a href="https://dribbble.com/nunziella" class="social social--dribbble" rel="noopener" target="_blank"></a>
               </li>
               <li class="social__icon">
-                  <a href="https://twitter.com/" rel="noopener" target="_blank">
-                      <i class="fa social__icon--twitter"></i>
-                  </a>
+                  <a href="https://www.instagram.com/lucettinas/" class="social social--instagram" rel="noopener" target="_blank"></a>
               </li>
               <li class="social__icon">
-                  <a href="https://www.instagram.com/travel/" rel="noopener" target="_blank">
-                      <i class="fa social__icon--instagram"></i>
-                  </a>
+                  <a href="https://www.behance.net/nunziellasalluce/" class="social social--behance" rel="noopener" target="_blank"></a>
               </li>
               <li class="social__icon">
-                  <a href="https://www.linkedin.com/company/10913867?trk=tyah&trkInfo=clickedVertical%3Acompany%2CclickedEntityId%3A10913867%2Cidx%3A1-1-1%2CtarId%3A1472558078494%2Ctas%3A"
-                      rel="noopener" target="_blank">
-                      <i class="fa social__icon--linkedin"></i>
-                  </a>
+                  <a class="social social--linkedin" href="https://www.linkedin.com/in/nunziella-salluce"
+                      rel="noopener" target="_blank"></a>
               </li>
           </ul>
         </div>
@@ -83,9 +75,10 @@
       justify-content: space-between;
     }
   }
-  .social {
+  .social-list {
     display: flex;
     justify-content: space-between;
     max-width: 200px;
+    list-style-type: none;
   }
 </style>

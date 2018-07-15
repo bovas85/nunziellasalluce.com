@@ -1,6 +1,5 @@
 // Initial variables //
-$primary: #64ccc9;
-$accent: #66c0be;
+$primary: #f4a261;
 $secondary: #002650;
 $secondary-dark: #000d19;
 $success: #94d500;
@@ -16,7 +15,7 @@ $link-hover: $primary;
 $border-radius: 100px;
 
 // Fonts //
-$family-primary: "Muli", Helvetica, Arial, sans-serif;
+$family-primary: 'Muli', Helvetica, Arial, sans-serif;
 
 // Font sizes //
 $font-size: 16px;
@@ -30,11 +29,13 @@ a,
     text-decoration: underline;
   }
 }
+
 p,
 figcaption {
   font-size: $font-size;
   font-weight: 300;
 }
+
 strong {
   font-weight: bold;
 }
@@ -42,9 +43,11 @@ strong {
 .is-success {
   color: $success;
 }
+
 .is-grey {
   color: $grey;
 }
+
 .is-danger {
   color: $danger;
 }
@@ -71,68 +74,40 @@ $gap: 32px;
   /* autoprefixer: off */
   display: -webkit-box;
   -webkit-line-clamp: $numLines;
-  -moz-binding: url("/ellipsis.xml#ellipsis");
+  -moz-binding: url('/ellipsis.xml#ellipsis');
   -webkit-box-orient: vertical;
-  max-height: $numLines * $lineHeight + unquote("em");
+  max-height: $numLines * $lineHeight + unquote('em');
 }
 
 // Breakpoint sizes
 // Example usage @include breakpoint(x) { ... }; - where x is the device
-@mixin breakpoint($bp) {
-  @if $bp == xl {
-    @media only screen and (min-width: $breakpoint-xl) {
+// $mobile-large: 577px;
+// $tablet: 768px;
+// $desktop: 1008px;
+// $widescreen: 1200px;
+// $fullhd: 1440px;
+@mixin media($bp) {
+  @if $bp == xxl {
+    @media only screen and (min-width: $fullhd) {
       @content;
     }
-  } @else if $bp == l {
-    @media only screen and (min-width: $breakpoint-l) {
+  } @else if $bp == xl {
+    @media only screen and (min-width: $widescreen) {
       @content;
     }
-  } @else if $bp == m {
-    @media only screen and (min-width: $breakpoint-m) {
+  } @else if $bp == lg {
+    @media only screen and (min-width: $desktop) {
+      @content;
+    }
+  } @else if $bp == md {
+    @media only screen and (min-width: $tablet) {
+      @content;
+    }
+  } @else if $bp == sm {
+    @media only screen and (min-width: $mobile-large) {
       @content;
     }
   }
-}
-
-// Font sizes (primary sizing in `rem` units with a fallback of `px`)
-// Example usage @include font-size(18);
-@mixin font-size($size) {
-  $remValue: $size / 16;
-  $pxValue: ($size);
-  font-size: $pxValue + px;
-  font-size: $remValue + rem;
-}
-
-// Line height sizes (primary sizing in `rem` units with a fallback of `px`)
-// Example usage @include line-height(22);
-@mixin line-height($size) {
-  $remValue: $size / 16;
-  $pxValue: ($size);
-  line-height: $pxValue + px;
-  line-height: $remValue + rem;
-}
-
-// Background Color with Opacity
-// Example Usage: @include bg-rgba(#111, 50%);
-@mixin background-alpha($color, $alpha) {
-  $opacity: $alpha / 100%;
-  $rgba: rgba($color, $opacity);
-  background: $color;
-  background: rgba($color, $opacity);
-}
-
-// Animations
-// Example Usage @mixin animation(1s);
-@mixin animation($duration: 1s) {
-  animation-duration: $duration;
-  animation-fill-mode: both;
-}
-
-@mixin opacity($percentOpacity: 50%) {
-  $opacity: $percentOpacity / 100%;
-  -webkit-opacity: $opacity;
-  -moz-opacity: $opacity;
-  opacity: $opacity;
 }
 
 // Arrows
@@ -140,7 +115,7 @@ $gap: 32px;
 @mixin arrow($size: 5px, $color: #333, $direction: right) {
   position: relative;
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     border: $size solid transparent;
     z-index: -1;
@@ -174,14 +149,4 @@ $gap: 32px;
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
-}
-
-@mixin absolutify() {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
 }
