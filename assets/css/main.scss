@@ -5,13 +5,17 @@
  */
 $gap: 24px;
 @import "~bulma/sass/utilities/_all";
+
 // Breakpoints
-$mobile: 576px !default;
+$mobile: 576px !default; // used for max-width only
+
+// mobile-first breakpoints (min-width: $x)
 $mobile-large: 577px !default;
 $tablet: 768px !default;
 $desktop: 1024px !default;
 $widescreen: 1200px !default;
 $fullhd: 1392px !default;
+
 @import "~bulma/sass/base/helpers";
 
 @import "./variables";

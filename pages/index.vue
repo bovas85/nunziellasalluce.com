@@ -6,7 +6,7 @@
         <h3>Multi-disciplinary UI / UX and Visual Designer</h3>
       </div>
     </section>
-    
+
     <section class="case-studies section" v-if='caseStudies'>
       <h2 class="has-text-centered">Case Studies</h2>
       <the-carousel
@@ -18,7 +18,7 @@
       <h2 class="has-text-centered">The Process</h2>
       <no-ssr>
         <vue-media :query="{maxWidth: 767}">
-          <img src="https://placehold.it/800x600" alt="the process description here" />  
+          <img src="https://placehold.it/800x600" alt="the process description here" />
         </vue-media>
       </no-ssr>
       <no-ssr>
@@ -28,7 +28,7 @@
         </vue-media>
       </no-ssr>
     </section>
-    
+
     <section class="capabilities" v-if='$store.state.homePage'>
       <h2 class="has-text-centered">My Capabilities</h2>
       <div class="container">
@@ -59,9 +59,9 @@
       </div>
     </section>
 
-    <section class="testimonials" v-if="testimonials && testimonials.length">
+    <section class="testimonials container" v-if="testimonials && testimonials.length">
       <h2 class="has-text-centered">What people say about me</h2>
-      <the-testimonial 
+      <the-testimonial
         v-for="(testimonial, index) in testimonials"
         :key="index"
         :data="testimonial"
@@ -140,6 +140,7 @@
 
       img {
         max-width: 100%;
+        width: 100%;
         object-fit: cover;
       }
     }
