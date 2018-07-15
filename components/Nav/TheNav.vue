@@ -1,6 +1,6 @@
 <template>
   <div class="navigation-bar">
-    <div class="navigation">
+    <div class="navigation" :class="{'scrolled': $store.state.menuScrolled}">
       <nav
         role="navigation"
         class="container is-flex navbar">
@@ -18,7 +18,7 @@
           @click="$store.commit('openMenu')"
           class="menu menu--mobile"
         >
-          <i class="fa fa-menu menu--mobile__burger"/>
+          <div>MENU</div>
         </div>
 
 
@@ -42,7 +42,7 @@
         <div
           style="z-index: 9999"
           class="modal-container is-hidden-desktop">
-          <app-menu-mobile
+          <the-menu-mobile
             :menu-items="menuItems"
           />
         </div>
@@ -135,6 +135,12 @@
     background-color: transparent;
     box-shadow: unset;
     margin: 0 auto;
+    transition: background-color 0.3s ease-in-out;
+
+    &.scrolled {
+      background-color: #f0efef;
+    }
+
     .navbar {
       align-items: center;
       // padding: 0 15px;
@@ -143,6 +149,12 @@
       align-items: center;
       @media (min-width: $tablet) {
         // padding: 0 36px;
+      }
+      .logo {
+        &:before,
+        &:after {
+          display: none;
+        }
       }
       img {
         width: 40px;

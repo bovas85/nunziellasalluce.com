@@ -1,13 +1,13 @@
 <template>
   <main class="home">
-    <section class="section hero">
+    <section class="section hero step">
       <div class="container is-flex-column">
         <h1 class="jumbo">Nunziella Salluce Design</h1>
         <h3>Multi-disciplinary UI / UX and Visual Designer</h3>
       </div>
     </section>
 
-    <section class="case-studies section step" v-if='caseStudies'>
+    <section class="case-studies section" v-if='caseStudies'>
       <div class="container">
         <h1>Case Studies</h1>
       </div>
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+  import debounce from 'lodash/debounce'
   import testimonials from '~/assets/testimonials.js'
 
   export default {
@@ -99,18 +100,20 @@
     mounted () {
       if (process.browser) {
         window.onNuxtReady(app => {
-          if (window.innerWidth > 576) {
-            this.handleScroll();
-          }
+          setTimeout(() => {
+            if (window.innerWidth > 576) {
+              this.handleScroll();
+            }
+          }, 1000)
         })
       }
     },
     methods: {
-      handleStepEnter () {
-        console.log('enter');
+      hideMenu () {
+        this.$store.commit('hideMenuBg')
       },
-      handleStepExit () {
-        console.log('exit');
+      showMenu () {
+        this.$store.commit('showMenuBg')
       },
       handleScroll () {
           const scroller = this.scrollama();
@@ -119,11 +122,11 @@
           const step = scroller
             .setup({
               step: ".step",
-              offset: 0.5,
-              debug: true
+              offset: .1,
+              debug: false
             })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.handleStepExit)
+            .onStepEnter(this.hideMenu)
+            .onStepExit(this.showMenu)
 
           step.resize();
           step.enable();
