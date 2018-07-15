@@ -1,29 +1,29 @@
 <template>
   <div class="navigation-bar">
     <div class="navigation">
-      <nav 
-        role="navigation" 
+      <nav
+        role="navigation"
         class="container is-flex navbar">
-        <nuxt-link 
-          to="/" 
-          @click="refreshPage()" 
+        <nuxt-link
+          to="/"
+          @click="refreshPage()"
           class="logo col--8-mobile col--4-tablet is-center">
-          <img 
-            src="/images/logo-mobile.jpg" 
+          <img
+            src="/images/logo-mobile.jpg"
             alt="">
         </nuxt-link>
-      
-        <div 
+
+        <div
           v-if="$store.state.window && $store.state.window < 1024"
           @click="$store.commit('openMenu')"
           class="menu menu--mobile"
         >
           <i class="fa fa-menu menu--mobile__burger"/>
         </div>
-      
-      
-        <ul 
-          v-else 
+
+
+        <ul
+          v-else
           class="menu menu--desktop">
           <nuxt-link
             :to="`/${menu}`"
@@ -39,17 +39,17 @@
 
     <no-ssr>
       <vue-media :query="{maxWidth: 1024}">
-        <div 
-          style="z-index: 9999" 
+        <div
+          style="z-index: 9999"
           class="modal-container is-hidden-desktop">
-          <app-menu-mobile 
+          <app-menu-mobile
             :menu-items="menuItems"
           />
         </div>
       </vue-media>
     </no-ssr>
   </div>
-  
+
 </template>
 
 <script>
@@ -174,6 +174,49 @@
         }
       }
     }
+
+    a {
+      position: relative;
+      padding: $gap / 3 0;
+    }
+
+    a:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    a:before,
+    a:after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -2px;
+      background: #fff;
+    }
+
+    a:before {
+      left: 0;
+    }
+
+    a:after {
+      right: 0;
+      background: #fff;
+      transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    a:hover:before {
+      background: #fff;
+      width: 100%;
+      transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    a:hover:after {
+      background: transparent;
+      width: 100%;
+      transition: 0s;
+    }
+
     i {
       color: $grey;
       cursor: pointer;
