@@ -6,7 +6,10 @@
   width: 24px;
   background-image: url('/images/icons.svg');
   background-repeat: no-repeat;
-  transition: background-position 0.2s ease;
+
+  @include media(sm) {
+    transition: background-position 0.2s ease;
+  }
 
   &--behance {
     background-position: -0px -0px;
@@ -24,19 +27,27 @@
     background-position: -72px -0px;
   }
 
-  &--behance:hover {
+  &--behance:hover,
+  &--behance:focus,
+  &--behance:active {
     background-position: -0px -24px;
   }
 
-  &--linkedin:hover {
+  &--linkedin:hover,
+  &--linkedin:focus,
+  &--linkedin:active {
     background-position: -24px -24px;
   }
 
-  &--dribbble:hover {
+  &--dribbble:hover,
+  &--dribbble:focus,
+  &--dribbble:active {
     background-position: -48px -24px;
   }
 
-  &--instagram:hover {
+  &--instagram:hover,
+  &--instagram:focus,
+  &--instagram:active {
     background-position: -72px -24px;
   }
 }
