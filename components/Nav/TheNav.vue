@@ -140,6 +140,11 @@
     box-shadow: unset;
     margin: 0 auto;
     transition: all 0.3s ease-in-out;
+    padding: 0 $gap;
+
+    @include media(sm) {
+      padding: 0;
+    }
 
     .navbar {
       align-items: center;

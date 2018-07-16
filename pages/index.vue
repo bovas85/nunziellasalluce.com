@@ -184,7 +184,12 @@
 <style lang="scss" scoped>
   // general h1 max width
   h1 {
-    max-width: 500px;
+    padding-left: $gap;
+
+    @include media(sm) {
+      max-width: 500px;
+      padding-left: 0;
+    }
   }
 
   section {
@@ -200,24 +205,31 @@
       }
       height: 100vh;
       margin: 0;
-      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       justify-content: center;
-      padding: 0;
       position: relative;
+      padding: 0 $gap;
+
+      @include media(sm) {
+        padding: 0;
+      }
 
       .scroll-down {
         position: absolute;
         bottom: 80px;
         left: 60px;
-        display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         color: white;
         cursor: pointer;
+        display: none;
+
+        @include media(sm) {
+          display: flex;
+        }
 
         p {
           font-size: 22px;
@@ -228,8 +240,12 @@
       }
 
       h1 {
-        max-width: 410px;
         padding: 0 0 $gap;
+
+        @include media(sm) {
+          max-width: 410px;
+          padding: 0 0 $gap;
+        }
       }
 
       h1,
@@ -256,10 +272,27 @@
       }
     }
     &.capabilities {
+      h1 {
+        max-width: 80vw;
+
+        @include media(sm) {
+          max-width: 100%;
+        }
+      }
+
       .skill {
-        max-width: 220px;
-        margin: 0 auto;
+        margin: $gap * 1.5 $gap;
+
+        @include media(md) {
+          margin: 0 auto;
+          max-width: 220px;
+        }
+
         img {
+          @media (max-width: $mobile) {
+            max-width: 60vw;
+            margin: 0 auto;
+          }
           border-radius: 100%;
         }
 

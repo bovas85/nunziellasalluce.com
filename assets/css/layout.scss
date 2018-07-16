@@ -1,36 +1,7 @@
-// main layout
-// .app {
-//   background: #f5f4f3;
-//   height: 100%;
-//   display: grid;
-//   grid-template-columns: 1fr;
-//   grid-template-rows: repeat(3, auto);
-//   grid-gap: 0;
-//   grid-template-areas:
-//     "header"
-//     "main"
-//     "footer";
-//   align-content: space-between;
-// }
-
-// defining grid areas
 html,
 body {
   @media (max-width: $mobile) {
     height: 100%;
-  }
-}
-header {
-  grid-area: header;
-}
-main {
-  grid-area: main;
-  padding: 0;
-}
-footer {
-  grid-area: footer;
-  @media (max-width: $mobile) {
-    margin-bottom: 56px;
   }
 }
 
@@ -40,6 +11,7 @@ footer {
   padding: 0;
   width: 100%;
 }
+
 .container {
   margin: 0;
   padding: 0;

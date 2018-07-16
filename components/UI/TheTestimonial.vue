@@ -44,12 +44,17 @@
     }
 
     blockquote {
-      max-width: 540px;
       margin: 0 auto;
       text-align: center;
       font-size: 26px;
       font-weight: 600;
       margin-top: 60px;
+      padding: 0 $gap;
+
+      @include media(sm) {
+        padding: 0;
+        max-width: 540px;
+      }
 
       span {
         padding-top: $gap * 1.5;

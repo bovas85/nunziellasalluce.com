@@ -1,16 +1,15 @@
 <template>
   <footer class="footer">
     <div class="container is-flex">
-      <div class="left-section is-flex">
-        <img src="/images/logo-mobile.jpg" alt="Nunziella Salluce Design logo" />
+      <div class="left-section is-flex-column">
+        <!-- <img src="/images/logo-mobile.jpg" alt="Nunziella Salluce Design logo" /> -->
+        <the-logo fill='#f4a261' />
         <div class="links">
           <p>Email: <a href="mailto:hello@nunziellasalluce.com?subject=Interview request">hello@nunziellasalluce.com</a></p>
-          <p>Phone: <a href="tel:+447462636005">+44(0)746 263 6005</a></p>
         </div>
       </div>
       <div class="right-section">
         <div class="social-and-logos">
-          <h3>Follow me</h3>
           <ul class="social-list">
               <li class="social__icon">
                   <a href="https://dribbble.com/nunziella" class="social social--dribbble" rel="noopener" target="_blank"></a>
@@ -42,7 +41,7 @@
       }
     },
     components: {
-      // AppNewsletter: () => import("@/components/UI/AppNewsletter")
+      TheLogo: () => import("@/components/Icons/TheLogo")
     }
   }
 </script>
@@ -51,7 +50,23 @@
   footer {
     background-color: $grey;
     color: white;
-    padding: $gap 0;
+    padding: $gap;
+
+    .container {
+      align-items: space-between;
+      justify-content: flex-start;
+      flex-direction: column;
+
+      @include media(sm) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    @include media(sm) {
+      padding: $gap 0;
+    }
 
     img {
       object-fit: contain;
@@ -64,21 +79,54 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-around;
+
+      a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease-in-out;
+
+        &:hover {
+          color: $primary;
+        }
+      }
+
       p {
         line-height: 1.5;
-        margin-left: $gap / 2;
+        margin-top: $gap / 2.5;
       }
     }
 
-    .container {
-      align-items: center;
-      justify-content: space-between;
+    .left-section {
+      flex-basis: 100%;
+
+      @include media(sm) {
+        flex-basis: unset;
+      }
     }
   }
   .social-list {
     display: flex;
-    justify-content: space-between;
-    max-width: 200px;
     list-style-type: none;
+    justify-content: flex-start;
+    padding-left: 0;
+    margin-top: $gap / 2;
+
+    li {
+      margin: 0 $gap / 3;
+
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    @include media(sm) {
+      justify-content: space-between;
+      max-width: 200px;
+      margin-top: 0;
+    }
   }
 </style>

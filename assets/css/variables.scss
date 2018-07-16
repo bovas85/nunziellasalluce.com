@@ -82,6 +82,26 @@ $rule: 1.4;
   max-height: $numLines * $lineHeight + unquote('em');
 }
 
+// wrap words if too long
+@mixin word-wrap() {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+// set ellipsis
+@mixin ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 // Breakpoint sizes
 // Example usage @include breakpoint(x) { ... }; - where x is the device
 // $mobile-large: 577px;

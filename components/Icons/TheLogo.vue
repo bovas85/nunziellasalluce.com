@@ -8,7 +8,7 @@ export default {
   props: {
     width: {
       type: [Number, String],
-      default: 18
+      default: 50
     },
     title: {
       type: String,
@@ -16,7 +16,7 @@ export default {
     },
     height: {
       type: [Number, String],
-      default: 18
+      default: 31
     },
     fill: {
       type: String,

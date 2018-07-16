@@ -52,17 +52,25 @@ body {
 
 // rule of thirds
 h1.jumbo {
-  font-size: $font-size * $rule * 4;
   line-height: 1;
   font-weight: 800;
   padding: $gap * 3 0;
+  font-size: $font-size * $rule * 2.5;
+
+  @include media(sm) {
+    font-size: $font-size * $rule * 4;
+  }
 }
 
 h1 {
-  font-size: $font-size * $rule * 3;
   line-height: 1;
   font-weight: 800;
   padding: $gap * 3 0;
+  font-size: $font-size * $rule * 1.8;
+
+  @include media(sm) {
+    font-size: $font-size * $rule * 3;
+  }
 }
 
 h2 {
