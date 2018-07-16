@@ -5,6 +5,12 @@
         <h1 class="jumbo">Nunziella Salluce Design</h1>
         <h3>Multi-disciplinary UI / UX and Visual Designer</h3>
       </div>
+      <div class="scroll-down" @click="scrollTo">
+        <p>scroll</p>
+        <div class="scroll-down__arrow">
+          <icon-arrow :fill="'white'" name='arrow-down' :width="30" :height="40" />
+        </div>
+      </div>
     </section>
 
     <section class="case-studies section" v-if='caseStudies'>
@@ -108,7 +114,8 @@
     components: {
       CaseStudy: () => import('@/components/UI/CaseStudy'),
       TheCarousel: () => import('@/components/Sliders/TheCarousel'),
-      TheTestimonial: () => import('@/components/UI/TheTestimonial')
+      TheTestimonial: () => import('@/components/UI/TheTestimonial'),
+      IconArrow: () => import('@/components/Icons/IconArrow')
     },
     head () {
       return { title: 'Home' }
@@ -153,12 +160,22 @@
             }, 150),
             { passive: true }
           );
+      },
+      scrollTo () {
+        if (process.browser && window) {
+          window.scrollTo(0, this.computedHeight)
+        }
       }
     },
     computed: {
       caseStudies () {
         if (!this.$store.state.caseStudies.length) return false
         return this.$store.state.caseStudies
+      },
+      computedHeight () {
+        if (window && document) {
+          return document.querySelector('.hero').offsetHeight - 90
+        } else return 0
       }
     }
   }
@@ -187,8 +204,28 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      justify-content: flex-end;
-      padding: 0 0 80px 0;
+      justify-content: center;
+      padding: 0;
+      position: relative;
+
+      .scroll-down {
+        position: absolute;
+        bottom: 80px;
+        left: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+
+        p {
+          font-size: 22px;
+          line-height: 1;
+          margin-bottom: $gap;
+          writing-mode: vertical-rl;
+        }
+      }
 
       h1 {
         max-width: 410px;
