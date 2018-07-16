@@ -55,50 +55,27 @@
         nudgedVal: 0,
         swiperOption: {
           initialSlide: 1,
-          // loopedSlides: this.data.length + 1,
           slidesPerView: 'auto',
           centeredSlides: true,
-          // freeMode: true,
           spaceBetween: 32,
-          // speed: 200,
+          breakpoints: {
+            640: {
+              slidesPerView: 'auto',
+              spaceBetween: 16
+            },
+            320: {
+              slidesPerView: 'auto',
+              spaceBetween: 32
+            }
+          },
           autoplay: false,
           loop: true,
-          // autoHeight: true,
           paginationHide: false,
           pagination: '.swiper-pagination'
         }
       }
     },
     mounted () {
-      // this.imageModal = false;
-      // this.$root.$on("smallClicked", (activeIndex) => {
-      //   this.image = activeIndex;
-      // });
-
-      // this.$root.$on("carouselClick", (loopedSlides, activeIndex) => {
-      //   // console.log((activeIndex - loopedSlides) - 1);
-      //   this.image = (activeIndex - loopedSlides) - 1;
-      // });
-
-      // hack to click the duplicated sliders
-
-      // document.querySelector(".app-carousel").addEventListener("click", event => {
-      //     event.preventDefault();
-      //     try {
-      //       if (event.target.currentSrc != null) {
-      //         // console.log('img', event)
-      //         this.$root.$emit("clicked", event.target.currentSrc);
-      //       } else if (event.target.currentSrc == null) {
-      //         // console.log('lazy', event)
-      //         this.$root.$emit(
-      //           "clicked",
-      //           event.toElement.children[0].children[0].children[0].attributes.src
-      //             .value
-      //         );
-      //       }
-      //     } catch (e) {}
-      // })
-
       document.querySelector('.prev').addEventListener(
         'click',
         event => {
@@ -121,62 +98,8 @@
         false
       )
 
-      // this.$root.$on("clicked", index => {
-      //   let found = this.data.findIndex(function (element) {
-      //     if (element.image) {
-      //       return element.image.sizes.large === index;
-      //     }
-      //   });
-      //   this.image = found;
-      //   this.currentSlide = found;
-      //   this.$emit("openCarousel", true);
-      // });
-
-      // this.$root.$on("clicked", index => {
-      //   var found = this.data.findIndex(function (element) {
-      //     return (
-      //       element.image.sizes.medium === index ||
-      //       element.image.sizes.small === index ||
-      //       element.image.sizes.large === index ||
-      //       element.image.sizes.ultra === index
-      //     );
-      //   });
-      //   if (found > -1) {
-      //     this.image = found - 1;
-      //     this.currentSlide = found;
-      //     this.offset = window.pageYOffset;
-      //     this.$emit("openCarousel", true);
-      //   }
-      // });
-
-      // setTimeout(() => {
-      //   this.$on("openCarousel", click => {
-      //     if (click) {
-      //       this.openCarousel(this.image);
-      //     } else if (!click) {
-      //       this.closeCarousel();
-      //     }
-      //   });
-      // }, 1000);
-
-      // if (process.browser) {
-      //   document.addEventListener("keyup", event => {
-      //     if (event != null) {
-      //       if (
-      //         event.key === "Escape" ||
-      //         event.code === "Escape" ||
-      //         event.keyCode === 27
-      //       ) {
-      //         // escape key listener
-      //         this.closeCarousel();
-      //       }
-      //     }
-      //   });
-      // }
     },
     components: {
-      // InnerCarousel: () => import("@/components/Sliders/InnerCarousel"),
-      // SmallCarousel: () => import("@/components/Sliders/SmallCarousel"),
       LazyImage: () => import('@/components/UI/LazyImage')
     },
     methods: {
@@ -189,28 +112,6 @@
         if (off) {
           trans.style.transform = `translateX(${val})`
         } else trans.style.transform = `translateX(${val - 300})`
-      },
-      nudge () {
-        // let trans = document.querySelector(".swiper-wrapper");
-        // if (trans) {
-        //   setTimeout(() => {
-        //     if (this.nudged) {
-        //       return false;
-        //     }
-        //     this.nudged = true;
-        //     try {
-        //       this.blogSwiper.slideNext();
-        //     } catch (e) {}
-        //   }, 2000);
-        //   setTimeout(() => {
-        //     this.nudged = false;
-        //   }, 2300);
-        // } else {
-        //   // restart if dom not ready
-        //   setTimeout(() => {
-        //     this.nudge();
-        //   }, 1000);
-        // }
       },
       openCarousel (modal) {
         this.$root.$emit('modalOpen')
@@ -227,7 +128,6 @@
         this.currentSlide = 0
       },
       openSlide (slide) {
-        // console.log("openSlide", slide);
         this.$emit('clicked', slide)
       },
       toggleSmallCarousel () {
@@ -244,8 +144,6 @@
         }
       },
       checkIndex (index) {
-        // console.log("index", index);
-        // console.log(this.doubles.indexOf(index) !== -1);
         return this.doubles.indexOf(index) !== -1
       },
       slidingAnimation () {
@@ -390,12 +288,15 @@
     cursor: pointer;
     cursor: -webkit-grab;
     overflow: hidden;
-    width: 80vw !important;
-    max-width: 80vw !important;
     box-shadow: 0 1px 5px 0 $grey;
     height: 300px;
     position: relative;
-    @media (min-width: $tablet) {
+    width: 65vw !important;
+    max-width: 65vw !important;
+
+    @include media(sm) {
+      width: 80vw !important;
+      max-width: 80vw !important;
       height: 600px;
     }
     .lazy-image {
