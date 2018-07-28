@@ -215,7 +215,7 @@
       }
 
       @include media(md) {
-        margin: $gap * 3 auto;
+        margin: 0 auto $gap * 3;
       }
 
       .scroll-down {

@@ -158,10 +158,7 @@
       margin: 0;
 
       @include media(md) {
-        margin: $gap * 3 auto;
-      }
-
-      @include media(md) {
+        margin: 0 auto $gap * 3;
         background-image: url('https://fillmurray.com/g/1280/768');
       }
 
