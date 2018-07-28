@@ -283,12 +283,13 @@
     }
     &.the-challenge {
       .two-columns {
-        display: flex;
-        justify-content: space-between;
+        @include media(md) {
+          display: flex;
+          justify-content: space-between;
+        }
       }
       .column {
         flex-basis: calc(50% - #{$gap / 2});
-        background: pink;
 
         h3 {
           font-weight: bold;
