@@ -142,6 +142,9 @@
 </script>
 
 <style lang='scss' scoped>
+  h1 {
+    padding-bottom: 60px;
+  }
   section {
     margin: $gap * 1.5 $gap;
 
@@ -273,6 +276,33 @@
           object-position: center;
           max-height: 650px;
           width: 100%;
+        }
+      }
+    }
+    &.timeline {
+    }
+    &.the-challenge {
+      .two-columns {
+        display: flex;
+        justify-content: space-between;
+      }
+      .column {
+        flex-basis: calc(50% - #{$gap / 2});
+        background: pink;
+
+        h3 {
+          font-weight: bold;
+          text-transform: uppercase;
+          line-height: 3;
+        }
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+
+          li {
+            font-size: $font-size * $rule * $rule;
+          }
         }
       }
     }
