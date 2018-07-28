@@ -29,7 +29,7 @@
         </div>
 
         <div class="image-section">
-          <img src="https://placecage.com/1280/768" alt="Some alt from wp" />
+          <img src="https://placecage.com/1024/668" alt="Some alt from wp" />
         </div>
       </div>
     </section>
