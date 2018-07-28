@@ -5,7 +5,7 @@
         <h1 class="jumbo">Nunziella Salluce Design</h1>
         <h3>Multi-disciplinary UI / UX and Visual Designer</h3>
       </div>
-      <div class="scroll-down" @click="scrollTo">
+      <div v-scroll="{element:'.case-studies'}" class="scroll-down">
         <p>scroll</p>
         <div class="scroll-down__arrow">
           <icon-arrow :fill="'white'" name='arrow-down' :width="30" :height="40" />
@@ -124,7 +124,7 @@
       if (process.browser) {
         window.onNuxtReady(app => {
           setTimeout(() => {
-            this.handleScroll();
+            this.handleScroll()
           }, 1000)
         })
       }
@@ -137,34 +137,26 @@
         this.$store.commit('showMenuBg')
       },
       handleScroll () {
-          const scroller = this.scrollama();
+        const scroller = this.scrollama()
+        const step = scroller
+          .setup({
+            step: '.step',
+            offset: 0.1,
+            debug: false
+          })
+          .onStepEnter(this.hideMenu)
+          .onStepExit(this.showMenu)
 
-          // setup the instance, pass callback functions
-          const step = scroller
-            .setup({
-              step: ".step",
-              offset: .1,
-              debug: false
-            })
-            .onStepEnter(this.hideMenu)
-            .onStepExit(this.showMenu)
+        step.resize()
+        step.enable()
 
-          step.resize();
-          step.enable();
-
-          window.addEventListener(
-            "resize",
-            debounce(function () {
-              // console.log('resizing')
-              step.resize();
-            }, 150),
-            { passive: true }
-          );
-      },
-      scrollTo () {
-        if (process.browser && window) {
-          window.scrollTo(0, this.computedHeight)
-        }
+        window.addEventListener(
+          'resize',
+          debounce(function () {
+            step.resize()
+          }, 150),
+          { passive: true }
+        )
       }
     },
     computed: {
@@ -193,6 +185,11 @@
   }
 
   section {
+    margin: $gap * 1.5 $gap;
+
+    @include media(md) {
+      margin: $gap * 3 auto;
+    }
     &.hero {
       background-image: url('https://fillmurray.com/600/800');
       background-size: cover;
@@ -211,9 +208,14 @@
       justify-content: center;
       position: relative;
       padding: 0 $gap;
+      margin: 0;
 
       @include media(sm) {
         padding: 0;
+      }
+
+      @include media(md) {
+        margin: $gap * 3 auto;
       }
 
       .scroll-down {

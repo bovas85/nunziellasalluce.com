@@ -1,4 +1,4 @@
-const Config = require('./assets/config');
+const Config = require('./assets/config')
 // const axios = require('axios')
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
       // If undefined or blank then we don't need the hyphen
       return titleChunk
         ? `${titleChunk} - Nunziella Salluce Design`
-        : 'Nunziella Salluce Design';
+        : 'Nunziella Salluce Design'
     },
     htmlAttrs: {
       lang: 'en'
@@ -136,7 +136,7 @@ module.exports = {
           options: {
             // fix: true
           }
-        });
+        })
       }
     }
   },
@@ -179,6 +179,7 @@ module.exports = {
     { src: '~/plugins/vue-media.js', ssr: false },
     { src: '~/plugins/vue-intersect', ssr: false },
     { src: '~/plugins/nuxt-swiper.js', ssr: false },
-    { src: '~/plugins/vue-progressive-image.js', ssr: false }
+    { src: '~/plugins/vue-progressive-image.js', ssr: false },
+    { src: '~/plugins/vue-smooth-scroll.js', ssr: false }
   ]
-};
+}
