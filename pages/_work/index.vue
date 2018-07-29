@@ -123,11 +123,9 @@
       },
       mounted () {
         if (process.browser) {
-          window.onNuxtReady(app => {
-            setTimeout(() => {
-              this.handleScroll()
-            }, 1000)
-          })
+          if (window.innerWidth > 576) {
+            this.handleScroll()
+          }
         }
       },
       methods: {
