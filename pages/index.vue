@@ -84,7 +84,7 @@
             aria-label="previous testimonial"
             @click="currentTestimonial > 0 ? currentTestimonial-- : null"
           >
-            <img src="/images/arrow.svg" alt="arrow-left">
+            <icon-arrow :fill="'black'" direction='left' name='arrow-left' :width="30" :height="40" />
           </div>
           <div
             class="arrow arrow--right"
@@ -92,7 +92,7 @@
             aria-label="next testimonial"
             @click="currentTestimonial < testimonials.length - 1 ? currentTestimonial++ : null"
           >
-            <img src="/images/arrow.svg" alt="arrow-right">
+            <icon-arrow :fill="'black'" direction='right' name='arrow-right' :width="30" :height="40" />
           </div>
         </div>
       </div>
@@ -408,8 +408,6 @@
           position: absolute;
           &--left {
             left: 50px;
-            transform: rotate(90deg);
-            transform-origin: center;
 
             @include media(md) {
               left: 100px;
@@ -418,8 +416,6 @@
 
           &--right {
             right: 50px;
-            transform: rotate(-90deg);
-            transform-origin: center;
 
             @include media(md) {
               right: 100px;
