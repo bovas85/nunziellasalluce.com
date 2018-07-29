@@ -154,6 +154,7 @@
 <style lang='scss' scoped>
   h1 {
     padding-bottom: 60px;
+    max-width: 280px;
   }
   section {
     margin: $gap * 1.5 $gap;

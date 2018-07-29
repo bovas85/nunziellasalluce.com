@@ -180,7 +180,7 @@
       padding-left: $gap;
 
       @include media(sm) {
-        max-width: 500px;
+        max-width: 480px;
         padding-left: 0;
       }
     }
@@ -276,11 +276,7 @@
       }
       &.capabilities {
         h1 {
-          max-width: 80vw;
-
-          @include media(sm) {
-            max-width: 100%;
-          }
+          max-width: 30vw;
         }
 
         .skill {
