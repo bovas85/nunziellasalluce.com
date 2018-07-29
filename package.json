@@ -2,7 +2,7 @@
   "name": "nunziella-salluce-design",
   "version": "1.0.0",
   "description": "Portfolio site for Nunziella Salluce",
-  "author": "Alessandro Giordo - <bovas85@gmail.com>",
+  "author": "Alessandro Giordo - <info@moustachedesign.xyz>",
   "private": true,
   "dependencies": {
     "@nuxtjs/axios": "^5.3.1",
