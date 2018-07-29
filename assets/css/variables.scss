@@ -103,6 +103,10 @@ $rule: 1.4;
 }
 
 // fadeInUp animation
+.animated {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
 @mixin fadeInUp {
   transform: translateY(50px);
   opacity: 0;
