@@ -29,7 +29,7 @@
         </div>
 
         <div class="image-section">
-          <img src="https://placecage.com/1024/668" alt="Some alt from wp" />
+          <img src="https://placehold.it/1024/668" alt="Some alt from wp" />
         </div>
       </div>
     </section>
@@ -37,10 +37,10 @@
     <section class="the-brand">
       <div class="container">
         <h1>The Brand</h1>
+      </div>
 
-        <div class="timeline">
-          some timeline to do
-        </div>
+      <div class="timeline">
+        <the-timeline :data="[0, 1, 2, 3, 4, 5]"></the-timeline>
       </div>
     </section>
 
@@ -82,9 +82,9 @@
         <p>I created a dynamic and colourful website with a clearstructure and navigation, three main 
   sections for each type of client identified, and a blog section for the latest news.</p>
 
-        <img src="https://placecage.com/g/1400/600" alt="some alt from wp" />
+        <img src="https://placehold.it/1400/600" alt="some alt from wp" />
         
-        <img src="https://placecage.com/1400/600" alt="some alt from wp" />
+        <img src="https://placehold.it/1400/600" alt="some alt from wp" />
       </div>
     </section>
 
@@ -98,9 +98,13 @@
 </template>
 
 <script>
+  import IconArrow from '@/components/Icons/IconArrow'
+  import debounce from 'lodash/debounce'
+
   export default {
     components: {
-      IconArrow: () => import('@/components/Icons/IconArrow')
+      IconArrow,
+      TheTimeline: () => import('@/components/Sliders/TheTimeline')
     },
     data () {
       return {}
@@ -115,9 +119,15 @@
       }
     },
     methods: {
+      hideMenu () {
+        this.$store.commit('hideMenuBg')
+      },
+      showMenu () {
+        this.$store.commit('showMenuBg')
+      },
       handleScroll () {
         const scroller = this.scrollama()
-        const step = scroller
+        const steps = scroller
           .setup({
             step: '.step',
             offset: 0.1,
@@ -126,8 +136,8 @@
           .onStepEnter(this.hideMenu)
           .onStepExit(this.showMenu)
 
-        step.resize()
-        step.enable()
+        steps.resize()
+        steps.enable()
 
         window.addEventListener(
           'resize',
@@ -152,18 +162,18 @@
       margin: $gap * 3 auto;
     }
     &.hero {
-      background-image: url('https://fillmurray.com/g/600/800');
+      background-image: url('https://placehold.it/600/800');
       background-size: cover;
       background-position: center;
       margin: 0;
 
       @include media(md) {
         margin: 0 auto $gap * 3;
-        background-image: url('https://fillmurray.com/g/1280/768');
+        background-image: url('https://placehold.it/1280/768');
       }
 
       @include media(lg) {
-        background-image: url('https://fillmurray.com/g/2048/1024');
+        background-image: url('https://placehold.it/2048/1024');
       }
 
       height: 100vh;
@@ -276,7 +286,9 @@
         }
       }
     }
-    &.timeline {
+    &.the-brand {
+      overflow: hidden;
+      position: relative;
     }
     &.the-challenge {
       .two-columns {
