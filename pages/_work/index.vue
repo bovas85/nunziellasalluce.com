@@ -171,13 +171,13 @@
             .onStepEnter(this.handleStepEnter)
             .onStepExit(this.showMenu)
 
-          step.resize()
-          step.enable()
+          steps.resize()
+          steps.enable()
 
           window.addEventListener(
             'resize',
             debounce(function () {
-              step.resize()
+              steps.resize()
             }, 150),
             { passive: true }
           )
