@@ -55,39 +55,31 @@ h1.jumbo {
   line-height: 1;
   font-weight: 800;
   padding: 0 0 $gap * 3;
-  font-size: round($font-size * $rule * 2.5);
-
-  @include media(sm) {
-    font-size: round($font-size * $rule * 4);
-  }
+  @include size(jumbo);
 }
 
 h1 {
   line-height: 1;
   font-weight: 800;
   padding: 0 0 $gap * 3;
-  font-size: round($font-size * $rule * 1.8);
-
-  @include media(sm) {
-    font-size: round($font-size * $rule * 3);
-  }
+  @include size(h1);
 }
 
 h2 {
-  font-size: round($font-size * $rule * 2);
   line-height: 1.1;
   font-weight: 800;
+  @include size(h2);
 }
 
 h3 {
-  font-size: round($font-size * $rule * $rule);
+  @include size(h3);
   font-weight: 400;
 }
 
 h4,
 h5,
 h6 {
-  font-size: round($font-size * $rule);
+  @include size(h4);
   font-weight: 300;
 }
 

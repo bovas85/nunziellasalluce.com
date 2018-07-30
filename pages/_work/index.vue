@@ -123,9 +123,7 @@
       },
       mounted () {
         if (process.browser) {
-          if (window.innerWidth > 576) {
-            this.handleScroll()
-          }
+          this.handleScroll()
         }
       },
       methods: {
@@ -188,8 +186,12 @@
 
 <style lang='scss' scoped>
     h1 {
-      padding-bottom: 60px;
-      max-width: 280px;
+      padding-bottom: $gap;
+
+      @include media(sm) {
+        padding-bottom: 60px;
+        max-width: 280px;
+      }
     }
     section {
       margin: $gap * 1.5 $gap;
@@ -257,7 +259,7 @@
         }
 
         h1 {
-          padding: 0 0 $gap;
+          padding: $gap * 3 0 $gap;
 
           @include media(sm) {
             max-width: 410px;
@@ -272,7 +274,10 @@
 
         .supertitle {
           position: absolute;
-          top: calc(60px + 50px);
+          top: calc(calc(50% - 13vh));
+          @include media(sm) {
+            top: calc(60px + 50px);
+          }
           text-transform: uppercase;
           font-weight: 600;
         }
@@ -307,7 +312,7 @@
           }
           li,
           p {
-            font-size: $font-size * $rule * $rule;
+            @include size(h3);
           }
           h3,
           li {
@@ -335,6 +340,12 @@
 
         h1 {
           @include fadeInUp;
+          padding-bottom: 60px;
+          margin-bottom: $gap * 2;
+
+          @include media(sm) {
+            margin-bottom: $gap * 3;
+          }
         }
 
         .timeline {
@@ -363,7 +374,7 @@
             padding: 0;
 
             li {
-              font-size: $font-size * $rule * $rule;
+              @include size(h3);
             }
           }
           &--left {
@@ -382,11 +393,18 @@
       &.final-product {
         .text-section {
           @include fadeInUp;
+          margin-bottom: $gap;
+
+          @include media(sm) {
+            margin-bottom: 0;
+          }
         }
         .image-section {
           display: grid;
           grid-gap: $gap;
           img {
+            object-fit: cover;
+            object-position: center;
             grid-row: span 1;
           }
           img:nth-child(1) {
@@ -404,7 +422,12 @@
       transition-delay: 0.4s;
       .container {
         justify-content: space-between;
-        margin-left: auto;
+        padding: 0 $gap;
+
+        @include media(sm) {
+          padding: 0;
+          margin-left: auto;
+        }
       }
 
       a {

@@ -129,9 +129,7 @@
       },
       mounted () {
         if (process.browser) {
-          if (window.innerWidth > 576) {
-            this.handleScroll()
-          }
+          this.handleScroll()
         }
       },
       methods: {

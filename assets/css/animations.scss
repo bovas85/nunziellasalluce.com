@@ -7,7 +7,22 @@
 .fade-leave-to {
   position: absolute;
   opacity: 0;
-  top: 0;
+}
+
+.rotate-enter,
+.rotate-leave-to {
+  opacity: 0;
+}
+
+.rotate {
+  transition: opacity .6s ease-in-out;
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
 }
 
 .page-leave-active {

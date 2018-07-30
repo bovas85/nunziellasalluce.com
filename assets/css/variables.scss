@@ -180,6 +180,33 @@ $rule: 1.4;
   }
 }
 
+@mixin size($heading) {
+  @if $heading == jumbo {
+    font-size: responsive(
+      round($font-size * $rule * 2),
+      round($font-size * $rule * 4)
+    );
+    font-range: 320px #{$tablet};
+  } @else if $heading == h1 {
+    font-size: responsive(
+      round($font-size * $rule * 1.8) round($font-size * $rule * 3)
+    );
+    font-range: 320px #{$tablet};
+  } @else if $heading == h2 {
+    font-size: reponsive(
+      round($font-size * $rule * 1.4) round($font-size * $rule * 2)
+    );
+    font-range: 320px #{$tablet};
+  } @else if $heading == h3 {
+    font-size: responsive(
+      round($font-size * $rule) round($font-size * $rule * $rule)
+    );
+    font-range: 320px #{$tablet};
+  } @else if $heading == h4 {
+    font-size: round($font-size * $rule);
+  }
+}
+
 // force hardware accelleration on any item
 @mixin accellerate($name) {
   will-change: $name;

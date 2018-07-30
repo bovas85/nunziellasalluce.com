@@ -20,9 +20,18 @@
           @click="$store.commit('openMenu')"
           class="menu menu--mobile"
         >
-          <div>MENU</div>
+          <transition-group name="rotate" mode="out-in">
+            <div class="rotate" key="closed" v-if="!$store.state.navOpen">
+                <img src="https://placehold.it/32x32" alt="">
+            </div>
+            <div class="rotate" key="open" v-else>
+                <div class="close-icon">
+                    <span class="close-icon--line"/>
+                    <span class="close-icon--line inverted"/>
+                </div>
+            </div>
+          </transition-group>
         </div>
-
 
         <ul
           v-else
@@ -136,7 +145,7 @@
       left: 0;
       width: 100%;
       z-index: 5;
-      height: 90px;
+      height: 60px;
       background-color: transparent;
       box-shadow: unset;
       margin: 0 auto;
@@ -144,6 +153,7 @@
       padding: 0 $gap;
 
       @include media(sm) {
+        height: 90px;
         padding: 0;
       }
 
@@ -171,6 +181,7 @@
         .menu {
           &--mobile {
             display: block;
+            position: relative;
           }
           &--desktop {
             display: flex;
@@ -258,6 +269,12 @@
             transition: 0s;
           }
         }
+
+        .close-icon {
+          &--line {
+            background: black;
+          }
+        }
       }
 
       i {
@@ -266,6 +283,32 @@
         font-size: 14px;
         @media (min-width: $tablet) {
           font-size: 16px;
+        }
+      }
+    }
+    .close-icon {
+      cursor: pointer;
+      position: relative;
+      padding-right: 20px;
+      width: 100%;
+      height: 100%;
+
+      &--line {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        display: block;
+        margin-bottom: 3px;
+        background: white;
+        border-radius: 2px;
+        opacity: 1;
+        height: 2px;
+        width: 15px;
+        transform: rotate(45deg);
+        &.inverted {
+          transform: rotate(-45deg);
         }
       }
     }

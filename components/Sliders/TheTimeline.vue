@@ -3,7 +3,9 @@
     <div ref="Timeline" v-swiper:blogSwiper="swiperOptions" >
       <div class="app-carousel swiper-wrapper">
         <div class="swiper-slide" v-for="(item, index) in data" :key="index">
-          <img src="https://placehold.it/600x600" alt="round" />
+          <!-- <img src="https://placehold.it/600x600" alt="round" /> -->
+          <span class="circle"><h3>How</h3></span>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt et, ipsam unde dolor quaerat ipsum similique at dolorem id error! Dolor nemo corporis rerum quae unde, obcaecati libero sunt aut. Rerum, deserunt neque aliquam mollitia maxime illo iusto quia beatae similique. Cum ratione quam quod voluptates vitae veritatis expedita voluptatum doloribus alias iusto omnis veniam necessitatibus voluptatibus, commodi id quae magni magnam quasi quis excepturi dolor! Provident nobis commodi ab iste modi maiores distinctio magni, ipsum dignissimos impedit facere nisi obcaecati tempora cumque, similique quia deserunt rem id in ex vero laboriosam facilis veritatis. Doloribus facilis incidunt error consectetur repellat.</p>
         </div>
 
       </div>
@@ -11,7 +13,7 @@
 
     <!-- slider arrows -->
     <div class="prev" :class="{'is-disabled': sliderPosition === 0}"><icon-arrow direction='left' :fill="'black'" name='arrow-left' :width="30" :height="40" /></div>
-    <div class="next" :class="{'is-disabled': sliderPosition === data.length - 3}"><icon-arrow direction='right' :fill="'black'" name='arrow-right' :width="30" :height="40" /></div>
+    <div class="next" :class="{'is-disabled': sliderPosition === data.length - responsiveNumber}"><icon-arrow direction='right' :fill="'black'" name='arrow-right' :width="30" :height="40" /></div>
   </div>
 </template>
 
@@ -34,6 +36,17 @@
           swiperOptions: {
             initialSlide: 0,
             slidesPerView: 3,
+            breakpoints: {
+              1024: {
+                slidesPerView: 3
+              },
+              640: {
+                slidesPerView: 2
+              },
+              480: {
+                slidesPerView: 1
+              }
+            },
             centeredSlides: false,
             spaceBetween: 0,
             autoplay: false,
@@ -121,6 +134,15 @@
               : 0
           } else return false
         }
+      },
+      computed: {
+        responsiveNumber () {
+          if (process.browser) {
+            if (this.$store.state.window < 481) {
+              return 1
+            } else return 3
+          } else return 3
+        }
       }
     }
 </script>
@@ -133,11 +155,14 @@
       margin: 0;
       padding: 0;
       position: relative;
-      margin-left: $gap * 3;
+      margin-left: $gap / 2;
+      @include media(md) {
+        margin-left: $gap * 3;
+      }
 
       &:after {
         content: '';
-        height: 3px;
+        height: 2px;
         background-color: $grey;
         position: absolute;
         top: calc(165px / 2 + 5px);
@@ -162,7 +187,13 @@
       .lazy-image {
         pointer-events: none;
       }
-      img {
+      .circle {
+        background: $lightgrey;
+        display: flex;
+        justify-content: center;
+        text-transform: uppercase;
+        color: black;
+        align-items: center;
         height: 165px;
         width: 165px;
         position: absolute;
@@ -179,9 +210,14 @@
         box-shadow: 0 0 5px 1px white;
         border: 0 solid transparent;
         transition: transform 0.3s ease-in-out;
+
         &:hover {
           z-index: 1;
           transform: scale(1.05);
+        }
+
+        h3 {
+          font-weight: 600;
         }
       }
       .image {
@@ -196,14 +232,22 @@
           font-size: 24px;
         }
       }
+      p {
+        margin-top: 200px;
+        max-width: 280px;
+      }
     }
     .prev,
     .next {
       position: absolute;
       cursor: pointer;
       display: block;
-      top: $gap * -3;
-      right: $gap * 2;
+      top: -100px;
+      right: -$gap;
+      @include media(md) {
+        top: -160px;
+        right: $gap * 2;
+      }
       width: 100px;
       height: $gap;
       display: flex;
@@ -219,6 +263,9 @@
       }
     }
     .prev {
-      right: $gap * 5;
+      right: $gap * 2;
+      @include media(md) {
+        right: $gap * 5;
+      }
     }
 </style>
