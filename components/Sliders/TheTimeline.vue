@@ -39,7 +39,7 @@
             autoplay: false,
             loop: false,
             grabCursor: true,
-            threshold: 200,
+            threshold: 60,
             paginationHide: true,
             pagination: '.swiper-pagination',
             onSlideChangeStart: swiper => {
@@ -145,20 +145,17 @@
         width: 100%;
       }
     }
-    .swiper-wrapper {
-    }
     .swiper-slide {
-      // cursor: pointer;
-      // cursor: -webkit-grab;
       overflow: hidden;
       height: 300px;
       width: 165px;
       position: relative;
       &:last-child {
+        width: 1000px !important;
         background: linear-gradient(
           to right,
           rgba(255, 255, 255, 0) 0%,
-          rgba(255, 255, 255, 1) 30%,
+          rgba(255, 255, 255, 1) 15%,
           rgba(255, 255, 255, 1) 100%
         );
       }
