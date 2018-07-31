@@ -1,21 +1,21 @@
 <template>
   <div class="contact-form">
-    <form key="notSent" :class="{'sending': $root.sent}" @submit.prevent class="go-bottom grid-wrapper">
-        <div class="name col--6-tablet">
-            <label for="name">Full Name</label>
-            <input autocomplete="given-name" @blur="nameClicked = true" :class="{'is-danger': !$v.form.yourName && sending || !$v.form.yourName && nameClicked}" v-model="form.yourName" id="name" name="name" type="text" required>
+    <form key="notSent" :class="{'sending': $root.sent}" @submit.prevent class="go-bottom is-flex-column">
+        <div class="name">
+            <label :class="{'selected': nameFocused}" for="name">Full Name</label>
+            <input autocomplete="given-name" @focus="nameFocused = true" @blur="nameClicked = true" :class="{'is-danger': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" v-model="form.yourName" id="name" name="name" type="text" required>
             <span :class="{'is-visible': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" class="has-text-danger">Please type your full name</span>
         </div>
 
 
         <div class="email">
-            <label for="email">Email</label>
-            <input autocomplete="email" @blur="emailClicked = true" :class="{'is-danger': !$v.form.yourEmail && sending || !$v.form.yourEmail && emailClicked}" v-model="form.yourEmail" id="email" name="email" type="email" required>
+            <label :class="{'selected': emailFocused}" for="email">Email</label>
+            <input autocomplete="email" @focus="emailFocused = true" @blur="emailClicked = true" :class="{'is-danger': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" v-model="form.yourEmail" id="email" name="email" type="email" required>
             <span :class="{'is-visible': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" class="has-text-danger">Please type an Email</span>
         </div>
 
         <div class="message">
-            <label for="message">Message</label>
+            <label :class="{'selected': messageFocused}" @focus="messageFocused = true" for="message">Message</label>
             <textarea class="hidden-mobile" rows="5" v-model="form.yourMessage" id="message" name="message"></textarea>
             <textarea class="is-hidden-mobile-large" rows="1" placeholder="Write your message here ..." v-model="form.yourMessage" id="message_mobile" name="message_mobile"></textarea>
         </div>
@@ -69,6 +69,9 @@
         nameClicked: false,
         surnameClicked: false,
         emailClicked: false,
+        nameFocused: false,
+        emailFocused: false,
+        messageFocused: false,
         honeypot: '',
         form: {
           yourName: '',
@@ -210,10 +213,12 @@
 <style lang="scss" scoped>
   .contact-form {
     background: $lightgrey;
-    padding: $gap;
+    padding: $gap $gap * 2;
     max-width: 100%;
+    width: 100%;
     margin: 0;
     @include media(md) {
+      width: $tablet;
       max-width: $tablet;
     }
   }
@@ -221,7 +226,7 @@
     margin: 0;
     padding: 0 0 10px 0;
     line-height: 2;
-    color: #9b9b9b;
+    color: $secondary;
     font-weight: 300;
     font-size: 16px;
     margin-bottom: 20px;
@@ -266,7 +271,7 @@
   h4 {
     font-size: 22px;
     line-height: 22px;
-    color: #002650;
+    color: $secondary;
     letter-spacing: 0.4px;
     margin: 0 0 24px 0;
     padding: 0;
@@ -296,7 +301,7 @@
         line-height: 1.43;
         letter-spacing: 0.3px;
         text-align: left;
-        color: #686868;
+        color: $secondary;
       }
     }
     .checkbox {
@@ -306,7 +311,7 @@
       cursor: pointer;
       letter-spacing: 0.2px;
       text-align: left;
-      color: #646362;
+      color: $secondary;
       padding-top: 0;
       margin: 0;
       opacity: 1 !important;
@@ -362,8 +367,8 @@
         font-size: 12px;
         &:before {
           content: '';
-          background-color: #fff;
-          border: solid 1px #ccc;
+          background-color: transparent;
+          border: solid 1px $secondary;
           padding: 14px;
           display: block;
           border-radius: 2px;
@@ -404,9 +409,11 @@
       text-indent: 9999px;
     }
     span {
-      display: none;
+      visibility: hidden;
+      display: block;
       &.is-visible {
-        display: block;
+        visibility: visible;
+        margin-bottom: $gap;
       }
     }
   }
@@ -418,37 +425,37 @@
     font-size: 16px;
   }
   label {
-    line-height: 16px;
+    line-height: 1;
     color: $secondary;
     margin-bottom: 12px;
-    font-weight: 300;
-    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
     &.error {
-      color: #ed334a;
+      color: $red;
     }
   }
   input {
     margin: 12px 0 20px 0;
     height: 50px;
-    border: 1px solid #e1dfdc;
+    font-size: $font-size;
+    border: 0 solid transparent;
+    border-bottom: 1px solid $secondary;
     width: 100%;
-    background-color: #fafafa;
+    background-color: transparent;
     color: $grey;
     box-shadow: unset;
     outline: none;
     padding: 10px;
-    transition: background 0.3s ease-in-out;
-    &:hover {
-      border: 1px solid #e1dfdc;
-      background-color: #fff;
-    }
+    transition: all 0.3s ease-in-out;
 
     &.error {
-      border-color: #ed334a;
+      border-bottom-color: $red;
     }
 
     &:focus {
-      border: 2px solid $secondary;
+      border-bottom: 2px solid $secondary;
+      outline: unset;
     }
 
     &.correct {
@@ -456,101 +463,70 @@
       background-repeat: no-repeat;
       background-position: 98% 50%;
     }
+
+    &.is-danger {
+      border-bottom: 2px solid $red;
+    }
   }
   .emailErrorMsg {
-    color: #ed334a;
+    color: $red;
     font-size: 16px;
     margin: 0 0 10px 0px;
     padding: 0;
     display: none;
   }
+  .name,
+  .email {
+    label {
+      transform: translate(0px, 32px);
+      display: block;
+      position: absolute;
+      transition: transform 0.3s ease-in-out;
+
+      &.selected {
+        transform: translate(0, -15px);
+      }
+    }
+  }
+
   textarea {
-    border: 1px solid #e1dfdc;
-    background-color: #fafafa;
+    border: 0 solid $secondary;
+    font-size: $font-size;
+    font-family: $family-primary;
+    border-bottom: 1px solid $secondary;
+    background-color: $lightgrey !important;
     height: 100px;
     width: 100%;
-    margin: 12px 0 0 0;
+    outline: none !important;
+    margin: 10px 0 0 0;
+    padding: 10px;
     color: $grey;
     resize: vertical;
     &.error {
-      border-color: red;
+      border-bottom-color: $red;
     }
     &:focus {
-      background: #fff;
-      border: 2px solid $secondary;
+      border-bottom: 2px solid $secondary;
     }
   }
-  .recaptchaError {
-    display: none;
-    color: red;
-    margin-bottom: 0;
-  }
+
   button {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    &:focus {
-      box-shadow: 0 0 0 1px $secondary;
-    }
-  }
-  .thank-you {
-    padding: 70px 0 96px 0;
-    display: none;
-  }
-  .mutli-select {
-    padding: 7px 9px 7px 9px;
-    background-color: #fafafa;
-    border: 1px solid #e1dfdc;
-    width: 232px;
-    @media (min-width: $tablet) {
-      width: 322px;
-    }
-    height: 50px;
-    margin-bottom: 20px;
+    margin-top: $gap;
+    margin-bottom: $gap;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    box-shadow: 0 0 0 1px $secondary;
+    cursor: pointer;
+    min-width: 110px;
+    height: 27px;
+    padding: 0;
+    transition: all 0.3s ease-in-out;
 
-    label {
-      cursor: pointer;
-      display: block;
-      float: left;
-      background-color: #fafafa;
-      color: $grey;
-      width: 70px;
-      @media (min-width: $tablet) {
-        width: 100px;
-      }
-      height: 35px;
-      text-align: center;
-      line-height: 35px;
-      font-size: 16px;
-    }
-
-    label.selected {
-      background-color: $secondary;
-      color: white;
-    }
-
-    input[type='radio'] {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-    }
-  }
-  .contact-details {
-    padding-bottom: 28px;
-    p {
-      margin: 0;
-      padding: 0 0 4px 0;
-      color: #9b9b9b;
-      font-weight: 300;
-      font-size: 16px;
-      a {
-        color: inherit;
-        text-decoration: none;
-        border-bottom: 1px solid $red;
-
-        &:hover {
-          color: $red;
-        }
-      }
+    &:focus,
+    &:hover,
+    &:active {
+      box-shadow: 0 0 0 2px $secondary;
     }
   }
 
