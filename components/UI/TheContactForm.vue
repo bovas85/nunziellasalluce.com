@@ -22,9 +22,9 @@
 
         <div class="check">
           <input id="check1" v-model="form.youAgree" type="checkbox" required>
-          <label :class="{'opacity': form.youAgree, 'is-danger': $v.form.youAgree.$invalid && sending}" class="checkbox label" for="check1">
-              <p>Subscribe me to your newsletter</p>
-              <span :class="{'is-visible': $v.form.youAgree.$invalid && sending}" class="has-text-danger">Please agree with the Privacy Policy</span>
+          <label :class="{'opacity': form.youAgree, 'is-danger': form.youAgree && sending}" class="checkbox label" for="check1">
+              <p>You agree to the <a href="/privacy-policy" target="_blank">Privacy Policy</a></p>
+              <span :class="{'is-visible': !form.youAgree && sending}" class="has-text-danger">Please agree with the Privacy Policy</span>
           </label>
 
         </div>
@@ -200,7 +200,7 @@
           } else if (!this.$v.form.yourName.$invalid && this.nameClicked) {
             console.log('invalid name')
             return true
-          } else if (!this.$v.form.youAgree.$invalid) {
+          } else if (!this.form.youAgree) {
             console.log('invalid agree')
             return true
           } else return false
@@ -316,8 +316,16 @@
       margin: 0;
       opacity: 1 !important;
       a {
+        color: $secondary;
+        font-weight: 600;
         &:hover {
           color: $secondary;
+          text-decoration: underline;
+        }
+      }
+      span {
+        &.is-visible {
+          margin-bottom: 0 !important;
         }
       }
     }
@@ -417,13 +425,7 @@
       }
     }
   }
-  .mutli-title {
-    line-height: 16px;
-    color: $secondary;
-    margin-bottom: 16px;
-    font-weight: 300;
-    font-size: 16px;
-  }
+
   label {
     line-height: 1;
     color: $secondary;
@@ -435,6 +437,7 @@
       color: $red;
     }
   }
+
   input {
     margin: 12px 0 20px 0;
     height: 50px;
@@ -443,7 +446,7 @@
     border-bottom: 1px solid $secondary;
     width: 100%;
     background-color: transparent;
-    color: $grey;
+    color: $secondary;
     box-shadow: unset;
     outline: none;
     padding: 10px;

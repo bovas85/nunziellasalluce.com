@@ -1,26 +1,27 @@
 <template>
-    <div class="contact">
-      <section class="section hero">
-        <div class="container is-flex-column">
-            <h1 class="jumbo">Get
-              <br />
-              in touch
-            </h1>
-            <h3>Email: 
-              <a href="mailto:hello@nunziellasalluce.com?subject=hello">
-                hello@nunziellasalluce.com
-              </a>
-            </h3>
+  <div class="contact">
+    <section class="section hero">
+      <div class="container is-flex-column">
+          <h1 class="jumbo">Get
+            <br />
+            in touch
+          </h1>
+          <h3>Email: 
+            <a href="mailto:hello@nunziellasalluce.com?subject=hello">
+              hello@nunziellasalluce.com
+            </a>
+          </h3>
 
-            <div class="contact-form--wrapper step" :class="{'animated': showForm}" }>
-              <the-contact-form />
-            </div>
-        </div>
-      </section>
-    </div>
+          <div class="contact-form--wrapper" :class="{'animated': showForm}" }>
+            <the-contact-form v-if="showForm" />
+          </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
+  import TheContactForm from '@/components/UI/TheContactForm'
   export default {
     data () {
       return {
@@ -28,13 +29,15 @@
       }
     },
     components: {
-      TheContactForm: () => import('@/components/UI/TheContactForm')
+      TheContactForm
     },
     mounted () {
       if (process.browser) {
-        setTimeout(() => {
-          this.showForm = true
-        }, 1500)
+        window.onNuxtReady(app => {
+          setTimeout(() => {
+            this.showForm = true
+          }, 1000)
+        })
       }
     }
   }
