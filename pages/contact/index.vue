@@ -12,7 +12,7 @@
               </a>
             </h3>
 
-            <div class="contact-form">
+            <div class="contact-form--wrapper step" :class="{'animated': showForm}" }>
               <the-contact-form />
             </div>
         </div>
@@ -22,8 +22,20 @@
 
 <script>
   export default {
+    data () {
+      return {
+        showForm: false
+      }
+    },
     components: {
       TheContactForm: () => import('@/components/UI/TheContactForm')
+    },
+    mounted () {
+      if (process.browser) {
+        setTimeout(() => {
+          this.showForm = true
+        }, 1500)
+      }
     }
   }
 </script>
@@ -67,7 +79,7 @@
 
           @include media(sm) {
             max-width: 350px;
-            margin: $gap * 6 0 $gap;
+            margin: $gap * 9 0 $gap;
           }
         }
 
@@ -88,6 +100,14 @@
           &:hover {
             text-decoration: underline;
           }
+        }
+      }
+      .contact-form--wrapper {
+        margin-left: auto;
+        @include fadeInUp;
+
+        &.animated {
+          opacity: 1;
         }
       }
     }

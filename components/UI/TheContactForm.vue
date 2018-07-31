@@ -1,61 +1,58 @@
 <template>
-  <div class="container">
-    <div class="contact-form">
-      <form key="notSent" :class="{'sending': $root.sent}" @submit.prevent class="go-bottom grid-wrapper">
-          <div class="name col--6-tablet">
-              <label for="name">Full Name</label>
-              <input autocomplete="given-name" @blur="nameClicked = true" :class="{'is-danger': !$v.form.yourName && sending || !$v.form.yourName && nameClicked}" v-model="form.yourName" id="name" name="name" type="text" required>
-              <span :class="{'is-visible': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" class="has-text-danger">Please type your full name</span>
-          </div>
+  <div class="contact-form">
+    <form key="notSent" :class="{'sending': $root.sent}" @submit.prevent class="go-bottom grid-wrapper">
+        <div class="name col--6-tablet">
+            <label for="name">Full Name</label>
+            <input autocomplete="given-name" @blur="nameClicked = true" :class="{'is-danger': !$v.form.yourName && sending || !$v.form.yourName && nameClicked}" v-model="form.yourName" id="name" name="name" type="text" required>
+            <span :class="{'is-visible': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" class="has-text-danger">Please type your full name</span>
+        </div>
 
 
-          <div class="email">
-              <label for="email">Email</label>
-              <input autocomplete="email" @blur="emailClicked = true" :class="{'is-danger': !$v.form.yourEmail && sending || !$v.form.yourEmail && emailClicked}" v-model="form.yourEmail" id="email" name="email" type="email" required>
-              <span :class="{'is-visible': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" class="has-text-danger">Please type an Email</span>
-          </div>
+        <div class="email">
+            <label for="email">Email</label>
+            <input autocomplete="email" @blur="emailClicked = true" :class="{'is-danger': !$v.form.yourEmail && sending || !$v.form.yourEmail && emailClicked}" v-model="form.yourEmail" id="email" name="email" type="email" required>
+            <span :class="{'is-visible': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" class="has-text-danger">Please type an Email</span>
+        </div>
 
-          <div class="message">
-              <label for="message">Message</label>
-              <textarea class="hidden-mobile" rows="5" v-model="form.yourMessage" id="message" name="message"></textarea>
-              <textarea class="is-hidden-mobile-large" rows="1" placeholder="Write your message here ..." v-model="form.yourMessage" id="message_mobile" name="message_mobile"></textarea>
-          </div>
+        <div class="message">
+            <label for="message">Message</label>
+            <textarea class="hidden-mobile" rows="5" v-model="form.yourMessage" id="message" name="message"></textarea>
+            <textarea class="is-hidden-mobile-large" rows="1" placeholder="Write your message here ..." v-model="form.yourMessage" id="message_mobile" name="message_mobile"></textarea>
+        </div>
 
-          <div class="check">
-            <input id="check1" v-model="form.youAgree" type="checkbox" required>
-            <label :class="{'opacity': form.youAgree, 'is-danger': $v.form.youAgree.$invalid && sending}" class="checkbox label" for="check1">
-                <p>Subscribe me to your newsletter</p>
-                <span :class="{'is-visible': $v.form.youAgree.$invalid && sending}" class="has-text-danger">Please agree with the Privacy Policy</span>
-            </label>
+        <div class="check">
+          <input id="check1" v-model="form.youAgree" type="checkbox" required>
+          <label :class="{'opacity': form.youAgree, 'is-danger': $v.form.youAgree.$invalid && sending}" class="checkbox label" for="check1">
+              <p>Subscribe me to your newsletter</p>
+              <span :class="{'is-visible': $v.form.youAgree.$invalid && sending}" class="has-text-danger">Please agree with the Privacy Policy</span>
+          </label>
 
-          </div>
+        </div>
 
-          <div class="field is-grouped">
-              <div class="control">
-                  <input type="text" hidden autocomplete="off" v-model="honeypot" class="hidden honeypot" />
-                  <button v-scroll="{element:'.go-bottom'}" :disabled="disabled || saved" :class="{'is-disabled': disabled || saved}" @click.prevent="sendForm()" class="button button--contact">{{ $store.state.connection !== 'none' ? 'Submit' : 'Save'}}</button>
-              </div>
-          </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <input type="text" hidden autocomplete="off" v-model="honeypot" class="hidden honeypot" />
+                <button v-scroll="{element:'.go-bottom'}" :disabled="disabled || saved" :class="{'is-disabled': disabled || saved}" @click.prevent="sendForm()" class="button button--contact">{{ $store.state.connection !== 'none' ? 'Submit' : 'Save'}}</button>
+            </div>
+        </div>
 
-          <p class="is-danger col--12 is-left send-error" v-show="sendError">There was an error sending the form.</p>
-          <p class="is-danger col--12 is-left send-error" v-show="checkValidation">There is an error in one of the fields. Please review your previous answers</p>
-      </form>
+        <p class="is-danger col--12 is-left send-error" v-show="sendError">There was an error sending the form.</p>
+        <p class="is-danger col--12 is-left send-error" v-show="checkValidation">There is an error in one of the fields. Please review your previous answers</p>
+    </form>
 
-      <div class="sent" :class="{'is-visible': $root.sent}">
-        <h4>Submitted</h4>
-        <p>
-          Your message has been successfully submitted, we will get in touch with you shortly.
-        </p>
-      </div>
-
-      <div class="sent" :class="{'is-visible': showSaveConfirmation}">
-        <h4>Saved</h4>
-        <p>
-          Your message has been successfully saved, if you come back here it will be prefilled.
-        </p>
-      </div>
+    <div class="sent" :class="{'is-visible': $root.sent}">
+      <h4>Submitted</h4>
+      <p>
+        Your message has been successfully submitted, we will get in touch with you shortly.
+      </p>
     </div>
 
+    <div class="sent" :class="{'is-visible': showSaveConfirmation}">
+      <h4>Saved</h4>
+      <p>
+        Your message has been successfully saved, if you come back here it will be prefilled.
+      </p>
+    </div>
   </div>
 </template>
 
@@ -211,6 +208,15 @@
 </script>
 
 <style lang="scss" scoped>
+  .contact-form {
+    background: $lightgrey;
+    padding: $gap;
+    max-width: 100%;
+    margin: 0;
+    @include media(md) {
+      max-width: $tablet;
+    }
+  }
   p {
     margin: 0;
     padding: 0 0 10px 0;
