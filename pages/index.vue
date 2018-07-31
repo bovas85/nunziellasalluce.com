@@ -67,35 +67,38 @@
       <div class="container" :class="{'animated': animateTestimonials}">
         <h1>What people say about me</h1>
       </div>
-      <div class="wrapper" :class="{'animated': animateTestimonials}">
-        <transition-group tag="div" name="fade" mode="out-in">
-          <the-testimonial
-            v-for="(testimonial, index) in testimonials"
-            :key="testimonial.id"
-            v-if="currentTestimonial === index"
-            :data="testimonial"
-          />
-        </transition-group>
+      
+      <no-ssr>
+        <div class="wrapper" :class="{'animated': animateTestimonials}">
+          <transition-group tag="div" name="fade" mode="out-in">
+            <the-testimonial
+              v-for="(testimonial, index) in testimonials"
+              :key="testimonial.id"
+              v-if="currentTestimonial === index"
+              :data="testimonial"
+            />
+          </transition-group>
 
-        <div class="arrows" role="pagination">
-          <div
-            class="arrow arrow--left"
-            role="navigation"
-            aria-label="previous testimonial"
-            @click="currentTestimonial > 0 ? currentTestimonial-- : null"
-          >
-            <icon-arrow :fill="'black'" direction='left' name='arrow-left' :width="30" :height="40" />
-          </div>
-          <div
-            class="arrow arrow--right"
-            role="navigation"
-            aria-label="next testimonial"
-            @click="currentTestimonial < testimonials.length - 1 ? currentTestimonial++ : null"
-          >
-            <icon-arrow :fill="'black'" direction='right' name='arrow-right' :width="30" :height="40" />
+          <div class="arrows" role="pagination">
+            <div
+              class="arrow arrow--left"
+              role="navigation"
+              aria-label="previous testimonial"
+              @click="currentTestimonial > 0 ? currentTestimonial-- : null"
+            >
+              <icon-arrow :fill="'black'" direction='left' name='arrow-left' :width="30" :height="40" />
+            </div>
+            <div
+              class="arrow arrow--right"
+              role="navigation"
+              aria-label="next testimonial"
+              @click="currentTestimonial < testimonials.length - 1 ? currentTestimonial++ : null"
+            >
+              <icon-arrow :fill="'black'" direction='right' name='arrow-right' :width="30" :height="40" />
+            </div>
           </div>
         </div>
-      </div>
+      </no-ssr>
     </section>
   </main>
 </template>

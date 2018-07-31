@@ -6010,9 +6010,9 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-nuxt-edge@^2.0.0-25440915.dcc92c6:
-  version "2.0.0-25523369.7c85202"
-  resolved "https://registry.yarnpkg.com/nuxt-edge/-/nuxt-edge-2.0.0-25523369.7c85202.tgz#8eace9485f7f060d379c2506cd822993fbc97276"
+nuxt-edge@^2.0.0-25550715.56db988:
+  version "2.0.0-25550715.56db988"
+  resolved "https://registry.yarnpkg.com/nuxt-edge/-/nuxt-edge-2.0.0-25550715.56db988.tgz#852d1346d0c1065827df1cfd979515cbbd69984a"
   dependencies:
     "@nuxtjs/friendly-errors-webpack-plugin" "^2.0.2"
     "@nuxtjs/youch" "^4.2.3"
@@ -6058,7 +6058,7 @@ nuxt-edge@^2.0.0-25440915.dcc92c6:
     server-destroy "^1.0.1"
     std-env "^1.3.0"
     style-resources-loader "^1.1.0"
-    thread-loader "^1.1.5"
+    thread-loader "^1.2.0"
     time-fix-plugin "^2.0.3"
     uglifyjs-webpack-plugin "^1.2.7"
     upath "^1.1.0"
@@ -8442,9 +8442,9 @@ text-table@^0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
 
-thread-loader@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/thread-loader/-/thread-loader-1.1.5.tgz#7f9d6701f773734fff1832586779021ab8571917"
+thread-loader@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/thread-loader/-/thread-loader-1.2.0.tgz#35dedb23cf294afbbce6c45c1339b950ed17e7a4"
   dependencies:
     async "^2.3.0"
     loader-runner "^2.3.0"

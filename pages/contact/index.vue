@@ -12,8 +12,8 @@
             </a>
           </h3>
 
-          <div class="contact-form--wrapper" :class="{'animated': showForm}" }>
-            <the-contact-form v-if="showForm" />
+          <div class="contact-form--wrapper" :class="{'animated': $root.showForm}">
+            <the-contact-form />
           </div>
       </div>
     </section>
@@ -23,21 +23,14 @@
 <script>
   import TheContactForm from '@/components/UI/TheContactForm'
   export default {
-    data () {
-      return {
-        showForm: false
-      }
-    },
     components: {
       TheContactForm
     },
     mounted () {
       if (process.browser) {
-        window.onNuxtReady(app => {
-          setTimeout(() => {
-            this.showForm = true
-          }, 1000)
-        })
+        setTimeout(() => {
+          this.$root.showForm = true
+        }, 1000)
       }
     }
   }
@@ -107,6 +100,7 @@
       }
       .contact-form--wrapper {
         margin-left: auto;
+        min-height: 546px;
         @include fadeInUp;
 
         &.animated {
