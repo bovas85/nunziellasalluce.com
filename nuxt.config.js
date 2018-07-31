@@ -179,6 +179,8 @@ module.exports = {
     { src: '~/plugins/vue-media.js', ssr: false },
     { src: '~/plugins/vue-intersect', ssr: false },
     { src: '~/plugins/nuxt-swiper.js', ssr: false },
+    { src: '~/plugins/vuelidate.js', ssr: true },
+    { src: '~/plugins/vue-localstorage.js', ssr: false },
     { src: '~/plugins/vue-progressive-image.js', ssr: false },
     { src: '~/plugins/vue-smooth-scroll.js', ssr: false }
   ]
