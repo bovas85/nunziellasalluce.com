@@ -133,12 +133,14 @@
     mounted () {
       if (process.browser) {
         this.handleScroll()
-        if (this.$route.hash) {
-          const clickable = document.querySelector('#js-click')
-          if (clickable) {
-            clickable.click()
+        setTimeout(() => {
+          if (this.$route.hash) {
+            const clickable = document.querySelector('#js-click')
+            if (clickable) {
+              clickable.click()
+            }
           }
-        }
+        }, 600)
       }
     },
     methods: {

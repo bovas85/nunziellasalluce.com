@@ -46,14 +46,8 @@
       }
       &.hero {
         background: white;
-        margin: 0;
-
-        @include media(md) {
-          margin: 0 auto $gap * 3;
-        }
-
+        margin: $gap * 3 0;
         height: 100%;
-        margin: 0;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -63,6 +57,10 @@
 
         @include media(sm) {
           padding: 0;
+        }
+
+        @include media(md) {
+          margin: 0 auto $gap * 3;
         }
 
         .container {

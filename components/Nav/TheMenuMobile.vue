@@ -12,10 +12,30 @@
         <nuxt-link
           v-for="(menu, index) in menuItems"
           :key="index"
-          :to="`/${menu}`"
+          exact
+          v-if="menu !== 'Work'"
+          :to="menu === 'Work' ? '/#work' : `/${menu}`"
         >
           {{ menu === '' ? 'Home' : menu }}
         </nuxt-link>
+        <a 
+          id="js-click"
+          v-else-if="$route.path === '/'"
+          @click="$store.commit('closeMenu')"
+          href="#work"
+          v-scroll="{element: '.projects'}"
+        >
+          Work
+        </a>
+        <nuxt-link 
+          id="js-click"
+          v-else
+          @click="$store.commit('closeMenu')"
+          to="/#work"
+          v-scroll="{element: '.projects'}"
+        >
+        Work
+      </nuxt-link>
       </ul>
       <div class="bottom-section">
         <p>email: <a href="mailto:hello@nunziellasalluce.com?Subject=Hello">hello@nunziellasalluce.com</a></p>
@@ -31,146 +51,154 @@
 </template>
 
 <script>
-    export default {
-      name: 'TheMenuMobile',
-      props: {
-        menuItems: {
-          type: Array,
-          default: () => []
-        }
+  export default {
+    name: 'TheMenuMobile',
+    props: {
+      menuItems: {
+        type: Array,
+        default: () => []
       }
     }
+  }
 </script>
 
 <style lang="scss" scoped>
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      opacity: 0;
-      z-index: -2;
-      transition: all 0.6s ease-in-out;
-      &.is-visible {
-        opacity: 1;
-        z-index: 9000;
-      }
-    }
-    .right-nav {
-      background: white;
-      overflow: auto;
-      position: fixed;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      top: 60px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: calc(100% - 60px);
-      height: calc(100vh - 60px);
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    opacity: 0;
+    z-index: -2;
+    transition: all 0.6s ease-in-out;
+    &.is-visible {
       opacity: 1;
-      z-index: 9999;
-      padding: 0 15px;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-      transform: translateX(102%);
-      transition: transform 0.6s ease-in-out;
-      &.is-visible {
-        opacity: 1;
-        transform: translateX(0);
-      }
-      .close-button {
-        display: flex;
-        height: 60px;
-        justify-content: flex-end;
-        align-items: center;
-        .text {
-          cursor: pointer;
-          font-size: 14px;
-          letter-spacing: 1.2px;
-          text-align: left;
-          color: $grey;
-        }
-      }
-
-      .menu-items {
-        margin-bottom: 100px;
-        li {
-          padding: 15px 0;
-          display: flex;
-          cursor: pointer;
-          justify-content: space-between;
-          align-items: center;
-          border-bottom: 1px solid #ededed;
-          transition: all 0.3s ease-in-out;
-          &:hover,
-          &:hover i,
-          &:hover a {
-            color: $red;
-          }
-        }
-        a {
-          font-size: 14px;
-          line-height: 1;
-          letter-spacing: 0.5px;
-          text-align: left;
-          color: $secondary;
-          text-transform: uppercase;
-          transition: all 0.3s ease-in-out;
-        }
-        i {
-          line-height: 1;
-          width: 7px;
-          font-size: 16px;
-          height: 19px;
-          transition: all 0.3s ease-in-out;
-        }
-      }
+      z-index: 9000;
     }
-    .menu {
+  }
+  .right-nav {
+    background: white;
+    overflow: auto;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    height: calc(100vh - 60px);
+    opacity: 1;
+    z-index: 9999;
+    padding: 0 15px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    transform: translateX(102%);
+    transition: transform 0.6s ease-in-out;
+    &.is-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .close-button {
       display: flex;
-      height: 100%;
-      overflow: auto;
-      justify-content: center;
+      height: 60px;
+      justify-content: flex-end;
       align-items: center;
-      padding: 0;
-      flex-direction: column;
-      a {
-        margin: 15px 0;
+      .text {
         cursor: pointer;
-        font-size: 18px;
-        color: black;
-        text-transform: capitalize;
-        font-weight: 400;
-        &.nuxt-link-active {
-          font-weight: bold;
+        font-size: 14px;
+        letter-spacing: 1.2px;
+        text-align: left;
+        color: $grey;
+      }
+    }
+
+    .menu-items {
+      margin-bottom: 100px;
+      li {
+        padding: 15px 0;
+        display: flex;
+        cursor: pointer;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ededed;
+        transition: all 0.3s ease-in-out;
+        &:hover,
+        &:hover i,
+        &:hover a {
+          color: $red;
         }
       }
-    }
-    .bottom-section {
-      margin-top: auto;
-
       a {
-        text-decoration: none;
-        color: black;
-        font-weight: 600;
+        font-size: 14px;
+        line-height: 1;
+        letter-spacing: 0.5px;
+        text-align: left;
+        color: $secondary;
+        text-transform: uppercase;
+        transition: all 0.3s ease-in-out;
+      }
+      i {
+        line-height: 1;
+        width: 7px;
+        font-size: 16px;
+        height: 19px;
+        transition: all 0.3s ease-in-out;
       }
     }
-    .social {
-      display: flex;
-      justify-content: space-around;
-      width: 100%;
-      margin-top: $gap;
-      margin-bottom: 50px;
+  }
+  .menu {
+    display: flex;
+    height: 100%;
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    flex-direction: column;
+    a {
+      margin: 15px 0;
+      cursor: pointer;
+      font-size: 18px;
+      color: black;
+      text-transform: capitalize;
+      font-weight: 400;
+      &.nuxt-link-active {
+        font-weight: bold;
+      }
+    }
+  }
+  .bottom-section {
+    margin-top: auto;
 
-      img {
-        border-radius: 100%;
-        width: 32px;
-        height: 32px;
-      }
+    a {
+      text-decoration: none;
+      color: black;
+      font-weight: 600;
     }
+  }
+  .social {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: $gap;
+    margin-bottom: 50px;
+
+    img {
+      border-radius: 100%;
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  // #js-click {
+  //   visibility: hidden;
+  //   position: absolute;
+  //   height: 0;
+  //   width: 0;
+  //   opacity: 0;
+  // }
 </style>

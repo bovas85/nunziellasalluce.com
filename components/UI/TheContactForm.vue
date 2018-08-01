@@ -213,11 +213,12 @@
 <style lang="scss" scoped>
   .contact-form {
     background: $lightgrey;
-    padding: $gap $gap * 2;
+    padding: $gap / 2 $gap;
     max-width: 100%;
     width: 100%;
     margin: 0;
     @include media(md) {
+      padding: $gap $gap * 2;
       width: $tablet;
       max-width: $tablet;
     }

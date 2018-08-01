@@ -87,11 +87,7 @@
     name: 'TheNav',
     data () {
       return {
-        menuItems: [
-          '/',
-          'Work',
-          'Contact'
-        ]
+        menuItems: ['', 'work', 'contact']
       }
     },
     components: {

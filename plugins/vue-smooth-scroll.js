@@ -67,7 +67,7 @@ Vue.directive('scroll', {
           // location.replace('#' + scrollTo.id)
           // this will cause the :target to be activated.
         }
-        window.scroll(0, position)
+        window.scroll(0, position - 180)
       }
       step()
     })
