@@ -7,10 +7,10 @@
       </div>
     </section>
     
-    <section class="case-studies section" v-if='caseStudies && caseStudies != null'>
+    <section class="case-studies section" v-if='projects && projects != null'>
       <h2 class="has-text-centered">Case Studies</h2>
       <the-carousel
-        :data='caseStudies'
+        :data='projects'
       />
     </section>
   </main>
@@ -32,8 +32,8 @@
       mounted () {},
       methods: {},
       computed: {
-        caseStudies () {
-          return this.$store.state.caseStudies
+        projects () {
+          return this.$store.state.projects
         }
       }
     }

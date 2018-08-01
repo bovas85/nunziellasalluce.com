@@ -13,12 +13,12 @@
       </div>
     </section>
 
-    <section class="case-studies section" v-if='caseStudies'>
+    <section class="case-studies section" v-if='projects'>
       <div class="container">
         <h1>Case Studies</h1>
       </div>
       <the-carousel
-        :data='caseStudies'
+        :data='projects'
       />
     </section>
 
@@ -161,9 +161,9 @@
         }
       },
       computed: {
-        caseStudies () {
-          if (!this.$store.state.caseStudies.length) return false
-          return this.$store.state.caseStudies
+        projects () {
+          if (!this.$store.state.projects.length) return false
+          return this.$store.state.projects
         },
         computedHeight () {
           if (window && document) {

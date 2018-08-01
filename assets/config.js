@@ -13,7 +13,7 @@ const Config = {
   analyticsPath: 'https://www.google-analytics.com/analytics.js',
   api: {
     homePage: '/wp/v2/pages/18',
-    caseStudies: '/wp/v2/casestudies',
+    projects: '/wp/v2/casestudies',
     caseStudy: '/wp/v2/casestudies?slug='
   }
 }

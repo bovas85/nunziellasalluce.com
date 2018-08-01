@@ -37,14 +37,29 @@
           v-else
           class="menu menu--desktop">
           <nuxt-link
-            :to="`/${menu}`"
+            to='/'
             exact
-            v-for="(menu, index) in menuItems"
-            :key="index"
+            @click.native="refreshPage()"
           >
-            {{ menu === '' ? 'Home' : menu }}
+            Home
           </nuxt-link>
 
+          <a id="js-click" v-if="$route.path === '/'" href="#work" v-scroll="{element: '.projects'}">
+            Work
+          </a>
+          <nuxt-link
+            v-else
+            to='/#work'
+            exact
+          >
+            Work
+          </nuxt-link>
+          <nuxt-link
+            to='/contact'
+            exact
+          >
+            Contact
+          </nuxt-link>
         </ul>
       </nav>
     </div>
@@ -72,7 +87,11 @@
     name: 'TheNav',
     data () {
       return {
-        menuItems: ['', 'projects', 'contact']
+        menuItems: [
+          '/',
+          'Work',
+          'Contact'
+        ]
       }
     },
     components: {

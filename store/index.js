@@ -7,7 +7,7 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       homePage: [],
-      caseStudies: [],
+      projects: [],
       window: 320,
       connection: null,
       navOpen: false,
@@ -34,22 +34,22 @@ const createStore = () => {
         state.navOpen = true
         state.modalOpen = true
       },
-      sortCaseStudies (state, obj) {
+      sortProjects (state, obj) {
         // sorting alphabetically
         if (obj != null) {
           try {
-            let filteredCaseStudies = obj.sort(function (a, b) {
+            let filteredProjects = obj.sort(function (a, b) {
               return a.slug.localeCompare(b.slug)
             })
-            state.caseStudies = filteredCaseStudies
+            state.projects = filteredProjects
           } catch (e) {}
         }
       },
       setHomePage (state, obj) {
         state.homePage = obj
       },
-      setCaseStudies (state, obj) {
-        state.caseStudies = obj
+      setProjects (state, obj) {
+        state.projects = obj
       },
       windowResize (state, size) {
         state.window = size
@@ -78,11 +78,11 @@ const createStore = () => {
             commit('setHomePage', home.data)
             console.log('home')
 
-            let caseStudies = await app.$axios.get(
-              Config.wpDomain + Config.api.caseStudies
+            let projects = await app.$axios.get(
+              Config.wpDomain + Config.api.projects
             )
-            arr.push(caseStudies.data)
-            commit('setCaseStudies', caseStudies.data)
+            arr.push(projects.data)
+            commit('setProjects', projects.data)
             console.log('case studies')
           } catch (e) {
             console.log('error with API')
@@ -91,7 +91,7 @@ const createStore = () => {
         } else {
           console.log('using cached api')
           commit('setHomePage', arr[0])
-          commit('setCaseStudies', arr[1])
+          commit('setProjects', arr[1])
           count++
         }
       }
