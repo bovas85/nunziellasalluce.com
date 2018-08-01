@@ -13,8 +13,8 @@
           v-for="(menu, index) in menuItems"
           :key="index"
           exact
-          v-if="menu !== 'Work'"
-          :to="menu === 'Work' ? '/#work' : `/${menu}`"
+          v-if="menu !== 'work'"
+          :to="menu === 'work' ? '/#work' : `/${menu}`"
         >
           {{ menu === '' ? 'Home' : menu }}
         </nuxt-link>
