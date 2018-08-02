@@ -87,6 +87,7 @@
     name: 'TheNav',
     data () {
       return {
+        counter: 0,
         menuItems: ['', 'work', 'contact']
       }
     },
@@ -96,10 +97,11 @@
     },
     methods: {
       refreshPage () {
-        if (this.$route.path === '/') {
+        if (this.$route.path === '/' && this.counter > 0) {
           window.location.reload()
           window.scrollTo(0, 0)
-        }
+          this.counter = 0
+        } else this.counter++
       }
     },
     async mounted () {

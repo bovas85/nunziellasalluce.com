@@ -25,13 +25,27 @@
   transform-origin: center;
 }
 
-.page-leave-active {
-  animation: blurOut 0.6s ease-in both;
-  overflow-y: hidden !important;
-}
+// .page-leave-active {
+//   animation: blurOut 0.6s ease-in both;
+//   overflow-y: hidden !important;
+// }
+
+// .page-enter-active {
+//   animation: blurIn 0.6s ease-in both;
+// }
 
 .page-enter-active {
-  animation: blurIn 0.6s ease-in both;
+  transition: transform 800ms cubic-bezier(0.4, 0.1, 0.7, 0.95);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.page-enter {
+  transform: translateX(100%);
+}
+
+.page-leave-active {
+  display: block;
 }
 
 .fadeIn-leave-active {
