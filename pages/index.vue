@@ -140,7 +140,7 @@
               clickable.click()
             }
           }
-        }, 600)
+        }, 900)
       }
     },
     methods: {

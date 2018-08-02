@@ -41,10 +41,38 @@
 }
 
 .page-enter {
-  transform: translateX(100%);
+  transform: translateY(100%);
 }
 
 .page-leave-active {
+  display: block;
+}
+
+.pageRight-enter-active {
+  transition: transform 800ms cubic-bezier(0.4, 0.1, 0.7, 0.95);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.pageRight-enter {
+  transform: translateX(100%);
+}
+
+.pageRight-leave-active {
+  display: block;
+}
+
+.pageLeft-enter-active {
+  transition: transform 800ms cubic-bezier(0.4, 0.1, 0.7, 0.95);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.pageLeft-enter {
+  transform: translateX(-100%);
+}
+
+.pageLeft-leave-active {
   display: block;
 }
 

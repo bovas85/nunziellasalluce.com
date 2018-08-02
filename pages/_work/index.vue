@@ -103,338 +103,338 @@
 </template>
 
 <script>
-    import IconArrow from '@/components/Icons/IconArrow'
-    import debounce from 'lodash/debounce'
+  import IconArrow from '@/components/Icons/IconArrow'
+  import debounce from 'lodash/debounce'
 
-    export default {
-      components: {
-        IconArrow,
-        TheTimeline: () => import('@/components/Sliders/TheTimeline')
+  export default {
+    components: {
+      IconArrow,
+      TheTimeline: () => import('@/components/Sliders/TheTimeline')
+    },
+    data () {
+      return {
+        animateHeader: false,
+        animateIntro: false,
+        animateBrand: false,
+        animateChallenge: false,
+        animateFinal: false,
+        animateBottomImage: false
+      }
+    },
+    mounted () {
+      if (process.browser) {
+        this.handleScroll()
+      }
+    },
+    methods: {
+      hideMenu () {
+        this.$store.commit('hideMenuBg')
       },
-      data () {
-        return {
-          animateHeader: false,
-          animateIntro: false,
-          animateBrand: false,
-          animateChallenge: false,
-          animateFinal: false,
-          animateBottomImage: false
+      showMenu () {
+        this.$store.commit('showMenuBg')
+      },
+      handleStepEnter (response) {
+        switch (response.index) {
+          case 0:
+            this.hideMenu()
+            this.animateHeader = true
+            break
+          case 1:
+            this.animateIntro = true
+            break
+          case 2:
+            this.animateBrand = true
+            break
+          case 3:
+            this.animateChallenge = true
+            break
+          case 4:
+            this.animateFinal = true
+            break
+          case 5:
+            this.animateBottomImage = true
+            break
+          default:
+            break
         }
       },
-      mounted () {
-        if (process.browser) {
-          this.handleScroll()
-        }
-      },
-      methods: {
-        hideMenu () {
-          this.$store.commit('hideMenuBg')
-        },
-        showMenu () {
-          this.$store.commit('showMenuBg')
-        },
-        handleStepEnter (response) {
-          switch (response.index) {
-            case 0:
-              this.hideMenu()
-              this.animateHeader = true
-              break
-            case 1:
-              this.animateIntro = true
-              break
-            case 2:
-              this.animateBrand = true
-              break
-            case 3:
-              this.animateChallenge = true
-              break
-            case 4:
-              this.animateFinal = true
-              break
-            case 5:
-              this.animateBottomImage = true
-              break
-            default:
-              break
-          }
-        },
-        handleScroll () {
-          const scroller = this.scrollama()
-          const steps = scroller
-            .setup({
-              step: '.step',
-              offset: 0.4,
-              debug: false
-            })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu)
+      handleScroll () {
+        const scroller = this.scrollama()
+        const steps = scroller
+          .setup({
+            step: '.step',
+            offset: 0.4,
+            debug: false
+          })
+          .onStepEnter(this.handleStepEnter)
+          .onStepExit(this.showMenu)
 
-          steps.resize()
-          steps.enable()
+        steps.resize()
+        steps.enable()
 
-          window.addEventListener(
-            'resize',
-            debounce(function () {
-              steps.resize()
-            }, 150),
-            { passive: true }
-          )
-        }
+        window.addEventListener(
+          'resize',
+          debounce(function () {
+            steps.resize()
+          }, 150),
+          { passive: true }
+        )
       }
     }
+  }
 </script>
 
 <style lang='scss' scoped>
-    h1 {
-      padding-bottom: $gap;
+  h1 {
+    padding-bottom: $gap;
 
-      @include media(sm) {
-        padding-bottom: 60px;
-        max-width: 280px;
-      }
+    @include media(sm) {
+      padding-bottom: 60px;
+      max-width: 280px;
     }
-    section {
-      margin: $gap * 1.5 $gap;
+  }
+  section {
+    margin: $gap * 1.5 $gap;
+
+    @include media(md) {
+      margin: $gap * 3 auto;
+    }
+    &.hero {
+      background-image: url('https://placehold.it/600/800');
+      background-size: cover;
+      background-position: center;
+      margin: 0;
 
       @include media(md) {
-        margin: $gap * 3 auto;
+        margin: 0 auto $gap * 3;
+        background-image: url('https://placehold.it/1280/768');
       }
-      &.hero {
-        background-image: url('https://placehold.it/600/800');
-        background-size: cover;
-        background-position: center;
-        margin: 0;
 
-        @include media(md) {
-          margin: 0 auto $gap * 3;
-          background-image: url('https://placehold.it/1280/768');
-        }
+      @include media(lg) {
+        background-image: url('https://placehold.it/2048/1024');
+      }
 
-        @include media(lg) {
-          background-image: url('https://placehold.it/2048/1024');
-        }
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      position: relative;
+      padding: 0 $gap;
 
-        height: 100vh;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+      @include media(sm) {
+        padding: 0;
+      }
+
+      .container {
+        height: 100%;
         justify-content: center;
-        position: relative;
-        padding: 0 $gap;
+        @include fadeInUp;
+      }
+
+      .scroll-down {
+        position: absolute;
+        bottom: 80px;
+        left: 60px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        display: none;
+        @include fadeInUp;
+        transition-delay: 0.2s;
 
         @include media(sm) {
-          padding: 0;
+          display: flex;
         }
 
-        .container {
-          height: 100%;
-          justify-content: center;
-          @include fadeInUp;
-        }
-
-        .scroll-down {
-          position: absolute;
-          bottom: 80px;
-          left: 60px;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          cursor: pointer;
-          display: none;
-          @include fadeInUp;
-          transition-delay: 0.2s;
-
-          @include media(sm) {
-            display: flex;
-          }
-
-          p {
-            font-size: 22px;
-            line-height: 1;
-            margin-bottom: $gap;
-            writing-mode: vertical-rl;
-          }
-        }
-
-        h1 {
-          padding: $gap * 3 0 $gap;
-
-          @include media(sm) {
-            max-width: 410px;
-            padding: 0 0 $gap;
-          }
-        }
-
-        h1,
-        h3 {
-          color: white;
-        }
-
-        .supertitle {
-          position: absolute;
-          top: calc(calc(50% - 13vh));
-          @include media(sm) {
-            top: calc(60px + 50px);
-          }
-          text-transform: uppercase;
-          font-weight: 600;
+        p {
+          font-size: 22px;
+          line-height: 1;
+          margin-bottom: $gap;
+          writing-mode: vertical-rl;
         }
       }
-      &.client-intro {
-        padding: 0;
 
-        .container {
-          flex-wrap: wrap;
+      h1 {
+        padding: $gap * 3 0 $gap;
+
+        @include media(sm) {
+          max-width: 410px;
+          padding: 0 0 $gap;
+        }
+      }
+
+      h1,
+      h3 {
+        color: white;
+      }
+
+      .supertitle {
+        position: absolute;
+        top: calc(calc(50% - 13vh));
+        @include media(sm) {
+          top: calc(60px + 50px);
+        }
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+    }
+    &.client-intro {
+      padding: 0;
+
+      .container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .text-section {
+        height: 100%;
+        align-self: flex-end;
+        color: black;
+        @include fadeInUp;
+
+        h3 {
+          font-weight: bold;
+          line-height: 3;
+          text-transform: uppercase;
+        }
+        ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0 0 $gap * 1.5;
+
+          @include media(lg) {
+            margin: 0;
+          }
+        }
+        li,
+        p {
+          @include size(h3);
+        }
+        h3,
+        li {
+          color: currentColor;
+        }
+      }
+
+      .image-section {
+        @include media(lg) {
+          flex-basis: 70%;
+        }
+        @include fadeInUp;
+        transition-delay: 0.2s;
+        img {
+          object-fit: cover;
+          object-position: center;
+          max-height: 650px;
+          width: 100%;
+        }
+      }
+    }
+    &.the-brand {
+      overflow: hidden;
+      position: relative;
+
+      h1 {
+        @include fadeInUp;
+        padding-bottom: 60px;
+        margin-bottom: $gap * 2;
+
+        @include media(sm) {
+          margin-bottom: $gap * 3;
+        }
+      }
+
+      .timeline {
+        @include fadeInUp;
+        transition-delay: 0.2s;
+      }
+    }
+    &.the-challenge {
+      .two-columns {
+        @include media(md) {
+          display: flex;
           justify-content: space-between;
         }
+      }
+      .column {
+        flex-basis: calc(50% - #{$gap / 2});
 
-        .text-section {
-          height: 100%;
-          align-self: flex-end;
-          color: black;
-          @include fadeInUp;
+        h3 {
+          font-weight: bold;
+          text-transform: uppercase;
+          line-height: 3;
+        }
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
 
-          h3 {
-            font-weight: bold;
-            line-height: 3;
-            text-transform: uppercase;
-          }
-          ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0 0 $gap * 1.5;
-
-            @include media(lg) {
-              margin: 0;
-            }
-          }
-          li,
-          p {
+          li {
             @include size(h3);
           }
-          h3,
-          li {
-            color: currentColor;
-          }
         }
-
-        .image-section {
-          @include media(lg) {
-            flex-basis: 70%;
-          }
-          @include fadeInUp;
-          transition-delay: 0.2s;
-          img {
-            object-fit: cover;
-            object-position: center;
-            max-height: 650px;
-            width: 100%;
-          }
-        }
-      }
-      &.the-brand {
-        overflow: hidden;
-        position: relative;
-
-        h1 {
-          @include fadeInUp;
-          padding-bottom: 60px;
-          margin-bottom: $gap * 2;
-
-          @include media(sm) {
-            margin-bottom: $gap * 3;
-          }
-        }
-
-        .timeline {
+        &--left {
           @include fadeInUp;
           transition-delay: 0.2s;
         }
-      }
-      &.the-challenge {
-        .two-columns {
-          @include media(md) {
-            display: flex;
-            justify-content: space-between;
-          }
-        }
-        .column {
-          flex-basis: calc(50% - #{$gap / 2});
-
-          h3 {
-            font-weight: bold;
-            text-transform: uppercase;
-            line-height: 3;
-          }
-          ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-
-            li {
-              @include size(h3);
-            }
-          }
-          &--left {
-            @include fadeInUp;
-            transition-delay: 0.2s;
-          }
-          &--right {
-            @include fadeInUp;
-            transition-delay: 0.4s;
-          }
-        }
-        .text-section {
+        &--right {
           @include fadeInUp;
+          transition-delay: 0.4s;
         }
       }
-      &.final-product {
-        .text-section {
-          @include fadeInUp;
-          margin-bottom: $gap;
-
-          @include media(sm) {
-            margin-bottom: 0;
-          }
-        }
-        .image-section {
-          display: grid;
-          grid-gap: $gap;
-          img {
-            object-fit: cover;
-            object-position: center;
-            grid-row: span 1;
-          }
-          img:nth-child(1) {
-            @include fadeInUp;
-            transition-delay: 0.2s;
-          }
-          img:nth-child(2) {
-            @include fadeInUp;
-          }
-        }
+      .text-section {
+        @include fadeInUp;
       }
     }
-    .work-navigation {
-      @include fadeInUp;
-      transition-delay: 0.4s;
-      .container {
-        justify-content: space-between;
-        padding: 0 $gap;
+    &.final-product {
+      .text-section {
+        @include fadeInUp;
+        margin-bottom: $gap;
 
         @include media(sm) {
-          padding: 0;
-          margin-left: auto;
+          margin-bottom: 0;
         }
       }
-
-      a {
-        margin-bottom: $gap * 2;
-        font-weight: bold;
-        color: black;
-        text-decoration: none;
+      .image-section {
+        display: grid;
+        grid-gap: $gap;
+        img {
+          object-fit: cover;
+          object-position: center;
+          grid-row: span 1;
+        }
+        img:nth-child(1) {
+          @include fadeInUp;
+          transition-delay: 0.2s;
+        }
+        img:nth-child(2) {
+          @include fadeInUp;
+        }
       }
     }
+  }
+  .work-navigation {
+    @include fadeInUp;
+    transition-delay: 0.4s;
+    .container {
+      justify-content: space-between;
+      padding: 0 $gap;
+
+      @include media(sm) {
+        padding: 0;
+        margin-left: auto;
+      }
+    }
+
+    a {
+      margin-bottom: $gap * 2;
+      font-weight: bold;
+      color: black;
+      text-decoration: none;
+    }
+  }
 </style>
