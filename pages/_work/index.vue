@@ -94,9 +94,15 @@
     </section>
 
     <div class="work-navigation" :class="{'animated': animateBottomImage}">
-      <div class="container is-flex">
-        <nuxt-link to="/">Previous Project</nuxt-link>
-        <nuxt-link to="/">Next Project</nuxt-link>
+      <div class="container-fluid is-flex">
+        <nuxt-link class="previous" :to="previousProject">
+          <img src="https://placehold.it/250x180" alt="Previous Project">
+          Previous Project
+        </nuxt-link>
+        <nuxt-link class="next" :to="nextProject">
+          <img src="https://placehold.it/250x180" alt="Next Project">
+          Next Project
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -179,6 +185,36 @@
           }, 150),
           { passive: true }
         )
+      }
+    },
+    computed: {
+      previousProject () {
+        const projects = this.$store.state.projects
+        if (!projects.length) {
+          return '/'
+        }
+        const length = projects.length
+        const index = projects.findIndex(
+          index => this.$route.params.work === index.slug
+        )
+        if (index === 0) {
+          console.log('prev')
+          return projects[length - 1].slug
+        } else return projects[index - 1].slug
+      },
+      nextProject () {
+        const projects = this.$store.state.projects
+        if (!projects.length) {
+          return '/'
+        }
+        const length = projects.length
+        const index = projects.findIndex(
+          index => this.$route.params.work === index.slug
+        )
+        if (index === projects.length - 1) {
+          console.log('next')
+          return projects[0].slug
+        } else return projects[index + 1].slug
       }
     }
   }
@@ -391,6 +427,8 @@
       }
     }
     &.final-product {
+      margin-bottom: $gap - 4px;
+
       .text-section {
         @include fadeInUp;
         margin-bottom: $gap;
@@ -418,11 +456,17 @@
     }
   }
   .work-navigation {
+    margin: $gap * 2 0 $gap * 1.5;
+    height: 100%;
     @include fadeInUp;
     transition-delay: 0.4s;
-    .container {
+
+    .container-fluid {
       justify-content: space-between;
       padding: 0 $gap;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
 
       @include media(sm) {
         padding: 0;
@@ -431,10 +475,38 @@
     }
 
     a {
-      margin-bottom: $gap * 2;
       font-weight: bold;
       color: black;
       text-decoration: none;
+      position: relative;
+      bottom: 0;
+      transition: transform 0.4s ease-in-out;
+
+      &.previous {
+        text-align: right;
+        transform: translateX(-120px);
+      }
+
+      &.next {
+        transform: translateX(120px);
+      }
+
+      &:hover {
+        &.next,
+        &.previous {
+          transform: translateX(0);
+        }
+      }
+
+      img {
+        width: 250px;
+        height: 180px;
+        object-fit: cover;
+        object-position: center;
+        position: relative;
+        bottom: 20px;
+        left: 0;
+      }
     }
   }
 </style>
