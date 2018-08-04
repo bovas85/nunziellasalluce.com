@@ -1,6 +1,6 @@
 <template>
-    <div class="testimonial" v-if="testimonial != null && testimonial.image">
-        <img :src="testimonial.image.sizes.medium" :alt="testimonial.image.alt">
+    <div class="testimonial" v-if="testimonial != null">
+        <img :src="testimonial.image ? testimonial.image.sizes.medium : 'https://placehold.it/200x200'" :alt="testimonial.image.alt">
         <blockquote>
             {{testimonial.body}}
             <span class='author'>
