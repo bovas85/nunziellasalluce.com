@@ -46,17 +46,17 @@
       <div class="container">
         <h1 :class="{'animated': animateCapab}">{{acf.capabilities.title}}</h1>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet">
-          <img src="https://placehold.it/800x800" alt="">
+          <img src="https://placehold.it/800x800" alt="acf.capabilities.media_object.image.sizes.medium">
           <h3>{{acf.capabilities.media_object.title}}</h3>
           <p>{{acf.capabilities.media_object.body}}</p>
         </div>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet padded-top">
-          <img src="https://placehold.it/800x800" alt="">
+          <img src="https://placehold.it/800x800" alt="acf.capabilities.media_object2.image.sizes.medium">
           <h3>{{acf.capabilities.media_object2.title}}</h3>
           <p>{{acf.capabilities.media_object2.body}}</p>
         </div>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet">
-          <img src="https://placehold.it/800x800" alt="">
+          <img src="https://placehold.it/800x800" alt="acf.capabilities.media_object3.image.sizes.medium">
           <h3>{{acf.capabilities.media_object3.title}}</h3>
           <p>{{acf.capabilities.media_object3.body}}</p>
         </div>

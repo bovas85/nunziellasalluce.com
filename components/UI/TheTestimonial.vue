@@ -1,6 +1,6 @@
 <template>
     <div class="testimonial" v-if="testimonial != null && testimonial.image">
-        <img :src="testimonial.image.sizes.medium" alt="name of person">
+        <img :src="testimonial.image.sizes.medium" :alt="testimonial.image.alt">
         <blockquote>
             {{testimonial.body}}
             <span class='author'>

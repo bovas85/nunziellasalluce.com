@@ -2,7 +2,6 @@
   <footer class="footer">
     <div class="container is-flex">
       <div class="left-section is-flex-column">
-        <!-- <img src="/images/logo-mobile.jpg" alt="Nunziella Salluce Design logo" /> -->
         <the-logo fill='#f4a261' />
         <div class="links">
           <p>Email: <a href="mailto:hello@nunziellasalluce.com?subject=Interview request">hello@nunziellasalluce.com</a></p>
@@ -41,7 +40,7 @@
       }
     },
     components: {
-      TheLogo: () => import("@/components/Icons/TheLogo")
+      TheLogo: () => import('@/components/Icons/TheLogo')
     }
   }
 </script>

@@ -227,6 +227,7 @@
     @include media(md) {
       margin: $gap * 3 auto;
     }
+
     &.hero {
       background-image: url('https://placehold.it/600/800');
       background-size: cover;
@@ -447,6 +448,7 @@
       }
     }
   }
+
   .work-navigation {
     margin: $gap * 2 0 $gap * 1.5;
     height: 100%;

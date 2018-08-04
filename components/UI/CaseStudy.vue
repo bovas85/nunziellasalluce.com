@@ -11,7 +11,7 @@
                 <img
                     v-if='caseStudy.the_problem.image.sizes != null'
                     :src="caseStudy.the_problem.image.sizes.medium"
-                    :alt="caseStudy.the_problem.image.sizes.medium" 
+                    :alt="caseStudy.the_problem.image.alt" 
                 />
             </div> 
 
@@ -21,7 +21,7 @@
                 <img
                     v-if='caseStudy.the_process.image.sizes != null'
                     :src="caseStudy.the_process.image.sizes.medium"
-                    :alt="caseStudy.the_process.image.sizes.medium" 
+                    :alt="caseStudy.the_process.image.alt" 
                 />
             </div>
 
@@ -31,7 +31,7 @@
                 <img
                     v-if='caseStudy.the_solution.image.sizes != null'
                     :src="caseStudy.the_solution.image.sizes.medium"
-                    :alt="caseStudy.the_solution.image.sizes.medium" 
+                    :alt="caseStudy.the_solution.image.alt" 
                 />
             </div>
             
@@ -40,26 +40,26 @@
 </template>
 
 <script>
-    export default {
-      props: {
-        data: {
-          type: Object,
-          default: () => {}
-        }
-      },
-      computed: {
-        caseStudy () {
-          if (this.data == null) return null
-          else return this.data.acf
-        }
+  export default {
+    props: {
+      data: {
+        type: Object,
+        default: () => {}
+      }
+    },
+    computed: {
+      caseStudy () {
+        if (this.data == null) return null
+        else return this.data.acf
       }
     }
+  }
 </script>
 
 <style lang='scss' scoped>
-    .case-study {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+  .case-study {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 </style>
