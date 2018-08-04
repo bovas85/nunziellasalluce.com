@@ -3,13 +3,20 @@
 
     <div @mouseover="hovering = true" @mouseleave="hovering = false" ref="Carousel" v-swiper:blogSwiper="swiperOption" >
       <div class="app-carousel swiper-wrapper">
-        <div class="swiper-slide" v-for="(item, index) in data" :key="index">
+        <div 
+          class="swiper-slide"
+          v-for="item in data"
+          :key="item.id"
+          @click="$router.push(item.slug)"
+        >
           <lazy-image class='image'
             v-if="item.acf.image"
-            :hover="false"
+            :hover="true"
             :image="item.acf.image"
+            type="'case_study'"
+            :title="item.acf.title"
             :imageMobile="item.acf.image_mobile"
-            :link="false"
+            :link="item.slug"
           ></lazy-image>
           <div class="text-section">
             <h2>{{item.acf.title}}</h2>
@@ -97,7 +104,6 @@
         },
         false
       )
-
     },
     components: {
       LazyImage: () => import('@/components/UI/LazyImage')
@@ -286,7 +292,7 @@
   }
   .swiper-slide {
     cursor: pointer;
-    cursor: -webkit-grab;
+    // cursor: -webkit-grab;
     overflow: hidden;
     box-shadow: 0 1px 5px 0 $grey;
     height: 300px;
