@@ -47,6 +47,10 @@
       padding: 0 $gap;
 
       @include media(sm) {
+        background: url('/images/quotes.svg');
+        background-repeat: no-repeat;
+        background-size: 150px;
+        background-position: center 0%;
         padding: 0;
         max-width: 540px;
         min-width: 540px;

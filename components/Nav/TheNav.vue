@@ -22,7 +22,7 @@
         >
           <transition-group name="rotate" mode="out-in">
             <div class="rotate" key="closed" v-if="!$store.state.navOpen">
-                <img src="https://placehold.it/32x32" alt="">
+              <burger-menu fill="black" stroke="black" />
             </div>
             <div class="rotate" key="open" v-else>
                 <div class="close-icon">
@@ -82,6 +82,7 @@
 <script>
   import debounce from 'lodash/debounce'
   import TheLogo from '@/components/Icons/TheLogo'
+  import BurgerMenu from '@/components/Icons/BurgerMenu'
 
   export default {
     name: 'TheNav',
@@ -93,7 +94,8 @@
     },
     components: {
       TheMenuMobile: () => import('@/components/Nav/TheMenuMobile'),
-      TheLogo
+      TheLogo,
+      BurgerMenu
     },
     methods: {
       refreshPage () {
@@ -306,15 +308,15 @@
   .close-icon {
     cursor: pointer;
     position: relative;
-    padding-right: 20px;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &--line {
       position: absolute;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       cursor: pointer;
       display: block;
       margin-bottom: 3px;
