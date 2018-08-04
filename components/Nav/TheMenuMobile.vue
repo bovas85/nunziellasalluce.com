@@ -39,11 +39,22 @@
       </ul>
       <div class="bottom-section">
         <p>email: <a href="mailto:hello@nunziellasalluce.com?Subject=Hello">hello@nunziellasalluce.com</a></p>
-        <div class="social">
-            <img src="https://placehold.it/40x40" alt="">
-            <img src="https://placehold.it/40x40" alt="">
-            <img src="https://placehold.it/40x40" alt="">
-            <img src="https://placehold.it/40x40" alt="">
+        <div class="social-list">
+          <ul class="social-list">
+            <li class="social__icon">
+                <a href="https://dribbble.com/nunziella" class="social social--dribbble" rel="noopener" target="_blank"></a>
+            </li>
+            <li class="social__icon">
+                <a href="https://www.instagram.com/lucettinas/" class="social social--instagram" rel="noopener" target="_blank"></a>
+            </li>
+            <li class="social__icon">
+                <a href="https://www.behance.net/nunziellasalluce/" class="social social--behance" rel="noopener" target="_blank"></a>
+            </li>
+            <li class="social__icon">
+                <a class="social social--linkedin" href="https://www.linkedin.com/in/nunziella-salluce"
+                    rel="noopener" target="_blank"></a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -180,7 +191,7 @@
       font-weight: 600;
     }
   }
-  .social {
+  .social-list {
     display: flex;
     justify-content: space-around;
     width: 100%;

@@ -104,28 +104,4 @@
       }
     }
   }
-  .social-list {
-    display: flex;
-    list-style-type: none;
-    justify-content: flex-start;
-    padding-left: 0;
-    margin-top: $gap / 2;
-
-    li {
-      margin: 0 $gap / 3;
-
-      &:first-child {
-        margin-left: 0;
-      }
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-
-    @include media(sm) {
-      justify-content: space-between;
-      max-width: 200px;
-      margin-top: 0;
-    }
-  }
 </style>
