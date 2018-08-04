@@ -131,6 +131,79 @@
       TheTimeline: () => import('@/components/Sliders/TheTimeline'),
       LazyImage: () => import('@/components/UI/LazyImage')
     },
+    head () {
+      if (this.project && this.projectTitle != null) {
+        return {
+          title: this.capitalizeFirstLetter(this.projectTitle.replace(/-/g, ' ')),
+          meta: [
+            {
+              hid: 'description',
+              name: 'description',
+              content: this.project.seo.description
+            },
+            {
+              hid: 'keywords',
+              name: 'keywords',
+              content:
+                this.project.keywords ||
+                `${this.projectTitle.replace(
+                  /-/g,
+                  ' '
+                )}, ${this.projectTitle.replace(/-/g, ', ')}`
+            },
+            {
+              hid: 'description',
+              itemprop: 'description',
+              content: this.project.seo.description
+            },
+            {
+              hid: 'image',
+              itemprop: 'image',
+              content: this.project.hero.desktop_bg.sizes.large
+            },
+            {
+              hid: 'twitter:title',
+              name: 'twitter:title',
+              content: this.capitalizeFirstLetter(
+                this.projectTitle.replace(/-/g, ' ')
+              )
+            },
+            {
+              hid: 'twitter:description',
+              name: 'twitter:description',
+              content: this.project.seo.description
+            },
+            {
+              hid: 'twitter:image',
+              name: 'twitter:image',
+              content: this.project.hero.desktop_bg.sizes.large
+            },
+            {
+              hid: 'og:title',
+              name: 'og:title',
+              content: this.capitalizeFirstLetter(
+                this.projectTitle.replace(/-/g, ' ')
+              )
+            },
+            { hid: 'og:url', name: 'og:url', content: this.$route.path },
+            {
+              hid: 'og:description',
+              name: 'og:description',
+              content: this.project.seo.description
+            },
+            {
+              hid: 'og:image',
+              name: 'og:image',
+              content: this.project.hero.desktop_bg.sizes.large
+            }
+          ]
+        }
+      } else {
+        return {
+          title: 'Case Study'
+        }
+      }
+    },
     data () {
       return {
         animateHeader: false,
@@ -208,8 +281,21 @@
         if (!this.$store.state.projects.length) return false
         return this.$store.state.projects
       },
+      projectTitle () {
+        if (
+          !this.$store.state.projects.length ||
+          !this.$store.state.projects[this.getIndex]
+        ) {
+          return ''
+        }
+        return this.$store.state.projects[this.getIndex].slug
+      },
       project () {
-        if (!this.$store.state.projects.length) return false
+        if (
+          !this.$store.state.projects.length ||
+          !this.$store.state.projects[this.getIndex]
+        )
+          return false
         return this.$store.state.projects[this.getIndex].acf
       },
       getIndex () {
