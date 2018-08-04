@@ -22,7 +22,10 @@
         >
           <transition-group name="rotate" mode="out-in">
             <div class="rotate" key="closed" v-if="!$store.state.navOpen">
-              <burger-menu fill="black" stroke="black" />
+              <burger-menu 
+                :fill="$store.state.menuScrolled ? 'black' : 'white'"
+                :stroke="$store.state.menuScrolled ? 'black' : 'white'"
+              />
             </div>
             <div class="rotate" key="open" v-else>
                 <div class="close-icon">

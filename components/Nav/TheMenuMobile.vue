@@ -193,12 +193,4 @@
       height: 36px;
     }
   }
-
-  // #js-click {
-  //   visibility: hidden;
-  //   position: absolute;
-  //   height: 0;
-  //   width: 0;
-  //   opacity: 0;
-  // }
 </style>
