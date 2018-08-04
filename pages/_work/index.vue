@@ -188,33 +188,25 @@
       }
     },
     computed: {
-      previousProject () {
-        const projects = this.$store.state.projects
-        if (!projects.length) {
-          return '/'
-        }
-        const length = projects.length
-        const index = projects.findIndex(
+      projects () {
+        if (!this.$store.state.projects.length) return false
+        return this.$store.state.projects
+      },
+      getIndex () {
+        if (!this.projects.length) return 0
+        return this.projects.findIndex(
           index => this.$route.params.work === index.slug
         )
-        if (index === 0) {
-          console.log('prev')
-          return projects[length - 1].slug
-        } else return projects[index - 1].slug
+      },
+      previousProject () {
+        if (this.getIndex === 0) {
+          return this.projects[this.projects.length - 1].slug
+        } else return this.projects[this.getIndex - 1].slug
       },
       nextProject () {
-        const projects = this.$store.state.projects
-        if (!projects.length) {
-          return '/'
-        }
-        const length = projects.length
-        const index = projects.findIndex(
-          index => this.$route.params.work === index.slug
-        )
-        if (index === projects.length - 1) {
-          console.log('next')
-          return projects[0].slug
-        } else return projects[index + 1].slug
+        if (this.getIndex === this.projects.length - 1) {
+          return this.projects[0].slug
+        } else return this.projects[this.getIndex + 1].slug
       }
     }
   }
