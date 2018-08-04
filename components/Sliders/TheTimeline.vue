@@ -3,9 +3,10 @@
     <div ref="Timeline" v-swiper:blogSwiper="swiperOptions" >
       <div class="app-carousel swiper-wrapper">
         <div class="swiper-slide" v-for="(item, index) in data" :key="index">
-          <!-- <img src="https://placehold.it/600x600" alt="round" /> -->
-          <span class="circle"><h3>How</h3></span>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt et, ipsam unde dolor quaerat ipsum similique at dolorem id error! Dolor nemo corporis rerum quae unde, obcaecati libero sunt aut. Rerum, deserunt neque aliquam mollitia maxime illo iusto quia beatae similique. Cum ratione quam quod voluptates vitae veritatis expedita voluptatum doloribus alias iusto omnis veniam necessitatibus voluptatibus, commodi id quae magni magnam quasi quis excepturi dolor! Provident nobis commodi ab iste modi maiores distinctio magni, ipsum dignissimos impedit facere nisi obcaecati tempora cumque, similique quia deserunt rem id in ex vero laboriosam facilis veritatis. Doloribus facilis incidunt error consectetur repellat.</p>
+          <span class="circle" :style="{background: item.background}"><h3>{{item.title}}</h3></span>
+          <p>
+            {{item.body}}
+          </p>
         </div>
 
       </div>

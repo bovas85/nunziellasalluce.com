@@ -17,7 +17,7 @@
             :title="item.acf.title"
             :imageMobile="item.acf.image_mobile"
             :link="item.slug"
-          ></lazy-image>
+          />
           <div class="text-section">
             <h2>{{item.acf.title}}</h2>
             <h3 class="subtitle">{{item.acf.intro}}</h3>

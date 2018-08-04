@@ -2,12 +2,12 @@
   <div 
     v-if="image.url != null && imageMobile.url != null"
     class="lazy-image" 
-    :style="`background-image: url('${thumbnail}'`"
+    :style="`background-image: url('${thumbnail}')`"
   >
     <no-ssr>
       <vue-media :query="{maxWidth: 576}">
         <progressive-img
-          :src="imageMobile.url"
+          :src="imageMobile.sizes.medium"
           :alt="imageMobile.alt"
           @onLoad.once="imageLoaded"
           @onError="capture($event)"
@@ -168,7 +168,7 @@
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
-    cursor: pointer;
+
     &:before {
       display: none;
     }
@@ -380,6 +380,7 @@
     .progressive-image-main {
       background: transparent;
       height: 100% !important;
+      position: relative;
       object-fit: cover;
     }
     .progressive-image-placeholder {

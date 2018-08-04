@@ -1,10 +1,10 @@
 <template>
   <div class="case-study">
-    <section class="section hero step">
+    <section class="section hero step" v-if="project">
       <div class="container is-flex-column" :class="{'animated': animateHeader}">
-          <h1 class="jumbo">Nunziella Salluce Design</h1>
-          <h3 class="supertitle">Case Studies - Website <!-- maybe pull from category--> </h3>
-          <h3>Subtitle description here</h3>
+          <h1 class="jumbo">{{project.hero.title}}</h1>
+          <h3 class="supertitle">Case Studies - {{project.category}} <!-- maybe pull from category--> </h3>
+          <h3>{{project.hero.description}}</h3>
       </div>
       <div v-scroll="{element:'.client-intro'}" class="scroll-down" :class="{'animated': animateHeader}">
           <p>scroll</p>
@@ -14,86 +14,99 @@
       </div>
     </section>
 
-    <section class="client-intro step">
+    <section class="client-intro step" v-if="project">
       <div class="container is-flex">
         <div class="text-section" :class="{'animated': animateIntro}">
           <h3>Client</h3>
-          <p>Caspian Media Ltd.</p>
+          <p>{{project.intro.client_name}}</p>
           <h3>Deliverables</h3>
           <ul>
-            <li>Strategy</li>
-            <li>Website</li>
-            <li>UI/UX</li>
-            <li>Digital Design</li>
+            <li 
+              v-for="(deliverable, index) in project.intro.deliverables"
+              :key="index"
+            >{{deliverable.item}}</li>
           </ul>
         </div>
 
         <div class="image-section" :class="{'animated': animateIntro}">
-          <img src="https://placehold.it/1024/668" alt="Some alt from wp" />
+          <lazy-image
+            class='image'
+            :image="project.intro.image"
+            :imageMobile="project.intro.image"
+          />
         </div>
       </div>
     </section>
 
-    <section class="the-brand step">
+    <section class="the-brand step" v-if="project">
       <div class="container">
-        <h1 :class="{'animated': animateBrand}">The Brand</h1>
+        <h1 :class="{'animated': animateBrand}">{{project.brand.title}}</h1>
       </div>
 
       <div class="timeline" :class="{'animated': animateBrand}">
-        <the-timeline :data="[0, 1, 2, 3, 4, 5]"></the-timeline>
+        <the-timeline :data="project.brand.items"></the-timeline>
       </div>
     </section>
 
-    <section class="the-challenge step">
+    <section class="the-challenge step" v-if="project">
       <div class="container">
           <div class="text-section" :class="{'animated': animateChallenge}">
-            <h1>The Challenge</h1>
+            <h1>{{project.challenge.title}}</h1>
             <p>
-            Type I had to redesign a new feel and concept for their Website, using a more modern 
-    layout and style, while keeping the business attitude.
+              {{project.challenge.body}}
             </p>
           </div>
         <div class="two-columns">
           <div class="column column--left" :class="{'animated': animateChallenge}">
             <h3>Insights</h3>
             <ul>
-              <li>Some insight</li>
-              <li>Some insight</li>
-              <li>Some insight</li>
-              <li>Some insight</li>
-              <li>Some insight</li>
+              <li
+                v-for="(insight, index) in project.challenge.left_list.list_item"
+                :key="index"
+              >
+                {{insight.item}}
+              </li>
             </ul>
           </div>
           <div class="column column--right" :class="{'animated': animateChallenge}">
             <h3>Action</h3>
             <ul>
-              <li>Some action</li>
-              <li>Some action</li>
-              <li>Some action</li>
-              <li>Some action</li>
-              <li>Some action</li>
+              <li
+                v-for="(action, index) in project.challenge.right_list.list_item"
+                :key="index"
+              >
+                {{action.item}}
+              </li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="final-product step">
+    <section class="final-product step" v-if="project">
       <div class="container">
-          <div class="text-section" :class="{'animated': animateFinal}">
-            <h1>Final Product</h1>
-            <p>I created a dynamic and colourful website with a clearstructure and navigation, three main 
-    sections for each type of client identified, and a blog section for the latest news.</p>
-          </div>
-        <div class="image-section">
-            <img :class="{'animated': animateFinal}" src="https://placehold.it/800x600" alt="some alt from wp" />
-            
-            <img class="step" :class="{'animated': animateBottomImage}" src="https://placehold.it/800x600" alt="some alt from wp" />
+        <div class="text-section" :class="{'animated': animateFinal}">
+          <h1>{{project.product.title}}</h1>
+          <p>
+            {{project.product.body}}
+          </p>
+        </div>
+        
+        <div
+          class="image-section step"
+          v-for="(content, index) in project.product.the_content"
+          :key="index"
+        >
+          <lazy-image
+            class='image'
+            :image="content.image"
+            :imageMobile="content.image"
+          />
         </div>
       </div>
     </section>
 
-    <div class="work-navigation" :class="{'animated': animateBottomImage}">
+    <div class="work-navigation step" :class="{'animated': animateBottomImage}" v-if="project">
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="previousProject">
           <img src="https://placehold.it/250x180" alt="Previous Project">
@@ -115,7 +128,8 @@
   export default {
     components: {
       IconArrow,
-      TheTimeline: () => import('@/components/Sliders/TheTimeline')
+      TheTimeline: () => import('@/components/Sliders/TheTimeline'),
+      LazyImage: () => import('@/components/UI/LazyImage')
     },
     data () {
       return {
@@ -140,6 +154,8 @@
         this.$store.commit('showMenuBg')
       },
       handleStepEnter (response) {
+        response.element.classList.add('animated')
+        const length = document.querySelectorAll('.step').length - 2
         switch (response.index) {
           case 0:
             this.hideMenu()
@@ -157,7 +173,7 @@
           case 4:
             this.animateFinal = true
             break
-          case 5:
+          case length:
             this.animateBottomImage = true
             break
           default:
@@ -191,6 +207,10 @@
       projects () {
         if (!this.$store.state.projects.length) return false
         return this.$store.state.projects
+      },
+      project () {
+        if (!this.$store.state.projects.length) return false
+        return this.$store.state.projects[this.getIndex].acf
       },
       getIndex () {
         if (!this.projects.length) return 0
@@ -355,11 +375,16 @@
         }
         @include fadeInUp;
         transition-delay: 0.2s;
-        img {
-          object-fit: cover;
-          object-position: center;
-          max-height: 650px;
-          width: 100%;
+
+        .image {
+          display: block;
+          img {
+            position: relative;
+            object-fit: cover;
+            object-position: center;
+            max-height: 650px;
+            width: 100%;
+          }
         }
       }
     }
@@ -438,12 +463,17 @@
           object-position: center;
           grid-row: span 1;
         }
-        img:nth-child(1) {
+        &:nth-child(2) {
           @include fadeInUp;
           transition-delay: 0.2s;
         }
-        img:nth-child(2) {
+        &:nth-child(3) {
           @include fadeInUp;
+          transition-delay: 0.4s;
+        }
+        &:nth-child(n + 1) {
+          @include fadeInUp;
+          transition-delay: 0.6s;
         }
       }
     }
@@ -453,7 +483,7 @@
     margin: $gap * 2 0 $gap * 1.5;
     height: 100%;
     @include fadeInUp;
-    transition-delay: 0.4s;
+    transition-delay: 1s;
 
     .container-fluid {
       justify-content: space-between;
