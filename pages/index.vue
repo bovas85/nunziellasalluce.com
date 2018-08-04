@@ -1,9 +1,9 @@
 <template>
   <main class="home">
-    <section class="section hero step">
+    <section v-if="homePage" class="section hero step">
       <div class="container is-flex-column" :class="{'animated': animateHeader}">
-        <h1 class="jumbo">Nunziella Salluce Design</h1>
-        <h3>Multi-disciplinary UI / UX and Visual Designer</h3>
+        <h1 class="jumbo">{{acf.hero.title}}</h1>
+        <h3>{{acf.hero.description}}</h3>
       </div>
       <div v-scroll="{element:'.projects'}" class="scroll-down">
         <p>scroll</p>
@@ -13,9 +13,9 @@
       </div>
     </section>
 
-    <section id="#work" class="projects section step" v-if='projects'>
+    <section id="#work" class="projects section step" v-if="projects && homePage">
       <div class="container" :class="{'animated': animateWork}">
-        <h1>Case Studies</h1>
+        <h1>{{acf.case_studies.title}}</h1>
       </div>
       <the-carousel 
         :class="{'animated': animateWork}"
@@ -23,9 +23,9 @@
       />
     </section>
 
-    <section class="the-process step">
+    <section class="the-process step" v-if="homePage">
       <div class="container">
-        <h1 :class="{'animated': animateProcess}">The Process</h1>
+        <h1 :class="{'animated': animateProcess}">{{acf.the_process.title}}</h1>
         <no-ssr>
           <vue-media :query="{maxWidth: 767}">
             <img class="top-image" :class="{'animated': animateProcess}" src="https://placehold.it/800x600" alt="the process description here" />
@@ -42,30 +42,30 @@
       </div>
     </section>
 
-    <section class="capabilities step" v-if='$store.state.homePage'>
+    <section class="capabilities step" v-if="homePage">
       <div class="container">
-        <h1 :class="{'animated': animateCapab}">My Capabilities</h1>
+        <h1 :class="{'animated': animateCapab}">{{acf.capabilities.title}}</h1>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet">
           <img src="https://placehold.it/800x800" alt="">
-          <h3>Title</h3>
-          <p>Mobile Applications  Interface Web User  Interfaces User  Experience Design</p>
+          <h3>{{acf.capabilities.media_object.title}}</h3>
+          <p>{{acf.capabilities.media_object.body}}</p>
         </div>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet padded-top">
           <img src="https://placehold.it/800x800" alt="">
-          <h3>Title</h3>
-          <p>Mobile Applications  Interface Web User  Interfaces User  Experience Design</p>
+          <h3>{{acf.capabilities.media_object2.title}}</h3>
+          <p>{{acf.capabilities.media_object2.body}}</p>
         </div>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet">
           <img src="https://placehold.it/800x800" alt="">
-          <h3>Title</h3>
-          <p>Mobile Applications  Interface Web User  Interfaces User  Experience Design</p>
+          <h3>{{acf.capabilities.media_object3.title}}</h3>
+          <p>{{acf.capabilities.media_object3.body}}</p>
         </div>
       </div>
     </section>
 
-    <section class="testimonials step" v-if="testimonials && testimonials.length">
+    <section class="testimonials step" v-if="homePage">
       <div class="container" :class="{'animated': animateTestimonials}">
-        <h1>What people say about me</h1>
+        <h1>{{acf.testimonials.title}}</h1>
       </div>
       
       <no-ssr>
@@ -73,9 +73,9 @@
           <transition-group tag="div" name="fade" mode="out-in">
             <the-testimonial
               v-for="(testimonial, index) in testimonials"
-              :key="testimonial.id"
+              :key="index"
               v-if="currentTestimonial === index"
-              :data="testimonial"
+              :testimonial="testimonial"
             />
           </transition-group>
 
@@ -105,14 +105,12 @@
 
 <script>
   import debounce from 'lodash/debounce'
-  import testimonials from '~/assets/testimonials.js'
   import IconArrow from '@/components/Icons/IconArrow'
 
   export default {
     scrollToTop: true,
     data () {
       return {
-        testimonials: testimonials,
         currentTestimonial: 0,
         animateHeader: false,
         animateWork: false,
@@ -196,9 +194,21 @@
       }
     },
     computed: {
+      homePage () {
+        if (this.$store.state.homePage == null) return false
+        return this.$store.state.homePage
+      },
       projects () {
         if (!this.$store.state.projects.length) return false
         return this.$store.state.projects
+      },
+      acf () {
+        if (this.$store.state.homePage == null) return false
+        return this.$store.state.homePage.acf
+      },
+      testimonials () {
+        if (this.acf.testimonials.testimonials == null) return false
+        return this.acf.testimonials.testimonials
       },
       computedHeight () {
         if (window && document) {
@@ -297,6 +307,7 @@
     }
     &.projects {
       overflow: hidden;
+      margin: $gap * 1.5 0;
 
       .container {
         @include fadeInUp;

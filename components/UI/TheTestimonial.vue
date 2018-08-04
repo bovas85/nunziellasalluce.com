@@ -1,10 +1,10 @@
 <template>
-    <div class="testimonial" v-if="data != null && testimonial.image">
+    <div class="testimonial" v-if="testimonial != null && testimonial.image">
         <img :src="testimonial.image.sizes.medium" alt="name of person">
         <blockquote>
-            {{testimonial.text}}
+            {{testimonial.body}}
             <span class='author'>
-              {{testimonial.name}}, {{testimonial.position}}
+              {{testimonial.name}}
             </span>
         </blockquote>
     </div>
@@ -14,14 +14,8 @@
   export default {
     name: 'TheTestimonial',
     props: {
-      data: {
+      testimonial: {
         type: Object
-      }
-    },
-    computed: {
-      testimonial () {
-        if (!this.data || this.data == null) return false
-        return this.data.acf
       }
     }
   }
@@ -38,7 +32,8 @@
       border-radius: 100%;
       width: 130px;
       height: 130px;
-      object-fit: contain;
+      object-fit: cover;
+      object-position: center;
       margin: 0 auto;
       margin-bottom: $gap / 2;
     }
@@ -46,7 +41,7 @@
     blockquote {
       margin: 0 auto;
       text-align: center;
-      font-size: 26px;
+      font-size: responsive(18px, 22px);
       font-weight: 600;
       margin-top: 60px;
       padding: 0 $gap;
@@ -54,6 +49,21 @@
       @include media(sm) {
         padding: 0;
         max-width: 540px;
+        min-width: 540px;
+        min-height: 324px;
+      }
+
+      @include media(md) {
+        padding: 0;
+        max-width: 700px;
+        min-width: 700px;
+        min-height: 312px;
+      }
+
+      @include media(lg) {
+        padding: 0;
+        max-width: 740px;
+        min-width: 740px;
       }
 
       span {
