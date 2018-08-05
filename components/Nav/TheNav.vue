@@ -137,7 +137,7 @@
           window.addEventListener(
             'resize',
             debounce(() => {
-              console.log('window resize')
+              // console.log('window resize')
               this.$store.commit('windowResize', window.innerWidth)
             }, 300)
           )

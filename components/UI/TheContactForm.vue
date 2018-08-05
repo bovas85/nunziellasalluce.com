@@ -196,13 +196,13 @@
           return false
         } else if (this.sending) {
           if (this.$v.form.yourEmail.$invalid && this.emailClicked) {
-            console.log('invalid email')
+            // console.log('invalid email')
             return true
           } else if (this.$v.form.yourName.$invalid && this.nameClicked) {
-            console.log('invalid name')
+            // console.log('invalid name')
             return true
           } else if (!this.form.youAgree) {
-            console.log('invalid agree')
+            // console.log('invalid agree')
             return true
           } else return false
         }

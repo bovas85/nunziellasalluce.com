@@ -170,11 +170,11 @@ module.exports = {
   },
   axios: {
     timeout: 5000,
-    debug: false
-    // https: true,
+    debug: false,
+    https: true,
     headers: {
       'Content-type': 'multipart/form-data'
-    },
+    }
   },
   plugins: [
     '~/plugins/store.js',
