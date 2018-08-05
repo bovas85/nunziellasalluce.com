@@ -5,13 +5,12 @@
       <div class="app-carousel swiper-wrapper">
         <div 
           class="swiper-slide"
-          v-if="item.acf.hero"
+          v-if="item.acf.hero && item.acf.product"
           v-for="item in data"
           :key="item.id"
           @click="$router.push(item.slug)"
         >
           <lazy-image class='image'
-            v-if="item.acf.hero"
             :hover="true"
             :image="item.acf.hero.desktop_bg"
             type="'case_study'"
