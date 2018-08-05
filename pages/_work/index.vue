@@ -107,14 +107,24 @@
       </div>
     </section>
 
-    <div class="work-navigation step" :class="{'animated': animateBottomImage}" v-if="previousProject && nextProject">
+    <div class="work-navigation step" :class="{'animated': animateBottomImage}" v-if="previousProject.acf.hero && nextProject.acf.hero">
       <div class="container-fluid is-flex">
-        <nuxt-link class="previous" :to="previousProject">
-          <img src="https://placehold.it/250x180" alt="Previous Project">
+        <nuxt-link class="previous" :to="previousProject.slug">
+          <lazy-image
+            v-if="previousProject.acf.hero != null"
+            class='image'
+            :image="previousProject.acf.hero.desktop_bg.sizes.large"
+            :imageMobile="previousProject.acf.hero.mobile_bg.sizes.large"
+          />
           Previous Project
         </nuxt-link>
-        <nuxt-link class="next" :to="nextProject">
-          <img src="https://placehold.it/250x180" alt="Next Project">
+        <nuxt-link class="next" :to="nextProject.slug">
+          <lazy-image
+            v-if="nextProject.acf.hero != null"
+            class='image'
+            :image="nextProject.acf.hero.desktop_bg.sizes.large"
+            :imageMobile="nextProject.acf.hero.mobile_bg.sizes.large"
+          />
           Next Project
         </nuxt-link>
       </div>
@@ -308,13 +318,13 @@
       },
       previousProject () {
         if (this.getIndex === 0) {
-          return this.projects[this.projects.length - 1].slug
-        } else return this.projects[this.getIndex - 1].slug
+          return this.projects[this.projects.length - 1]
+        } else return this.projects[this.getIndex - 1]
       },
       nextProject () {
         if (this.getIndex === this.projects.length - 1) {
-          return this.projects[0].slug
-        } else return this.projects[this.getIndex + 1].slug
+          return this.projects[0]
+        } else return this.projects[this.getIndex + 1]
       },
       bgImage () {
         if (!this.project) return 'https://placehold.it/2048/2048'
