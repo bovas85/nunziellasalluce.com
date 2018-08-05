@@ -144,7 +144,12 @@
     },
     middleware: 'routeGuard',
     head () {
-      if (this.project && this.projectTitle != null && this.project.seo != null) {
+      if (
+        this.project &&
+        this.projectTitle != null &&
+        this.project.seo != null &&
+        this.project.hero != null
+      ) {
         return {
           title: this.capitalizeFirstLetter(this.projectTitle.replace(/-/g, ' ')),
           meta: [
