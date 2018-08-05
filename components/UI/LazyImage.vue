@@ -379,7 +379,7 @@
     object-fit: cover;
     .progressive-image-main {
       background: transparent;
-      height: 100% !important;
+      height: 100%;
       position: relative;
       object-fit: cover;
     }

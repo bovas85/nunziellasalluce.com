@@ -3,7 +3,7 @@
     <section class="section hero step" v-if="project.hero != null" :style="`background-image: url('${bgImage}')`">
       <div class="container is-flex-column" :class="{'animated': animateHeader}">
           <h1 class="jumbo">{{project.hero.title}}</h1>
-          <h3 class="supertitle">Case Studies - {{project.category}} <!-- maybe pull from category--> </h3>
+          <h3 class="supertitle">Case Studies - {{project.category}}</h3>
           <h3>{{project.hero.description}}</h3>
       </div>
       <div v-scroll="{element:'.client-intro'}" class="scroll-down" :class="{'animated': animateHeader}">
@@ -113,19 +113,19 @@
           <lazy-image
             v-if="previousProject.acf.hero != null"
             class='image'
-            :image="previousProject.acf.hero.desktop_bg.sizes.large"
-            :imageMobile="previousProject.acf.hero.mobile_bg.sizes.large"
+            :image="previousProject.acf.hero.desktop_bg"
+            :imageMobile="previousProject.acf.hero.mobile_bg"
           />
-          Previous Project
+          <p>Previous Project</p>
         </nuxt-link>
         <nuxt-link class="next" :to="nextProject.slug">
           <lazy-image
             v-if="nextProject.acf.hero != null"
             class='image'
-            :image="nextProject.acf.hero.desktop_bg.sizes.large"
-            :imageMobile="nextProject.acf.hero.mobile_bg.sizes.large"
+            :image="nextProject.acf.hero.desktop_bg"
+            :imageMobile="nextProject.acf.hero.mobile_bg"
           />
-          Next Project
+          <p>Next Project</p>
         </nuxt-link>
       </div>
     </div>
@@ -610,12 +610,16 @@
     }
 
     a {
-      font-weight: bold;
-      color: black;
-      text-decoration: none;
       position: relative;
       bottom: 0;
+      height: 100%;
       transition: transform 0.4s ease-in-out;
+
+      p {
+        font-weight: bold;
+        color: black;
+        text-decoration: none;
+      }
 
       &.previous {
         text-align: right;
@@ -633,7 +637,7 @@
         }
       }
 
-      img {
+      /deep/ img {
         width: 250px;
         height: 180px;
         object-fit: cover;
