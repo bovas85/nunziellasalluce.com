@@ -2,7 +2,7 @@
   <div 
     v-if="image.url != null && imageMobile.url != null"
     class="lazy-image" 
-    :style="`background-image: url('${thumbnail}')`"
+    :style="`background-color: #f4a261`"
   >
     <no-ssr>
       <vue-media :query="{maxWidth: 576}">
