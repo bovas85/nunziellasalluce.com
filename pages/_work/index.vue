@@ -1,6 +1,6 @@
 <template>
   <div class="case-study">
-    <section class="section hero step" v-if="project">
+    <section class="section hero step" v-if="project.hero != null">
       <div class="container is-flex-column" :class="{'animated': animateHeader}">
           <h1 class="jumbo">{{project.hero.title}}</h1>
           <h3 class="supertitle">Case Studies - {{project.category}} <!-- maybe pull from category--> </h3>
@@ -14,7 +14,7 @@
       </div>
     </section>
 
-    <section class="client-intro step" v-if="project">
+    <section class="client-intro step" v-if="project.intro != null">
       <div class="container is-flex">
         <div class="text-section" :class="{'animated': animateIntro}">
           <h3>Client</h3>
@@ -28,7 +28,7 @@
           </ul>
         </div>
 
-        <div class="image-section" :class="{'animated': animateIntro}">
+        <div class="image-section" :class="{'animated': animateIntro}" v-if="project.intro.image != null">
           <lazy-image
             class='image'
             :image="project.intro.image"
@@ -38,7 +38,7 @@
       </div>
     </section>
 
-    <section class="the-brand step" v-if="project">
+    <section class="the-brand step" v-if="project.brand != null">
       <div class="container">
         <h1 :class="{'animated': animateBrand}">{{project.brand.title}}</h1>
       </div>
@@ -48,7 +48,7 @@
       </div>
     </section>
 
-    <section class="the-challenge step" v-if="project">
+    <section class="the-challenge step" v-if="project.challenge != null">
       <div class="container">
           <div class="text-section" :class="{'animated': animateChallenge}">
             <h1>{{project.challenge.title}}</h1>
@@ -83,7 +83,7 @@
       </div>
     </section>
 
-    <section class="final-product step" v-if="project">
+    <section class="final-product step" v-if="project.product != null">
       <div class="container">
         <div class="text-section" :class="{'animated': animateFinal}">
           <h1>{{project.product.title}}</h1>
@@ -98,6 +98,7 @@
           :key="index"
         >
           <lazy-image
+            v-if="content.image != null"
             class='image'
             :image="content.image"
             :imageMobile="content.image"
@@ -106,7 +107,7 @@
       </div>
     </section>
 
-    <div class="work-navigation step" :class="{'animated': animateBottomImage}" v-if="project">
+    <div class="work-navigation step" :class="{'animated': animateBottomImage}" v-if="previousProject && nextProject">
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="previousProject">
           <img src="https://placehold.it/250x180" alt="Previous Project">
@@ -131,8 +132,9 @@
       TheTimeline: () => import('@/components/Sliders/TheTimeline'),
       LazyImage: () => import('@/components/UI/LazyImage')
     },
+    middleware: 'routeGuard',
     head () {
-      if (this.project && this.projectTitle != null) {
+      if (this.project && this.projectTitle != null && this.project.seo != null) {
         return {
           title: this.capitalizeFirstLetter(this.projectTitle.replace(/-/g, ' ')),
           meta: [
