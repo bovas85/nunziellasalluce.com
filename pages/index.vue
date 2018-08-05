@@ -251,15 +251,8 @@
       margin: $gap * 3 auto;
     }
     &.hero {
-      background-image: url('https://placehold.it/600/800');
       background-size: cover;
       background-position: center;
-      @media (min-width: $tablet) {
-        background-image: url('https://placehold.it/1280/768');
-      }
-      @media (min-width: $desktop) {
-        background-image: url('https://placehold.it/2048/1024');
-      }
       height: 100vh;
       margin: 0;
       display: flex;
