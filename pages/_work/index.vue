@@ -1,5 +1,5 @@
 <template>
-  <div class="case-study">
+  <div class="case-study" v-if="project != null">
     <section class="section hero step" v-if="project.hero != null" :style="`background-image: url('${bgImage}')`">
       <div class="container is-flex-column" :class="{'animated': animateHeader}">
           <h1 class="jumbo">{{project.hero.title}}</h1>

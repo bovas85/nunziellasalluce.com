@@ -170,9 +170,11 @@ module.exports = {
   },
   axios: {
     timeout: 5000,
-    https: true,
-    proxyHeadersIgnore: ['accept-encoding', 'host'],
     debug: false
+    // https: true,
+    headers: {
+      'Content-type': 'multipart/form-data'
+    },
   },
   plugins: [
     '~/plugins/store.js',

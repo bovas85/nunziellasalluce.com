@@ -10,11 +10,11 @@ const Config = {
   wpDomain: 'https://api.nunziellasalluce.com/wp-json',
   client: 'https://api.nunziellasalluce.com',
   loadDbName: 'starter_wp',
-  analyticsPath: 'https://www.google-analytics.com/analytics.js',
   api: {
     homePage: '/wp/v2/pages/18',
     projects: '/wp/v2/casestudies',
-    caseStudy: '/wp/v2/casestudies?slug='
+    caseStudy: '/wp/v2/casestudies?slug=',
+    postFormContact: '/contact-form-7/v1/contact-forms/78/feedback'
   }
 }
 

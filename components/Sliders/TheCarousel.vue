@@ -1,5 +1,5 @@
 <template>
-  <div class="carousel" v-if="data != null && data.length">
+  <div class="carousel" v-if="data != null && data.length > 0">
 
     <div @mouseover="hovering = true" @mouseleave="hovering = false" ref="Carousel" v-swiper:blogSwiper="swiperOption" >
       <div class="app-carousel swiper-wrapper">

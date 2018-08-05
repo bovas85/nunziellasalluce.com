@@ -119,6 +119,7 @@
         let newForm = {
           yourName: '',
           yourEmail: '',
+          yourMessage: '',
           youAgree: false
         }
         this.nameClicked = false
@@ -132,7 +133,7 @@
           let formStorage = {
             yourName: this.form.yourName,
             yourEmail: this.form.yourEmail,
-            message: this.form.yourMessage,
+            yourMessage: this.form.yourMessage,
             youAgree: this.form.youAgree
           }
           this.$localStorage.set('formData', JSON.stringify(formStorage))
@@ -169,23 +170,23 @@
           this.$root.sent = true
           this.disabled = true
           var formData = new FormData()
-          formData.append('name', this.form.yourName)
+          formData.append('your-name', this.form.yourName)
           formData.append('your-email', this.form.yourEmail)
-          formData.append('message', this.form.yourMessage)
-          // this.$axios
-          //   .post(`${Config.client}${Config.api.postFormContact}`, formData)
-          //   .then(res => {
-          //     this.disabled = false
-          //     this.sending = false
-          //   })
-          //   .catch(err => {
-          //     console.log('contact send error', err)
-          //     this.disabled = false
-          //     this.sending = false
-          //     this.sendError = true
-          //     this.error = true
-          //     this.$root.sent = false
-          //   })
+          formData.append('your-message', this.form.yourMessage)
+          this.$axios
+            .post(`${Config.wpDomain}${Config.api.postFormContact}`, formData)
+            .then(res => {
+              this.disabled = false
+              this.sending = false
+            })
+            .catch(err => {
+              console.log('contact send error', err)
+              this.disabled = false
+              this.sending = false
+              this.sendError = true
+              this.error = true
+              this.$root.sent = false
+            })
         }
       }
     },
@@ -194,10 +195,10 @@
         if (!this.sending) {
           return false
         } else if (this.sending) {
-          if (!this.$v.form.yourEmail.$invalid && this.emailClicked) {
+          if (this.$v.form.yourEmail.$invalid && this.emailClicked) {
             console.log('invalid email')
             return true
-          } else if (!this.$v.form.yourName.$invalid && this.nameClicked) {
+          } else if (this.$v.form.yourName.$invalid && this.nameClicked) {
             console.log('invalid name')
             return true
           } else if (!this.form.youAgree) {
