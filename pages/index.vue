@@ -1,6 +1,6 @@
 <template>
   <main class="home">
-    <section v-if="homePage" class="section hero step">
+    <section v-if="homePage" class="section hero step" :style="`background-image: url('${bgImage}')`">
       <div class="container is-flex-column" :class="{'animated': animateHeader}">
         <h1 class="jumbo">{{acf.hero.title}}</h1>
         <h3>{{acf.hero.description}}</h3>
@@ -46,17 +46,17 @@
       <div class="container">
         <h1 :class="{'animated': animateCapab}">{{acf.capabilities.title}}</h1>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet">
-          <img src="https://placehold.it/800x800" alt="acf.capabilities.media_object.image.sizes.medium">
+          <img :src="acf.capabilities.media_object.image.sizes.large" :alt="acf.capabilities.media_object.image.alt">
           <h3>{{acf.capabilities.media_object.title}}</h3>
           <p>{{acf.capabilities.media_object.body}}</p>
         </div>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet padded-top">
-          <img src="https://placehold.it/800x800" alt="acf.capabilities.media_object2.image.sizes.medium">
+          <img :src="acf.capabilities.media_object2.image.sizes.large" :alt="acf.capabilities.media_object2.image.alt">
           <h3>{{acf.capabilities.media_object2.title}}</h3>
           <p>{{acf.capabilities.media_object2.body}}</p>
         </div>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet">
-          <img src="https://placehold.it/800x800" alt="acf.capabilities.media_object3.image.sizes.medium">
+          <img :src="acf.capabilities.media_object3.image.sizes.large" :alt="acf.capabilities.media_object3.image.alt">
           <h3>{{acf.capabilities.media_object3.title}}</h3>
           <p>{{acf.capabilities.media_object3.body}}</p>
         </div>
@@ -214,6 +214,20 @@
         if (window && document) {
           return document.querySelector('.hero').offsetHeight - 90
         } else return 0
+      },
+      bgImage () {
+        if (!this.homePage.acf.hero) return 'https://placehold.it/2048/2048'
+        if (process.browser) {
+          if (this.$store.state.window < 577) {
+            return this.homePage.acf.hero.mobile_bg.sizes.large
+          } else if (
+            this.$store.state.window > 576 &&
+            this.$store.state.window < 1440
+          ) {
+            return this.homePage.acf.hero.desktop_bg.sizes.large
+          } else return this.homePage.acf.hero.desktop_bg.sizes.ultra
+        }
+        return this.homePage.acf.hero.desktop_bg.sizes.large
       }
     }
   }
@@ -363,10 +377,12 @@
 
         img {
           @media (max-width: $mobile) {
-            max-width: 60vw;
+            max-width: 50vw;
             margin: 0 auto;
           }
-          border-radius: 100%;
+          width: 100px;
+          // margin: 0 auto;
+          height: auto;
         }
 
         h3 {
