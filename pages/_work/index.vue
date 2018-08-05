@@ -1,6 +1,6 @@
 <template>
   <div class="case-study">
-    <section class="section hero step" v-if="project.hero != null">
+    <section class="section hero step" v-if="project.hero != null" :style="`background-image: url('${bgImage}')`">
       <div class="container is-flex-column" :class="{'animated': animateHeader}">
           <h1 class="jumbo">{{project.hero.title}}</h1>
           <h3 class="supertitle">Case Studies - {{project.category}} <!-- maybe pull from category--> </h3>
@@ -315,6 +315,20 @@
         if (this.getIndex === this.projects.length - 1) {
           return this.projects[0].slug
         } else return this.projects[this.getIndex + 1].slug
+      },
+      bgImage () {
+        if (!this.project) return 'https://placehold.it/2048/2048'
+        if (process.browser) {
+          if (this.$store.state.window < 577) {
+            return this.project.hero.mobile_bg.sizes.large
+          } else if (
+            this.$store.state.window > 576 &&
+            this.$store.state.window < 1440
+          ) {
+            return this.project.hero.desktop_bg.sizes.large
+          } else return this.project.hero.desktop_bg.sizes.ultra
+        }
+        return this.project.hero.desktop_bg.sizes.large
       }
     }
   }
@@ -337,18 +351,17 @@
     }
 
     &.hero {
-      background-image: url('https://placehold.it/600/800');
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
       margin: 0;
 
       @include media(md) {
-        margin: 0 auto $gap * 3;
-        background-image: url('https://placehold.it/1280/768');
+        background-position: right;
       }
 
-      @include media(lg) {
-        background-image: url('https://placehold.it/2048/1024');
+      @include media(xl) {
+        background-position: center;
       }
 
       height: 100vh;

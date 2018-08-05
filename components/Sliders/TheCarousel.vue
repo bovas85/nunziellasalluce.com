@@ -5,22 +5,23 @@
       <div class="app-carousel swiper-wrapper">
         <div 
           class="swiper-slide"
+          v-if="item.acf.hero"
           v-for="item in data"
           :key="item.id"
           @click="$router.push(item.slug)"
         >
           <lazy-image class='image'
-            v-if="item.acf.image"
+            v-if="item.acf.hero"
             :hover="true"
-            :image="item.acf.image"
+            :image="item.acf.hero.desktop_bg"
             type="'case_study'"
-            :title="item.acf.title"
-            :imageMobile="item.acf.image_mobile"
+            :title="item.acf.hero.title"
+            :imageMobile="item.acf.hero.mobile_bg"
             :link="item.slug"
           />
           <div class="text-section">
-            <h2>{{item.acf.title}}</h2>
-            <h3 class="subtitle">{{item.acf.intro}}</h3>
+            <h2>{{item.acf.hero.title}}</h2>
+            <h3 class="subtitle">{{item.acf.hero.description}}</h3>
           </div>
         </div>
 
@@ -76,7 +77,7 @@
             }
           },
           autoplay: false,
-          loop: true,
+          loop: false,
           paginationHide: false,
           pagination: '.swiper-pagination'
         }
