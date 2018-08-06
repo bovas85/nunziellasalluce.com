@@ -17,61 +17,63 @@
 </template>
 
 <script>
-    export default {
-      scrollToTop: true,
-      data () {
-        return {}
-      },
-      components: {
-        CaseStudy: () => import('@/components/UI/CaseStudy'),
-        TheCarousel: () => import('@/components/Sliders/TheCarousel')
-      },
-      head () {
-        return { title: 'Home' }
-      },
-      mounted () {},
-      methods: {},
-      computed: {
-        projects () {
-          return this.$store.state.projects
-        }
+  export default {
+    scrollToTop: true,
+    data () {
+      return {}
+    },
+    components: {
+      CaseStudy: () => import('@/components/UI/CaseStudy'),
+      TheCarousel: () => import('@/components/Sliders/TheCarousel')
+    },
+    head () {
+      return { title: 'Home' }
+    },
+    mounted () {},
+    methods: {},
+    computed: {
+      projects () {
+        return this.$store.state.projects
       }
     }
+  }
 </script>
 
 <style lang="scss" scoped>
-    section {
-      &.hero {
-        background-image: url('https://placehold.it/600/800');
-        background-size: cover;
-        background-position: center;
-        @media (min-width: $tablet) {
-          background-image: url('https://placehold.it/1280/768');
-        }
-        @media (min-width: $desktop) {
-          background-image: url('https://placehold.it/2048/1024');
-        }
-        height: 100vh;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-end;
-        padding: 0 0 80px 0;
+  section {
+    &.hero {
+      background-image: url('https://placehold.it/600/800');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 0 0 80px 0;
 
-        h1,
-        h3 {
-          color: white;
-        }
+      @media (min-width: $tablet) {
+        background-image: url('https://placehold.it/1280/768');
       }
-      &.case-studies {
-        margin: $gap * 1.5 0 $gap * 4;
-        overflow: hidden;
 
-        h2 {
-          padding: 0 0 $gap * 1.5;
-        }
+      @media (min-width: $desktop) {
+        background-image: url('https://placehold.it/2048/1024');
+      }
+
+      h1,
+      h3 {
+        color: white;
       }
     }
+    &.case-studies {
+      margin: $gap * 1.5 0 $gap * 4;
+      overflow: hidden;
+
+      h2 {
+        padding: 0 0 $gap * 1.5;
+      }
+    }
+  }
 </style>

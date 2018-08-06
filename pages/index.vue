@@ -234,7 +234,6 @@
 </script>
 
 <style lang="scss" scoped>
-  // general h1 max width
   h1 {
     padding-left: $gap;
 
@@ -250,6 +249,7 @@
     @include media(md) {
       margin: $gap * 3 auto;
     }
+
     &.hero {
       background-size: cover;
       background-position: center;
@@ -369,13 +369,13 @@
         }
 
         img {
+          width: 100px;
+          height: auto;
+
           @media (max-width: $mobile) {
             max-width: 50vw;
             margin: 0 auto;
           }
-          width: 100px;
-          // margin: 0 auto;
-          height: auto;
         }
 
         h3 {

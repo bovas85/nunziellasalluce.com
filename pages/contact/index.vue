@@ -44,6 +44,7 @@
       @include media(md) {
         margin: $gap * 3 auto;
       }
+
       &.hero {
         background: white;
         margin: $gap * 3 0;

@@ -440,11 +440,12 @@
       .supertitle {
         position: absolute;
         top: calc(calc(50% - 18vh));
+        text-transform: uppercase;
+        font-weight: 600;
+
         @include media(sm) {
           top: calc(60px + 50px);
         }
-        text-transform: uppercase;
-        font-weight: 600;
       }
     }
     &.client-intro {
@@ -466,6 +467,7 @@
           line-height: 3;
           text-transform: uppercase;
         }
+
         ul {
           list-style-type: none;
           padding: 0;
@@ -475,10 +477,12 @@
             margin: 0;
           }
         }
+
         li,
         p {
           @include size(h3);
         }
+
         h3,
         li {
           color: currentColor;
@@ -486,11 +490,12 @@
       }
 
       .image-section {
+        @include fadeInUp;
+        transition-delay: 0.2s;
+
         @include media(lg) {
           flex-basis: 70%;
         }
-        @include fadeInUp;
-        transition-delay: 0.2s;
 
         .image {
           display: block;

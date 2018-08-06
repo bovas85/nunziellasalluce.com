@@ -157,6 +157,7 @@
     padding: 0;
     position: relative;
     margin-left: $gap / 2;
+
     @include media(md) {
       margin-left: $gap * 3;
     }
@@ -176,6 +177,7 @@
     height: 300px;
     width: 165px;
     position: relative;
+
     &:last-child {
       width: 1000px !important;
       background: linear-gradient(
@@ -246,10 +248,6 @@
     display: block;
     top: -100px;
     right: -$gap;
-    @include media(md) {
-      top: -160px;
-      right: $gap * 2;
-    }
     width: 100px;
     height: $gap;
     display: flex;
@@ -257,6 +255,11 @@
     align-items: center;
     color: black;
     transition: opacity 0.3s ease-in-out;
+
+    @include media(md) {
+      top: -160px;
+      right: $gap * 2;
+    }
 
     &.is-disabled {
       opacity: 0;
@@ -266,6 +269,7 @@
   }
   .prev {
     right: $gap * 2;
+
     @include media(md) {
       right: $gap * 5;
     }
