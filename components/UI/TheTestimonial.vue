@@ -30,12 +30,17 @@
 
     img {
       border-radius: 100%;
-      width: 130px;
-      height: 130px;
       object-fit: cover;
       object-position: center;
       margin: 0 auto;
-      margin-bottom: $gap / 2;
+      width: 80px;
+      height: auto;
+
+      @include media(sm) {
+        width: 130px;
+        height: 130px;
+        margin-bottom: $gap / 2;
+      }
     }
 
     blockquote {

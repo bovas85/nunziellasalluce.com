@@ -72,15 +72,15 @@ h2 {
 }
 
 h3 {
-  @include size(h3);
   font-weight: 400;
+  @include size(h3);
 }
 
 h4,
 h5,
 h6 {
-  @include size(h4);
   font-weight: 300;
+  @include size(h4);
 }
 
 img {

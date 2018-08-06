@@ -439,7 +439,7 @@
 
       .supertitle {
         position: absolute;
-        top: calc(calc(50% - 13vh));
+        top: calc(calc(50% - 18vh));
         @include media(sm) {
           top: calc(60px + 50px);
         }

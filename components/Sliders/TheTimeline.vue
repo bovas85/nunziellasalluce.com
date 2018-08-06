@@ -235,7 +235,8 @@
     }
     p {
       margin-top: 200px;
-      max-width: 280px;
+      max-width: 230px;
+      padding-right: $gap / 1.5;
     }
   }
   .prev,

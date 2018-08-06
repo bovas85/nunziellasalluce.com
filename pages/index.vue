@@ -406,7 +406,12 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      margin-bottom: $gap * 3;
+      margin: $gap * 3 0;
+      margin-bottom: $gap;
+
+      @include media(sm) {
+        margin-bottom: $gap * 3;
+      }
 
       .container {
         @include fadeInUp;
@@ -423,13 +428,18 @@
       }
 
       .arrows {
-        top: 100px;
         width: 100%;
+        min-width: 100%;
         height: 1px;
         cursor: pointer;
         position: absolute;
         display: flex;
         align-items: center;
+        top: 75px;
+
+        @include media(sm) {
+          top: 100px;
+        }
       }
       .arrow {
         position: absolute;

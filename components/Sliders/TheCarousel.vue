@@ -19,8 +19,8 @@
             :link="item.slug"
           />
           <div class="text-section">
-            <h2>{{item.acf.hero.title}}</h2>
-            <h3 class="subtitle">{{item.acf.hero.description}}</h3>
+            <h3>{{item.acf.hero.title}}</h3>
+            <h4 class="subtitle">{{item.acf.category}}</h4>
           </div>
         </div>
 
@@ -323,6 +323,7 @@
       .subtitle {
         opacity: 1;
         transform: translateY(0);
+        text-transform: uppercase;
 
         @include media(lg) {
           opacity: 0;

@@ -193,7 +193,7 @@ $rule: 1.4;
     );
     font-range: 320px #{$tablet};
   } @else if $heading == h2 {
-    font-size: reponsive(
+    font-size: responsive(
       round($font-size * $rule * 1.4) round($font-size * $rule * 2)
     );
     font-range: 320px #{$tablet};
