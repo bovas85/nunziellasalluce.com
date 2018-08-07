@@ -26,7 +26,16 @@
     <section class="the-process step" v-if="homePage">
       <div class="container">
         <h1 :class="{'animated': animateProcess}">{{acf.the_process.title}}</h1>
-        <no-ssr>
+        <div class="container is-flex">
+          <div class="image-grid">
+            <div><p>Planning project scope</p></div>
+            <div><p>Design</p></div>
+            <div><p>Development</p></div>
+            <div><p>QA Testing</p></div>
+          </div>
+        </div>
+        
+        <!-- <no-ssr>
           <vue-media :query="{maxWidth: 767}">
             <img class="top-image" :class="{'animated': animateProcess}" src="https://placehold.it/800x600" alt="the process description here" />
           </vue-media>
@@ -38,7 +47,7 @@
               <p>some text about the process</p>
             </div>
           </vue-media>
-        </no-ssr>
+        </no-ssr> -->
       </div>
     </section>
 
@@ -339,6 +348,101 @@
         max-width: 100%;
         width: 100%;
         object-fit: cover;
+      }
+
+      .image-grid {
+        display: grid;
+        grid-gap: 0;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(18, 1fr);
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+        div {
+          border-radius: 100%;
+          display: block;
+          width: calc(100vw - 90px);
+          height: calc(100vw - 90px);
+          max-width: 320px;
+          max-height: 320px;
+          border-radius: 100%;
+          background-color: $grey;
+          mix-blend-mode: overlay;
+          justify-self: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          p {
+            font-size: responsive(18px 21px);
+            font-range: 1200px 1440px;
+            font-weight: 600;
+            text-transform: uppercase;
+            max-width: 160px;
+            text-align: center;
+          }
+
+          grid-column: 1 / -1;
+          &:nth-child(1) {
+            grid-row: 1 / 6;
+            background-color: $lightgrey;
+          }
+          &:nth-child(2) {
+            grid-row: 5 / 10;
+            background-color: #c0c0c0;
+          }
+          &:nth-child(3) {
+            grid-row: 9 / 14;
+          }
+          &:nth-child(4) {
+            grid-row: 13 / 18;
+          }
+        }
+
+        @include media(xl) {
+          grid-template-columns: repeat(17, 1fr);
+          grid-auto-rows: 274px;
+          height: 274px;
+
+          div {
+            max-width: unset;
+            max-height: unset;
+            width: 100%;
+            justify-self: start;
+            height: 274px;
+
+            p {
+              text-align: left;
+            }
+
+            &:nth-child(1) {
+              grid-row: 1 / 1;
+              grid-column: 3 / 7;
+            }
+            &:nth-child(2) {
+              grid-row: 1 / 1;
+              grid-column: 6 / 10;
+            }
+            &:nth-child(3) {
+              grid-row: 1 / 1;
+              grid-column: 9 / 13;
+            }
+            &:nth-child(4) {
+              grid-row: 1 / 1;
+              grid-column: 12 / 16;
+            }
+          }
+        }
+
+        @include media(xxl) {
+          grid-auto-rows: 329px;
+          height: 329px;
+
+          div {
+            height: 329px;
+          }
+        }
       }
 
       .top-image {

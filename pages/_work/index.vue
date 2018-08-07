@@ -435,6 +435,7 @@
       h1,
       h3 {
         color: white;
+        max-width: 780px;
       }
 
       .supertitle {
