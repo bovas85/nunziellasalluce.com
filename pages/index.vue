@@ -430,7 +430,6 @@
       .arrows {
         width: 100%;
         min-width: 100%;
-        height: 1px;
         cursor: pointer;
         position: absolute;
         display: flex;
