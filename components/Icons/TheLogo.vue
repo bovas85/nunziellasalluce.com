@@ -3,28 +3,27 @@
 </template>
 
 <script>
-export default {
-  name: 'TheLogo',
-  props: {
-    width: {
-      type: [Number, String],
-      default: 50
-    },
-    title: {
-      type: String,
-      default: 'Logo'
-    },
-    height: {
-      type: [Number, String],
-      default: 31
-    },
-    fill: {
-      type: String,
-      default: 'currentColor'
+  export default {
+    name: 'TheLogo',
+    props: {
+      width: {
+        type: [Number, String],
+        default: 50
+      },
+      title: {
+        type: String,
+        default: 'Logo'
+      },
+      height: {
+        type: [Number, String],
+        default: 31
+      },
+      fill: {
+        type: String,
+        default: 'currentColor'
+      }
     }
   }
-
-}
 </script>
 
 <style scoped>

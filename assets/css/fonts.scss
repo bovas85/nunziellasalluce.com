@@ -24,7 +24,7 @@
     background-position: -72px -24px;
   }
 
-  @include media(sm) {
+  @include media(md) {
     // transition from white to orange on small +
     transition: background-position 0.2s ease;
 

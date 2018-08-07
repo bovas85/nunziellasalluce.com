@@ -91,7 +91,6 @@
     name: 'TheNav',
     data () {
       return {
-        counter: 0,
         menuItems: ['', 'work', 'contact']
       }
     },
@@ -99,15 +98,6 @@
       TheMenuMobile: () => import('@/components/Nav/TheMenuMobile'),
       TheLogo,
       BurgerMenu
-    },
-    methods: {
-      refreshPage () {
-        if (this.$route.path === '/' && this.counter > 0) {
-          window.location.reload()
-          window.scrollTo(0, 0)
-          this.counter = 0
-        } else this.counter++
-      }
     },
     async mounted () {
       if (process.browser) {
@@ -201,6 +191,10 @@
         stroke: $primary;
       }
       .menu {
+        cursor: pointer;
+        .rotate {
+          cursor: pointer;
+        }
         &--mobile {
           display: block;
           position: relative;
@@ -293,6 +287,7 @@
       }
 
       .close-icon {
+        cursor: pointer;
         &--line {
           background: black;
         }

@@ -18,8 +18,7 @@
         >
           {{ menu === '' ? 'Home' : menu }}
         </nuxt-link>
-        <a 
-          id="js-click"
+        <a
           v-else-if="$route.path === '/'"
           @click="$store.commit('closeMenu')"
           href="#work"
@@ -27,8 +26,7 @@
         >
           Work
         </a>
-        <nuxt-link 
-          id="js-click"
+        <nuxt-link
           v-else
           @click="$store.commit('closeMenu')"
           to="/#work"
@@ -77,12 +75,12 @@
   .overlay {
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
-    width: 100%;
+    width: 80px;
     opacity: 0;
     z-index: -2;
+    cursor: pointer;
     transition: all 0.6s ease-in-out;
     &.is-visible {
       opacity: 1;
@@ -110,6 +108,13 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
     transform: translateX(102%);
     transition: transform 0.6s ease-in-out;
+
+    @include media(sm) {
+      top: 90px;
+      height: calc(100% - 90px);
+      height: calc(100vh - 90px);
+    }
+
     &.is-visible {
       opacity: 1;
       transform: translateX(0);

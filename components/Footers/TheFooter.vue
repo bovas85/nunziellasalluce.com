@@ -2,7 +2,9 @@
   <footer class="footer">
     <div class="container is-flex">
       <div class="left-section is-flex-column">
-        <the-logo fill='#f4a261' />
+        <div @click="$root.refreshPage()">
+          <the-logo fill='#f4a261' />
+        </div>
         <div class="links">
           <p>Email: <a href="mailto:hello@nunziellasalluce.com?subject=Interview request">hello@nunziellasalluce.com</a></p>
         </div>

@@ -5,10 +5,7 @@ Vue.config.productionTip = false
 
 Vue.mixin({
   data () {
-    return {
-      sent: false,
-      showForm: false
-    }
+    return { sent: false, showForm: false }
   },
   mounted () {
     // avoid mounted as it runs every component load (not page load)
@@ -22,6 +19,12 @@ Vue.mixin({
     }
   },
   methods: {
+    refreshPage () {
+      if (this.$route.path === '/') {
+        window.location.reload()
+        window.scrollTo(0, 0)
+      }
+    },
     getTimeNow () {
       return `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
     },
