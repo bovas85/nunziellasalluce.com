@@ -23,7 +23,7 @@
             v-if="project.intro.link != null"
             :href="project.intro.link"
             target="_blank">
-              Live Site link
+              Show Live site
           </a>
           <h3>Deliverables</h3>
           <ul>
@@ -119,18 +119,24 @@
           <lazy-image
             v-if="previousProject.acf.hero != null"
             class='image'
+            :hover="false"
             :image="previousProject.acf.hero.desktop_bg"
             :imageMobile="previousProject.acf.hero.mobile_bg"
-          />
+          >
+            <span>{{previousProject.acf.hero.title}}</span>
+          </lazy-image>
           <p>Previous Project</p>
         </nuxt-link>
         <nuxt-link class="next" :to="nextProject.slug">
           <lazy-image
             v-if="nextProject.acf.hero != null"
             class='image'
+            :hover="false"
             :image="nextProject.acf.hero.desktop_bg"
             :imageMobile="nextProject.acf.hero.mobile_bg"
-          />
+          >
+            <span>{{nextProject.acf.hero.title}}</span>
+          </lazy-image>
           <p>Next Project</p>
         </nuxt-link>
       </div>
@@ -441,6 +447,9 @@
       h1,
       h3 {
         color: white;
+      }
+
+      h3 {
         max-width: 780px;
       }
 
@@ -643,25 +652,66 @@
       height: 100%;
       transition: transform 0.4s ease-in-out;
 
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 30px;
+        z-index: 1;
+        background: rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+      }
+
       p {
         font-weight: bold;
         color: black;
         text-decoration: none;
       }
 
+      span {
+        @include size(h4);
+        color: white;
+        max-width: 100px;
+        position: absolute;
+        pointer-events: none;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        z-index: 2;
+        transition: all 0.4s ease-in-out;
+      }
+
       &.previous {
         text-align: right;
         transform: translateX(-120px);
+
+        span {
+          transform: translate(-100%, -50%);
+        }
       }
 
       &.next {
         transform: translateX(120px);
+
+        span {
+          transform: translate(100%, -50%);
+        }
       }
 
       &:hover {
         &.next,
         &.previous {
           transform: translateX(0);
+        }
+        span {
+          opacity: 1;
+          transform: translate(-50%, -50%);
+        }
+        &:after {
+          opacity: 1;
         }
       }
 

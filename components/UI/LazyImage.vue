@@ -1,8 +1,9 @@
 <template>
   <div 
     v-if="image.url != null && imageMobile.url != null"
-    class="lazy-image" 
-    :style="`background-color: #f4a261`"
+    class="lazy-image"
+    :class="{'hover-disabled': !hover}"
+    :style="!loaded && `background-color: #f4a261`"
   >
     <no-ssr>
       <vue-media :query="{maxWidth: 576}">
@@ -128,12 +129,17 @@
         default: false
       }
     },
+    data () {
+      return {
+        loaded: false
+      }
+    },
     methods: {
       capture (event) {
         return false
       },
       imageLoaded (event) {
-        // console.log('image loaded', event)
+        this.loaded = true
       }
     },
     computed: {
