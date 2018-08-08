@@ -448,12 +448,14 @@
 
         @include media(md) {
           margin: 0 auto;
-          max-width: 220px;
+          max-width: 280px;
+          text-align: center;
         }
 
         img {
           width: 100px;
           height: auto;
+          margin: 0 auto;
 
           @media (max-width: $mobile) {
             max-width: 50vw;
