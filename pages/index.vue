@@ -356,7 +356,7 @@
           max-height: 320px;
           border-radius: 100%;
           background-color: $grey;
-          mix-blend-mode: overlay;
+          mix-blend-mode: color-burn;
           justify-self: center;
           display: flex;
           justify-content: center;
@@ -375,20 +375,22 @@
 
           &:nth-child(1) {
             grid-row: 1 / 6;
-            background-color: $lightgrey;
+            background-color: #95d3e8;
             transition-delay: 0.2s;
           }
           &:nth-child(2) {
             grid-row: 5 / 10;
-            background-color: #c0c0c0;
+            background-color: #ff83c1;
             transition-delay: 0.3s;
           }
           &:nth-child(3) {
             grid-row: 9 / 14;
+            background-color: #f9e344;
             transition-delay: 0.4s;
           }
           &:nth-child(4) {
             grid-row: 13 / 18;
+            background-color: #b4d27a;
             transition-delay: 0.5s;
           }
         }

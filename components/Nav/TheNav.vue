@@ -263,7 +263,6 @@
 
     &.scrolled {
       background-color: #f0efef;
-      box-shadow: 0 0 4px 1px $secondary-gray;
 
       .navbar a {
         color: $secondary;
