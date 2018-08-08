@@ -174,7 +174,8 @@
   }
   .swiper-slide {
     overflow: hidden;
-    height: 300px;
+    min-height: 320px;
+    height: 100%;
     width: 165px;
     position: relative;
 

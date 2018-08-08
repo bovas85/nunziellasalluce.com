@@ -33,7 +33,7 @@ a,
 
 p,
 figcaption {
-  font-size: $font-size;
+  font-size: responsive(18px 22px);
   font-weight: 300;
 }
 

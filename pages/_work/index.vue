@@ -440,7 +440,7 @@
 
       .supertitle {
         position: absolute;
-        top: calc(calc(50% - 18vh));
+        top: calc(calc(50% - 20vh));
         text-transform: uppercase;
         font-weight: 600;
 
@@ -553,6 +553,7 @@
             @include size(h3);
           }
         }
+
         &--left {
           @include fadeInUp;
           transition-delay: 0.2s;
