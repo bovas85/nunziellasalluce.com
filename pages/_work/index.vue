@@ -19,6 +19,12 @@
         <div class="text-section" :class="{'animated': animateIntro}">
           <h3>Client</h3>
           <p>{{project.intro.client_name}}</p>
+          <a
+            v-if="project.intro.link != null"
+            :href="project.intro.link"
+            target="_blank">
+              Live Site link
+          </a>
           <h3>Deliverables</h3>
           <ul>
             <li 
@@ -482,6 +488,16 @@
         li,
         p {
           @include size(h3);
+        }
+
+        a {
+          color: currentColor;
+          text-decoration: none;
+          @include size(h4);
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
 
         h3,
