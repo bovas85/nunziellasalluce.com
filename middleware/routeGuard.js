@@ -1,9 +1,8 @@
 export default function ({ redirect, params, store }) {
-  // console.log(route, params, req, store)
-  const index = store.state.projects.findIndex(
-    index => index.slug === params.work
-  )
-  if (!index) {
+  const index = store.state.projects.findIndex(index => {
+    return index.slug === params.work
+  })
+  if (index == null) {
     redirect('/')
   }
   if (

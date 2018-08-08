@@ -77,6 +77,7 @@
           <div class="arrows" role="pagination">
             <div
               class="arrow arrow--left"
+              :disabled="currentTestimonial === 0"
               role="navigation"
               aria-label="previous testimonial"
               @click="currentTestimonial > 0 ? currentTestimonial-- : null"
@@ -85,6 +86,7 @@
             </div>
             <div
               class="arrow arrow--right"
+              :disabled="currentTestimonial === testimonials.length - 1"
               role="navigation"
               aria-label="next testimonial"
               @click="currentTestimonial < testimonials.length - 1 ? currentTestimonial++ : null"
@@ -527,6 +529,11 @@
       }
       .arrow {
         position: absolute;
+        &[disabled] {
+          opacity: 0.4;
+          pointer-events: none;
+        }
+
         &--left {
           left: 50px;
 
