@@ -28,26 +28,12 @@
         <h1 :class="{'animated': animateProcess}">{{acf.the_process.title}}</h1>
         <div class="container is-flex">
           <div class="image-grid">
-            <div><p>Planning project scope</p></div>
-            <div><p>Design</p></div>
-            <div><p>Development</p></div>
-            <div><p>QA Testing</p></div>
+            <div :class="{'animated': animateProcess}"><p>Planning project scope</p></div>
+            <div :class="{'animated': animateProcess}"><p>Design</p></div>
+            <div :class="{'animated': animateProcess}"><p>Development</p></div>
+            <div :class="{'animated': animateProcess}"><p>QA Testing</p></div>
           </div>
         </div>
-        
-        <!-- <no-ssr>
-          <vue-media :query="{maxWidth: 767}">
-            <img class="top-image" :class="{'animated': animateProcess}" src="https://placehold.it/800x600" alt="the process description here" />
-          </vue-media>
-        </no-ssr>
-        <no-ssr>
-          <vue-media :query="{minWidth: 768}">
-            <div class="bottom-image--with-caption" :class="{'animated': animateProcess}">
-              <img src="https://placehold.it/1920x1080" alt="the process description">
-              <p>some text about the process</p>
-            </div>
-          </vue-media>
-        </no-ssr> -->
       </div>
     </section>
 
@@ -373,6 +359,8 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          grid-column: 1 / -1;
+          @include fadeInUp;
 
           p {
             font-size: responsive(18px 21px);
@@ -383,20 +371,23 @@
             text-align: center;
           }
 
-          grid-column: 1 / -1;
           &:nth-child(1) {
             grid-row: 1 / 6;
             background-color: $lightgrey;
+            transition-delay: 0.2s;
           }
           &:nth-child(2) {
             grid-row: 5 / 10;
             background-color: #c0c0c0;
+            transition-delay: 0.3s;
           }
           &:nth-child(3) {
             grid-row: 9 / 14;
+            transition-delay: 0.4s;
           }
           &:nth-child(4) {
             grid-row: 13 / 18;
+            transition-delay: 0.5s;
           }
         }
 
@@ -444,18 +435,6 @@
           }
         }
       }
-
-      .top-image {
-        @include fadeInUp;
-        transition-delay: 0.2s;
-      }
-
-      .bottom-image {
-        &--with-caption {
-          @include fadeInUp;
-          transition-delay: 0.4s;
-        }
-      }
     }
     &.capabilities {
       h1 {
@@ -478,7 +457,7 @@
 
           @media (max-width: $mobile) {
             max-width: 50vw;
-            margin: 0 auto;
+            margin: 0 0 $gap;
           }
         }
 
