@@ -65,12 +65,12 @@
 
     <section class="the-challenge step" v-if="project.challenge != null">
       <div class="container">
-          <div class="text-section" :class="{'animated': animateChallenge}">
-            <h1>{{project.challenge.title}}</h1>
-            <p>
-              {{project.challenge.body}}
-            </p>
-          </div>
+        <div class="text-section" :class="{'animated': animateChallenge}">
+          <h1>{{project.challenge.title}}</h1>
+          <p>
+            {{project.challenge.body}}
+          </p>
+        </div>
         <div class="two-columns">
           <div class="column column--left" :class="{'animated': animateChallenge}">
             <h3>Insights</h3>
@@ -93,6 +93,24 @@
                 {{action.item}}
               </li>
             </ul>
+          </div>
+          <div class="flexible-content" v-if="project.challenge.flexible_content.length">
+            <div
+              v-for="(content, index) in project.challenge.flexible_content"
+              :key="index"
+            >
+              <div class="image" v-if="content.acf_fc_layout === 'image'">
+                <lazy-image
+                  class="image"
+                  :hover="false"
+                  :image="content.image"
+                  :imageMobile="content.image"
+                />
+              </div>
+              <div class="text" v-else-if="content.text != null">
+                <p>{{content.text}}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -588,6 +606,7 @@
       .two-columns {
         @include media(md) {
           display: flex;
+          flex-wrap: wrap;
           justify-content: space-between;
         }
       }
@@ -620,6 +639,16 @@
       }
       .text-section {
         @include fadeInUp;
+      }
+      .flexible-content {
+        flex-basis: 100%;
+
+        .image {
+          margin: $gap auto;
+        }
+        .text {
+          margin: $gap 0;
+        }
       }
     }
     &.final-product {
