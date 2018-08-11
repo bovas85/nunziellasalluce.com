@@ -196,7 +196,7 @@
       display: flex;
       justify-content: center;
       text-transform: uppercase;
-      color: black;
+      color: white;
       align-items: center;
       height: 165px;
       width: 165px;
