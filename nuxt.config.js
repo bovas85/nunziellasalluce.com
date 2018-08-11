@@ -1,5 +1,5 @@
 const Config = require('./assets/config')
-// const axios = require('axios')
+const axios = require('axios')
 
 module.exports = {
   /*
@@ -138,6 +138,16 @@ module.exports = {
           }
         })
       }
+    }
+  },
+  generate: {
+    interval: 2000,
+    routes: function () {
+      return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
+        return res.data.map(project => {
+          return { route: '/' + project.slug, payload: project }
+        })
+      })
     }
   },
   css: [

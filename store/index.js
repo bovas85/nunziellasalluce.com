@@ -66,33 +66,34 @@ const createStore = () => {
          * Also, if using nuxt generate, nuxtServerInit will be called for every page
          * Because of this caching, the API calls will only be done once
          */
-        if (!arr.length || count > 0) {
+        if (count === 0 || count > 2) {
           count = 0
           arr = []
+          console.log('============= Server Init API calls =============')
           try {
+            console.log('home')
             let home = await app.$axios.get(
               Config.wpDomain + Config.api.homePage
             )
             arr.push(home.data)
-            console.log('============= Server Init API calls =============')
             commit('setHomePage', home.data)
-            console.log('home')
 
+            console.log('case studies')
             let projects = await app.$axios.get(
               Config.wpDomain + Config.api.projects
             )
             arr.push(projects.data)
             commit('setProjects', projects.data)
-            console.log('case studies')
+            count++
           } catch (e) {
             console.log('error with API')
             arr = []
           }
         } else {
+          count++
           console.log('using cached api')
           commit('setHomePage', arr[0])
           commit('setProjects', arr[1])
-          count++
         }
       }
     }
