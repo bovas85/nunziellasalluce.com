@@ -2,8 +2,8 @@
   <div 
     v-if="image.url != null && imageMobile.url != null"
     class="lazy-image"
-    :class="{'hover-disabled': !hover}"
-    :style="!loaded && `background-color: #f4a261`"
+    :class="[{'hover-disabled': !hover}, computedClass]"
+    :style="!this.loaded ? `background-color: #f4a261`: null"
   >
     <no-ssr>
       <vue-media :query="{maxWidth: 576}">
@@ -85,23 +85,7 @@
         type: String,
         default: ''
       },
-      blogNav: {
-        type: Boolean,
-        default: false
-      },
-      journalModal: {
-        type: Boolean,
-        default: false
-      },
       home: {
-        type: Boolean,
-        default: false
-      },
-      continent: {
-        type: Boolean,
-        default: false
-      },
-      masonry: {
         type: Boolean,
         default: false
       },
@@ -109,16 +93,16 @@
         type: Boolean,
         default: false
       },
+      position: {
+        type: String,
+        default: 'center'
+      },
+      positionMobile: {
+        type: String,
+        default: 'center'
+      },
       hover: {
         default: true
-      },
-      destination: {
-        type: Boolean,
-        default: false
-      },
-      event: {
-        type: String,
-        default: null
       },
       onHover: {
         type: Boolean,
@@ -143,6 +127,10 @@
       }
     },
     computed: {
+      computedClass () {
+        if (this.$store.state.window < 577) return this.positionMobile
+        else return this.position
+      },
       getImage () {
         if (this.isThumb) {
           return this.image.sizes.small
@@ -167,6 +155,24 @@
 </script>
 
 <style lang="scss">
+  .progressive-image,
+  .progressive-image-wrapper {
+    height: 100%;
+    object-fit: cover;
+    .progressive-image-main {
+      background: transparent;
+      height: 100%;
+      position: relative;
+      object-fit: cover;
+    }
+    .progressive-image-placeholder {
+      background-size: cover;
+      background-position: center;
+    }
+    .progressive-image-wrapper {
+      overflow: hidden;
+    }
+  }
   .lazy-image {
     height: 100%;
     width: 100%;
@@ -286,115 +292,40 @@
         }
       }
     }
-
-    &.masonry {
-      .text-container {
-        display: none;
-      }
-    }
-
-    &.blog {
-      position: relative;
-      .text-container {
-        position: absolute;
-        // left: 50%;
-        // top: 50%;
-        // transform: translate(-50%, -50%);
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        transform: none;
-        padding: 0 32px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding-bottom: 36px;
-        align-items: center;
-        color: white;
-        background: rgba(0, 10, 19, 0.56);
-        .text-heading {
-          font-size: 16px;
-          line-height: 1.38;
-          letter-spacing: 0.2px;
-          font-weight: 400;
-          text-align: center;
-          color: white;
-          text-transform: uppercase;
-          padding-bottom: 0;
-        }
-        .text-subheading {
-          // font-size: 16px;
-          // line-height: 1.38;
-          // letter-spacing: 0.2px;
-          // font-weight: 400;
-          // text-align: center;
-          // color: white;
-          font-size: 14px;
-          font-weight: bold;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: 1.4px;
-          text-align: center;
-          color: #ffffff;
-          text-transform: uppercase;
-          padding-bottom: 0;
-          position: relative;
-          margin-top: 22px;
-          &:before {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            content: '';
-            background: #9b9b9b;
-            height: 1px;
-            width: 50px;
-          }
-        }
-        .text {
-          // font-size: 28px;
-          // line-height: 1.18;
-          // letter-spacing: 0.3px;
-          // font-weight: 400;
-          // opacity: 1;
-          // text-align: center;
-          // text-transform: uppercase;
-          // color: white;
-          font-size: 22px;
-          font-weight: 400;
-          font-style: normal;
-          font-stretch: normal;
-          line-height: normal;
-          letter-spacing: 2.2px;
-          text-align: center;
-          color: #ffffff;
-          padding: 0 15px;
-        }
-      }
-    }
-
     img {
       transition: transform 0.6s ease-in-out;
     }
-  }
-  .progressive-image,
-  .progressive-image-wrapper {
-    height: 100%;
-    object-fit: cover;
-    .progressive-image-main {
-      background: transparent;
-      height: 100%;
-      position: relative;
-      object-fit: cover;
+    &.left {
+      .progressive-image,
+      .progressive-image-wrapper {
+        .progressive-image-main {
+          object-position: left;
+        }
+      }
     }
-    .progressive-image-placeholder {
-      background-size: cover;
-      background-position: center;
+    &.right {
+      .progressive-image,
+      .progressive-image-wrapper {
+        .progressive-image-main {
+          object-position: right;
+        }
+      }
     }
-    .progressive-image-wrapper {
-      overflow: hidden;
+    &.bottom {
+      .progressive-image,
+      .progressive-image-wrapper {
+        .progressive-image-main {
+          object-position: bottom;
+        }
+      }
+    }
+    &.top {
+      .progressive-image,
+      .progressive-image-wrapper {
+        .progressive-image-main {
+          object-position: top;
+        }
+      }
     }
   }
   .bg-image--second {

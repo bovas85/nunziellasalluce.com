@@ -1,6 +1,15 @@
 <template>
   <div class="case-study" v-if="project != null">
-    <section class="section hero step" v-if="project.hero != null" :style="`background-image: url('${bgImage}')`">
+    <section class="section hero step" v-if="project.hero != null">
+      <lazy-image
+        class='image'
+        :image="project.hero.desktop_bg"
+        :title="project.hero.title"
+        positionMobile="left"
+        :hover="false"
+        :imageMobile="project.hero.mobile_bg"
+        home
+      />
       <div class="container is-flex-column" :class="{'animated': animateHeader}">
           <h1 class="jumbo">{{project.hero.title}}</h1>
           <h3 class="supertitle">Case Studies - {{project.category}}</h3>
@@ -378,13 +387,34 @@
     }
 
     &.hero {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      // background-size: cover;
+      // background-position: center;
+      // background-repeat: no-repeat;
       margin: 0;
+      /deep/ .lazy-image {
+        object-fit: cover;
+        object-position: center;
+        position: absolute;
+        height: 100vh;
+        width: 100%;
+        z-index: -1;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+      }
 
       @include media(md) {
-        background-position: right;
+        /deep/ .lazy-image {
+          object-position: right;
+          animation: zoomImage infinite;
+          animation-delay: 0.3s;
+          animation-timing-function: linear;
+          animation-fill-mode: both;
+          animation-duration: 80s;
+          backface-visibility: hidden;
+        }
+        // background-position: right;
       }
 
       @include media(xl) {
@@ -632,6 +662,10 @@
     height: 100%;
     @include fadeInUp;
     transition-delay: 1s;
+
+    p {
+      font-size: $font-size;
+    }
 
     .container-fluid {
       justify-content: space-between;
