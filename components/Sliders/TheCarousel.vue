@@ -227,23 +227,35 @@
     position: relative;
     .prev,
     .next {
-      display: block;
+      display: none;
       position: absolute;
       cursor: pointer;
       background-image: unset;
       top: 0;
       right: unset;
-      width: 11vw;
+      font-size: responsive(18px, 22px);
+      font-range: 768px 1200px;
+      width: 9vw;
       height: 100%;
       bottom: 0;
       z-index: 100;
-      display: flex;
       justify-content: center;
       align-items: center;
       color: white;
+
+      @include media(md) {
+        display: flex;
+      }
+
+      @include media(xl) {
+        width: 10vw;
+      }
     }
     .prev {
-      left: -32px;
+      left: -21px;
+      @include media(xl) {
+        left: -32px;
+      }
       opacity: 1;
       background: linear-gradient(
         to left,
@@ -254,7 +266,10 @@
     }
     .next {
       left: unset;
-      right: -32px;
+      right: -21px;
+      @include media(xl) {
+        right: -32px;
+      }
       opacity: 1;
       background: linear-gradient(
         to right,
@@ -266,6 +281,7 @@
   }
   .swiper-wrapper {
     background: white;
+    position: static;
 
     &.nudged {
       @media (min-width: $desktop) {
