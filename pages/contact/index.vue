@@ -68,16 +68,17 @@
 
       &.hero {
         background: white;
-        margin: $gap * 3 0;
+        margin: 60px 0;
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
         position: relative;
-        padding: 0 $gap;
+        padding: 0;
 
         @include media(md) {
+          margin: $gap * 3 0;
           padding-top: 90px;
         }
 
@@ -93,6 +94,11 @@
           flex-direction: column;
           grid-column: 1 / -1;
           grid-row: 5 / 8;
+          padding: $gap;
+
+          @include media(sm) {
+            padding: 0;
+          }
         }
 
         .image {
@@ -126,6 +132,11 @@
           z-index: 1;
           grid-row: 8 / -1;
           padding-top: 50px;
+          margin: 0 auto;
+
+          @include media(sm) {
+            margin: 0;
+          }
         }
 
         @include media(sm) {
