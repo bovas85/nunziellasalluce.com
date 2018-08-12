@@ -6,19 +6,22 @@
         class="container is-flex navbar">
         <nuxt-link
           to="/"
-          @click.native="refreshPage()"
           @mouseover.native="animating = true"
           @mouseleave.native="animating = false"
           class="logo col--8-mobile col--4-tablet is-center">
           <the-logo-static
-            :width="50"
-            :height="31"
+            :width="90"
+            :height="46"
+            :mobileWidth="50"
+            :mobileHeight="31"
             :animating="animating"
             :fill="$store.state.menuScrolled ? '#f4a261' : 'white'"
           />
           <the-logo
-            :width="50"
-            :height="31"
+            :width="90"
+            :height="46"
+            :mobileWidth="50"
+            :mobileHeight="31"
             :animating="animating"
             :fill="$store.state.menuScrolled ? '#f4a261' : 'white'"
           />

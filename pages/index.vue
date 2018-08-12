@@ -559,7 +559,7 @@
     }
     &.capabilities {
       h1 {
-        max-width: 30vw;
+        max-width: 20vw;
         @include fadeInUp;
       }
 
@@ -586,6 +586,7 @@
 
         h3 {
           margin: $gap / 2 0;
+          color: $primary;
         }
 
         p {

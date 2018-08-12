@@ -18,7 +18,7 @@
       <div v-scroll="{element:'.client-intro'}" class="scroll-down" :class="{'animated': animateHeader}">
           <p>scroll</p>
           <div class="scroll-down__arrow">
-            <icon-arrow :fill="'white'" name='arrow-down' :width="30" :height="40" />
+            <icon-arrow :fill="'white'" name='arrow-down' :width="60" :height="80" />
           </div>
       </div>
     </section>
@@ -30,9 +30,10 @@
           <p>{{project.intro.client_name}}</p>
           <a
             v-if="project.intro.link != null"
+            class="animated-border"
             :href="project.intro.link"
             target="_blank">
-              Show Live site
+              Launch Site
           </a>
           <h3>Deliverables</h3>
           <ul>
@@ -550,10 +551,6 @@
           color: currentColor;
           text-decoration: none;
           @include size(h4);
-
-          &:hover {
-            text-decoration: underline;
-          }
         }
 
         h3,
@@ -580,6 +577,45 @@
             width: 100%;
           }
         }
+      }
+
+      a {
+        position: relative;
+        padding: 5px 0;
+      }
+
+      a:hover {
+        text-decoration: none;
+      }
+
+      a:before,
+      a:after {
+        content: '';
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: -2px;
+        background: $primary;
+      }
+
+      a:before {
+        left: 0;
+      }
+
+      a:after {
+        right: 0;
+        transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+
+      a:hover:before {
+        width: 100%;
+        transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+
+      a:hover:after {
+        background: transparent;
+        width: 100%;
+        transition: 0s;
       }
     }
     &.the-brand {
@@ -673,10 +709,11 @@
       .image-section {
         display: grid;
         grid-gap: $gap;
-        img {
+        /deep/ img {
           object-fit: cover;
           object-position: center;
           grid-row: span 1;
+          max-height: 75vh;
         }
         &:nth-child(2) {
           @include fadeInUp;

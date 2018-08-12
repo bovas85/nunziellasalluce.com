@@ -1,44 +1,39 @@
 <template>
   <div v-show="!hide" class="cookies" :class="{'active': show}">
     <div class="container">
-      <p>We use cookies to improve your experience on our website. By clicking ‘OK’ you agree to, and accept our <nuxt-link class="privacy-link" to="/privacy-policy">cookie policy</nuxt-link></p>
-      <button class="ok button button--cta button--cta--inverse" @click="setCookie()">OK</button>
+      <p>This site uses cookies. <nuxt-link to="/privacy-policy">Find out more.</nuxt-link> <span role="accept-cookie" @click="setCookie()" class="privacy-link" to="/privacy-policy">OK, Close</span></p>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "CookieBox",
+    name: 'CookieBox',
     data () {
       return {
         hide: true,
         show: false
-      };
+      }
     },
     mounted () {
-      if (this.$localStorage.get("AntCookie") != null) {
-        // document.querySelector("body").style.marginTop = "";
-        this.hide = true;
-        this.show = false;
-        this.$store.commit("resetNavPadding");
+      if (this.$localStorage.get('NuniCookie') != null) {
+        this.hide = true
+        this.show = false
+        this.$store.commit('resetNavPadding')
       } else {
         setTimeout(() => {
-          // document.querySelector("body").style.marginTop = "60px";
-          this.$store.commit("addNavPadding");
-          this.hide = false;
-          this.show = true;
-        }, 4000);
+          this.hide = false
+          this.show = true
+        }, 4000)
       }
     },
     methods: {
       setCookie () {
-        this.hide = true;
-        this.$store.commit("resetNavPadding");
-        this.$localStorage.set("AntCookie", true);
+        this.hide = true
+        this.$localStorage.set('NuniCookie', true)
       }
     }
-  };
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -48,28 +43,50 @@
     left: 0;
     right: 0;
     padding: 16px;
-    height: auto;
     z-index: 9999;
-    background: #fafafa;
-    border-top: solid 1px #cccccc;
-    border-bottom: solid 1px #cccccc;
+    height: auto;
+    color: white;
+    background: black;
     opacity: 0;
     transition: opacity 0.6s ease-in-out;
-    .button {
-      color: $grey;
+
+    @include media(md) {
+      height: 60px;
+    }
+
+    &.active {
+      opacity: 1;
+    }
+
+    a {
+      color: white;
       text-decoration: none;
+
       &:hover {
         text-decoration: underline;
       }
     }
-    &.active {
-      opacity: 1;
-    }
-    @media (min-width: $tablet) {
-      position: relative;
-      bottom: unset;
-      height: 52px;
-      padding: 0;
+    .privacy-link {
+      border: none;
+      width: auto;
+      padding: 10px 20px;
+      color: black;
+      background: $red;
+      display: inline-flex;
+      align-items: center;
+      margin-top: $gap / 2;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      @include media(md) {
+        margin-top: 0;
+        margin-left: $gap;
+      }
+
+      &:hover {
+        font-weight: bold;
+        opacity: 0.9;
+      }
     }
     p {
       font-size: 16px;
@@ -77,24 +94,16 @@
       letter-spacing: 1.1px;
       max-width: 95%;
       text-align: left;
-      color: $grey;
+      color: white;
       margin-right: 16px;
-      @media (min-width: $tablet) {
+      @include media(md) {
         margin: 0;
-      }
-    }
-    .ok {
-      margin-left: auto;
-      margin-right: 0;
-      text-decoration: none;
-      &:hover {
-        text-decoration: none;
       }
     }
     .container {
       display: flex;
       height: 100%;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
     }
   }

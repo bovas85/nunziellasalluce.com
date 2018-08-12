@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <cookie-box />
     <the-nav />
     <div class="app-main">
       <nuxt/>
@@ -15,7 +16,8 @@
   export default {
     components: {
       TheNav,
-      TheFooter
+      TheFooter,
+      CookieBox: () => import('@/components/UI/CookieBox')
     }
   }
 </script>

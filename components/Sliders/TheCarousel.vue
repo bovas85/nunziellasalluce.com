@@ -353,7 +353,6 @@
           background: transparent;
           color: white;
           cursor: pointer;
-          width: 220px;
           margin: 0 auto;
           margin-top: 50px;
           display: flex;
@@ -361,10 +360,16 @@
           line-height: 1;
           justify-content: center;
           height: 50px;
-          font-size: $font-size;
           font-weight: 300;
           outline: none;
           transition: all 0.3s ease-in-out;
+          width: 150px;
+          font-size: 13px;
+
+          @include media(md) {
+            width: 220px;
+            font-size: $font-size;
+          }
 
           &:hover {
             border: 1px solid transparent;

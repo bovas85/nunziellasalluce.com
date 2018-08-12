@@ -3,10 +3,18 @@
     <div class="container is-flex">
       <div class="left-section is-flex-column">
         <div @click="$root.refreshPage()">
-          <the-logo-static static fill='#f4a261' />
+          <the-logo-static 
+            :width="90"
+            :height="46"
+            :mobileWidth="50"
+            :mobileHeight="31"
+            static
+            fill='#f4a261'
+          />
         </div>
         <div class="links">
           <p>Email: <a href="mailto:hello@nunziellasalluce.com?subject=Interview request">hello@nunziellasalluce.com</a></p>
+          <p class="referral-link">Coded with 🧔 by <a href="https://moustachedesign.xyz?referrer=nunziella-salluce-design" target="_blank">Moustache Design</a></p>
         </div>
       </div>
       <div class="right-section">
@@ -95,6 +103,10 @@
       p {
         line-height: 1.5;
         margin-top: $gap / 2.5;
+
+        &.referral-link {
+          font-size: $font-size;
+        }
       }
     }
 

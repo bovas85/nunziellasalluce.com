@@ -84,6 +84,7 @@
 
         .grid-wrapper {
           min-height: 100vh;
+          width: 100%;
           grid-template-rows: repeat(12, auto);
           grid-template-columns: 1fr;
         }
@@ -132,10 +133,13 @@
           z-index: 1;
           grid-row: 8 / -1;
           padding-top: 50px;
-          margin: 0 auto;
+          padding: 0 $gap;
+          max-width: 100%;
 
-          @include media(sm) {
+          @include media(lg) {
             margin: 0;
+            margin-left: auto;
+            margin-right: 10vw;
           }
         }
 
@@ -163,8 +167,10 @@
         }
       }
       .contact-form--wrapper {
-        margin-left: auto;
-        margin-right: 10vw;
+        @include media(lg) {
+          margin-left: auto;
+          margin-right: 10vw;
+        }
         min-height: 546px;
         @include fadeInUp;
 
