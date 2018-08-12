@@ -12,6 +12,7 @@ const Config = {
   loadDbName: 'starter_wp',
   api: {
     homePage: '/wp/v2/pages/18',
+    contactPage: '/wp/v2/pages/235',
     projects: '/wp/v2/casestudies',
     caseStudy: '/wp/v2/casestudies?slug=',
     postFormContact: '/contact-form-7/v1/contact-forms/78/feedback'

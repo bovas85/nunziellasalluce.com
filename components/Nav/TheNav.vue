@@ -1,6 +1,6 @@
 <template>
   <div class="navigation-bar">
-    <div class="navigation" :class="{'scrolled': $store.state.menuScrolled || $route.path === '/contact'}">
+    <div class="navigation" :class="{'scrolled': $store.state.menuScrolled, 'contact': $route.path === '/contact'}">
       <nav
         role="navigation"
         class="container is-flex navbar">
@@ -270,6 +270,12 @@
         background: transparent;
         width: 100%;
         transition: 0s;
+      }
+    }
+
+    &.contact {
+      .navbar a {
+        color: black;
       }
     }
 

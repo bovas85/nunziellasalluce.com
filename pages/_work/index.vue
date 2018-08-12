@@ -46,6 +46,7 @@
         <div class="image-section" :class="{'animated': animateIntro}" v-if="project.intro.image != null">
           <lazy-image
             class='image'
+            :hover="false"
             :image="project.intro.image"
             :imageMobile="project.intro.image"
           />
@@ -94,23 +95,22 @@
               </li>
             </ul>
           </div>
-          <div class="flexible-content" v-if="project.challenge.flexible_content.length">
-            <div
-              v-for="(content, index) in project.challenge.flexible_content"
-              :key="index"
-            >
-              <div class="image" v-if="content.acf_fc_layout === 'image'">
-                <lazy-image
-                  class="image"
-                  :hover="false"
-                  :image="content.image"
-                  :imageMobile="content.image"
-                />
-              </div>
-              <div class="text" v-else-if="content.text != null">
-                <p>{{content.text}}</p>
-              </div>
-            </div>
+        </div>
+        <div class="flexible-content" v-if="project.challenge.flexible_content.length">
+
+          <div 
+            v-for="(content, index) in project.challenge.flexible_content"
+            :key="index"
+            :class="content.acf_fc_layout === 'image' ? 'image' : 'text'"
+          >
+            <lazy-image
+              v-if="content.acf_fc_layout === 'image'"
+              class="image"
+              :hover="false"
+              :image="content.image"
+              :imageMobile="content.image"
+            />
+            <p v-else>{{content.text}}</p>
           </div>
         </div>
       </div>
@@ -133,6 +133,7 @@
           <lazy-image
             v-if="content.image != null"
             class='image'
+            :hover="false"
             :image="content.image"
             :imageMobile="content.image"
           />
@@ -405,9 +406,7 @@
     }
 
     &.hero {
-      // background-size: cover;
-      // background-position: center;
-      // background-repeat: no-repeat;
+      overflow: hidden;
       margin: 0;
       /deep/ .lazy-image {
         object-fit: cover;
@@ -604,6 +603,7 @@
     }
     &.the-challenge {
       .two-columns {
+        margin-bottom: $gap * 2;
         @include media(md) {
           display: flex;
           flex-wrap: wrap;
@@ -641,9 +641,13 @@
         @include fadeInUp;
       }
       .flexible-content {
+        display: flex;
+        flex-direction: column;
         flex-basis: 100%;
+        margin: 0 auto;
 
         .image {
+          width: 80%;
           margin: $gap auto;
         }
         .text {
@@ -653,6 +657,10 @@
     }
     &.final-product {
       margin-bottom: $gap - 4px;
+
+      .container {
+        grid-gap: $gap;
+      }
 
       .text-section {
         @include fadeInUp;

@@ -21,6 +21,7 @@
           <div class="text-section">
             <h3>{{item.acf.hero.title}}</h3>
             <h4 class="subtitle">{{item.acf.category}}</h4>
+            <button role="navigation" class="subtitle subtitle--show">Show Case Study</button>
           </div>
         </div>
 
@@ -345,6 +346,31 @@
           opacity: 0;
           transform: translateY(500%);
           transition: all 0.4s ease-in-out;
+        }
+
+        &--show {
+          border: 1px solid white;
+          background: transparent;
+          color: white;
+          cursor: pointer;
+          width: 220px;
+          margin: 0 auto;
+          margin-top: 50px;
+          display: flex;
+          align-items: center;
+          line-height: 1;
+          justify-content: center;
+          height: 50px;
+          font-size: $font-size;
+          font-weight: 300;
+          outline: none;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            border: 1px solid transparent;
+            font-weight: 600;
+            box-shadow: 0 0 1px 1px white;
+          }
         }
       }
     }

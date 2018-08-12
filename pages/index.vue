@@ -5,10 +5,39 @@
         <h1 class="jumbo">{{acf.hero.title}}</h1>
         <h3>{{acf.hero.description}}</h3>
       </div>
-      <div v-scroll="{element:'.projects'}" class="scroll-down">
+      <div v-scroll="{element:'.who-i-am'}" class="scroll-down">
         <p>scroll</p>
         <div class="scroll-down__arrow">
           <icon-arrow :fill="'white'" direction='down' name='arrow-down' :width="30" :height="40" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section who-i-am step" v-if="homePage">
+      <div class="container">
+        <h1 :class="{'animated': animateWho}" v-if="homePage.acf">{{homePage.acf.who_i_am.title}}</h1>
+        <div class="wrapper">
+          <lazy-image
+            class='image'
+            :class="{'animated': animateWho}"
+            v-if="homePage.acf"
+            :image="homePage.acf.who_i_am.image"
+            :title="homePage.acf.who_i_am.title"
+            :hover="false"
+            :imageMobile="homePage.acf.who_i_am.image"
+            home
+          />
+          <div class="text">
+            <p
+              :class="{'animated': animateWho}"
+              v-for="(item, index) in homePage.acf.who_i_am.text_group"
+              v-if="homePage.acf"
+              :key="index"
+              class="jumbo"
+            >
+              {{item.text}}
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -110,6 +139,7 @@
       return {
         currentTestimonial: 0,
         animateHeader: false,
+        animateWho: false,
         animateWork: false,
         animateProcess: false,
         animateCapab: false,
@@ -120,7 +150,8 @@
       IconArrow,
       CaseStudy: () => import('@/components/UI/CaseStudy'),
       TheCarousel: () => import('@/components/Sliders/TheCarousel'),
-      TheTestimonial: () => import('@/components/UI/TheTestimonial')
+      TheTestimonial: () => import('@/components/UI/TheTestimonial'),
+      LazyImage: () => import('@/components/UI/LazyImage')
     },
     head () {
       return { title: 'Home' }
@@ -152,15 +183,18 @@
             this.animateHeader = true
             break
           case 1:
-            this.animateWork = true
+            this.animateWho = true
             break
           case 2:
-            this.animateProcess = true
+            this.animateWork = true
             break
           case 3:
-            this.animateCapab = true
+            this.animateProcess = true
             break
           case 4:
+            this.animateCapab = true
+            break
+          case 5:
             this.animateTestimonials = true
             break
           default:
@@ -309,9 +343,92 @@
         @include fadeInUp;
       }
     }
+    &.who-i-am {
+      margin: $gap * 1.5 0;
+
+      h1 {
+        max-width: 150px;
+        @include fadeInUp;
+      }
+
+      @include media(xl) {
+        margin: $gap * 1.5 $gap;
+      }
+      .container {
+        grid-gap: 0;
+        .wrapper {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+        }
+
+        .image {
+          width: 100%;
+          height: 430px;
+          margin: 0 auto;
+          object-fit: cover;
+          object-position: center;
+          @include fadeInUp;
+          transition-delay: 0.2s;
+
+          @include media(md) {
+            height: 550px;
+          }
+
+          @include media(xl) {
+            width: 80%;
+          }
+        }
+
+        .text {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          transform: translate(-50%, -50%);
+          z-index: 1;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+
+          p {
+            text-align: center;
+            margin: $gap / 1.5 0;
+            padding: 0 $gap / 2;
+            @include size(h3);
+            @include fadeInUp;
+
+            @include media(lg) {
+              padding: 0;
+              @include size(h2);
+            }
+            @include media(xl) {
+              @include size(h1);
+            }
+            @include media(xxl) {
+              @include size(jumbo);
+            }
+            @include media(md) {
+              &:nth-child(1) {
+                margin-left: auto;
+                margin-right: auto;
+                transition-delay: 0.4s;
+              }
+              &:nth-child(2) {
+                margin-right: 10%;
+                transition-delay: 0.6s;
+              }
+              &:nth-child(3) {
+                margin-left: 10%;
+                transition-delay: 0.8s;
+              }
+            }
+          }
+        }
+      }
+    }
     &.projects {
       overflow: hidden;
-      margin: $gap * 1.5 0;
 
       .container {
         @include fadeInUp;

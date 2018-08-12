@@ -1,20 +1,32 @@
 <template>
   <div class="contact">
     <section class="section hero">
-      <div class="container is-flex-column">
-          <h1 class="jumbo">Get
-            <br />
-            in touch
+      <div class="grid-wrapper" v-if="contactPage != null">
+        <lazy-image
+          class='image'
+          v-if="contactPage.acf"
+          noBg
+          :image="contactPage.acf.background"
+          :title="contactPage.acf.title"
+          positionMobile="left"
+          :hover="false"
+          :imageMobile="contactPage.acf.background"
+          home
+        />
+        <div class="container">
+          <h1 class="jumbo" v-if="contactPage.acf">
+            {{contactPage.acf.title}}
           </h1>
-          <h3>Email: 
+          <h3>Email:
             <a href="mailto:hello@nunziellasalluce.com?subject=hello">
               hello@nunziellasalluce.com
             </a>
           </h3>
+        </div>
 
-          <div class="contact-form--wrapper" :class="{'animated': $root.showForm}">
-            <the-contact-form />
-          </div>
+        <div class="contact-form--wrapper" :class="{'animated': $root.showForm}">
+          <the-contact-form />
+        </div>
       </div>
     </section>
   </div>
@@ -22,9 +34,18 @@
 
 <script>
   import TheContactForm from '@/components/UI/TheContactForm'
+  import Config from '~/assets/config.js'
+
   export default {
+    async asyncData ({ $axios }) {
+      const contactPage = await $axios.get(
+        Config.wpDomain + Config.api.contactPage
+      )
+      return { contactPage: contactPage.data }
+    },
     components: {
-      TheContactForm
+      TheContactForm,
+      LazyImage: () => import('@/components/UI/LazyImage')
     },
     mounted () {
       if (process.browser) {
@@ -56,6 +77,57 @@
         position: relative;
         padding: 0 $gap;
 
+        @include media(md) {
+          padding-top: 90px;
+        }
+
+        .grid-wrapper {
+          min-height: 100vh;
+          grid-template-rows: repeat(12, auto);
+          grid-template-columns: 1fr;
+        }
+
+        .container {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          grid-column: 1 / -1;
+          grid-row: 5 / 8;
+        }
+
+        .image {
+          grid-column: 1 / 2;
+          grid-row: 1 / 11;
+          width: 100%;
+        }
+
+        h1,
+        h3 {
+          color: black;
+          grid-column: 1 / 2;
+          z-index: 1;
+          padding: 0;
+        }
+
+        h1 {
+          @include media(sm) {
+            max-width: 350px;
+            padding-top: 96px;
+          }
+          grid-row: 2 / 4;
+        }
+
+        h3 {
+          grid-row: 4 / 7;
+        }
+
+        .contact-form--wrapper {
+          grid-column: 1 / 2;
+          z-index: 1;
+          grid-row: 8 / -1;
+          padding-top: 50px;
+        }
+
         @include media(sm) {
           padding: 0;
         }
@@ -67,24 +139,6 @@
         .container {
           height: 100%;
           justify-content: center;
-        }
-
-        h1 {
-          margin: $gap * 3 0 $gap;
-
-          @include media(sm) {
-            max-width: 350px;
-            margin: $gap * 9 0 $gap;
-          }
-        }
-
-        h1,
-        h3 {
-          color: black;
-        }
-
-        h3 {
-          margin-bottom: $gap * 3;
         }
 
         a {
@@ -99,6 +153,7 @@
       }
       .contact-form--wrapper {
         margin-left: auto;
+        margin-right: 10vw;
         min-height: 546px;
         @include fadeInUp;
 

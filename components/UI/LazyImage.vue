@@ -3,7 +3,7 @@
     v-if="image.url != null && imageMobile.url != null"
     class="lazy-image"
     :class="[{'hover-disabled': !hover}, computedClass]"
-    :style="!this.loaded ? `background-color: #f4a261`: null"
+    :style="!this.loaded && !noBg ? `background-color: #f4a261`: null"
   >
     <no-ssr>
       <vue-media :query="{maxWidth: 576}">
@@ -86,6 +86,10 @@
         default: ''
       },
       home: {
+        type: Boolean,
+        default: false
+      },
+      noBg: {
         type: Boolean,
         default: false
       },
@@ -255,17 +259,10 @@
       background-size: cover;
       background-repeat: no-repeat;
       pointer-events: none;
-      // &:before {
-      //   z-index: 2;
-      //   background-color: rgba(0, 0, 0, 0.25);
-      // }
       &:hover {
         pointer-events: none;
         .text-container {
           opacity: 0;
-        }
-        img {
-          // transform: none;
         }
       }
       img {
@@ -277,10 +274,6 @@
           animation-fill-mode: both;
           animation-duration: 80s;
           backface-visibility: hidden;
-          // transform: translateZ(0);
-          // perspective: 1000px;
-          // will-change: transform;
-          // transition: all 1.3s;
           &:hover {
             .overlay {
               opacity: 0;

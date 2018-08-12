@@ -213,10 +213,11 @@
 
 <style lang="scss" scoped>
   .contact-form {
-    background: $lightgrey;
+    background: white;
     padding: $gap / 2 $gap;
     max-width: 100%;
     width: 100%;
+    border: 8px solid $yellow;
     margin: 0;
     @include media(md) {
       padding: $gap $gap * 2;
@@ -236,12 +237,14 @@
   .sent {
     opacity: 0;
     position: fixed;
+
     height: 100%;
-    max-height: 100%;
+    max-height: 0%;
     transition: all 0.3s ease-in-out;
     &.is-visible {
       position: relative;
       opacity: 1;
+      max-height: 100%;
     }
     p {
       line-height: 1.2;
@@ -278,12 +281,6 @@
     margin: 0 0 24px 0;
     padding: 0;
     font-weight: 700;
-  }
-  hr {
-    border: 0;
-    border-top: 1px solid #b4b5b3;
-    margin-bottom: 28px;
-    margin-top: 16px;
   }
   form {
     grid-row-gap: 0;
@@ -447,7 +444,7 @@
     border: 0 solid transparent;
     border-bottom: 1px solid $secondary;
     width: 100%;
-    background-color: transparent;
+    background-color: white;
     color: $secondary;
     box-shadow: unset;
     outline: none;
@@ -499,7 +496,7 @@
     font-size: $font-size;
     font-family: $family-primary;
     border-bottom: 1px solid $secondary;
-    background-color: $lightgrey !important;
+    background-color: white !important;
     height: 100px;
     width: 100%;
     outline: none !important;

@@ -7,8 +7,7 @@
     name: 'TheLogo',
     data () {
       return {
-        length: 302,
-        animating: false
+        length: 302
       }
     },
     mounted () {
