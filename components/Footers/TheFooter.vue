@@ -3,7 +3,7 @@
     <div class="container is-flex">
       <div class="left-section is-flex-column">
         <div @click="$root.refreshPage()">
-          <the-logo fill='#f4a261' />
+          <the-logo-static static fill='#f4a261' />
         </div>
         <div class="links">
           <p>Email: <a href="mailto:hello@nunziellasalluce.com?subject=Interview request">hello@nunziellasalluce.com</a></p>
@@ -42,7 +42,7 @@
       }
     },
     components: {
-      TheLogo: () => import('@/components/Icons/TheLogo')
+      TheLogoStatic: () => import('@/components/Icons/TheLogoStatic')
     }
   }
 </script>
