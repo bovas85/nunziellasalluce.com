@@ -316,7 +316,7 @@
         const steps = scroller
           .setup({
             step: '.step',
-            offset: 0.4,
+            offset: 0.6,
             debug: false
           })
           .onStepEnter(this.handleStepEnter)
