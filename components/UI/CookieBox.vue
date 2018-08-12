@@ -19,7 +19,6 @@
       if (this.$localStorage.get('NuniCookie') != null) {
         this.hide = true
         this.show = false
-        this.$store.commit('resetNavPadding')
       } else {
         setTimeout(() => {
           this.hide = false

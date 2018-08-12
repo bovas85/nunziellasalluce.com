@@ -87,6 +87,10 @@
           width: 100%;
           grid-template-rows: repeat(12, auto);
           grid-template-columns: 1fr;
+
+          @include media(xxl) {
+            min-height: 70vh;
+          }
         }
 
         .container {
