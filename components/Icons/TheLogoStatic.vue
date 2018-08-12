@@ -4,21 +4,7 @@
 
 <script>
   export default {
-    name: 'TheLogo',
-    data () {
-      return {
-        length: 302,
-        animated: false
-      }
-    },
-    mounted () {
-      if (process.browser) {
-        setTimeout(() => {
-          let path = document.querySelector('.path')
-          this.length = path.getTotalLength()
-        }, 300)
-      }
-    },
+    name: 'TheLogoStatic',
     props: {
       animating: {
         type: Boolean,
@@ -54,25 +40,14 @@
     left: 0;
 
     path {
-      stroke-dashoffset: 348;
-      opacity: 0;
-      z-index: 1;
-      fill: transparent;
-      stroke: #fa7921;
-      stroke-width: 1px;
-      fill: rgba(255, 255, 255, 0);
+      fill: #fa7921;
+      stroke: none;
+      opacity: 1;
+      z-index: 0;
     }
-
     &.animated {
       .path {
-        animation: ghostLogoAnim 1.9s linear forwards;
-      }
-    }
-
-    .path {
-    }
-    &:hover {
-      .path {
+        animation: viLogoAnim 1.9s linear forwards;
       }
     }
   }

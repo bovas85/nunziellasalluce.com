@@ -7,10 +7,19 @@
         <nuxt-link
           to="/"
           @click.native="refreshPage()"
+          @mouseover.native="animating = true"
+          @mouseleave.native="animating = false"
           class="logo col--8-mobile col--4-tablet is-center">
+          <the-logo-static
+            :width="50"
+            :height="31"
+            :animating="animating"
+            :fill="$store.state.menuScrolled ? '#f4a261' : 'white'"
+          />
           <the-logo
             :width="50"
             :height="31"
+            :animating="animating"
             :fill="$store.state.menuScrolled ? '#f4a261' : 'white'"
           />
         </nuxt-link>
@@ -85,18 +94,21 @@
 <script>
   import debounce from 'lodash/debounce'
   import TheLogo from '@/components/Icons/TheLogo'
+  import TheLogoStatic from '@/components/Icons/TheLogoStatic'
   import BurgerMenu from '@/components/Icons/BurgerMenu'
 
   export default {
     name: 'TheNav',
     data () {
       return {
-        menuItems: ['', 'work', 'contact']
+        menuItems: ['', 'work', 'contact'],
+        animating: false
       }
     },
     components: {
       TheMenuMobile: () => import('@/components/Nav/TheMenuMobile'),
       TheLogo,
+      TheLogoStatic,
       BurgerMenu
     },
     async mounted () {
