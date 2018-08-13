@@ -276,12 +276,6 @@
       }
     }
 
-    &.contact {
-      .navbar a {
-        color: black;
-      }
-    }
-
     &.scrolled {
       background-color: #f0efef;
 
@@ -311,6 +305,13 @@
         &--line {
           background: black;
         }
+      }
+    }
+
+    &.contact {
+      background-color: transparent;
+      .navbar a {
+        color: white;
       }
     }
 
