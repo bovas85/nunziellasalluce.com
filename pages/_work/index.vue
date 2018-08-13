@@ -18,7 +18,7 @@
       <div v-scroll="{element:'.client-intro'}" class="scroll-down" :class="{'animated': animateHeader}">
           <p>scroll</p>
           <div class="scroll-down__arrow">
-            <icon-arrow :fill="'white'" name='arrow-down' :width="60" :height="80" />
+            <icon-arrow :fill="'white'" name='arrow-down' :width="30" :height="40" />
           </div>
       </div>
     </section>

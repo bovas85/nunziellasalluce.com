@@ -110,6 +110,7 @@
           grid-column: 1 / 2;
           grid-row: 1 / 11;
           width: 100%;
+          z-index: 0;
         }
 
         h1,
