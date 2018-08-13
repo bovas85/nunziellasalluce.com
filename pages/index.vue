@@ -291,7 +291,7 @@
   }
 
   section {
-    margin: $gap * 1.5 0;
+    margin: $gap / 1.5 0;
     width: 100%;
 
     @include media(md) {
@@ -473,7 +473,12 @@
     }
     &.the-process {
       h1 {
-        max-width: 260px;
+        max-width: 200px;
+        padding-left: $gap;
+
+        @include media(md) {
+          padding-left: 0;
+        }
         @include fadeInUp;
       }
 
@@ -590,6 +595,12 @@
       h1 {
         flex-basis: 100%;
         max-width: 20vw;
+        padding-left: $gap;
+
+        @include media(md) {
+          padding-left: 0;
+        }
+
         @include fadeInUp;
       }
 
@@ -643,10 +654,10 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      margin: $gap * 3 0;
       margin-bottom: $gap;
 
       @include media(sm) {
+        margin: $gap * 3 0;
         margin-bottom: $gap * 3;
       }
 

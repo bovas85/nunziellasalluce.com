@@ -6,7 +6,6 @@ export default function ({ redirect, params, store, route }) {
     redirect('/')
   }
   if (index && store.state.projects[index] != null) {
-    console.log(store.state.projects[index])
     if (
       !store.state.projects[index].acf.hero ||
       !store.state.projects[index].acf.product ||

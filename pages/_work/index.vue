@@ -645,6 +645,7 @@
         @include fadeInUp;
         padding-bottom: 60px;
         margin-bottom: $gap * 2;
+        max-width: 150px;
 
         @include media(sm) {
           margin-bottom: $gap * 3;
@@ -657,6 +658,16 @@
       }
     }
     &.the-challenge {
+      margin-bottom: 0;
+
+      @include media(md) {
+        margin-bottom: $gap * 3;
+      }
+
+      h1 {
+        max-width: 150px;
+      }
+
       .two-columns {
         margin-bottom: $gap * 2;
         @include media(md) {
@@ -667,8 +678,12 @@
         }
       }
       .column {
-        width: 48%;
-        flex-basis: calc(50% - #{$gap / 2});
+        width: 100%;
+
+        @include media(md) {
+          width: 48%;
+          flex-basis: calc(50% - #{$gap / 2});
+        }
 
         h3 {
           font-weight: bold;
@@ -713,7 +728,12 @@
       }
     }
     &.final-product {
+      margin-top: 0;
       margin-bottom: $gap - 4px;
+
+      h1 {
+        max-width: 150px;
+      }
 
       .container {
         display: flex;
@@ -733,6 +753,7 @@
           margin-bottom: 0;
         }
       }
+
       .image-section {
         display: grid;
         grid-gap: $gap;
