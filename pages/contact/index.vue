@@ -68,7 +68,7 @@
 
       &.hero {
         background: white;
-        margin: 60px 0;
+        margin: 0;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -122,6 +122,8 @@
         }
 
         h1 {
+          max-width: 150px;
+          padding-top: 60px;
           @include media(sm) {
             max-width: 350px;
             padding-top: 96px;
@@ -138,11 +140,12 @@
           z-index: 1;
           grid-row: 8 / -1;
           padding-top: 50px;
-          padding: 0 $gap;
+          padding: 0;
           max-width: 100%;
 
           @include media(lg) {
             margin: 0;
+            padding: 0 $gap;
             margin-left: auto;
             margin-right: 10vw;
           }
@@ -175,8 +178,8 @@
         @include media(lg) {
           margin-left: auto;
           margin-right: 10vw;
+          min-height: 546px;
         }
-        min-height: 546px;
         @include fadeInUp;
 
         &.animated {

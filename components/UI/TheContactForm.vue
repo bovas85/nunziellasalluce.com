@@ -222,9 +222,10 @@
     padding: $gap * 1.5 $gap $gap / 2;
     max-width: 100%;
     width: 100%;
-    border: 8px solid $yellow;
     margin: 0;
+
     @include media(lg) {
+      border: 8px solid $yellow;
       padding: $gap $gap * 2;
       width: $tablet;
       max-width: $tablet;
@@ -242,13 +243,17 @@
   .sent {
     opacity: 0;
     position: fixed;
-    min-height: 445px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 100%;
     max-height: 0%;
     transition: all 0.3s ease-in-out;
+    min-height: 200px;
+
+    @include media(md) {
+      min-height: 445px;
+    }
 
     h4 {
       font-size: 18px;
@@ -366,10 +371,15 @@
       line-height: 1;
       font-size: 0px;
       position: absolute;
-      top: 1px;
-      left: -1px;
+      top: -5px;
+      left: 0px;
       opacity: 0;
       color: $secondary;
+
+      @include media(md) {
+        top: 1px;
+        left: -1px;
+      }
     }
 
     label {
@@ -394,8 +404,12 @@
           display: block;
           border-radius: 2px;
           position: absolute;
-          top: 3px;
           left: 0;
+          top: -5px;
+
+          @include media(md) {
+            top: 3px;
+          }
         }
         &.is-danger {
           &:before {
