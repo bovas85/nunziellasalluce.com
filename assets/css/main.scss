@@ -54,15 +54,23 @@ body {
 .jumbo {
   line-height: 1;
   font-weight: 800;
-  padding: 0 0 $gap * 3;
   @include size(jumbo);
+  padding: 0 0 $gap * 1.5;
+
+  @include media(md) {
+    padding: 0 0 $gap * 3;
+  }
 }
 
 h1 {
   line-height: 1;
   font-weight: 800;
-  padding: 0 0 $gap * 3;
   @include size(h1);
+  padding: 0 0 $gap * 1.5;
+
+  @include media(md) {
+    padding: 0 0 $gap * 3;
+  }
 }
 
 h2 {

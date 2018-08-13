@@ -202,23 +202,41 @@
         }
       },
       handleScroll () {
-        const scroller = this.scrollama()
-        const step = scroller
-          .setup({
-            step: '.step',
-            offset: 0.6,
-            debug: false
-          })
-          .onStepEnter(this.handleStepEnter)
-          .onStepExit(this.showMenu)
+        let scroller, steps
+        if (window.innerWidth > 577) {
+          scroller = this.scrollama()
+          steps = null
+          steps = scroller
+            .setup({
+              step: '.step',
+              offset: 0.6,
+              debug: false
+            })
+            .onStepEnter(this.handleStepEnter)
+            .onStepExit(this.showMenu)
 
-        step.resize()
-        step.enable()
+          steps.resize()
+          steps.enable()
+        } else {
+          scroller = this.scrollama()
+          steps = null
+          steps = scroller
+            .setup({
+              step: '.step',
+              offset: 0.9,
+              debug: false
+            })
+            .onStepEnter(this.handleStepEnter)
+            .onStepExit(this.showMenu)
+
+          steps.resize()
+          steps.enable()
+        }
 
         window.addEventListener(
           'resize',
-          debounce(function () {
-            step.resize()
+          debounce(() => {
+            this.handleScroll()
           }, 150),
           { passive: true }
         )
@@ -266,8 +284,6 @@
 
 <style lang="scss" scoped>
   h1 {
-    padding-left: $gap;
-
     @include media(sm) {
       max-width: 480px;
       padding-left: 0;
@@ -349,6 +365,11 @@
       h1 {
         max-width: 150px;
         @include fadeInUp;
+        padding-left: $gap;
+
+        @include media(md) {
+          padding-left: 0;
+        }
       }
 
       @include media(xl) {
@@ -429,6 +450,11 @@
     }
     &.projects {
       overflow: hidden;
+      margin: $gap * 1.5 0;
+
+      @include media(md) {
+        margin: $gap * 1.5 $gap;
+      }
 
       .container {
         @include fadeInUp;
@@ -441,6 +467,11 @@
 
       h1 {
         max-width: 260px;
+        padding-left: $gap;
+
+        @include media(md) {
+          padding-left: 0;
+        }
       }
     }
     &.the-process {
@@ -628,6 +659,14 @@
         position: relative;
         @include fadeInUp;
         transition-delay: 0.2s;
+      }
+
+      h1 {
+        padding-left: $gap;
+
+        @include media(md) {
+          padding-left: 0;
+        }
       }
 
       .testimonial-group {

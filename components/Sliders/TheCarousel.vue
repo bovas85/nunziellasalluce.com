@@ -69,11 +69,11 @@
           breakpoints: {
             640: {
               slidesPerView: 'auto',
-              spaceBetween: 16
+              spaceBetween: 32
             },
             320: {
               slidesPerView: 'auto',
-              spaceBetween: 32
+              spaceBetween: 16
             }
           },
           autoplay: false,

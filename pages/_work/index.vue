@@ -312,23 +312,41 @@
         }
       },
       handleScroll () {
-        const scroller = this.scrollama()
-        const steps = scroller
-          .setup({
-            step: '.step',
-            offset: 0.6,
-            debug: false
-          })
-          .onStepEnter(this.handleStepEnter)
-          .onStepExit(this.showMenu)
+        let scroller, steps
+        if (window.innerWidth > 577) {
+          scroller = this.scrollama()
+          steps = null
+          steps = scroller
+            .setup({
+              step: '.step',
+              offset: 0.6,
+              debug: false
+            })
+            .onStepEnter(this.handleStepEnter)
+            .onStepExit(this.showMenu)
 
-        steps.resize()
-        steps.enable()
+          steps.resize()
+          steps.enable()
+        } else {
+          scroller = this.scrollama()
+          steps = null
+          steps = scroller
+            .setup({
+              step: '.step',
+              offset: 0.9,
+              debug: false
+            })
+            .onStepEnter(this.handleStepEnter)
+            .onStepExit(this.showMenu)
+
+          steps.resize()
+          steps.enable()
+        }
 
         window.addEventListener(
           'resize',
-          debounce(function () {
-            steps.resize()
+          debounce(() => {
+            this.handleScroll()
           }, 150),
           { passive: true }
         )
@@ -503,7 +521,8 @@
 
       .supertitle {
         position: absolute;
-        top: calc(calc(50% - 20vh));
+        top: 100px;
+        top: calc(60px + #{$gap * 1.5});
         text-transform: uppercase;
         font-weight: 600;
 
@@ -695,6 +714,12 @@
       margin-bottom: $gap - 4px;
 
       .container {
+        display: flex;
+        flex-direction: column;
+
+        @include media(md) {
+          display: grid;
+        }
         grid-gap: $gap;
       }
 
@@ -794,43 +819,58 @@
 
       &.previous {
         text-align: right;
-        transform: translateX(-120px);
+        @include media(md) {
+          transform: translateX(-120px);
+        }
 
         span {
-          transform: translate(-100%, -50%);
+          @include media(md) {
+            transform: translate(-100%, -50%);
+          }
         }
       }
 
       &.next {
-        transform: translateX(120px);
+        @include media(md) {
+          transform: translateX(120px);
+        }
 
         span {
-          transform: translate(100%, -50%);
+          @include media(md) {
+            transform: translate(100%, -50%);
+          }
         }
       }
 
-      &:hover {
-        &.next,
-        &.previous {
-          transform: translateX(0);
-        }
-        span {
-          opacity: 1;
-          transform: translate(-50%, -50%);
-        }
-        &:after {
-          opacity: 1;
+      @include media(md) {
+        &:hover {
+          &.next,
+          &.previous {
+            transform: translateX(0);
+          }
+          span {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+          }
+          &:after {
+            opacity: 1;
+          }
         }
       }
 
       /deep/ img {
-        width: 250px;
-        height: 180px;
-        object-fit: cover;
-        object-position: center;
-        position: relative;
-        bottom: 20px;
-        left: 0;
+        display: none;
+
+        @include media(md) {
+          display: block;
+          width: 250px;
+          height: 180px;
+          object-fit: cover;
+          object-position: center;
+          position: relative;
+          bottom: 20px;
+          left: 0;
+        }
       }
     }
   }
