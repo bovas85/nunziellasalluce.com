@@ -291,7 +291,7 @@
   }
 
   section {
-    margin: $gap * 1.5 $gap;
+    margin: $gap * 1.5 0;
     width: 100%;
 
     @include media(md) {
@@ -374,7 +374,7 @@
       }
 
       @include media(xl) {
-        margin: $gap * 1.5 $gap;
+        margin: $gap * 1.5 0;
       }
       .container {
         grid-gap: 0;
@@ -452,10 +452,6 @@
     &.projects {
       overflow: hidden;
       margin: $gap * 1.5 0;
-
-      @include media(md) {
-        margin: $gap * 1.5 $gap;
-      }
 
       .container {
         @include fadeInUp;
