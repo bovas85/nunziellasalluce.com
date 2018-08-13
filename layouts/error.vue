@@ -1,13 +1,7 @@
 <template>
   <div class="page-not-found">
-    <div class="container is-gapless">
-      <div class="col--6-tablet">
-        <h1>We cannot seem to find the page you are looking for</h1>
-        <p>Go back to homepage?</p>
-        <ul>
-          <li><nuxt-link class="button" to="/">Homepage</nuxt-link></li>
-        </ul>
-      </div>
+    <div class="container is-flex">
+      <nuxt-link class="button button--sent" to="/">HOME</nuxt-link>
     </div>
   </div>
 </template>
@@ -18,37 +12,31 @@
       return {
         title: 'Page not Found'
       }
-    },
-    mounted () {
-      this.$router.replace('/')
     }
   }
 </script>
 
 <style lang="scss" scoped>
   .page-not-found {
-    padding: $gap 0 $gap * 2;
-    @media (min-width: $tablet) {
-      padding: $gap * 4 0;
+    height: 100vh;
+    height: calc(100vh - 180px); // footer visible
+    background-color: $yellow;
+    background-image: url('/images/contact-mobile.png');
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+    @include media(sm) {
+      background-image: url('/images/contact-desktop.png');
     }
-    h1 {
-      letter-spacing: 1.5px;
-      text-align: left;
-    }
-    p,
-    a {
-      text-align: left;
-      margin-top: $gap;
-    }
-    a {
-      &:hover {
-        // color: $secondary;
-      }
-    }
-    ul {
-      margin-top: $gap;
-      li {
-        margin-bottom: $gap / 1.5;
+
+    .container {
+      height: 100%;
+      align-items: flex-end;
+      justify-content: center;
+      text-align: center;
+
+      a {
+        margin-bottom: 17vh;
       }
     }
   }

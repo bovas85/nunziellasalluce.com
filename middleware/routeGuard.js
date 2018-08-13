@@ -1,11 +1,12 @@
-export default function ({ redirect, params, store }) {
+export default function ({ redirect, params, store, route }) {
   const index = store.state.projects.findIndex(index => {
     return index.slug === params.work
   })
-  if (index == null) {
+  if (index === -1) {
     redirect('/')
   }
-  if (store.state.projects[index].acf != null) {
+  if (index && store.state.projects[index] != null) {
+    console.log(store.state.projects[index])
     if (
       !store.state.projects[index].acf.hero ||
       !store.state.projects[index].acf.product ||

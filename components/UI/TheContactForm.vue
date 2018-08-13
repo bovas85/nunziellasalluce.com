@@ -529,32 +529,6 @@
     }
   }
 
-  .button {
-    margin-top: $gap;
-    margin-bottom: $gap;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    box-shadow: 0 0 0 1px $secondary;
-    cursor: pointer;
-    min-width: 110px;
-    height: 27px;
-    padding: 0;
-    transition: all 0.3s ease-in-out;
-
-    &:focus,
-    &:hover,
-    &:active {
-      box-shadow: 0 0 0 2px $secondary;
-    }
-
-    &--sent {
-      padding: 5px 20px;
-      color: black;
-      text-decoration: none;
-    }
-  }
-
   .container {
     width: 100%;
     max-width: 540px;
