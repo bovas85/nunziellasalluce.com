@@ -662,10 +662,12 @@
         @include media(md) {
           display: flex;
           flex-wrap: wrap;
+          width: 100%;
           justify-content: space-between;
         }
       }
       .column {
+        width: 48%;
         flex-basis: calc(50% - #{$gap / 2});
 
         h3 {

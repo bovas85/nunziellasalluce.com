@@ -101,6 +101,12 @@ module.exports = {
         name: 'og:image',
         content: '/images/logo.svg'
       }
+    ],
+    script: [
+      // IE 11 polyfill for Array.find
+      {
+        src: 'https://cdn.polyfill.io/v2/polyfill.js?features=es6'
+      }
     ]
   },
   /*

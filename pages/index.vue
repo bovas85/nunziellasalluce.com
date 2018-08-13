@@ -292,6 +292,7 @@
 
   section {
     margin: $gap * 1.5 $gap;
+    width: 100%;
 
     @include media(md) {
       margin: $gap * 3 auto;
@@ -487,6 +488,7 @@
       }
 
       .image-grid {
+        display: flex;
         display: grid;
         grid-gap: 0;
         grid-template-columns: 1fr;
@@ -590,6 +592,7 @@
     }
     &.capabilities {
       h1 {
+        flex-basis: 100%;
         max-width: 20vw;
         @include fadeInUp;
       }
