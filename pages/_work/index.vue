@@ -98,11 +98,10 @@
           </div>
         </div>
         <div class="flexible-content" v-if="project.challenge.flexible_content.length">
-
           <div 
             v-for="(content, index) in project.challenge.flexible_content"
             :key="index"
-            :class="content.acf_fc_layout === 'image' ? 'image' : 'text'"
+            :class="content.acf_fc_layout"
           >
             <lazy-image
               v-if="content.acf_fc_layout === 'image'"
@@ -111,7 +110,24 @@
               :image="content.image"
               :imageMobile="content.image"
             />
-            <p v-else>{{content.text}}</p>
+            <p v-else-if="content.acf_fc_layout === 'text'">{{content.text}}</p>
+          </div>
+        </div>
+
+        <div class="flexible-double-image" v-if="project.challenge.flexible_content.length">
+          <div 
+            v-for="(content, index) in project.challenge.flexible_content"
+            :key="index"
+            v-if="content.acf_fc_layout === 'double_image' && content.double_image"
+            :class="content.acf_fc_layout"
+          >
+            <lazy-image
+              class="image"
+              :hover="false"
+              position="right"
+              :image="content.double_image"
+              :imageMobile="content.double_image"
+            />
           </div>
         </div>
       </div>
@@ -527,7 +543,7 @@
         font-weight: 600;
 
         @include media(sm) {
-          top: calc(60px + 50px);
+          top: calc(90px + 50px);
         }
       }
     }
@@ -658,8 +674,6 @@
       }
     }
     &.the-challenge {
-      margin-bottom: 0;
-
       @include media(md) {
         margin-bottom: $gap * 3;
       }
@@ -697,6 +711,7 @@
 
           li {
             @include size(h3);
+            padding: 8px 0;
           }
         }
 
@@ -706,7 +721,32 @@
         }
         &--right {
           @include fadeInUp;
+          position: relative;
+          background: transparent;
           transition-delay: 0.4s;
+          z-index: 1;
+          padding: 0 $gap / 1.5 $gap / 1.5;
+
+          &:after {
+            content: '';
+            position: absolute;
+            background: $lightgrey;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transform: translateX(200%);
+            transition: all 0.6s ease-in-out 0.8s;
+          }
+
+          &.animated {
+            &:after {
+              transform: translateX(0);
+              opacity: 1;
+            }
+          }
         }
       }
       .text-section {
@@ -714,8 +754,8 @@
       }
       .flexible-content {
         display: flex;
-        flex-direction: column;
         flex-basis: 100%;
+        flex-direction: column;
         margin: 0 auto;
 
         .image {
@@ -724,6 +764,30 @@
         }
         .text {
           margin: $gap 0;
+        }
+      }
+
+      .flexible-double-image {
+        display: flex;
+        flex-basis: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-auto-rows: 350px;
+        grid-gap: $gap;
+        position: relative;
+
+        @include media(lg) {
+          grid-template-columns: 1fr 1fr;
+          grid-auto-rows: 534px;
+
+          .double_image {
+            /deep/ img {
+              max-height: 534px;
+              object-fit: cover;
+            }
+          }
         }
       }
     }
@@ -814,7 +878,7 @@
         top: 0;
         left: 0;
         right: 0;
-        bottom: 24px;
+        bottom: 20px;
         z-index: 1;
         background: rgba(0, 0, 0, 0.4);
         opacity: 0;
