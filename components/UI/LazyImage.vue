@@ -171,6 +171,11 @@
       height: auto;
     }
   }
+  .work-navigation {
+    .progressive-image-wrapper {
+      padding-top: 0 !important;
+    }
+  }
   @supports (display: grid) {
     .progressive-image,
     .progressive-image-wrapper {

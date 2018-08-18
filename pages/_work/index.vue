@@ -846,7 +846,7 @@
     .container-fluid {
       justify-content: space-between;
       padding: 0 $gap;
-      height: 100%;
+      height: 160px;
       position: relative;
       overflow: hidden;
 
@@ -854,6 +854,14 @@
         padding: 0;
         margin-left: auto;
       }
+
+      @supports (display: grid) {
+        height: 100%;
+      }
+    }
+
+    /deep/ .progressive-image-wrapper {
+      padding-top: 0 !important;
     }
 
     a {
@@ -868,11 +876,15 @@
         top: 0;
         left: 0;
         right: 0;
-        bottom: 20px;
+        bottom: 0;
         z-index: 1;
         background: rgba(0, 0, 0, 0.4);
         opacity: 0;
         transition: opacity 0.2s ease-in-out;
+
+        @supports (display: grid) {
+          bottom: 20px;
+        }
       }
 
       p {
