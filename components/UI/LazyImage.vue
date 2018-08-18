@@ -159,24 +159,42 @@
 </script>
 
 <style lang="scss">
-  .progressive-image,
   .progressive-image-wrapper {
-    height: 100%;
-    object-fit: cover;
+    position: relative;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
     .progressive-image-main {
       background: transparent;
-      height: 100%;
-      position: relative;
-      object-fit: cover;
-    }
-    .progressive-image-placeholder {
-      background-size: cover;
-      background-position: center;
-    }
-    .progressive-image-wrapper {
-      overflow: hidden;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: auto;
     }
   }
+  @supports (display: grid) {
+    .progressive-image,
+    .progressive-image-wrapper {
+      position: static;
+      height: 100%;
+      object-fit: cover;
+      padding-top: unset;
+      .progressive-image-main {
+        height: 100%;
+        position: relative;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+      .progressive-image-placeholder {
+        background-size: cover;
+        background-position: center;
+      }
+      .progressive-image-wrapper {
+        overflow: hidden;
+      }
+    }
+  }
+
   .lazy-image {
     height: 100%;
     width: 100%;

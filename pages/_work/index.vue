@@ -97,7 +97,7 @@
             </ul>
           </div>
         </div>
-        <div class="flexible-content" v-if="project.challenge.flexible_content.length">
+        <div class="flexible-content container-fluid" v-if="project.challenge.flexible_content.length">
           <div 
             v-for="(content, index) in project.challenge.flexible_content"
             :key="index"
@@ -111,18 +111,9 @@
               :imageMobile="content.image"
             />
             <p v-else-if="content.acf_fc_layout === 'text'">{{content.text}}</p>
-          </div>
-        </div>
-
-        <div class="flexible-double-image" v-if="project.challenge.flexible_content.length">
-          <div 
-            v-for="(content, index) in project.challenge.flexible_content"
-            :key="index"
-            v-if="content.acf_fc_layout === 'double_image' && content.double_image"
-            :class="content.acf_fc_layout"
-          >
             <lazy-image
-              class="image"
+              v-else
+              class="double_image"
               :hover="false"
               position="right"
               :image="content.double_image"
@@ -757,37 +748,36 @@
         flex-basis: 100%;
         flex-direction: column;
         margin: 0 auto;
+        display: grid;
+        grid-auto-rows: minmax(1fr, 340px);
 
         .image {
           width: 80%;
           margin: $gap auto;
+
+          @supports (display: grid) {
+            @include media(md) {
+              height: 340px;
+              margin: 0 auto;
+              /deep/ img {
+                object-fit: contain !important;
+              }
+            }
+          }
+        }
+
+        .double_image {
+          grid-column: span 6;
+          /deep/ img {
+            object-fit: cover;
+            object-position: top center;
+            @supports (display: grid) {
+              height: 340px;
+            }
+          }
         }
         .text {
           margin: $gap 0;
-        }
-      }
-
-      .flexible-double-image {
-        display: flex;
-        flex-basis: 100%;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-auto-rows: 350px;
-        grid-gap: $gap;
-        position: relative;
-
-        @include media(lg) {
-          grid-template-columns: 1fr 1fr;
-          grid-auto-rows: 534px;
-
-          .double_image {
-            /deep/ img {
-              max-height: 534px;
-              object-fit: cover;
-            }
-          }
         }
       }
     }

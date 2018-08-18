@@ -392,6 +392,11 @@
           object-position: center;
           @include fadeInUp;
           transition-delay: 0.2s;
+          position: absolute;
+
+          @supports (display: grid) {
+            position: relative;
+          }
 
           @include media(md) {
             height: 550px;
@@ -403,15 +408,18 @@
         }
 
         .text {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 100%;
-          transform: translate(-50%, -50%);
-          z-index: 1;
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
+          position: relative;
+          @supports (display: grid) {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+          }
 
           p {
             text-align: center;
