@@ -37,7 +37,11 @@
             >
               {{item.text}}
             </p>
-            <nuxt-link to="/about" class="button button--sent button--is-white">About Me</nuxt-link>
+            <nuxt-link
+              to="/about"
+              :class="{'animated': animateWho}"
+              class="button button--sent button--is-white"
+            >About Me</nuxt-link>
           </div>
         </div>
       </div>
@@ -468,6 +472,11 @@
               }
             }
           }
+        }
+
+        a {
+          @include fadeInUp;
+          transition-delay: 0.8s;
         }
       }
     }
