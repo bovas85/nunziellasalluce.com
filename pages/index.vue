@@ -132,6 +132,7 @@
 <script>
   import debounce from 'lodash/debounce'
   import IconArrow from '@/components/Icons/IconArrow'
+  let scroller, steps
 
   export default {
     scrollToTop: true,
@@ -156,8 +157,12 @@
     head () {
       return { title: 'Home' }
     },
-    mounted () {
+    async mounted () {
       if (process.browser) {
+        const { data } = await this.$axios.get(
+          Config.wpDomain + Config.api.homePage
+        )
+        this.$store.commit('setHomepage', data)
         this.handleScroll()
         setTimeout(() => {
           if (this.$route.hash) {
@@ -202,7 +207,6 @@
         }
       },
       handleScroll () {
-        let scroller, steps
         if (window.innerWidth > 577) {
           scroller = this.scrollama()
           steps = null
@@ -236,11 +240,18 @@
         window.addEventListener(
           'resize',
           debounce(() => {
-            this.handleScroll()
+            let step = document.querySelector('.step')
+            if (step && step.length) {
+              this.handleScroll()
+            }
           }, 150),
           { passive: true }
         )
       }
+    },
+    beforeDestroy () {
+      scroller.disable()
+      scroller = null
     },
     computed: {
       homePage () {

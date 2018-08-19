@@ -45,7 +45,7 @@ const createStore = () => {
           } catch (e) {}
         }
       },
-      setHomePage (state, obj) {
+      setHomepage (state, obj) {
         state.homePage = obj
       },
       setProjects (state, obj) {
@@ -76,7 +76,7 @@ const createStore = () => {
               Config.wpDomain + Config.api.homePage
             )
             arr.push(home.data)
-            commit('setHomePage', home.data)
+            commit('setHomepage', home.data)
 
             console.log('case studies')
             let projects = await app.$axios.get(
@@ -92,7 +92,7 @@ const createStore = () => {
         } else {
           count++
           console.log('using cached api')
-          commit('setHomePage', arr[0])
+          commit('setHomepage', arr[0])
           commit('setProjects', arr[1])
         }
       }

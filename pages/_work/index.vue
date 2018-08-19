@@ -279,8 +279,12 @@
         animateBottomImage: false
       }
     },
-    mounted () {
+    async mounted () {
       if (process.browser) {
+        const { data } = await this.$axios.get(
+          Config.wpDomain + Config.api.projects
+        )
+        this.$store.commit('setProjects', data)
         this.handleScroll()
       }
     },
@@ -353,7 +357,10 @@
         window.addEventListener(
           'resize',
           debounce(() => {
-            this.handleScroll()
+            let step = document.querySelector('.step')
+            if (step && step.length) {
+              this.handleScroll()
+            }
           }, 150),
           { passive: true }
         )

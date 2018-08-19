@@ -132,6 +132,7 @@
 <script>
   import debounce from 'lodash/debounce'
   import IconArrow from '@/components/Icons/IconArrow'
+  let scroller, steps
 
   export default {
     scrollToTop: true,
@@ -202,7 +203,6 @@
         }
       },
       handleScroll () {
-        let scroller, steps
         if (window.innerWidth > 577) {
           scroller = this.scrollama()
           steps = null
@@ -236,11 +236,18 @@
         window.addEventListener(
           'resize',
           debounce(() => {
-            this.handleScroll()
+            let step = document.querySelector('.step')
+            if (step && step.length) {
+              this.handleScroll()
+            }
           }, 150),
           { passive: true }
         )
       }
+    },
+    beforeDestroy () {
+      scroller.disable()
+      scroller = null
     },
     computed: {
       homePage () {

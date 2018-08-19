@@ -38,10 +38,8 @@
 
   export default {
     async asyncData ({ $axios }) {
-      const contactPage = await $axios.get(
-        Config.wpDomain + Config.api.contactPage
-      )
-      return { contactPage: contactPage.data }
+      const { data } = await $axios.get(Config.wpDomain + Config.api.contactPage)
+      return { contactPage: data }
     },
     components: {
       TheContactForm,
@@ -108,9 +106,14 @@
 
         .image {
           grid-column: 1 / 2;
-          grid-row: 1 / 11;
           width: 100%;
           z-index: 0;
+          grid-row: 1 / 11;
+
+          @include media(xxl) {
+            grid-row: 1 / 11;
+            max-height: 80vh;
+          }
         }
 
         h1,
