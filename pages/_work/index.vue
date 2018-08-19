@@ -137,7 +137,8 @@
           class="image-section step"
           v-for="(content, index) in project.product.the_content"
           :key="index"
-        >
+        > 
+          <p>{{content.text}}</p>
           <lazy-image
             v-if="content.image != null"
             class='image'
