@@ -37,6 +37,7 @@
             >
               {{item.text}}
             </p>
+            <nuxt-link to="/about" class="button button--sent button--is-white">About Me</nuxt-link>
           </div>
         </div>
       </div>
@@ -430,6 +431,7 @@
             z-index: 1;
             display: flex;
             justify-content: center;
+            align-items: center;
             flex-direction: column;
           }
 

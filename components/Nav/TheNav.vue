@@ -1,6 +1,6 @@
 <template>
   <div class="navigation-bar">
-    <div class="navigation" :class="{'scrolled': $store.state.menuScrolled, 'contact': $route.path === '/contact'}">
+    <div class="navigation" :class="{'scrolled': $store.state.menuScrolled, 'about': $route.path === '/about', 'contact': $route.path === '/contact'}">
       <nav
         role="navigation"
         class="container is-flex navbar">
@@ -70,6 +70,12 @@
             Work
           </nuxt-link>
           <nuxt-link
+            to='/about'
+            exact
+          >
+            About
+          </nuxt-link>
+          <nuxt-link
             to='/contact'
             exact
           >
@@ -104,7 +110,7 @@
     name: 'TheNav',
     data () {
       return {
-        menuItems: ['', 'work', 'contact'],
+        menuItems: ['', 'work', 'about', 'contact'],
         animating: false
       }
     },
@@ -224,9 +230,11 @@
             font-weight: 400;
             color: white;
             transition: color 0.3s ease-in-out;
+
             &.nuxt-link-active {
               color: $primary;
             }
+
             &:not(:last-child) {
               margin-right: $gap;
             }
@@ -236,43 +244,68 @@
       a {
         position: relative;
         padding: $gap / 3 0;
-      }
 
-      a:hover {
-        color: #fff;
-        text-decoration: none;
-      }
+        &:hover {
+          color: #fff;
+          text-decoration: none;
+        }
 
-      a:before,
-      a:after {
-        content: '';
-        position: absolute;
-        width: 0%;
-        height: 2px;
-        bottom: -2px;
-        background: #fff;
-      }
+        &:before,
+        &:after {
+          content: '';
+          position: absolute;
+          width: 0%;
+          height: 2px;
+          bottom: -2px;
+          background: #fff;
+        }
 
-      a:before {
-        left: 0;
-      }
+        &:before {
+          left: 0;
+        }
 
-      a:after {
-        right: 0;
-        background: #fff;
-        transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
-      }
+        &:after {
+          right: 0;
+          background: #fff;
+          transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
 
-      a:hover:before {
-        background: #fff;
-        width: 100%;
-        transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
-      }
+        &:hover:before {
+          background: #fff;
+          width: 100%;
+          transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
 
-      a:hover:after {
-        background: transparent;
-        width: 100%;
-        transition: 0s;
+        &:hover:after {
+          background: transparent;
+          width: 100%;
+          transition: 0s;
+        }
+
+        &.nuxt-link-active {
+          color: $primary;
+
+          &:before,
+          &:after {
+            background: $primary;
+          }
+
+          &:after {
+            right: 0;
+            background: $primary;
+          }
+
+          &:hover {
+            &:before {
+              background: $primary;
+            }
+            &:after {
+              background: transparent;
+              width: 100%;
+              transition: 0s;
+            }
+          }
+        }
       }
     }
 
@@ -308,7 +341,8 @@
       }
     }
 
-    &.contact {
+    &.contact,
+    &.about {
       background-color: transparent;
       .navbar a {
         color: white;
