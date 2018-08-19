@@ -183,6 +183,7 @@
 <script>
   import IconArrow from '@/components/Icons/IconArrow'
   import debounce from 'lodash/debounce'
+  import Config from '~/assets/config'
 
   export default {
     components: {

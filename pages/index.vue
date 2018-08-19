@@ -132,6 +132,7 @@
 <script>
   import debounce from 'lodash/debounce'
   import IconArrow from '@/components/Icons/IconArrow'
+  import Config from '~/assets/config'
   let scroller, steps
 
   export default {
