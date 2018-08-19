@@ -595,6 +595,10 @@
 
         .image {
           display: block;
+
+          @include media(md) {
+            max-height: 50vh;
+          }
           img {
             position: relative;
             object-fit: cover;
@@ -665,6 +669,7 @@
       }
     }
     &.the-challenge {
+      overflow: hidden;
       @include media(md) {
         margin-bottom: $gap * 3;
       }
@@ -694,6 +699,7 @@
           font-weight: bold;
           text-transform: uppercase;
           line-height: 3;
+          color: $primary;
         }
         ul {
           list-style-type: none;
@@ -749,7 +755,7 @@
         flex-direction: column;
         margin: 0 auto;
         display: grid;
-        grid-auto-rows: minmax(1fr, 340px);
+        grid-auto-rows: minmax(1fr, minmax(340px, 680px));
 
         .image {
           width: 80%;
@@ -757,7 +763,7 @@
 
           @supports (display: grid) {
             @include media(md) {
-              height: 340px;
+              height: 100%;
               margin: 0 auto;
               /deep/ img {
                 object-fit: contain !important;
@@ -767,10 +773,14 @@
         }
 
         .double_image {
-          grid-column: span 6;
+          grid-column: 1 / -1;
+
+          @include media(lg) {
+            grid-column: span 6;
+          }
           /deep/ img {
             object-fit: cover;
-            object-position: top center;
+            object-position: center;
             @supports (display: grid) {
               height: 340px;
             }

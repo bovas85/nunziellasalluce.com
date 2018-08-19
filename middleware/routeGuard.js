@@ -3,7 +3,7 @@ export default function ({ redirect, params, store, route }) {
     return index.slug === params.work
   })
   if (index === -1) {
-    redirect('/')
+    redirect('/error/404')
   }
   if (index && store.state.projects[index] != null) {
     if (
@@ -14,7 +14,7 @@ export default function ({ redirect, params, store, route }) {
       !store.state.projects[index].acf.challenge ||
       !store.state.projects[index].acf.intro
     ) {
-      redirect('/')
+      redirect('/error/404')
     }
   }
 }

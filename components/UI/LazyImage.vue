@@ -34,7 +34,7 @@
     <no-ssr>
       <vue-media :query="({minWidth: 1201, maxWidth: 1920})">
         <progressive-img
-          :src="getImage ? getImage : image.sizes.large"
+          :src="getImage ? getImage : image.sizes.ultra"
           :alt="image.alt"
           @onLoad.once="imageLoaded"
           @onError="capture($event)"
@@ -47,7 +47,7 @@
     <no-ssr>
       <vue-media :query="{minWidth: 1921}">
         <progressive-img
-          :src="getImage ? getImage : image.sizes.ultra"
+          :src="getImage ? getImage : image.sizes['4k']"
           :alt="image.alt"
           @onLoad.once="imageLoaded"
           @onError="capture($event)"
@@ -159,21 +159,23 @@
 </script>
 
 <style lang="scss">
-  .progressive-image-wrapper {
-    position: relative;
-    padding-top: 56.25%; /* 16:9 Aspect Ratio */
-    .progressive-image-main {
-      background: transparent;
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: auto;
-    }
-  }
-  .work-navigation {
+  @supports not(display: grid) {
     .progressive-image-wrapper {
-      padding-top: 0 !important;
+      position: relative;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      .progressive-image-main {
+        background: transparent;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+      }
+    }
+    .work-navigation {
+      .progressive-image-wrapper {
+        padding-top: 0 !important;
+      }
     }
   }
   @supports (display: grid) {
@@ -193,6 +195,7 @@
       .progressive-image-placeholder {
         background-size: cover;
         background-position: center;
+        width: auto;
       }
       .progressive-image-wrapper {
         overflow: hidden;

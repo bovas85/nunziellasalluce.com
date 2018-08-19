@@ -25,7 +25,9 @@
     background-repeat: no-repeat;
     background-size: 80%;
     background-position: center;
+
     @include media(sm) {
+      background-size: 70%;
       background-image: url('/images/contact-desktop.png');
     }
 

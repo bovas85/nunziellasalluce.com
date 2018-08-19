@@ -98,7 +98,7 @@
           width: 100%;
           flex-direction: column;
           grid-column: 1 / -1;
-          grid-row: 5 / 8;
+          grid-row: 4 / 5;
           padding: $gap;
 
           @include media(sm) {
