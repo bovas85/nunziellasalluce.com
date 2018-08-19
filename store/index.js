@@ -84,7 +84,7 @@ const createStore = () => {
             )
             arr.push(projects.data)
             commit('setProjects', projects.data)
-            // count++ // enable when live
+            count++ // enable when live
           } catch (e) {
             console.log('error with API')
             arr = []

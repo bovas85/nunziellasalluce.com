@@ -148,6 +148,7 @@ module.exports = {
   },
   generate: {
     interval: 2000,
+    fallback: '404.html',
     routes: function () {
       return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
         return res.data.map(project => {
