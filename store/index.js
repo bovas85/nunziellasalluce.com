@@ -66,7 +66,7 @@ const createStore = () => {
          * Also, if using nuxt generate, nuxtServerInit will be called for every page
          * Because of this caching, the API calls will only be done once
          */
-        if (count < 2 || count > 5) {
+        if (count === 0 || count > 5) {
           count = 0
           arr = []
           console.log('============= Server Init API calls =============')
@@ -84,7 +84,7 @@ const createStore = () => {
             )
             arr.push(projects.data)
             commit('setProjects', projects.data)
-            count++ // enable when live
+            // count++ // enable when live
           } catch (e) {
             console.log('error with API')
             arr = []
