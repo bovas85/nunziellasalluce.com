@@ -833,7 +833,6 @@
           object-fit: cover;
           object-position: center;
           grid-row: span 1;
-          max-height: 75vh;
         }
         &:nth-child(2) {
           @include fadeInUp;
