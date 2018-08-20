@@ -147,6 +147,31 @@
             :imageMobile="content.image"
           />
         </div>
+
+        <div
+          v-if="project.product.slider && project.product.slider.length"
+          class="slider-section"
+        >
+          <transition-group tag="div" name="fade" mode="out-in">
+            <lazy-image
+              v-for="(item, index) in project.product.slider"
+              class="image"
+              :hover="false"
+              v-if="index < 2 || index > 2 && lazyloaded"
+              :class="{'active': currentSlide === index}"
+              :key="item.image.ID"
+              :image="item.image"
+              :imageMobile="item.image"
+            />
+          </transition-group>
+          <div class="pagination">
+            <div 
+              v-for="(bullet, index) in project.product.slider.length"
+              :key="index"
+              :class="{'active': index === currentSlide}"
+              class="bullet"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -185,7 +210,7 @@
   import IconArrow from '@/components/Icons/IconArrow'
   import debounce from 'lodash/debounce'
   import Config from '~/assets/config'
-  let scroller, steps
+  let scroller, steps, interval
 
   export default {
     components: {
@@ -280,7 +305,9 @@
         animateChallenge: false,
         animateFinal: false,
         animateBottomImage: false,
-        resize: false
+        resize: false,
+        currentSlide: 0,
+        lazyloaded: false
       }
     },
     async mounted () {
@@ -290,6 +317,16 @@
         )
         this.$store.commit('setProjects', data)
         this.handleScroll()
+
+        setTimeout(() => {
+          this.lazyloaded = true
+        }, 6000)
+
+        interval = setInterval(() => {
+          if (this.currentSlide === this.project.product.slider.length - 1) {
+            this.currentSlide = 0
+          } else this.currentSlide++
+        }, 3000)
       }
     },
     methods: {
@@ -431,6 +468,7 @@
       scroller.disable()
       scroller = null
       steps = null
+      clearInterval(interval)
       window.removeEventListener('resize', this.scrollamaResize, false)
     }
   }
@@ -815,6 +853,7 @@
     &.final-product {
       margin-top: 0;
       margin-bottom: $gap - 4px;
+      padding: $gap 0;
 
       h1 {
         max-width: 150px;
@@ -842,6 +881,7 @@
       .image-section {
         display: grid;
         grid-gap: $gap;
+
         /deep/ img {
           object-fit: cover;
           object-position: center;
@@ -858,6 +898,55 @@
         &:nth-child(n + 1) {
           @include fadeInUp;
           transition-delay: 0.6s;
+        }
+      }
+
+      .slider-section {
+        position: relative;
+        height: 70vh;
+
+        .image {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          max-height: 70vh;
+          opacity: 0;
+          z-index: 0;
+          transition: all 0.6s ease-in-out;
+
+          &.active {
+            opacity: 1;
+            z-index: 100;
+          }
+        }
+
+        .pagination {
+          position: absolute;
+          bottom: -40px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          justify-content: space-around;
+          width: 6vw;
+          max-width: 20vw;
+          margin: 0 auto;
+
+          .bullet {
+            background: white;
+            border: 1px solid $primary;
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            transition: border 0.6s ease-in-out;
+
+            &.active {
+              background: $primary;
+            }
+          }
         }
       }
     }
