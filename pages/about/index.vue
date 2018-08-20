@@ -1,5 +1,5 @@
 <template>
-  <div class="about" v-if="page">
+  <div class="about" v-if="page && aboutPage">
     <lazy-image
       class='image'
       :image="page.who_i_am.image"
@@ -7,20 +7,20 @@
       :imageMobile="page.who_i_am.image"
       home
     />
-    <div class="container">
-      <h1>WHO I AM</h1>
+    <div class="container" v-if="aboutPage">
+      <h1>{{aboutPage.title}}</h1>
 
-      <h3>About</h3>
+      <h3>{{aboutPage.about.title}}</h3>
       <p>
-        Mobile Applications Interface Web User Interfaces User Experience Design Mobile Applications Interface Web User 
+        {{aboutPage.about.body}}
       </p>
-      <h3>Current Job</h3>
+      <h3>{{aboutPage.current_job.title}}</h3>
       <p>
-        Currently working with good people and pushing pixels at Caspian Media in London
+        {{aboutPage.current_job.body}}
       </p>
-      <h3>Skills</h3>
+      <h3>{{aboutPage.skills.title}}</h3>
       <p>
-        Currently working with good people and pushing pixels at Caspian Media in London
+        {{aboutPage.skills.body}}
       </p>
     </div>
   </div>
@@ -28,7 +28,13 @@
 
 <script>
   import LazyImage from '@/components/UI/LazyImage'
+  import Config from '~/assets/config'
+
   export default {
+    async asyncData ({ $axios }) {
+      const { data } = await $axios.get(Config.wpDomain + Config.api.aboutPage)
+      return { aboutPage: data.acf }
+    },
     components: {
       LazyImage
     },
