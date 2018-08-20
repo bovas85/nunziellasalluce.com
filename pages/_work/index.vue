@@ -150,7 +150,7 @@
 
         <div
           v-if="project.product.slider && project.product.slider.length"
-          class="slider-section"
+          class="slider-section step"
         >
           <transition-group tag="div" name="fade" mode="out-in">
             <lazy-image
@@ -906,6 +906,7 @@
       .slider-section {
         position: relative;
         height: 70vh;
+        @include fadeInUp;
 
         .image {
           position: absolute;
