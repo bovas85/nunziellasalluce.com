@@ -185,6 +185,7 @@
   import IconArrow from '@/components/Icons/IconArrow'
   import debounce from 'lodash/debounce'
   import Config from '~/assets/config'
+  let scroller, steps
 
   export default {
     components: {
@@ -278,7 +279,8 @@
         animateBrand: false,
         animateChallenge: false,
         animateFinal: false,
-        animateBottomImage: false
+        animateBottomImage: false,
+        resize: false
       }
     },
     async mounted () {
@@ -325,7 +327,6 @@
         }
       },
       handleScroll () {
-        let scroller, steps
         if (window.innerWidth > 577) {
           scroller = this.scrollama()
           steps = null
@@ -356,17 +357,22 @@
           steps.enable()
         }
 
-        window.addEventListener(
-          'resize',
-          debounce(() => {
-            let step = document.querySelector('.step')
-            if (step && step.length) {
-              this.handleScroll()
-            }
-          }, 150),
-          { passive: true }
-        )
-      }
+        if (!this.resize) {
+          window.addEventListener(
+            'resize',
+            this.scrollamaResize,
+            { passive: true },
+            false
+          )
+        }
+      },
+      scrollamaResize: debounce(function () {
+        this.resize = true
+        let step = document.querySelector('.step')
+        if (step && step.length) {
+          this.handleScroll()
+        }
+      }, 150)
     },
     computed: {
       projects () {
@@ -420,6 +426,12 @@
         }
         return this.project.hero.desktop_bg.sizes.large
       }
+    },
+    beforeDestroy () {
+      scroller.disable()
+      scroller = null
+      steps = null
+      window.removeEventListener('resize', this.scrollamaResize, false)
     }
   }
 </script>

@@ -150,7 +150,8 @@
         animateWork: false,
         animateProcess: false,
         animateCapab: false,
-        animateTestimonials: false
+        animateTestimonials: false,
+        resize: false
       }
     },
     components: {
@@ -243,21 +244,28 @@
           steps.enable()
         }
 
-        window.addEventListener(
-          'resize',
-          debounce(() => {
-            let step = document.querySelector('.step')
-            if (step && step.length) {
-              this.handleScroll()
-            }
-          }, 150),
-          { passive: true }
-        )
-      }
+        if (!this.resize) {
+          window.addEventListener(
+            'resize',
+            this.scrollamaResize,
+            { passive: true },
+            false
+          )
+        }
+      },
+      scrollamaResize: debounce(function () {
+        this.resize = true
+        let step = document.querySelector('.step')
+        if (step && step.length) {
+          this.handleScroll()
+        }
+      }, 150)
     },
     beforeDestroy () {
       scroller.disable()
       scroller = null
+      steps = null
+      window.removeEventListener('resize', this.scrollamaResize, false)
     },
     computed: {
       homePage () {
