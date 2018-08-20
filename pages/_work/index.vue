@@ -157,7 +157,9 @@
               v-for="(item, index) in project.product.slider"
               class="image"
               :hover="false"
-              v-if="index < 2 || index > 2 && lazyloaded"
+              v-if="index < 2 || index >= 2 && lazyloaded"
+              contain
+              noBg
               :class="{'active': currentSlide === index}"
               :key="item.image.ID"
               :image="item.image"

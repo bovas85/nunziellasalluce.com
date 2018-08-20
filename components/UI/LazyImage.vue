@@ -2,7 +2,7 @@
   <div 
     v-if="image.url != null && imageMobile.url != null"
     class="lazy-image"
-    :class="[{'hover-disabled': !hover}, computedClass]"
+    :class="[{'hover-disabled': !hover, 'contain': contain}, computedClass]"
     :style="!this.loaded && !noBg ? `background-color: #f4a261`: null"
   >
     <no-ssr>
@@ -104,6 +104,10 @@
       positionMobile: {
         type: String,
         default: 'center'
+      },
+      contain: {
+        type: Boolean,
+        default: false
       },
       hover: {
         default: true
@@ -343,6 +347,15 @@
       .progressive-image-wrapper {
         .progressive-image-main {
           object-position: top;
+        }
+      }
+    }
+    &.contain {
+      .progressive-image,
+      .progressive-image-wrapper {
+        object-fit: contain;
+        .progressive-image-main {
+          object-fit: contain;
         }
       }
     }
