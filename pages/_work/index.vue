@@ -332,7 +332,7 @@
           steps = scroller
             .setup({
               step: '.step',
-              offset: 0.6,
+              offset: 0.7,
               debug: false
             })
             .onStepEnter(this.handleStepEnter)
