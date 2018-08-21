@@ -150,8 +150,7 @@
         animateWork: false,
         animateProcess: false,
         animateCapab: false,
-        animateTestimonials: false,
-        resize: false
+        animateTestimonials: false
       }
     },
     components: {
@@ -244,17 +243,14 @@
           steps.enable()
         }
 
-        if (!this.resize) {
-          window.addEventListener(
-            'resize',
-            this.scrollamaResize,
-            { passive: true },
-            false
-          )
-        }
+        window.addEventListener(
+          'resize',
+          this.scrollamaResize,
+          { passive: true },
+          false
+        )
       },
       scrollamaResize: debounce(function () {
-        this.resize = true
         let step = document.querySelector('.step')
         if (step && step.length) {
           this.handleScroll()

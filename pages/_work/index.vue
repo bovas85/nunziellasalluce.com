@@ -307,7 +307,6 @@
         animateChallenge: false,
         animateFinal: false,
         animateBottomImage: false,
-        resize: false,
         currentSlide: 0,
         lazyloaded: false
       }
@@ -339,6 +338,7 @@
         this.$store.commit('showMenuBg')
       },
       handleStepEnter (response) {
+        console.log(response.element)
         response.element.classList.add('animated')
         const length = document.querySelectorAll('.step').length - 2
         switch (response.index) {
@@ -396,17 +396,14 @@
           steps.enable()
         }
 
-        if (!this.resize) {
-          window.addEventListener(
-            'resize',
-            this.scrollamaResize,
-            { passive: true },
-            false
-          )
-        }
+        window.addEventListener(
+          'resize',
+          this.scrollamaResize,
+          { passive: true },
+          false
+        )
       },
       scrollamaResize: debounce(function () {
-        this.resize = true
         let step = document.querySelector('.step')
         if (step && step.length) {
           this.handleScroll()
@@ -906,7 +903,9 @@
       .slider-section {
         position: relative;
         height: 70vh;
+        width: 100%;
         @include fadeInUp;
+        margin: $gap auto;
 
         .image {
           position: absolute;
@@ -915,6 +914,7 @@
           right: 0;
           bottom: 0;
           width: 100%;
+          height: 100%;
           max-height: 70vh;
           opacity: 0;
           z-index: 0;
