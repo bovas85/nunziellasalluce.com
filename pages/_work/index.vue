@@ -902,10 +902,14 @@
 
       .slider-section {
         position: relative;
-        height: 70vh;
         width: 100%;
         @include fadeInUp;
         margin: $gap auto;
+        height: 50vh;
+
+        @include media(md) {
+          height: 70vh;
+        }
 
         .image {
           position: absolute;
@@ -933,8 +937,8 @@
           transform: translateX(-50%);
           display: flex;
           justify-content: space-around;
-          width: 6vw;
-          max-width: 20vw;
+          width: auto;
+          max-width: 100%;
           margin: 0 auto;
 
           .bullet {
@@ -944,6 +948,7 @@
             width: 10px;
             height: 10px;
             border-radius: 10px;
+            margin: 0 5px;
             transition: border 0.6s ease-in-out;
 
             &.active {
