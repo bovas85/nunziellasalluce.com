@@ -4,6 +4,8 @@
       class='image'
       :image="page.who_i_am.image"
       :hover="false"
+      position="right"
+      positionMobile="right"
       :imageMobile="page.who_i_am.image"
       home
     />
