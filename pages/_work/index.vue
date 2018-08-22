@@ -157,7 +157,6 @@
               v-for="(item, index) in project.product.slider"
               class="image"
               :hover="false"
-              v-if="index < 2 || index >= 2 && lazyloaded"
               contain
               noBg
               :class="{'active': currentSlide === index}"
@@ -307,8 +306,7 @@
         animateChallenge: false,
         animateFinal: false,
         animateBottomImage: false,
-        currentSlide: 0,
-        lazyloaded: false
+        currentSlide: 0
       }
     },
     async mounted () {
@@ -318,10 +316,6 @@
         )
         this.$store.commit('setProjects', data)
         this.handleScroll()
-
-        setTimeout(() => {
-          this.lazyloaded = true
-        }, 6000)
 
         interval = setInterval(() => {
           if (this.currentSlide === this.project.product.slider.length - 1) {
