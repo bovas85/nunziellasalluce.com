@@ -225,7 +225,8 @@
         this.project &&
         this.projectTitle != null &&
         this.project.seo != null &&
-        this.project.hero != null
+        this.project.seo.facebook != null &&
+        this.project.seo.twitter != null
       ) {
         return {
           title: this.capitalizeFirstLetter(this.projectTitle.replace(/-/g, ' ')),

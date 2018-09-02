@@ -39,7 +39,7 @@ module.exports = {
       {
         hid: 'image',
         name: 'image',
-        content: '/images/logo.svg'
+        content: '/images/facebook.png'
       },
       { hid: 'name', itemprop: 'name', content: 'Nunziella Salluce Design' },
       {
@@ -50,7 +50,7 @@ module.exports = {
       {
         hid: 'image',
         itemprop: 'image',
-        content: '/images/logo.svg'
+        content: '/images/facebook.png'
       },
       {
         hid: 'twitter:card',
@@ -76,7 +76,7 @@ module.exports = {
       {
         hid: 'twitter:image',
         name: 'twitter:image',
-        content: '/images/logo.svg'
+        content: '/images/twitter.png'
       },
       {
         hid: 'og:title',
@@ -99,7 +99,7 @@ module.exports = {
       {
         hid: 'og:image',
         name: 'og:image',
-        content: '/images/logo.svg'
+        content: '/images/facebook.png'
       }
     ],
     script: [
