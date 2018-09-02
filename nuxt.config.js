@@ -100,6 +100,21 @@ module.exports = {
         hid: 'og:image',
         name: 'og:image',
         content: 'https://nunziellasalluce.netlify.com/images/facebook.png'
+      },
+      {
+        hid: 'og:image:url',
+        name: 'og:image:url',
+        content: 'https://nunziellasalluce.netlify.com/images/facebook.png'
+      },
+      {
+        hid: 'og:image:width',
+        name: 'og:image:width',
+        content: '1200'
+      },
+      {
+        hid: 'og:image:height',
+        name: 'og:image:height',
+        content: '628'
       }
     ],
     script: [
