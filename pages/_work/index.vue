@@ -280,7 +280,7 @@
                 this.projectTitle.replace(/-/g, ' ')
               )
             },
-            { hid: 'og:url', name: 'og:url', content: this.$route.path },
+            { hid: 'og:url', property: 'og:url', content: this.$route.path },
             {
               hid: 'og:description',
               property: 'og:description',

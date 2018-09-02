@@ -39,7 +39,7 @@ module.exports = {
       {
         hid: 'image',
         name: 'image',
-        content: 'https://nunziellasalluce.netlify.com/images/facebook.png'
+        content: '/images/facebook.png'
       },
       { hid: 'name', itemprop: 'name', content: 'Nunziella Salluce Design' },
       {
@@ -50,7 +50,7 @@ module.exports = {
       {
         hid: 'image',
         itemprop: 'image',
-        content: 'https://nunziellasalluce.netlify.com/images/facebook.png'
+        content: '/images/facebook.png'
       },
       {
         hid: 'twitter:card',
@@ -76,14 +76,14 @@ module.exports = {
       {
         hid: 'twitter:image',
         name: 'twitter:image',
-        content: 'https://nunziellasalluce.netlify.com/images/twitter.png'
+        content: '/images/twitter.png'
       },
       {
         hid: 'og:title',
         property: 'og:title',
         content: 'Nunziella Salluce Design'
       },
-      { hid: 'og:url', name: 'og:url', content: Config.client },
+      { hid: 'og:url', property: 'og:url', content: Config.client },
       {
         hid: 'og:site_name',
         property: 'og:site_name',
@@ -99,12 +99,12 @@ module.exports = {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: 'https://nunziellasalluce.netlify.com/images/facebook.png'
+        content: '/images/facebook.png'
       },
       {
         hid: 'og:image:url',
         property: 'og:image:url',
-        content: 'https://nunziellasalluce.netlify.com/images/facebook.png'
+        content: '/images/facebook.png'
       },
       {
         hid: 'og:image:width',
