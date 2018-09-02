@@ -83,7 +83,7 @@ module.exports = {
         property: 'og:title',
         content: 'Nunziella Salluce Design'
       },
-      { hid: 'og:url', property: 'og:url', content: Config.client },
+      { hid: 'og:url', property: 'og:url', content: Config.url },
       {
         hid: 'og:site_name',
         property: 'og:site_name',
