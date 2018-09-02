@@ -254,7 +254,7 @@
             {
               hid: 'image',
               itemprop: 'image',
-              content: this.project.hero.desktop_bg.sizes.large
+              content: this.project.seo.facebook.sizes.large
             },
             {
               hid: 'twitter:title',
@@ -271,7 +271,7 @@
             {
               hid: 'twitter:image',
               name: 'twitter:image',
-              content: this.project.hero.desktop_bg.sizes.large
+              content: this.project.seo.twitter.sizes.large
             },
             {
               hid: 'og:title',
@@ -289,7 +289,7 @@
             {
               hid: 'og:image',
               name: 'og:image',
-              content: this.project.hero.desktop_bg.sizes.large
+              content: this.project.seo.facebook.sizes.large
             }
           ]
         }
