@@ -11,6 +11,9 @@
           <icon-arrow :fill="'white'" direction='down' name='arrow-down' :width="30" :height="40" />
         </div>
       </div>
+      <div class="rotating-text" v-scroll="{element:'.projects'}">
+        <img src="/images/rotating-text.png" alt="Check my Portfolio">
+      </div>
     </section>
 
     <section class="section who-i-am step" v-if="homePage">
@@ -321,7 +324,6 @@
 
     &.hero {
       background-size: cover;
-      background-position: center;
       height: 100vh;
       margin: 0;
       display: flex;
@@ -331,13 +333,51 @@
       position: relative;
       padding: 0 $gap;
       margin: 0;
+      background-position: 75%;
 
       @include media(sm) {
         padding: 0;
+        background-position: 85%;
       }
 
       @include media(md) {
         margin: 0 auto $gap * 3;
+      }
+
+      @include media(lg) {
+        background-position: center;
+      }
+
+      .rotating-text {
+        position: absolute;
+        cursor: pointer;
+        display: flex;
+        bottom: $gap;
+        left: $gap;
+        width: 70px;
+        height: 70px;
+
+        @include media(sm) {
+          bottom: 80px;
+          right: 60px;
+          left: auto;
+          width: 100px;
+          height: 100px;
+          transform-origin: center;
+          animation: rotate 15s linear infinite;
+        }
+
+        img {
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
+
+        @keyframes rotate {
+          100% {
+            transform: rotate(360deg);
+          }
+        }
       }
 
       .scroll-down {

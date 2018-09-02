@@ -34,13 +34,13 @@
         >
           <transition-group name="rotate" mode="out-in">
             <div class="rotate" key="closed" v-if="!$store.state.navOpen">
-              <burger-menu 
-                :fill="$store.state.menuScrolled ? 'black' : 'white'"
-                :stroke="$store.state.menuScrolled ? 'black' : 'white'"
+              <burger-menu
+                :fill="$route.path === '/' && 'black' || $store.state.menuScrolled ? 'black' : 'white'"
+                :stroke="$route.path === '/' && 'black' || $store.state.menuScrolled ? 'black' : 'white'"
               />
             </div>
             <div class="rotate" key="open" v-else>
-                <div class="close-icon">
+                <div :class="$route.path === '/' && 'black'" class="close-icon">
                     <span class="close-icon--line"/>
                     <span class="close-icon--line inverted"/>
                 </div>
@@ -50,9 +50,12 @@
 
         <ul
           v-else
-          class="menu menu--desktop">
+          class="menu menu--desktop"
+          :class="$route.path === '/' && 'black'"
+        >
           <nuxt-link
             to='/'
+            :class="$route.path === '/' && 'nuxt-link-active'"
             exact
             @click.native="refreshPage()"
           >
@@ -64,6 +67,10 @@
           </a>
           <nuxt-link
             v-else
+            :class="$route.path !== '/'
+              && $route.path !== '/contact'
+              && $route.path != '/about'
+              && 'nuxt-link-active'"
             to='/#work'
             exact
           >
@@ -223,6 +230,7 @@
         &--desktop {
           display: flex;
           justify-content: space-around;
+
           a {
             cursor: pointer;
             font-size: $font-size + 4px;
@@ -238,71 +246,107 @@
             &:not(:last-child) {
               margin-right: $gap;
             }
-          }
-        }
-      }
-      a {
-        position: relative;
-        padding: $gap / 3 0;
 
-        &:hover {
-          color: #fff;
-          text-decoration: none;
-        }
+            position: relative;
+            padding: $gap / 3 0;
 
-        &:before,
-        &:after {
-          content: '';
-          position: absolute;
-          width: 0%;
-          height: 2px;
-          bottom: -2px;
-          background: #fff;
-        }
-
-        &:before {
-          left: 0;
-        }
-
-        &:after {
-          right: 0;
-          background: #fff;
-          transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        &:hover:before {
-          background: #fff;
-          width: 100%;
-          transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        &:hover:after {
-          background: transparent;
-          width: 100%;
-          transition: 0s;
-        }
-
-        &.nuxt-link-active {
-          color: $primary;
-
-          &:before,
-          &:after {
-            background: $primary;
-          }
-
-          &:after {
-            right: 0;
-            background: $primary;
-          }
-
-          &:hover {
-            &:before {
-              background: $primary;
+            &:hover {
+              color: #fff;
+              text-decoration: none;
             }
+
+            &:before,
             &:after {
+              content: '';
+              position: absolute;
+              width: 0%;
+              height: 2px;
+              bottom: -2px;
+              background: #fff;
+            }
+
+            &:before {
+              left: 0;
+            }
+
+            &:after {
+              right: 0;
+              background: #fff;
+              transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+
+            &:hover:before {
+              background: #fff;
+              width: 100%;
+              transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+
+            &:hover:after {
               background: transparent;
               width: 100%;
               transition: 0s;
+            }
+
+            &.nuxt-link-active {
+              color: $primary;
+
+              &:before,
+              &:after {
+                background: $primary;
+              }
+
+              &:after {
+                right: 0;
+                background: $primary;
+              }
+
+              &:hover {
+                &:before {
+                  background: $primary;
+                }
+                &:after {
+                  background: transparent;
+                  width: 100%;
+                  transition: 0s;
+                }
+              }
+            }
+          }
+
+          &.black {
+            a:not(.nuxt-link-active) {
+              color: black;
+
+              &:hover {
+                color: black;
+                text-decoration: none;
+              }
+
+              &:before,
+              &:after {
+                content: '';
+                position: absolute;
+                width: 0%;
+                height: 2px;
+                bottom: -2px;
+                background: black;
+              }
+
+              &:before {
+                left: 0;
+              }
+
+              &:after {
+                right: 0;
+                background: black;
+                transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+              }
+
+              &:hover:before {
+                background: black;
+                width: 100%;
+                transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+              }
             }
           }
         }
@@ -382,6 +426,10 @@
       &.inverted {
         transform: rotate(-45deg);
       }
+    }
+
+    &.black .close-icon--line {
+      background: black;
     }
   }
 </style>
