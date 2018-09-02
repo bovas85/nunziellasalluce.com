@@ -80,40 +80,40 @@ module.exports = {
       },
       {
         hid: 'og:title',
-        name: 'og:title',
+        property: 'og:title',
         content: 'Nunziella Salluce Design'
       },
       { hid: 'og:url', name: 'og:url', content: Config.client },
       {
         hid: 'og:site_name',
-        name: 'og:site_name',
+        property: 'og:site_name',
         content: 'Nunziella Salluce Design Website'
       },
       {
         hid: 'og:description',
-        name: 'og:description',
+        property: 'og:description',
         content: ''
       },
-      { hid: 'og:locale', name: 'og:locale', content: 'en_GB' },
-      { hid: 'og:type', name: 'og:type', content: 'website' },
+      { hid: 'og:locale', property: 'og:locale', content: 'en_GB' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
       {
         hid: 'og:image',
-        name: 'og:image',
+        property: 'og:image',
         content: 'https://nunziellasalluce.netlify.com/images/facebook.png'
       },
       {
         hid: 'og:image:url',
-        name: 'og:image:url',
+        property: 'og:image:url',
         content: 'https://nunziellasalluce.netlify.com/images/facebook.png'
       },
       {
         hid: 'og:image:width',
-        name: 'og:image:width',
+        property: 'og:image:width',
         content: '1200'
       },
       {
         hid: 'og:image:height',
-        name: 'og:image:height',
+        property: 'og:image:height',
         content: '628'
       }
     ],

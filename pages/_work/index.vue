@@ -275,7 +275,7 @@
             },
             {
               hid: 'og:title',
-              name: 'og:title',
+              property: 'og:title',
               content: this.capitalizeFirstLetter(
                 this.projectTitle.replace(/-/g, ' ')
               )
@@ -283,12 +283,12 @@
             { hid: 'og:url', name: 'og:url', content: this.$route.path },
             {
               hid: 'og:description',
-              name: 'og:description',
+              property: 'og:description',
               content: this.project.seo.description
             },
             {
               hid: 'og:image',
-              name: 'og:image',
+              property: 'og:image',
               content: this.project.seo.facebook.sizes.large
             }
           ]
