@@ -130,8 +130,9 @@ module.exports = {
   manifest: {
     name: 'Nunziella Salluce Design',
     short_name: 'Nunziella Salluce',
-    theme_color: '#f2d636',
-    display: 'minimal-ui',
+    theme_color: '#000000',
+    background_color: '#f2d636',
+    display: 'standalone',
     description: ''
   },
   /*

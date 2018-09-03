@@ -27,7 +27,11 @@
 
   &--is-white {
     color: white;
-    min-width: 115px;
+    min-width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
     text-transform: uppercase;
     transition: all .4s ease-in-out !important;
     box-shadow: 0 0 0 1px white;

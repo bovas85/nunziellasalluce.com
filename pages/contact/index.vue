@@ -145,6 +145,7 @@
           padding-top: 50px;
           padding: 0;
           max-width: 100%;
+          overflow: hidden;
 
           @include media(lg) {
             margin: 0;

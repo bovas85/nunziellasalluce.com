@@ -349,7 +349,9 @@
         }
 
         &--show {
-          border: 1px solid white;
+          box-shadow: 0 0 0 1px white;
+          border: none;
+          outline: none;
           background: transparent;
           color: white;
           cursor: pointer;
@@ -361,8 +363,7 @@
           justify-content: center;
           height: 50px;
           font-weight: 300;
-          outline: none;
-          transition: all 0.3s ease-in-out;
+          transition: all 0.4s ease-in-out;
           width: 150px;
           font-size: 13px;
 
@@ -372,7 +373,7 @@
           }
 
           &:hover {
-            border: 1px solid transparent;
+            border: none;
             font-weight: 600;
             box-shadow: 0 0 0 2px white;
           }
