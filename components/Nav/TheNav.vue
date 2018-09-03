@@ -51,7 +51,7 @@
         <ul
           v-else
           class="menu menu--desktop"
-          :class="$route.path === '/' && 'black'"
+          :class="($route.path === '/' || $route.path === '/contact') && 'black'"
         >
           <nuxt-link
             to='/'

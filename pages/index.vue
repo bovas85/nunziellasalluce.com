@@ -352,7 +352,7 @@
         position: absolute;
         cursor: pointer;
         display: flex;
-        bottom: $gap;
+        bottom: $gap * 2.5;
         left: $gap;
         width: 70px;
         height: 70px;

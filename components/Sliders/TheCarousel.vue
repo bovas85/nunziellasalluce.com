@@ -374,7 +374,7 @@
           &:hover {
             border: 1px solid transparent;
             font-weight: 600;
-            box-shadow: 0 0 1px 1px white;
+            box-shadow: 0 0 0 2px white;
           }
         }
       }

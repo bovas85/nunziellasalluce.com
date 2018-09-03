@@ -225,8 +225,8 @@
         this.project &&
         this.projectTitle != null &&
         this.project.seo != null &&
-        this.project.seo.facebook != null &&
-        this.project.seo.twitter != null
+        this.project.seo.facebook.sizes != null &&
+        this.project.seo.twitter.sizes != null
       ) {
         return {
           title: this.capitalizeFirstLetter(this.projectTitle.replace(/-/g, ' ')),
@@ -811,11 +811,12 @@
         grid-auto-rows: minmax(1fr, minmax(340px, 680px));
 
         .image {
-          width: 80%;
+          width: 100%;
           margin: $gap auto;
 
           @supports (display: grid) {
             @include media(md) {
+              width: 80%;
               height: 100%;
               margin: 0 auto;
               /deep/ img {
