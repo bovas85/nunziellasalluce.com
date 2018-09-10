@@ -217,6 +217,7 @@ module.exports = {
     { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~/plugins/vue-localstorage.js', ssr: false },
     { src: '~/plugins/vue-progressive-image.js', ssr: false },
-    { src: '~/plugins/vue-smooth-scroll.js', ssr: false }
+    { src: '~/plugins/vue-smooth-scroll.js', ssr: false },
+    { src: '~/plugins/hotjar.js', ssr: false }
   ]
 }
