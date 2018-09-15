@@ -4,6 +4,7 @@
         <div class="name">
             <label :class="{'selected': nameFocused}" for="name">Full Name</label>
             <input autocomplete="given-name" @focus="nameFocused = true" @blur="nameClicked = true" :class="{'is-danger': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" v-model="form.yourName" id="name" name="name" type="text" required>
+            <i :class="{'is-danger': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}"><img src="/images/error.svg" alt="error icon"></i>
             <span :class="{'is-visible': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" class="has-text-danger">Please type your full name</span>
         </div>
 
@@ -11,6 +12,7 @@
         <div class="email">
             <label :class="{'selected': emailFocused}" for="email">Email</label>
             <input autocomplete="email" @focus="emailFocused = true" @blur="emailClicked = true" :class="{'is-danger': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" v-model="form.yourEmail" id="email" name="email" type="email" required>
+            <i :class="{'is-danger': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}"><img src="/images/error.svg" alt="error icon"></i>
             <span :class="{'is-visible': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" class="has-text-danger">Please type an Email</span>
         </div>
 
@@ -518,6 +520,22 @@
 
       &.selected {
         transform: translate(0, -15px);
+      }
+    }
+  }
+
+  .name, .email {
+    position: relative;
+
+    i {
+      position: absolute;
+      top: $gap;
+      right: 8px;
+      opacity: 0;
+      transition: opacity .4s ease-in-out;
+
+      &.is-danger {
+        opacity: 1;
       }
     }
   }
