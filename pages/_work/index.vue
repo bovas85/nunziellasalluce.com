@@ -930,6 +930,7 @@
           p {
             width: auto;
             margin: 0 auto;
+            padding-top: 12px;
             text-align: center;
           }
 
