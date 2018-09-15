@@ -163,7 +163,9 @@
               :key="item.image.ID"
               :image="item.image"
               :imageMobile="item.image"
-            />
+            >
+              <p>{{item && item.image.caption}}</p>
+            </lazy-image>
           </transition-group>
           <div class="pagination">
             <div 
@@ -322,7 +324,7 @@
             if (this.currentSlide === this.project.product.slider.length - 1) {
               this.currentSlide = 0
             } else this.currentSlide++
-          }, 3000)
+          }, 5000)
         }, 300)
       }
     },
@@ -921,6 +923,12 @@
           z-index: 0;
           transition: all 0.6s ease-in-out;
 
+          p {
+            width: auto;
+            margin: 0 auto;
+            text-align: center;
+          }
+
           &.active {
             opacity: 1;
             z-index: 100;
@@ -929,7 +937,7 @@
 
         .pagination {
           position: absolute;
-          bottom: -40px;
+          bottom: -$gap * 2;
           left: 50%;
           transform: translateX(-50%);
           display: flex;
