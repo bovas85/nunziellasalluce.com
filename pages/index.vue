@@ -172,7 +172,9 @@
           Config.wpDomain + Config.api.homePage
         )
         this.$store.commit('setHomepage', data)
-        this.handleScroll()
+        setTimeout(() => {
+          this.handleScroll()
+        }, 300)
         setTimeout(() => {
           if (this.$route.hash) {
             const clickable = document.querySelector('#js-click')

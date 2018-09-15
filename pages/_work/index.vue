@@ -316,13 +316,14 @@
           Config.wpDomain + Config.api.projects
         )
         this.$store.commit('setProjects', data)
-        this.handleScroll()
-
-        interval = setInterval(() => {
-          if (this.currentSlide === this.project.product.slider.length - 1) {
-            this.currentSlide = 0
-          } else this.currentSlide++
-        }, 3000)
+        setTimeout(() => {
+          this.handleScroll()
+          interval = setInterval(() => {
+            if (this.currentSlide === this.project.product.slider.length - 1) {
+              this.currentSlide = 0
+            } else this.currentSlide++
+          }, 3000)
+        }, 300)
       }
     },
     methods: {
