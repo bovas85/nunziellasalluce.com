@@ -874,6 +874,10 @@
         @include media(sm) {
           margin-bottom: 0;
         }
+
+        p {
+          max-width: $desktop;
+        }
       }
 
       .image-section {
