@@ -1,6 +1,6 @@
 # Nunziella Salluce Design
 
-> Starter Template
+> Nuxt + WordPress REST API for a portfolio site
 
 ## Build Setup
 
