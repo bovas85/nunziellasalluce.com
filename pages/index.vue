@@ -50,13 +50,14 @@
       </div>
     </section>
 
-    <section id="#work" class="projects section step" v-if="projects && homePage">
+    <section id="#work" class="projects section step" v-if="filteredProjects && homePage">
       <div class="container" :class="{'animated': animateWork}">
         <h1>{{acf.case_studies.title}}</h1>
       </div>
-      <the-carousel 
+      <the-carousel
+        v-if="filteredProjects"
         :class="{'animated': animateWork}"
-        :data='projects'
+        :data='filteredProjects'
       />
     </section>
 
@@ -276,6 +277,12 @@
       projects () {
         if (!this.$store.state.projects.length) return false
         return this.$store.state.projects
+      },
+      filteredProjects () {
+        const order = this.acf.case_studies.order
+        return this.projects.sort((a, b) => {
+          return order.indexOf(a.id) > order.indexOf(b.id)
+        })
       },
       acf () {
         if (this.$store.state.homePage == null) return false
