@@ -779,6 +779,11 @@
           transition-delay: 0.4s;
           z-index: 1;
           padding: 0 $gap / 1.5 $gap / 1.5;
+          margin-top: $gap;
+
+          @include media (md) {
+            margin-top: 0;
+          }
 
           &:after {
             content: '';
@@ -883,12 +888,18 @@
       .image-section {
         display: grid;
         grid-gap: $gap;
+        margin-top: $gap;
+
+        @include media(md) {
+          margin-top: 0;
+        }
 
         /deep/ img {
           object-fit: cover;
           object-position: center;
           grid-row: span 1;
         }
+
         &:nth-child(2) {
           @include fadeInUp;
           transition-delay: 0.2s;

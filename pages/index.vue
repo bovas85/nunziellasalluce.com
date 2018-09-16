@@ -719,7 +719,9 @@
         }
 
         &.padded-top {
-          padding-top: 46px;
+          @include media(md) {
+            padding-top: 46px;
+          }
         }
 
         &:nth-child(2) {

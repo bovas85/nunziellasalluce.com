@@ -78,21 +78,23 @@
       color: white;
       text-transform: uppercase;
       font-weight: 600;
-    }
-
-    p {
-      color: black;
-      max-width: 568px;
-      @include size(h3);
-    }
-
-    h1 {
       padding-top: $gap * 4;
       @include size(h1);
     }
 
     h3 {
       color: white;
+    }
+
+    p {
+      color: black;
+      max-width: 568px;
+      @include size(h3);
+      margin-bottom: $gap;
+
+      @include media(md) {
+        margin-bottom: 0;
+      }
     }
   }
 </style>
