@@ -382,8 +382,11 @@
     }
     &:hover {
       .text-section .subtitle {
-        opacity: 1;
-        transform: translateY(0);
+
+        @include media(lg) {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
     }
     img {
