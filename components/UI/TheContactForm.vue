@@ -2,7 +2,7 @@
   <div class="contact-form">
     <form key="notSent" :class="{'sending': $root.sent}" @submit.prevent class="go-bottom is-flex-column">
         <div class="name">
-            <label :class="{'selected': nameFocused}" for="name">Full Name</label>
+            <label :class="{'selected': nameFocused || saved}" for="name">Full Name</label>
             <input autocomplete="given-name" @focus="nameFocused = true" @blur="nameClicked = true" :class="{'is-danger': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" v-model="form.yourName" id="name" name="name" type="text" required>
             <i :class="{'is-danger': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}"><img src="/images/error.svg" alt="error icon"></i>
             <span :class="{'is-visible': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" class="has-text-danger">Please type your full name</span>
@@ -10,14 +10,14 @@
 
 
         <div class="email">
-            <label :class="{'selected': emailFocused}" for="email">Email</label>
+            <label :class="{'selected': emailFocused || saved}" for="email">Email</label>
             <input autocomplete="email" @focus="emailFocused = true" @blur="emailClicked = true" :class="{'is-danger': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" v-model="form.yourEmail" id="email" name="email" type="email" required>
             <i :class="{'is-danger': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}"><img src="/images/error.svg" alt="error icon"></i>
             <span :class="{'is-visible': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" class="has-text-danger">Please type an Email</span>
         </div>
 
         <div class="message">
-            <label :class="{'selected': messageFocused}" @focus="messageFocused = true" for="message">Message</label>
+            <label :class="{'selected': messageFocused || saved}" @focus="messageFocused = true" for="message">Message</label>
             <textarea class="hidden-mobile" rows="5" v-model="form.yourMessage" id="message" name="message"></textarea>
             <textarea class="is-hidden-mobile-large" rows="1" placeholder="Write your message here ..." v-model="form.yourMessage" id="message_mobile" name="message_mobile"></textarea>
         </div>
@@ -72,6 +72,7 @@
     data () {
       return {
         sending: false,
+        saved: false,
         $v: null,
         nameClicked: false,
         surnameClicked: false,
@@ -111,7 +112,7 @@
     },
     mounted () {
       if (this.$localStorage.get('formData')) {
-        // console.log("local storage found, populating");
+        this.saved = true
         let form = JSON.parse(this.$localStorage.get('formData'))
         this.form = form
         this.disabled = false
@@ -252,6 +253,7 @@
     max-height: 0%;
     transition: all 0.3s ease-in-out;
     min-height: 200px;
+    z-index: -1;
 
     @include media(md) {
       min-height: 445px;
@@ -265,6 +267,7 @@
       position: relative;
       opacity: 1;
       max-height: 100%;
+      z-index: 1;
     }
     p {
       line-height: 1.2;
