@@ -169,10 +169,14 @@
     },
     async mounted () {
       if (process.browser) {
-        const { data } = await this.$axios.get(
+        const home = await this.$axios.get(
           Config.wpDomain + Config.api.homePage
         )
-        this.$store.commit('setHomepage', data)
+        this.$store.commit('setHomepage', home.data)
+        const projects = await this.$axios.get(
+          Config.wpDomain + Config.api.projects
+        )
+        this.$store.commit('setProjects', projects.data)
         setTimeout(() => {
           this.handleScroll()
         }, 300)
@@ -279,6 +283,7 @@
         return this.$store.state.projects
       },
       filteredProjects () {
+        if (!this.$store.state.projects.length) return false
         const order = this.acf.case_studies.order
         return this.projects.sort((a, b) => {
           return order.indexOf(a.id) > order.indexOf(b.id)
