@@ -61,7 +61,7 @@ module.exports = {
       {
         hid: 'twitter:card',
         name: 'twitter:card',
-        content: ''
+        content: 'Nunziella Salluce Design'
       },
       {
         hid: 'twitter:title',
