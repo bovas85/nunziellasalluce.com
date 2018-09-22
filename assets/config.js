@@ -12,9 +12,9 @@ const Config = {
   url: 'https://nunziellasalluce.netlify.com',
   loadDbName: 'starter_wp',
   api: {
-    homePage: '/wp/v2/pages/18',
-    contactPage: '/wp/v2/pages/235',
-    aboutPage: '/wp/v2/pages/310',
+    homePage: '/wp/v2/pages/18/',
+    contactPage: '/wp/v2/pages/235/',
+    aboutPage: '/wp/v2/pages/310/',
     projects: '/wp/v2/casestudies',
     caseStudy: '/wp/v2/casestudies?slug=',
     postFormContact: '/contact-form-7/v1/contact-forms/78/feedback'

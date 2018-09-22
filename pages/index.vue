@@ -594,13 +594,17 @@
           max-height: 320px;
           border-radius: 100%;
           background-color: $grey;
-          mix-blend-mode: color-burn;
+          mix-blend-mode: multiply;
           justify-self: center;
           display: flex;
           justify-content: center;
           align-items: center;
           grid-column: 1 / -1;
           @include fadeInUp;
+
+          @supports (mix-blend-mode: color-burn) {
+            mix-blend-mode: color-burn;
+          }
 
           p {
             font-size: responsive(18px 21px);
