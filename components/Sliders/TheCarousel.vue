@@ -309,7 +309,6 @@
   }
   .swiper-slide {
     cursor: pointer;
-    // cursor: -webkit-grab;
     overflow: hidden;
     box-shadow: 0 1px 5px 0 $grey;
     height: 300px;
@@ -334,8 +333,7 @@
       display: flex;
       flex-direction: column;
       text-align: center;
-      opacity: 1;
-      z-index: 1;
+      z-index: 4;
 
       .subtitle {
         opacity: 1;
@@ -382,7 +380,6 @@
     }
     &:hover {
       .text-section .subtitle {
-
         @include media(lg) {
           opacity: 1;
           transform: translateY(0);
