@@ -61,7 +61,7 @@ module.exports = {
       {
         hid: 'twitter:card',
         name: 'twitter:card',
-        content: 'Nunziella Salluce Design'
+        content: 'summary_large_image'
       },
       {
         hid: 'twitter:title',
@@ -74,11 +74,11 @@ module.exports = {
         content:
           'UI and Visual Designer trying to make the world a colourful place.'
       },
-      { hid: 'twitter:site', name: 'twitter:site', content: '@lucettinas' },
+      { hid: 'twitter:site', name: 'twitter:site', content: '@SNunziella' },
       {
         hid: 'twitter:creator',
         name: 'twitter:creator',
-        content: '@lucettinas'
+        content: '@SNunziella'
       },
       {
         hid: 'twitter:image',
