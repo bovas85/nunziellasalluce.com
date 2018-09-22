@@ -169,9 +169,7 @@
     },
     async mounted () {
       if (process.browser) {
-        const home = await this.$axios.get(
-          Config.wpDomain + Config.api.homePage
-        )
+        const home = await this.$axios.get(Config.wpDomain + Config.api.homePage)
         this.$store.commit('setHomepage', home.data)
         const projects = await this.$axios.get(
           Config.wpDomain + Config.api.projects
@@ -742,7 +740,7 @@
     }
     &.testimonials {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       margin-bottom: $gap;
@@ -754,9 +752,11 @@
 
       .container {
         @include fadeInUp;
+        flex-basis: 100%;
       }
 
       .wrapper {
+        max-width: $tablet;
         position: relative;
         @include fadeInUp;
         transition-delay: 0.2s;
