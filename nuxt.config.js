@@ -2,6 +2,7 @@ const Config = require('./assets/config')
 const axios = require('axios')
 
 module.exports = {
+  mode: 'universal',
   /*
   ** Headers
   ** Common headers are already provided by @nuxtjs/pwa preset
@@ -39,7 +40,8 @@ module.exports = {
       {
         hid: 'image',
         name: 'image',
-        content: 'https://nunziellasalluce.com/images/facebook.png'
+        content:
+          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-facebook.jpg'
       },
       { hid: 'name', itemprop: 'name', content: 'Nunziella Salluce Design' },
       {
@@ -50,7 +52,8 @@ module.exports = {
       {
         hid: 'image',
         itemprop: 'image',
-        content: 'https://nunziellasalluce.com/images/facebook.png'
+        content:
+          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-facebook.jpg'
       },
       {
         hid: 'twitter:card',
@@ -76,7 +79,8 @@ module.exports = {
       {
         hid: 'twitter:image',
         name: 'twitter:image',
-        content: 'https://nunziellasalluce.com/images/twitter.png'
+        content:
+          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-twitter.jpg'
       },
       {
         hid: 'og:title',
@@ -99,12 +103,14 @@ module.exports = {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: 'https://nunziellasalluce.com/images/facebook.png'
+        content:
+          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-facebook.jpg'
       },
       {
         hid: 'og:image:url',
         property: 'og:image:url',
-        content: 'https://nunziellasalluce.com/images/facebook.png'
+        content:
+          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-facebook.jpg'
       },
       {
         hid: 'og:image:width',
