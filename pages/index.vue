@@ -611,7 +611,7 @@
           max-height: 320px;
           border-radius: 100%;
           background-color: $grey;
-          mix-blend-mode: multiply;
+          mix-blend-mode: color-burn;
           justify-self: center;
           display: flex;
           justify-content: center;
@@ -619,8 +619,8 @@
           grid-column: 1 / -1;
           @include fadeInUp;
 
-          @supports (mix-blend-mode: color-burn) {
-            mix-blend-mode: color-burn;
+          @media not all and (min-resolution: 0.001dpcm) {
+            mix-blend-mode: multiply;
           }
 
           p {
