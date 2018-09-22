@@ -83,7 +83,13 @@ module.exports = {
       {
         hid: 'twitter:image',
         name: 'twitter:image',
-        content: 'https://nunziellasalluce.com/images/twitter.png'
+        content:
+          'https://api.nunziellasalluce.com/wp-content/uploads/2018/09/facebook.png'
+      },
+      {
+        hid: 'twitter:image:alt',
+        name: 'twitter:image:alt',
+        content: 'My Website Image'
       },
       {
         hid: 'og:title',
