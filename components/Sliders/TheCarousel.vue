@@ -10,11 +10,6 @@
           :key="item.id"
           @click="$router.push(item.slug)"
         >
-          <div class="text-section">
-            <h3>{{item.acf.hero.title}}</h3>
-            <h4 class="subtitle">{{item.acf.category}}</h4>
-            <button role="navigation" class="subtitle subtitle--show">Show Case Study</button>
-          </div>
           <lazy-image class='image'
             :hover="true"
             :image="item.acf.hero.desktop_bg"
@@ -22,7 +17,13 @@
             :title="item.acf.hero.title"
             :imageMobile="item.acf.hero.mobile_bg"
             :link="item.slug"
-          />
+          >
+            <div class="text-section">
+              <h3>{{item.acf.hero.title}}</h3>
+              <h4 class="subtitle">{{item.acf.category}}</h4>
+              <button role="navigation" class="subtitle subtitle--show">Show Case Study</button>
+            </div>
+          </lazy-image>
         </div>
 
       </div>
@@ -108,108 +109,6 @@
     },
     components: {
       LazyImage: () => import('@/components/UI/LazyImage')
-    },
-    methods: {
-      move (off) {
-        let trans = document.querySelector('.swiper-wrapper')
-        let val = window
-          .getComputedStyle(trans, null)
-          .getPropertyValue('transform')
-          .split(',')[4]
-        if (off) {
-          trans.style.transform = `translateX(${val})`
-        } else trans.style.transform = `translateX(${val - 300})`
-      },
-      openCarousel (modal) {
-        this.$root.$emit('modalOpen')
-        this.$store.commit('openModal')
-        this.imageModal = true
-      },
-      closeCarousel () {
-        this.$root.$emit('modalClosed')
-        this.$store.commit('closeModal')
-        this.imageModal = false
-        this.image = 0
-        this.currentSlide = 0
-      },
-      openSlide (slide) {
-        this.$emit('clicked', slide)
-      },
-      toggleSmallCarousel () {
-        this.smallCarousel = !this.smallCarousel
-      },
-      slideshowLeft () {
-        if (this.image > 0) {
-          this.image--
-        }
-      },
-      slideshowRight () {
-        if (this.image < this.data.length - 1) {
-          this.image++
-        }
-      },
-      checkIndex (index) {
-        return this.doubles.indexOf(index) !== -1
-      },
-      slidingAnimation () {
-        // set a slide animation state to prevent accidental clicks
-        this.sliding = true
-        setTimeout(() => {
-          this.sliding = false
-        }, 550)
-      },
-      goToimage (image) {
-        if (this.sliding) {
-          // check animation state here
-          return false
-        }
-        this.$root.$router.push(image.acf.link.url)
-      },
-      bindImage (image) {
-        if (image.acf.image) {
-          return `${image.acf.image.url} 500w, ${image.acf.image.url} 1024w, ${
-            image.acf.image.url
-          } 1100w`
-        } else {
-          return `https://placehold.it/1280x500 1100w`
-        }
-      },
-      bindBackground (image) {
-        return {
-          'background-image': `url('${image.image.url}')`
-        }
-      }
-    },
-    updated () {
-      if (this.currentIndex === 0) {
-        this.sliderPosition = 0
-      } else if (this.currentIndex === 1) {
-        this.sliderPosition = '100%'
-      } else {
-        this.sliderPosition = 100 * this.currentIndex + '%'
-      }
-    },
-    computed: {
-      transformVal () {
-        if (process.browser) {
-          let trans = document.querySelector('.swiper-wrapper')
-          return window
-            .getComputedStyle(trans, null)
-            .getPropertyValue('transform')
-            .split(',')[4]
-        } else return false
-      },
-      currentIndex: {
-        // get current slider index
-        cache: false,
-        get () {
-          if (this.$refs.Carousel) {
-            return this.$refs.Carousel.swiper
-              ? this.$refs.Carousel.swiper.realIndex
-              : 0
-          } else return false
-        }
-      }
     }
   }
 </script>
