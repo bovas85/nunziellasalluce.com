@@ -447,18 +447,34 @@
         } else return this.projects[this.getIndex + 1]
       },
       bgImage () {
-        if (!this.project) return 'https://placehold.it/2048/2048'
         if (process.browser) {
           if (this.$store.state.window < 577) {
-            return this.project.hero.mobile_bg.sizes.large
+            return get(
+              this.project,
+              'hero.mobile_bg.sizes.large',
+              'https://placehold.it/2048/2048'
+            )
           } else if (
             this.$store.state.window > 576 &&
             this.$store.state.window < 1440
           ) {
-            return this.project.hero.desktop_bg.sizes.large
-          } else return this.project.hero.desktop_bg.sizes.ultra
+            return get(
+              this.project,
+              'hero.desktop_bg.sizes.large',
+              'https://placehold.it/2048/2048'
+            )
+          } else
+            return get(
+              this.project,
+              'hero.desktop_bg.sizes.ultra',
+              'https://placehold.it/2048/2048'
+            )
         }
-        return this.project.hero.desktop_bg.sizes.large
+        return get(
+          this.project,
+          'hero.desktop_bg.sizes.large',
+          'https://placehold.it/2048/2048'
+        )
       }
     },
     beforeDestroy () {
@@ -781,7 +797,7 @@
           padding: 0 $gap / 1.5 $gap / 1.5;
           margin-top: $gap;
 
-          @include media (md) {
+          @include media(md) {
             margin-top: 0;
           }
 

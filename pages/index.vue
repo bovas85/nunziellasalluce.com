@@ -142,6 +142,7 @@
   import debounce from 'lodash/debounce'
   import IconArrow from '@/components/Icons/IconArrow'
   import Config from '~/assets/config'
+  import get from 'lodash/get'
   let scroller, steps
 
   export default {
@@ -301,18 +302,34 @@
         } else return 0
       },
       bgImage () {
-        if (!this.homePage.acf.hero) return 'https://placehold.it/2048/2048'
         if (process.browser) {
           if (this.$store.state.window < 577) {
-            return this.homePage.acf.hero.mobile_bg.sizes.large
+            return get(
+              this.homePage,
+              'acf.hero.mobile_bg.sizes.large',
+              'https://placehold.it/2048/2048'
+            )
           } else if (
             this.$store.state.window > 576 &&
             this.$store.state.window < 1440
           ) {
-            return this.homePage.acf.hero.desktop_bg.sizes.large
-          } else return this.homePage.acf.hero.desktop_bg.sizes.ultra
+            return get(
+              this.homePage,
+              'acf.hero.desktop_bg.sizes.large',
+              'https://placehold.it/2048/2048'
+            )
+          } else
+            return get(
+              this.homePage,
+              'acf.hero.desktop_bg.sizes.ultra',
+              'https://placehold.it/2048/2048'
+            )
         }
-        return this.homePage.acf.hero.desktop_bg.sizes.large
+        return get(
+          this.homePage,
+          'acf.hero.desktop_bg.sizes.large',
+          'https://placehold.it/2048/2048'
+        )
       }
     }
   }
