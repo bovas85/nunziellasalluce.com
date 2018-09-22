@@ -1,6 +1,6 @@
 <template>
   <main class="home">
-    <section v-if="homePage" class="section hero step" :style="`background-image: url('${bgImage}')`">
+    <section v-if="acf" class="section hero step" :style="`background-image: url('${bgImage}')`">
       <div class="container is-flex-column" :class="{'animated': animateHeader}">
         <h1 class="jumbo">{{acf.hero.title}}</h1>
         <h3>{{acf.hero.description}}</h3>
@@ -16,25 +16,25 @@
       </div>
     </section>
 
-    <section class="section who-i-am step" v-if="homePage">
+    <section class="section who-i-am step" v-if="acf">
       <div class="container">
-        <h1 :class="{'animated': animateWho}" v-if="homePage.acf">{{homePage.acf.who_i_am.title}}</h1>
+        <h1 :class="{'animated': animateWho}" v-if="acf">{{acf.who_i_am.title}}</h1>
         <div class="wrapper">
           <lazy-image
             class='image'
             :class="{'animated': animateWho}"
-            v-if="homePage.acf"
-            :image="homePage.acf.who_i_am.image"
-            :title="homePage.acf.who_i_am.title"
+            v-if="acf"
+            :image="acf.who_i_am.image"
+            :title="acf.who_i_am.title"
             :hover="false"
-            :imageMobile="homePage.acf.who_i_am.image"
+            :imageMobile="acf.who_i_am.image"
             home
           />
           <div class="text">
             <p
               :class="{'animated': animateWho}"
-              v-for="(item, index) in homePage.acf.who_i_am.text_group"
-              v-if="homePage.acf"
+              v-for="(item, index) in acf.who_i_am.text_group"
+              v-if="acf"
               :key="index"
               class="jumbo"
             >
@@ -50,7 +50,7 @@
       </div>
     </section>
 
-    <section id="#work" class="projects section step" v-if="filteredProjects && homePage">
+    <section id="#work" class="projects section step" v-if="filteredProjects && acf">
       <div class="container" :class="{'animated': animateWork}">
         <h1>{{acf.case_studies.title}}</h1>
       </div>
@@ -61,7 +61,7 @@
       />
     </section>
 
-    <section class="the-process step" v-if="homePage">
+    <section class="the-process step" v-if="acf">
       <div class="container">
         <h1 :class="{'animated': animateProcess}">{{acf.the_process.title}}</h1>
         <div class="container is-flex">
@@ -75,7 +75,7 @@
       </div>
     </section>
 
-    <section class="capabilities step" v-if="homePage">
+    <section class="capabilities step" v-if="acf">
       <div class="container">
         <h1 :class="{'animated': animateCapab}">{{acf.capabilities.title}}</h1>
         <div :class="{'animated': animateCapab}" class="skill col--4-tablet">
@@ -96,7 +96,7 @@
       </div>
     </section>
 
-    <section class="testimonials step" v-if="homePage">
+    <section class="testimonials step" v-if="acf">
       <div class="container" :class="{'animated': animateTestimonials}">
         <h1>{{acf.testimonials.title}}</h1>
       </div>
