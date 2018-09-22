@@ -124,8 +124,6 @@
         this.$root.$emit('modalOpen')
         this.$store.commit('openModal')
         this.imageModal = true
-        // this.image = modal;
-        // this.currentSlide = modal;
       },
       closeCarousel () {
         this.$root.$emit('modalClosed')
@@ -333,7 +331,8 @@
       display: flex;
       flex-direction: column;
       text-align: center;
-      z-index: 4;
+      opacity: 1;
+      z-index: 9999;
 
       .subtitle {
         opacity: 1;

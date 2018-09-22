@@ -182,6 +182,7 @@
       }
     }
   }
+
   @supports (display: grid) {
     .progressive-image,
     .progressive-image-wrapper {
@@ -193,6 +194,7 @@
         height: 100%;
         position: relative;
         object-fit: cover;
+        z-index: 0;
         width: 100%;
         height: 100%;
       }
