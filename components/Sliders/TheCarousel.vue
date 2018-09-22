@@ -10,6 +10,11 @@
           :key="item.id"
           @click="$router.push(item.slug)"
         >
+          <div class="text-section">
+            <h3>{{item.acf.hero.title}}</h3>
+            <h4 class="subtitle">{{item.acf.category}}</h4>
+            <button role="navigation" class="subtitle subtitle--show">Show Case Study</button>
+          </div>
           <lazy-image class='image'
             :hover="true"
             :image="item.acf.hero.desktop_bg"
@@ -18,11 +23,6 @@
             :imageMobile="item.acf.hero.mobile_bg"
             :link="item.slug"
           />
-          <div class="text-section">
-            <h3>{{item.acf.hero.title}}</h3>
-            <h4 class="subtitle">{{item.acf.category}}</h4>
-            <button role="navigation" class="subtitle subtitle--show">Show Case Study</button>
-          </div>
         </div>
 
       </div>
