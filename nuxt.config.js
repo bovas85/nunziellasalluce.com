@@ -30,30 +30,28 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: ''
+        content: 'UI and Visual Designer trying to make the world a colourful place.'
       },
       {
         hid: 'keywords',
         name: 'keywords',
-        content: ''
+        content: 'Nunziella Salluce, Nunziella, Portfolio, UI Design, UI London, Design London, Web Designer London, UI Designer in London, UX Design'
       },
       {
         hid: 'image',
         name: 'image',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-facebook.jpg'
+        content: 'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/facebook.jpg'
       },
       { hid: 'name', itemprop: 'name', content: 'Nunziella Salluce Design' },
       {
         hid: 'description',
         itemprop: 'description',
-        content: ''
+        content: 'UI and Visual Designer trying to make the world a colourful place.'
       },
       {
         hid: 'image',
         itemprop: 'image',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-facebook.jpg'
+        content: 'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/facebook.jpg'
       },
       {
         hid: 'twitter:card',
@@ -68,7 +66,7 @@ module.exports = {
       {
         hid: 'twitter:description',
         name: 'twitter:description',
-        content: ''
+        content: 'UI and Visual Designer trying to make the world a colourful place.'
       },
       { hid: 'twitter:site', name: 'twitter:site', content: '@lucettinas' },
       {
@@ -79,8 +77,7 @@ module.exports = {
       {
         hid: 'twitter:image',
         name: 'twitter:image',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-twitter.jpg'
+        content: 'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/facebook.jpg'
       },
       {
         hid: 'og:title',
@@ -96,21 +93,20 @@ module.exports = {
       {
         hid: 'og:description',
         property: 'og:description',
-        content: ''
+        content: 'UI and Visual Designer trying to make the world a colourful place.'
+
       },
       { hid: 'og:locale', property: 'og:locale', content: 'en_GB' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       {
         hid: 'og:image',
         property: 'og:image',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-facebook.jpg'
+        content: 'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/facebook.jpg'
       },
       {
         hid: 'og:image:url',
         property: 'og:image:url',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/GBA-facebook.jpg'
+        content: 'https://api.nunziellasalluce.com/wp-content/uploads/2018/07/facebook.jpg'
       },
       {
         hid: 'og:image:width',
