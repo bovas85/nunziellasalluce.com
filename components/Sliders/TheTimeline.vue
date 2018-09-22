@@ -96,44 +96,8 @@
       IconArrow
     },
     methods: {
-      move (off) {
-        let trans = document.querySelector('.swiper-wrapper')
-        let val = window
-          .getComputedStyle(trans, null)
-          .getPropertyValue('transform')
-          .split(',')[4]
-        if (off) {
-          trans.style.transform = `translateX(${val})`
-        } else trans.style.transform = `translateX(${val - 300})`
-      },
-      slideshowLeft () {
-        if (this.image > 0) {
-          this.image--
-          currentIndex()
-        }
-      },
-      slideshowRight () {
-        if (this.image < this.data.length - 1) {
-          this.image++
-          currentIndex()
-        }
-      },
       checkIndex (index) {
         return this.doubles.indexOf(index) !== -1
-      },
-      slidingAnimation () {
-        // set a slide animation state to prevent accidental clicks
-        this.sliding = true
-        setTimeout(() => {
-          this.sliding = false
-        }, 550)
-      },
-      currentIndex () {
-        if (this.$refs.Timeline) {
-          return this.$refs.Timeline.swiper
-            ? this.$refs.Timeline.swiper.realIndex
-            : 0
-        } else return false
       }
     },
     computed: {
