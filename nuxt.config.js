@@ -42,8 +42,7 @@ module.exports = {
       {
         hid: 'image',
         name: 'image',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/09/facebook.png'
+        content: 'https://nunziellasalluce.com/images/seo.png'
       },
       { hid: 'name', itemprop: 'name', content: 'Nunziella Salluce Design' },
       {
@@ -55,8 +54,7 @@ module.exports = {
       {
         hid: 'image',
         itemprop: 'image',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/09/facebook.png'
+        content: 'https://nunziellasalluce.com/images/seo.png'
       },
       {
         hid: 'twitter:card',
@@ -83,8 +81,7 @@ module.exports = {
       {
         hid: 'twitter:image',
         name: 'twitter:image',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/09/facebook.png'
+        content: 'https://nunziellasalluce.com/images/seo.png'
       },
       {
         hid: 'twitter:image:alt',
@@ -113,14 +110,12 @@ module.exports = {
       {
         hid: 'og:image',
         property: 'og:image',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/09/facebook.png'
+        content: 'https://nunziellasalluce.com/images/seo.png'
       },
       {
         hid: 'og:image:url',
         property: 'og:image:url',
-        content:
-          'https://api.nunziellasalluce.com/wp-content/uploads/2018/09/facebook.png'
+        content: 'https://nunziellasalluce.com/images/seo.png'
       },
       {
         hid: 'og:image:width',
