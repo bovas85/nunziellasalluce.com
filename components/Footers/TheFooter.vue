@@ -2,16 +2,14 @@
   <footer class="footer">
     <div class="container is-flex">
       <div class="left-section is-flex-column">
-        <div @click="$root.refreshPage()">
-          <the-logo-static 
-            :width="90"
-            :height="46"
-            :mobileWidth="50"
-            :mobileHeight="31"
-            static
-            fill='#f4a261'
-          />
-        </div>
+        <the-logo-static 
+          :width="90"
+          :height="46"
+          :mobileWidth="50"
+          :mobileHeight="31"
+          static
+          fill='#f4a261'
+        />
         <div class="links">
           <p>Email: <a href="mailto:hello@nunziellasalluce.com?subject=Interview request">hello@nunziellasalluce.com</a></p>
           <p class="referral-link">Coded with 🧔 by <a href="https://moustachedesign.xyz?referrer=nunziella-salluce-design" target="_blank">Moustache Design</a></p>

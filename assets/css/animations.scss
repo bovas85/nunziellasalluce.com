@@ -29,17 +29,30 @@
 }
 
 .page-enter-active {
-  transition: transform 800ms cubic-bezier(0.4, 0.1, 0.7, 0.95);
-  backface-visibility: hidden;
-  will-change: transform;
-}
-
-.page-enter {
-  transform: translateY(100%);
+  animation: acrossIn .40s ease-out both;
 }
 
 .page-leave-active {
   display: block;
+  animation: acrossOut .80s ease-in both;
+}
+
+@keyframes acrossIn {
+  0% {
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes acrossOut {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, -100%, 0);
+  }
 }
 
 .pageRight-enter-active {

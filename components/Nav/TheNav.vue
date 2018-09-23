@@ -57,7 +57,6 @@
             to='/'
             :class="$route.path === '/' && 'nuxt-link-active'"
             exact
-            @click.native="refreshPage()"
           >
             Home
           </nuxt-link>
