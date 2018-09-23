@@ -19,3 +19,10 @@
     }
   }
 </script>
+
+<style>
+  body,
+  html {
+    overflow: auto;
+  }
+</style>

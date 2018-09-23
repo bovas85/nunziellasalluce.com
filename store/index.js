@@ -32,6 +32,8 @@ const createStore = () => {
       },
       openMenu (state) {
         if (process.browser) {
+          state.navOpen = true
+          state.modalOpen = true
           let body = document.querySelector('body')
           let html = document.querySelector('html')
           if (body && html) {
@@ -39,8 +41,6 @@ const createStore = () => {
             html.style.overflow = 'hidden'
           }
         }
-        state.navOpen = true
-        state.modalOpen = true
       },
       sortProjects (state, obj) {
         // sorting alphabetically
