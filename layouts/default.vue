@@ -2,9 +2,7 @@
   <div class="app">
     <cookie-box />
     <the-nav />
-    <div class="app-main">
-      <nuxt/>
-    </div>
+    <nuxt/>
     <the-footer />
   </div>
 </template>
@@ -21,7 +19,3 @@
     }
   }
 </script>
-
-
-<style lang="scss" scoped>
-</style>
