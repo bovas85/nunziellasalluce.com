@@ -27,6 +27,9 @@
           />
         </nuxt-link>
 
+        <a id="js-click-mobile" v-if="$route.path === '/'" href="/#work" v-scroll="{element: '.projects'}">
+          Work
+        </a>
         <div
           v-if="$store.state.window && $store.state.window < 1024"
           @click="$store.commit('openMenu')"
@@ -194,6 +197,11 @@
     @include media(sm) {
       height: 90px;
       padding: 0;
+    }
+
+    #js-click-mobile {
+      position: absolute;
+      visibility: hidden;
     }
 
     .navbar {

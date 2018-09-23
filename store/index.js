@@ -27,14 +27,6 @@ const createStore = () => {
         state.menuScrolled = true
       },
       closeMenu (state) {
-        if (process.browser) {
-          let body = document.querySelector('body')
-          let html = document.querySelector('html')
-          if (body && html) {
-            body.style.overflow = 'auto'
-            html.style.overflow = 'auto'
-          }
-        }
         state.navOpen = false
         state.modalOpen = false
       },
@@ -111,6 +103,27 @@ const createStore = () => {
           commit('setHomepage', arr[0])
           commit('setProjects', arr[1])
         }
+      },
+      resetScroll ({ commit }) {
+        if (process.browser) {
+          let body = document.querySelector('body')
+          let html = document.querySelector('html')
+          if (body && html) {
+            body.style.overflow = 'auto'
+            html.style.overflow = 'auto'
+            setTimeout(() => {
+              const hash = document.location.hash
+              if (hash && hash === '#work') {
+                const clickable = document.querySelector('#js-click-mobile')
+                if (clickable) {
+                  clickable.click()
+                }
+              }
+            }, 100)
+          }
+        }
+
+        commit('closeMenu')
       }
     }
   })

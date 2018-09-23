@@ -2,7 +2,7 @@
   <div>
     <div
       class="overlay"
-      @click="$store.commit('closeMenu')"
+      @click="$store.dispatch('resetScroll')"
       :class="{'is-visible': $store.state.navOpen}"/>
     <div 
       class="right-nav"
@@ -20,17 +20,15 @@
         </nuxt-link>
         <a
           v-else-if="$route.path === '/'"
-          @click="$store.commit('closeMenu')"
-          href="#work"
-          v-scroll="{element: '.projects'}"
+          @click="$store.dispatch('resetScroll')"
+          href="/#work"
         >
           Work
         </a>
         <nuxt-link
           v-else
-          @click="$store.commit('closeMenu')"
+          @click="$store.dispatch('resetScroll')"
           to="/#work"
-          v-scroll="{element: '.projects'}"
         >
         Work
       </nuxt-link>

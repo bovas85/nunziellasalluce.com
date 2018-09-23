@@ -1,5 +1,5 @@
 <template>
-  <section id="#work" class="projects section step" v-if="filteredProjects && acf">
+  <section class="projects section step" v-if="filteredProjects && acf">
       <div class="container" :class="{'animated': animateWork}">
         <h1>{{acf.case_studies.title}}</h1>
       </div>

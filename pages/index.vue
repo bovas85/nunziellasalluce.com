@@ -8,11 +8,16 @@
 
     <who-i-am :acf="acf" :animateWho="animateWho" />
 
-    <the-work
-      :filteredProjects="filteredProjects"
-      :acf="acf"
-      :animateWork="animateWork"
-    />
+    <div
+      id="work"
+      class="projects"
+    >
+      <the-work
+        :filteredProjects="filteredProjects"
+        :acf="acf"
+        :animateWork="animateWork"
+      />
+    </div>
 
     <the-process
       :acf="acf"
@@ -73,14 +78,15 @@
         setTimeout(() => {
           this.handleScroll()
         }, 300)
-        setTimeout(() => {
-          if (this.$route.hash) {
-            const clickable = document.querySelector('#js-click')
-            if (clickable) {
-              clickable.click()
-            }
+        if (this.$route.hash) {
+          const clickable = document.querySelector('#js-click')
+          const clickableMobile = document.querySelector('#js-click-mobile')
+          if (clickable) {
+            clickable.click()
+          } else if (clickableMobile) {
+            clickableMobile.click()
           }
-        }, 900)
+        }
       }
     },
     methods: {
@@ -161,8 +167,8 @@
       }, 150)
     },
     beforeDestroy () {
-      if (scroller.disable) {
-        scroller.disable()
+      if (typeof scroller !== 'undefined') {
+        scroller.disable && scroller.disable()
       }
       scroller = null
       steps = null

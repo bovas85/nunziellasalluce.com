@@ -326,8 +326,8 @@
       }
     },
     beforeDestroy () {
-      if (scroller.disable) {
-        scroller.disable()
+      if (typeof scroller !== 'undefined') {
+        scroller.disable && scroller.disable()
       }
       scroller = null
       steps = null
