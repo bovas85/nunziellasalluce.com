@@ -138,9 +138,9 @@
           var type = connection.type
           let vm = this
           function updateConnectionStatus () {
-            console.log(
-              'Connection type changed from ' + type + ' to ' + connection.type
-            )
+            // console.log(
+            //   'Connection type changed from ' + type + ' to ' + connection.type
+            // )
             vm.$store.commit('setConnection', connection.type)
           }
           connection.addEventListener('typechange', updateConnectionStatus)
