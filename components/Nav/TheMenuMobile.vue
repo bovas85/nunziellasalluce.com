@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div 
-      class="overlay" 
-      @click="$store.commit('closeMenu')" 
+    <div
+      class="overlay"
+      @click="$store.commit('closeMenu')"
       :class="{'is-visible': $store.state.navOpen}"/>
     <div 
-      class="right-nav" 
+      class="right-nav"
       :class="{'is-visible': $store.state.navOpen}"
     >
       <ul class="menu">

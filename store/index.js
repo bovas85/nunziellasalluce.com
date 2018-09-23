@@ -27,10 +27,26 @@ const createStore = () => {
         state.menuScrolled = true
       },
       closeMenu (state) {
+        if (process.browser) {
+          let body = document.querySelector('body')
+          let html = document.querySelector('html')
+          if (body && html) {
+            body.style.overflow = 'auto'
+            html.style.overflow = 'auto'
+          }
+        }
         state.navOpen = false
         state.modalOpen = false
       },
       openMenu (state) {
+        if (process.browser) {
+          let body = document.querySelector('body')
+          let html = document.querySelector('html')
+          if (body && html) {
+            body.style.overflow = 'hidden'
+            html.style.overflow = 'hidden'
+          }
+        }
         state.navOpen = true
         state.modalOpen = true
       },
