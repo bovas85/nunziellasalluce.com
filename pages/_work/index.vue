@@ -25,7 +25,11 @@
       :animateFinal="animateFinal"
     />
 
-    <div class="work-navigation step" :class="{'animated': animateBottomImage}" v-if="previousProject.acf.hero && nextProject.acf.hero">
+    <div
+      class="work-navigation step"
+      :class="{'animated': animateBottomImage}"
+      v-if="previousProject.acf.hero && nextProject.acf.hero"
+    >
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="previousProject.slug">
           <lazy-image
