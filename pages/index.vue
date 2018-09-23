@@ -161,7 +161,9 @@
       }, 150)
     },
     beforeDestroy () {
-      scroller.disable()
+      if (scroller.disable) {
+        scroller.disable()
+      }
       scroller = null
       steps = null
       window.removeEventListener('resize', this.scrollamaResize, false)
