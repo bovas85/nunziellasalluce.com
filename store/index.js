@@ -38,7 +38,7 @@ const createStore = () => {
           let html = document.querySelector('html')
           if (body && html) {
             body.style.overflow = 'hidden'
-            html.style.overflow = 'hidden'
+            // html.style.overflow = 'hidden'
           }
         }
       },
@@ -110,7 +110,7 @@ const createStore = () => {
           let html = document.querySelector('html')
           if (body && html) {
             body.style.overflow = 'auto'
-            html.style.overflow = 'auto'
+            // html.style.overflow = 'auto'
             setTimeout(() => {
               const hash = document.location.hash
               if (hash && hash === '#work') {

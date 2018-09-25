@@ -21,8 +21,7 @@
 </script>
 
 <style>
-  body,
-  html {
-    overflow: auto;
+  body {
+    overflow: initial;
   }
 </style>
