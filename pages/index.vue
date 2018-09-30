@@ -69,6 +69,7 @@
     },
     async mounted () {
       if (process.browser) {
+        this.animateHeader = true
         const home = await this.$axios.get(Config.wpDomain + Config.api.homePage)
         this.$store.commit('setHomepage', home.data)
         const projects = await this.$axios.get(

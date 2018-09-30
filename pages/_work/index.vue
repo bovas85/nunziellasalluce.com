@@ -167,6 +167,7 @@
     },
     async mounted () {
       if (process.browser) {
+        this.animateHeader = true
         const { data } = await this.$axios.get(
           Config.wpDomain + Config.api.projects
         )

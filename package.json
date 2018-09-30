@@ -9,6 +9,7 @@
     "@nuxtjs/pwa": "^2.6.0",
     "@nuxtjs/sitemap": "^0.1.1",
     "animejs": "^2.2.0",
+    "axios-extensions": "^3.0.3",
     "bulma": "^0.7.1",
     "intersection-observer": "^0.5.0",
     "nuxt-start": "^2.0.0",

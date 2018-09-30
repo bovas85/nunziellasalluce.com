@@ -1,7 +1,14 @@
 import Vuex from 'vuex'
+import axios from 'axios'
+import { cacheAdapterEnhancer } from 'axios-extensions'
 import Config from '~/assets/config.js'
-let arr = []
-let count = 0
+
+const $http = axios.create({
+  headers: { 'Cache-Control': 'no-cache' },
+  https: true,
+  // cache will be enabled by default
+  adapter: cacheAdapterEnhancer(axios.defaults.adapter)
+})
 
 const createStore = () => {
   return new Vuex.Store({
@@ -72,34 +79,21 @@ const createStore = () => {
          * Also, if using nuxt generate, nuxtServerInit will be called for every page
          * Because of this caching, the API calls will only be done once
          */
-        if (count === 0 || count > 5) {
-          count = 0
-          arr = []
-          console.log('============= Server Init API calls =============')
-          try {
-            console.log('home')
-            let home = await app.$axios.get(
-              Config.wpDomain + Config.api.homePage
-            )
-            arr.push(home.data)
-            commit('setHomepage', home.data)
+        // console.log('============= Server Init API calls =============')
+        try {
+          // console.log('home')
+          let home = await $http.get(
+            Config.wpDomain + Config.api.homePage
+          )
+          commit('setHomepage', home.data)
 
-            console.log('case studies')
-            let projects = await app.$axios.get(
-              Config.wpDomain + Config.api.projects
-            )
-            arr.push(projects.data)
-            commit('setProjects', projects.data)
-            // count++ // enable when live
-          } catch (e) {
-            console.log('error with API')
-            arr = []
-          }
-        } else {
-          count++
-          console.log('using cached api')
-          commit('setHomepage', arr[0])
-          commit('setProjects', arr[1])
+          // console.log('case studies')
+          let projects = await $http.get(
+            Config.wpDomain + Config.api.projects
+          )
+          commit('setProjects', projects.data)
+        } catch (e) {
+          console.log('error with API')
         }
       },
       resetScroll ({ commit }) {
