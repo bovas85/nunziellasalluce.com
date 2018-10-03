@@ -79,7 +79,8 @@
       }
 
       a {
-        color: currentColor;
+        color: $primary;
+        font-weight: 600;
         text-decoration: none;
         @include size(h4);
       }

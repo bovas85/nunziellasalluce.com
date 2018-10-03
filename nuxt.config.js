@@ -1,5 +1,6 @@
 const Config = require('./assets/config')
 const axios = require('axios')
+const opn = require('opn')
 
 module.exports = {
   mode: 'universal',
@@ -22,7 +23,7 @@ module.exports = {
       {
         hid: 'viewport',
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1, user-scalable=no'
+        content: 'width=device-width, initial-scale=1'
       },
       { name: 'msapplication-TileColor', content: '#ffffff' },
       { name: 'msapplication-TileImage', content: '/ms-icon-144x144.png' },
@@ -171,6 +172,11 @@ module.exports = {
           }
         })
       }
+    }
+  },
+  hooks: {
+    listen (server, { host, port }) {
+      opn(`http://${host}:${port}`)
     }
   },
   generate: {

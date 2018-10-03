@@ -50,6 +50,7 @@
     "node-sass": "^4.9.3",
     "nuxt": "^2.0.0",
     "nuxt-sass-resources-loader": "^2.0.5",
+    "opn": "^5.4.0",
     "postcss-loader": "^3.0.0",
     "postcss-responsive-type": "^1.0.0",
     "sass-loader": "^7.1.0",
