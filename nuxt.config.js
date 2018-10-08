@@ -209,6 +209,7 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
     '@nuxtjs/sitemap',
+    'cookies-universal-nuxt',
     [
       '@nuxtjs/google-analytics',
       {

@@ -46,6 +46,7 @@
 
   export default {
     scrollToTop: true,
+    middleware: 'ABtesting',
     data () {
       return {
         animateHeader: false,
@@ -69,6 +70,11 @@
     },
     async mounted () {
       if (process.browser) {
+        // if (this.$cookies.get('ab-testing')) {
+        //   console.log('found cookie')
+        // } else {
+        //   this.$cookies.set('ab-testing', true)
+        // }
         this.animateHeader = true
         setTimeout(() => {
           this.handleScroll()
