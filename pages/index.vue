@@ -196,8 +196,7 @@
         return this.$store.state.homePage.acf
       },
       testimonials () {
-        if (this.acf.testimonials.testimonials == null) return false
-        return this.acf.testimonials.testimonials
+        return get(this.acf, 'testimonials.testimonials')
       },
       bgImage () {
         if (process.browser) {

@@ -209,6 +209,12 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
     '@nuxtjs/sitemap',
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'UA-55886565-2'
+      }
+    ],
     ['nuxt-sass-resources-loader', '~/assets/css/variables.scss']
   ],
   sitemap: {
