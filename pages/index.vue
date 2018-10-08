@@ -70,15 +70,15 @@
     async mounted () {
       if (process.browser) {
         this.animateHeader = true
+        setTimeout(() => {
+          this.handleScroll()
+        }, 300)
         const home = await this.$axios.get(Config.wpDomain + Config.api.homePage)
         this.$store.commit('setHomepage', home.data)
         const projects = await this.$axios.get(
           Config.wpDomain + Config.api.projects
         )
         this.$store.commit('setProjects', projects.data)
-        setTimeout(() => {
-          this.handleScroll()
-        }, 300)
         if (this.$route.hash) {
           const clickable = document.querySelector('#js-click')
           const clickableMobile = document.querySelector('#js-click-mobile')

@@ -168,13 +168,13 @@
     async mounted () {
       if (process.browser) {
         this.animateHeader = true
+        setTimeout(() => {
+          this.handleScroll()
+        }, 300)
         const { data } = await this.$axios.get(
           Config.wpDomain + Config.api.projects
         )
         this.$store.commit('setProjects', data)
-        setTimeout(() => {
-          this.handleScroll()
-        }, 300)
       }
     },
     methods: {
