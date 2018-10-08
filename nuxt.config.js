@@ -212,7 +212,7 @@ module.exports = {
     [
       '@nuxtjs/google-analytics',
       {
-        id: 'UA-55886565-2'
+        id: 'UA-55886565-3'
       }
     ],
     ['nuxt-sass-resources-loader', '~/assets/css/variables.scss']
