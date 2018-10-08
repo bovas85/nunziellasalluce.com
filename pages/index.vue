@@ -70,11 +70,14 @@
     },
     async mounted () {
       if (process.browser) {
-        // if (this.$cookies.get('ab-testing')) {
-        //   console.log('found cookie')
-        // } else {
-        //   this.$cookies.set('ab-testing', true)
-        // }
+        if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
+          if (this.$cookies.get('ab-testing')) {
+            // don't send ab test here
+          } else {
+            this.$cookies.set('ab-testing', true, 30)
+            // send ab testing here
+          }
+        }
         this.animateHeader = true
         setTimeout(() => {
           this.handleScroll()
