@@ -79,14 +79,14 @@
           }
         }
         this.animateHeader = true
-        setTimeout(() => {
-          this.handleScroll()
-        }, 300)
         const home = await this.$axios.get(Config.wpDomain + Config.api.homePage)
         this.$store.commit('setHomepage', home.data)
         const projects = await this.$axios.get(
           Config.wpDomain + Config.api.projects
         )
+        setTimeout(() => {
+          this.handleScroll()
+        }, 300)
         this.$store.commit('setProjects', projects.data)
         if (this.$route.hash) {
           const clickable = document.querySelector('#js-click')
