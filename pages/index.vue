@@ -46,7 +46,6 @@
 
   export default {
     scrollToTop: true,
-    middleware: 'ABtesting',
     data () {
       return {
         animateHeader: false,
@@ -69,19 +68,6 @@
       return { title: 'Home' }
     },
     async created () {
-      if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
-        // if we have a query and it matches ab testing, run the second page call instead
-        if (this.$cookies.get('ab-testing')) {
-          const home = await this.$axios.get(
-            Config.wpDomain + Config.api.homePage2
-          )
-          this.$store.commit('setHomepage', home.data)
-        }
-      } else {
-        this.$cookies.set('ab-testing', true, 30)
-        const home = await this.$axios.get(Config.wpDomain + Config.api.homePage)
-        this.$store.commit('setHomepage', home.data)
-      }
       const projects = await this.$axios.get(
         Config.wpDomain + Config.api.projects
       )
@@ -89,6 +75,21 @@
     },
     async mounted () {
       if (process.browser) {
+        if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
+          // if we have a query and it matches ab testing, run the second page call instead
+          if (this.$cookies.get('ab-testing')) {
+            const home = await this.$axios.get(
+              Config.wpDomain + Config.api.homePage2
+            )
+            this.$store.commit('setHomepage', home.data)
+          }
+        } else {
+          this.$cookies.set('ab-testing', true, 30)
+          const home = await this.$axios.get(
+            Config.wpDomain + Config.api.homePage
+          )
+          this.$store.commit('setHomepage', home.data)
+        }
         setTimeout(() => {
           this.animateHeader = true
           this.handleScroll()
