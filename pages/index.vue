@@ -68,6 +68,14 @@
     head () {
       return { title: 'Home' }
     },
+    async created () {
+      const home = await this.$axios.get(Config.wpDomain + Config.api.homePage)
+      this.$store.commit('setHomepage', home.data)
+      const projects = await this.$axios.get(
+        Config.wpDomain + Config.api.projects
+      )
+      this.$store.commit('setProjects', projects.data)
+    },
     async mounted () {
       if (process.browser) {
         if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
@@ -79,15 +87,10 @@
           }
         }
         this.animateHeader = true
-        const home = await this.$axios.get(Config.wpDomain + Config.api.homePage)
-        this.$store.commit('setHomepage', home.data)
-        const projects = await this.$axios.get(
-          Config.wpDomain + Config.api.projects
-        )
+
         setTimeout(() => {
           this.handleScroll()
-        }, 300)
-        this.$store.commit('setProjects', projects.data)
+        }, 150)
         if (this.$route.hash) {
           const clickable = document.querySelector('#js-click')
           const clickableMobile = document.querySelector('#js-click-mobile')
