@@ -173,8 +173,8 @@
     },
     async mounted () {
       if (process.browser) {
-        this.animateHeader = true
         setTimeout(() => {
+          this.animateHeader = true
           this.handleScroll()
         }, 150)
       }

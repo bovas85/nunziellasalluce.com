@@ -72,7 +72,7 @@ const createStore = () => {
       }
     },
     actions: {
-      async nuxtServerInit ({ commit }, { app }) {
+      async nuxtServerInit ({ commit }, { app, route }) {
         /**
          * This is the secret sauce.
          * If the data being requested is cached, subsequent API calls will not be made
@@ -82,18 +82,24 @@ const createStore = () => {
         // console.log('============= Server Init API calls =============')
         try {
           // console.log('home')
-          let home = await $http.get(
-            Config.wpDomain + Config.api.homePage
-          )
-          commit('setHomepage', home.data)
-
+          if (route.query && route.query.utm_source === 'A/B Testing') {
+            // if we have a query and it matches ab testing, run the second page call instead
+            if (app.$cookies.get('ab-testing')) {
+              const home = await $http.get(
+                Config.wpDomain + Config.api.homePage2
+              )
+              commit('setHomepage', home.data)
+            }
+          } else {
+            app.$cookies.set('ab-testing', true, 30)
+            const home = await $http.get(Config.wpDomain + Config.api.homePage)
+            commit('setHomepage', home.data)
+          }
           // console.log('case studies')
-          let projects = await $http.get(
-            Config.wpDomain + Config.api.projects
-          )
+          let projects = await $http.get(Config.wpDomain + Config.api.projects)
           commit('setProjects', projects.data)
         } catch (e) {
-          console.log('error with API')
+          console.log('error with API', e)
         }
       },
       resetScroll ({ commit }) {

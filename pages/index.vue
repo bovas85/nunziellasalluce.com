@@ -69,8 +69,19 @@
       return { title: 'Home' }
     },
     async created () {
-      const home = await this.$axios.get(Config.wpDomain + Config.api.homePage)
-      this.$store.commit('setHomepage', home.data)
+      if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
+        // if we have a query and it matches ab testing, run the second page call instead
+        if (this.$cookies.get('ab-testing')) {
+          const home = await this.$axios.get(
+            Config.wpDomain + Config.api.homePage2
+          )
+          this.$store.commit('setHomepage', home.data)
+        }
+      } else {
+        this.$cookies.set('ab-testing', true, 30)
+        const home = await this.$axios.get(Config.wpDomain + Config.api.homePage)
+        this.$store.commit('setHomepage', home.data)
+      }
       const projects = await this.$axios.get(
         Config.wpDomain + Config.api.projects
       )
@@ -78,17 +89,8 @@
     },
     async mounted () {
       if (process.browser) {
-        if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
-          if (this.$cookies.get('ab-testing')) {
-            // don't send ab test here
-          } else {
-            this.$cookies.set('ab-testing', true, 30)
-            // send ab testing here
-          }
-        }
-        this.animateHeader = true
-
         setTimeout(() => {
+          this.animateHeader = true
           this.handleScroll()
         }, 150)
         if (this.$route.hash) {
@@ -198,7 +200,7 @@
       },
       filteredProjects () {
         if (!this.projects.length) return false
-        const order = this.acf.case_studies.order
+        const order = get(this.acf, 'case_studies.order')
         return this.projects.sort((a, b) => {
           return order.indexOf(a.id) > order.indexOf(b.id)
         })
