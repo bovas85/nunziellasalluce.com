@@ -108,7 +108,11 @@
               clickable.click()
             }, 700)
           } else if (clickableMobile) {
-            clickableMobile.click()
+            window.scrollTo(0, 0)
+            setTimeout(() => {
+              clickableMobile.click()
+              clickableMobile.click()
+            }, 700)
           }
         }
       }
