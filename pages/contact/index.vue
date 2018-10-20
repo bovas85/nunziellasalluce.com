@@ -38,7 +38,10 @@
 
   export default {
     async asyncData ({ $axios }) {
-      const { data } = await $axios.get(Config.wpDomain + Config.api.contactPage)
+      const { data } = await $axios.get(
+        Config.wpDomain + Config.api.contactPage,
+        { useCache: true }
+      )
       return { contactPage: data }
     },
     components: {

@@ -1,14 +1,5 @@
 import Vuex from 'vuex'
-import axios from 'axios'
-import { cacheAdapterEnhancer } from 'axios-extensions'
 import Config from '~/assets/config.js'
-
-const $http = axios.create({
-  headers: { 'Cache-Control': 'no-cache' },
-  https: true,
-  // cache will be enabled by default
-  adapter: cacheAdapterEnhancer(axios.defaults.adapter)
-})
 
 const createStore = () => {
   return new Vuex.Store({
@@ -84,19 +75,25 @@ const createStore = () => {
           // console.log('home')
           if (route.query && route.query.utm_source === 'A/B Testing') {
             // if we have a query and it matches ab testing, run the second page call instead
-            if (app.$cookies.get('ab-testing')) {
-              const home = await $http.get(
+            if (app.$cookies.get('ab-testing', { useCache: true })) {
+              const home = await app.$axios.get(
                 Config.wpDomain + Config.api.homePage2
               )
               commit('setHomepage', home.data)
             }
           } else {
             app.$cookies.set('ab-testing', true, 30)
-            const home = await $http.get(Config.wpDomain + Config.api.homePage)
+            const home = await app.$axios.get(
+              Config.wpDomain + Config.api.homePage,
+              { useCache: true }
+            )
             commit('setHomepage', home.data)
           }
           // console.log('case studies')
-          let projects = await $http.get(Config.wpDomain + Config.api.projects)
+          let projects = await app.$axios.get(
+            Config.wpDomain + Config.api.projects,
+            { useCache: true }
+          )
           commit('setProjects', projects.data)
         } catch (e) {
           console.log('error with API', e)

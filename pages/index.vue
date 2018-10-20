@@ -69,7 +69,8 @@
     },
     async created () {
       const projects = await this.$axios.get(
-        Config.wpDomain + Config.api.projects
+        Config.wpDomain + Config.api.projects,
+        { useCache: true }
       )
       this.$store.commit('setProjects', projects.data)
     },
@@ -77,16 +78,18 @@
       if (process.browser) {
         if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
           // if we have a query and it matches ab testing, run the second page call instead
-          if (this.$cookies.get('ab-testing')) {
+          if ((this.$cookies.get('ab-testing'), { useCache: true })) {
             const home = await this.$axios.get(
-              Config.wpDomain + Config.api.homePage2
+              Config.wpDomain + Config.api.homePage2,
+              { useCache: true }
             )
             this.$store.commit('setHomepage', home.data)
           }
         } else {
           this.$cookies.set('ab-testing', true, 30)
           const home = await this.$axios.get(
-            Config.wpDomain + Config.api.homePage
+            Config.wpDomain + Config.api.homePage,
+            { useCache: true }
           )
           this.$store.commit('setHomepage', home.data)
         }

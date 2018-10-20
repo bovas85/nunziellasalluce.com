@@ -167,7 +167,8 @@
     },
     async created () {
       const { data } = await this.$axios.get(
-        Config.wpDomain + Config.api.projects
+        Config.wpDomain + Config.api.projects,
+        { useCache: true }
       )
       this.$store.commit('setProjects', data)
     },

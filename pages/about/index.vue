@@ -34,7 +34,9 @@
 
   export default {
     async asyncData ({ $axios }) {
-      const { data } = await $axios.get(Config.wpDomain + Config.api.aboutPage)
+      const { data } = await $axios.get(Config.wpDomain + Config.api.aboutPage, {
+        useCache: true
+      })
       return { aboutPage: data.acf }
     },
     components: {

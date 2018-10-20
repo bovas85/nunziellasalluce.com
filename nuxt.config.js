@@ -233,6 +233,7 @@ module.exports = {
     }
   },
   plugins: [
+    '~/plugins/axios.js',
     '~/plugins/store.js',
     { src: '~/plugins/ab-testing.js', ssr: false },
     { src: '~/plugins/vue-media.js', ssr: false },
