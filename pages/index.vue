@@ -100,8 +100,13 @@
         if (this.$route.hash) {
           const clickable = document.querySelector('#js-click')
           const clickableMobile = document.querySelector('#js-click-mobile')
+
           if (clickable) {
-            clickable.click()
+            window.scrollTo(0, 0)
+            setTimeout(() => {
+              clickable.click()
+              clickable.click()
+            }, 700)
           } else if (clickableMobile) {
             clickableMobile.click()
           }

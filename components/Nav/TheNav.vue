@@ -58,20 +58,19 @@
         >
           <nuxt-link
             to='/'
-            :class="$route.path === '/' && 'nuxt-link-active'"
+            :class="$route.path === '/' && $route.hash !== '#work' && 'nuxt-link-active'"
             exact
           >
             Home
           </nuxt-link>
 
-          <a id="js-click" v-if="$route.path === '/'" href="#work" v-scroll="{element: '.projects'}">
+          <a id="js-click" v-if="$route.path === '/'" :class="$route.hash === '#work'
+              && 'nuxt-link-active'" href="#work" v-scroll="{element: '.projects'}">
             Work
           </a>
           <nuxt-link
             v-else
-            :class="$route.path !== '/'
-              && $route.path !== '/contact'
-              && $route.path != '/about'
+            :class="$route.hash === '/#work'
               && 'nuxt-link-active'"
             to='/#work'
             exact
