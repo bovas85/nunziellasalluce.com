@@ -86,7 +86,7 @@ const createStore = () => {
             commit('setHomepage', home.data)
           }
           // console.log('case studies')
-          let projects = await app.$axios.get(
+          const projects = await app.$axios.get(
             Config.wpDomain + Config.api.projects,
             { useCache: true }
           )
