@@ -7,6 +7,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.2",
     "@nuxtjs/google-analytics": "^2.0.2",
+    "@nuxtjs/proxy": "^1.2.4",
     "@nuxtjs/pwa": "^2.6.0",
     "@nuxtjs/sitemap": "^0.1.1",
     "animejs": "^2.2.0",

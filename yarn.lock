@@ -968,7 +968,7 @@
 
 "@nuxtjs/proxy@^1.2.4":
   version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/proxy/-/proxy-1.2.4.tgz#41aafac58854f14e28aed17238936bb6404e6071"
+  resolved "http://registry.npmjs.org/@nuxtjs/proxy/-/proxy-1.2.4.tgz#41aafac58854f14e28aed17238936bb6404e6071"
   dependencies:
     consola "^1.1.4"
     http-proxy-middleware "^0.18.0"

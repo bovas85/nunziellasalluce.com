@@ -237,11 +237,17 @@ module.exports = {
     exclude: ['/.git']
   },
   axios: {
-    timeout: 5000,
+    timeout: 6000,
     debug: false,
-    https: true,
     headers: {
-      'Cache-Control': 'no-cache'
+      'Content-Type': 'multipart/form-data'
+    },
+    proxy: true
+  },
+  proxy: {
+    '/forms/': {
+      target: 'http://api.nunziellasalluce.com',
+      pathRewrite: { '^/forms/': '' }
     }
   },
   plugins: [

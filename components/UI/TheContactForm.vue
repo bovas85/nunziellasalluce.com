@@ -182,10 +182,18 @@
           formData.append('your-email', this.form.yourEmail)
           formData.append('your-message', this.form.yourMessage)
           this.$axios
-            .post(`${Config.client}${Config.api.postFormContact}`, formData)
+            .post(`/forms/wp-json${Config.api.postFormContact}`, formData)
             .then(res => {
               this.disabled = false
               this.sending = false
+              try {
+                this.$ga.event({
+                  eventCategory: 'form',
+                  eventAction: 'submit',
+                  eventLabel: 'contact',
+                  eventValue: 0
+                })
+              } catch (e) {}
             })
             .catch(err => {
               console.log('contact send error', err)
