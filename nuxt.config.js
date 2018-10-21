@@ -241,7 +241,7 @@ module.exports = {
     debug: false,
     https: true,
     headers: {
-      'Content-type': 'multipart/form-data'
+      'Cache-Control': 'no-cache'
     }
   },
   plugins: [

@@ -182,7 +182,7 @@
           formData.append('your-email', this.form.yourEmail)
           formData.append('your-message', this.form.yourMessage)
           this.$axios
-            .post(`${Config.wpDomain}${Config.api.postFormContact}`, formData)
+            .post(`${Config.client}${Config.api.postFormContact}`, formData)
             .then(res => {
               this.disabled = false
               this.sending = false
@@ -527,7 +527,8 @@
     }
   }
 
-  .name, .email {
+  .name,
+  .email {
     position: relative;
 
     i {
@@ -535,7 +536,7 @@
       top: $gap;
       right: 8px;
       opacity: 0;
-      transition: opacity .4s ease-in-out;
+      transition: opacity 0.4s ease-in-out;
 
       &.is-danger {
         opacity: 1;
