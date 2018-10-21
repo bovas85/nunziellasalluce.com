@@ -14,7 +14,7 @@
         <h3 class="supertitle">Case Studies - {{project.category}}</h3>
         <h3>{{project.hero.description}}</h3>
     </div>
-    <div v-scroll="{element:'.client-intro'}" class="scroll-down" :class="{'animated': animateHeader}">
+    <div v-scroll-to="{element:'.client-intro'}" class="scroll-down" :class="{'animated': animateHeader}">
         <p>scroll</p>
         <div class="scroll-down__arrow">
           <icon-arrow :fill="'white'" name='arrow-down' :width="30" :height="40" />

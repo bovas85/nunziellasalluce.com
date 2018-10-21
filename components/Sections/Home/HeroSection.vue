@@ -4,13 +4,13 @@
         <h1 class="jumbo">{{acf.hero.title}}</h1>
         <h3>{{acf.hero.description}}</h3>
       </div>
-      <div v-scroll="{element:'.who-i-am'}" class="scroll-down">
+      <div v-scroll-to="{element:'.who-i-am'}" class="scroll-down">
         <p>scroll</p>
         <div class="scroll-down__arrow">
           <icon-arrow :fill="'black'" direction='down' name='arrow-down' :width="30" :height="40" />
         </div>
       </div>
-      <div class="rotating-text" v-scroll="{element:'.projects'}">
+      <div class="rotating-text" v-scroll-to="{element:'.projects'}">
         <img src="/images/rotating-text.png" alt="Check my Portfolio">
       </div>
     </section>

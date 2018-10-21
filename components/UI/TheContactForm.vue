@@ -34,7 +34,7 @@
         <div class="field is-grouped">
             <div class="control">
                 <input type="text" hidden autocomplete="off" v-model="honeypot" class="hidden honeypot" />
-                <button v-scroll="{element:'.go-bottom'}" :disabled="disabled || saved" :class="{'is-disabled': disabled || saved}" @click.prevent="sendForm()" class="button button--contact">{{ $store.state.connection !== 'none' ? 'Submit' : 'Save'}}</button>
+                <button v-scroll-to="{element:'.go-bottom'}" :disabled="disabled || saved" :class="{'is-disabled': disabled || saved}" @click.prevent="sendForm()" class="button button--contact">{{ $store.state.connection !== 'none' ? 'Submit' : 'Save'}}</button>
             </div>
         </div>
 

@@ -27,7 +27,7 @@
           />
         </nuxt-link>
 
-        <a id="js-click-mobile" v-if="$route.path === '/'" href="/#work" v-scroll="{element: '.projects'}">
+        <a id="js-click-mobile" v-if="$route.path === '/'" href="#work" v-scroll-to="{element: '.projects'}">
           Work
         </a>
         <div
@@ -65,7 +65,7 @@
           </nuxt-link>
 
           <a id="js-click" v-if="$route.path === '/'" :class="$route.hash === '#work'
-              && 'nuxt-link-active'" href="#work" v-scroll="{element: '.projects'}">
+              && 'nuxt-link-active'" href="#work" v-scroll-to="{element: '.projects'}">
             Work
           </a>
           <nuxt-link

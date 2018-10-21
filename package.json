@@ -23,6 +23,7 @@
     "vue-media": "^1.1.1",
     "vue-no-ssr": "^1.0.0",
     "vue-progressive-image": "^2.5.0",
+    "vue-scrollto": "^2.13.0",
     "vuelidate": "^0.7.4"
   },
   "scripts": {
