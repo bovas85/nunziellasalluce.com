@@ -11,27 +11,21 @@
       <ul class="menu">
         <nuxt-link
           v-for="(menu, index) in menuItems"
-          :key="index"
+          :key="menu === '' ? 'home': menu"
           exact
           v-if="menu !== 'work'"
-          :to="menu === 'work' ? '/#work' : `/${menu}`"
+          :to="`/${menu}`"
         >
           {{ menu === '' ? 'Home' : menu }}
         </nuxt-link>
-        <a
-          v-else-if="$route.path === '/'"
-          @click="$store.dispatch('resetScroll')"
-          href="/#work"
-        >
-          Work
-        </a>
         <nuxt-link
-          v-else
-          @click="$store.dispatch('resetScroll')"
+          v-else-if="$route.path !== '/'"
+          key='work'
           to="/#work"
         >
         Work
       </nuxt-link>
+      <a v-else @click="$store.commit('resetMenus')" key='work' href='#work' v-scroll-to="{element:'.projects'}">Work</a>
       </ul>
       <div class="bottom-section">
         <p>email: <a href="mailto:hello@nunziellasalluce.com?Subject=Hello">hello@nunziellasalluce.com</a></p>

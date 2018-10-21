@@ -27,9 +27,6 @@
           />
         </nuxt-link>
 
-        <a id="js-click-mobile" v-if="$route.path === '/'" href="#work" v-scroll-to="{element: '.projects'}">
-          Work
-        </a>
         <div
           v-if="$store.state.window && $store.state.window < 1024"
           @click="$store.commit('openMenu')"
@@ -63,14 +60,8 @@
           >
             Home
           </nuxt-link>
-
-          <a id="js-click" v-if="$route.path === '/'" :class="$route.hash === '#work'
-              && 'nuxt-link-active'" href="#work" v-scroll-to="{element: '.projects'}">
-            Work
-          </a>
           <nuxt-link
-            v-else
-            :class="$route.hash === '/#work'
+            :class="$route.hash === '#work'
               && 'nuxt-link-active'"
             to='/#work'
             exact
@@ -196,11 +187,6 @@
     @include media(sm) {
       height: 90px;
       padding: 0;
-    }
-
-    #js-click-mobile {
-      position: absolute;
-      visibility: hidden;
     }
 
     .navbar {

@@ -24,10 +24,6 @@ const createStore = () => {
       showMenuBg (state) {
         state.menuScrolled = true
       },
-      closeMenu (state) {
-        state.navOpen = false
-        state.modalOpen = false
-      },
       openMenu (state) {
         if (process.browser) {
           state.navOpen = true
@@ -104,19 +100,9 @@ const createStore = () => {
           let body = document.querySelector('body')
           if (body) {
             body.style.overflow = 'auto'
-            setTimeout(() => {
-              const hash = document.location.hash
-              if (hash && hash === '#work') {
-                const clickable = document.querySelector('#js-click-mobile')
-                if (clickable) {
-                  clickable.click()
-                }
-              }
-            }, 100)
           }
         }
-
-        commit('closeMenu')
+        commit('resetMenus')
       }
     }
   })

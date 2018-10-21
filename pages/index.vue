@@ -99,20 +99,10 @@
         }, 150)
         if (this.$route.hash) {
           if (process.browser) {
-            const clickable = document.querySelector('#js-click')
-            const clickableMobile = document.querySelector('#js-click-mobile')
-
-            if (clickable) {
-              window.scrollTo(0, 0)
-              setTimeout(() => {
-                clickable.click()
-              }, 700)
-            } else if (clickableMobile) {
-              window.scrollTo(0, 0)
-              setTimeout(() => {
-                clickableMobile.click()
-              }, 700)
-            }
+            window && window.scrollTo(0, 0)
+            setTimeout(() => {
+              this.$VueScrollTo.scrollTo('.projects')
+            }, 600)
           }
         }
       }
