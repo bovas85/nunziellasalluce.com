@@ -182,7 +182,7 @@
           formData.append('your-email', this.form.yourEmail)
           formData.append('your-message', this.form.yourMessage)
           this.$axios
-            .post(`/forms/wp-json${Config.api.postFormContact}`, formData)
+            .post(`${Config.api.wpDomain}${Config.api.postFormContact}`, formData)
             .then(res => {
               this.disabled = false
               this.sending = false

@@ -241,13 +241,6 @@ module.exports = {
     debug: false,
     headers: {
       'Content-Type': 'multipart/form-data'
-    },
-    proxy: true
-  },
-  proxy: {
-    '/forms/': {
-      target: 'https://api.nunziellasalluce.com',
-      pathRewrite: { '^/forms/': '' }
     }
   },
   plugins: [
