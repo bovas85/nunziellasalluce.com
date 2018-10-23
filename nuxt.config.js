@@ -246,7 +246,7 @@ module.exports = {
   },
   proxy: {
     '/forms/': {
-      target: 'http://api.nunziellasalluce.com',
+      target: 'https://api.nunziellasalluce.com',
       pathRewrite: { '^/forms/': '' }
     }
   },
