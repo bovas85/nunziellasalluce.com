@@ -54,6 +54,7 @@
     "netlify": "^1.2.0",
     "node-sass": "^4.9.3",
     "nuxt": "^2.0.0",
+    "nuxt-purgecss": "^0.0.1",
     "nuxt-sass-resources-loader": "^2.0.5",
     "opn": "^5.4.0",
     "postcss-loader": "^3.0.0",

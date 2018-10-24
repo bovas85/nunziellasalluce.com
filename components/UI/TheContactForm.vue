@@ -190,7 +190,7 @@
                 this.$ga.event({
                   eventCategory: 'form',
                   eventAction: 'submit',
-                  eventLabel: 'contact',
+                  eventLabel: 'submission',
                   eventValue: 0
                 })
               } catch (e) {}

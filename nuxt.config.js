@@ -221,6 +221,7 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
     '@nuxtjs/sitemap',
+    'nuxt-purgecss',
     'cookie-universal-nuxt',
     [
       '@nuxtjs/google-analytics',
@@ -230,6 +231,21 @@ module.exports = {
     ],
     ['nuxt-sass-resources-loader', '~/assets/css/variables.scss']
   ],
+  purgeCSS: {
+    whitelist: ['body', 'html', 'nuxt-progress']
+  },
+  workbox: {
+    runtimeCaching: [
+      {
+        // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
+        urlPattern: 'https://api.nunziellasalluce.com/.*',
+        // Defaults to `networkFirst` if omitted
+        handler: 'cacheFirst',
+        // Defaults to `GET` if omitted
+        method: 'GET'
+      }
+    ]
+  },
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://nunziellasalluce.com',
