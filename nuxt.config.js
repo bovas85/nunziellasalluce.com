@@ -195,7 +195,10 @@ module.exports = {
     fallback: '404.html',
     routes: function () {
       return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
-        return res.data.map(project => {
+        const filtered = res.data.filter(project => {
+          return project.acf.status === 'true'
+        })
+        return filtered.map(project => {
           return { route: '/' + project.slug, payload: project }
         })
       })

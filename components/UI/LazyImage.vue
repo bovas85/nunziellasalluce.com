@@ -21,7 +21,7 @@
     <no-ssr>
       <vue-media :query="({minWidth: 577, maxWidth: 1200})">
         <progressive-img
-          :src="image.sizes.medium"
+          :src="image.sizes.large"
           :alt="image.alt"
           @onLoad.once="imageLoaded"
           @onError="capture($event)"
@@ -163,7 +163,7 @@
 </script>
 
 <style lang="scss">
-  @supports not(display: grid) {
+  @supports not (display: grid) {
     .progressive-image-wrapper {
       position: relative;
       padding-top: 56.25%; /* 16:9 Aspect Ratio */
