@@ -234,36 +234,9 @@ module.exports = {
     ],
     ['nuxt-sass-resources-loader', '~/assets/css/variables.scss']
   ],
-  purgeCSS: () => {
-    return {
-      mode: MODES.webpack,
-      enabled: true,
-      paths: [
-        'components/**/*.vue',
-        'layouts/**/*.vue',
-        'pages/**/*.vue',
-        'plugins/**/*.js',
-        'assets/css/*'
-      ],
-      styleExtensions: ['.css'],
-      whitelist: [
-        'body',
-        'html',
-        'nuxt-progress',
-        'page-enter-active',
-        'page-leave-active'
-      ],
-      extractors: [
-        {
-          extractor: class {
-            static extract (content) {
-              return content.match(/[A-z0-9-:\\/]+/g)
-            }
-          },
-          extensions: ['html', 'vue', 'js']
-        }
-      ]
-    }
+  purgeCSS: {
+    whitelist: ['page-enter-active', 'page-leave-active'],
+    whitelistPatterns: [/^keyframes/]
   },
   workbox: {
     runtimeCaching: [
