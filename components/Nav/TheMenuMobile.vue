@@ -10,7 +10,7 @@
     >
       <ul class="menu">
         <nuxt-link
-          v-for="(menu, index) in menuItems"
+          v-for="menu in menuItems"
           :key="menu === '' ? 'home': menu"
           exact
           v-if="menu !== 'work'"

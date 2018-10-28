@@ -235,7 +235,16 @@ module.exports = {
     ['nuxt-sass-resources-loader', '~/assets/css/variables.scss']
   ],
   purgeCSS: {
-    whitelist: ['page-enter-active', 'page-leave-active'],
+    whitelist: [
+      'body',
+      'html',
+      'nuxt-progress',
+      'page-enter-active',
+      'page-leave-active',
+      'rotate',
+      'rotate-enter',
+      'rotate-leave-to'
+    ],
     whitelistPatterns: [/^keyframes/]
   },
   workbox: {
