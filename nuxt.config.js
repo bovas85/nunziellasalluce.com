@@ -221,7 +221,7 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
     '@nuxtjs/sitemap',
-    'nuxt-purgecss',
+    // 'nuxt-purgecss',
     'cookie-universal-nuxt',
     [
       '@nuxtjs/google-analytics',
@@ -231,9 +231,11 @@ module.exports = {
     ],
     ['nuxt-sass-resources-loader', '~/assets/css/variables.scss']
   ],
-  purgeCSS: {
-    whitelist: ['body', 'html', 'nuxt-progress']
-  },
+  // purgeCSS: {
+  //   whitelistPatterns: [/^page/],
+  //   whitelist: ['body', 'html', 'page', 'nuxt-progress'],
+  //   rejected: true
+  // },
   workbox: {
     runtimeCaching: [
       {
