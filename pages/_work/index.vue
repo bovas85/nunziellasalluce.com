@@ -33,7 +33,7 @@
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="previousProject.slug">
           <lazy-image
-            v-if="previousProject.acf.hero != null"
+            v-if="previousProject.acf.hero != null && previousProject.acf.status === 'true'"
             class='image'
             :hover="false"
             :image="previousProject.acf.hero.desktop_bg"
@@ -45,7 +45,7 @@
         </nuxt-link>
         <nuxt-link class="next" :to="nextProject.slug">
           <lazy-image
-            v-if="nextProject.acf.hero != null"
+            v-if="nextProject.acf.hero != null && nextProject.acf.status === 'true'"
             class='image'
             :hover="false"
             :image="nextProject.acf.hero.desktop_bg"
