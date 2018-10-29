@@ -204,6 +204,11 @@ module.exports = {
       })
     }
   },
+  render: {
+    static: {
+      maxAge: 2592000
+    }
+  },
   css: [
     // node.js module but we specify the pre-processor
     '@/assets/css/main.scss',
