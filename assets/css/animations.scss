@@ -28,6 +28,88 @@
   justify-content: center;
 }
 
+/* Splitting animations */
+
+.stagger-it {
+  .char {
+    transition: color 0.5s linear;
+    transition-delay: calc(0.04s * var(--char-index));
+  }
+  &:hover {
+    color: $primary;
+  }
+}
+
+/* ---------------------------------- */
+
+.color-cycle:hover .char {
+  animation: color-cycle 1s cubic-bezier(.5, 0, .5, 1) infinite alternate;
+  animation-delay: calc(0.03s * var(--char-index));
+  animation-duration: calc(0.04s * calc(var(--char-total)));
+}
+
+@keyframes color-cycle {
+  25% {
+    color: $yellow;
+  }
+  50% {
+    color: $primary;
+  }
+  75% {
+    color: $red;
+  }
+  100% {
+    color: $primary;
+  }
+}
+
+/* ---------------------------------- */
+
+.pop-out-color {
+  .char {
+    color: #000;
+    animation-timing-function: cubic-bezier(.5, 0, .5, 1), linear;
+    animation-iteration-count: infinite;
+    animation-duration: calc(0.08s * calc(var(--char-total)));
+    animation-delay: calc(0.08s * var(--char-index));
+
+    &:before,
+    &:after {
+      visibility: visible;
+      color: #fff;
+      z-index: 1;
+      animation: inherit;
+    }
+
+    &:after {
+      color: #fff;
+      z-index: 2;
+    }
+  }
+
+  &:hover .char {
+    animation-name: color-cycle;
+  }
+  &:hover .char:after {
+    animation-name: pop-char-out;
+  }
+  &:hover .char:before {
+    animation-name: pop-char-out2, color-cycle;
+  }
+}
+@keyframes pop-char-out2 {
+  0%,
+  70%,
+  100% {
+    transform: translate(0em, 0em);
+  }
+  35% {
+    transform: translate(0.025em, -0.05em);
+  }
+}
+
+/* ---------------------------------- */
+
 .page-enter-active {
   animation: acrossIn .40s ease-out both;
 }

@@ -86,6 +86,7 @@
 
       @include media(md) {
         padding-left: 0;
+        max-width: 40vw;
       }
     }
 

@@ -14,15 +14,23 @@
           home
         />
         <div class="text">
-          <p
-            :class="{'animated': animateWho}"
-            v-for="(item, index) in acf.who_i_am.text_group"
-            v-if="acf"
-            :key="index"
-            class="jumbo"
-          >
-            {{item.text}}
-          </p>
+          <no-ssr>
+            <p
+              :class="{
+                'animated': animateWho,
+                'stagger-it': index === 0,
+                'color-cycle': index === 1,
+                'pop-out-color': index === 2
+              }"
+              v-for="(item, index) in acf.who_i_am.text_group"
+              v-if="acf"
+              :key="index"
+              class="jumbo"
+              data-splitting
+            >
+              {{item.text}}
+            </p>
+          </no-ssr>
           <nuxt-link
             to="/about"
             :class="{'animated': animateWho}"

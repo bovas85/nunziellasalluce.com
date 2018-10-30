@@ -212,7 +212,8 @@ module.exports = {
   css: [
     // node.js module but we specify the pre-processor
     '@/assets/css/main.scss',
-    '@/assets/css/swiper.css'
+    '@/assets/css/swiper.css',
+    '@/assets/css/splitting.css'
   ],
   /*
   ** Customize the progress-bar style

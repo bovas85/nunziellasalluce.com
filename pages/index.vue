@@ -10,6 +10,7 @@
 
     <div
       id="work"
+      v-if='$store.state.window'
       class="projects"
     >
       <the-work
@@ -75,7 +76,7 @@
       this.$store.commit('setProjects', projects.data)
     },
     async mounted () {
-      if (process.browser) {
+      if (process.client) {
         if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
           // if we have a query and it matches ab testing, run the second page call instead
           if ((this.$cookies.get('ab-testing'), { useCache: true })) {
@@ -96,6 +97,7 @@
         setTimeout(() => {
           this.animateHeader = true
           this.handleScroll()
+          this.Splitting()
         }, 150)
         if (this.$route.hash) {
           if (process.browser) {

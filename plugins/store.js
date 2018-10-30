@@ -11,6 +11,12 @@ Vue.mixin({
     // avoid mounted as it runs every component load (not page load)
   },
   computed: {
+    Splitting () {
+      if (process.client) {
+        let Splitting = require('splitting')
+        return Splitting
+      }
+    },
     scrollama () {
       if (process.browser) {
         let scrollama = require('scrollama')
