@@ -20,10 +20,12 @@
       :animateChallenge="animateChallenge"
     />
     
-    <final-product
-      :project="project"
-      :animateFinal="animateFinal"
-    />
+    <no-ssr>
+      <final-product
+        :project="project"
+        :animateFinal="animateFinal"
+      />
+    </no-ssr>
 
     <div
       class="work-navigation step"
