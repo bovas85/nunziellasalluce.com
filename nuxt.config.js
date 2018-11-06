@@ -11,9 +11,7 @@ module.exports = {
   head: {
     titleTemplate: titleChunk => {
       // If undefined or blank then we don't need the hyphen
-      return titleChunk
-        ? `${titleChunk} - Nunziella Salluce Design`
-        : 'Nunziella Salluce Design'
+      return titleChunk ? `${titleChunk} - Nunziella Salluce Design` : 'Nunziella Salluce Design'
     },
     htmlAttrs: {
       lang: 'en'
@@ -31,8 +29,7 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content:
-          'UI and Visual Designer trying to make the world a colourful place.'
+        content: 'UI and Visual Designer trying to make the world a colourful place.'
       },
       {
         hid: 'keywords',
@@ -49,8 +46,7 @@ module.exports = {
       {
         hid: 'description',
         itemprop: 'description',
-        content:
-          'UI and Visual Designer trying to make the world a colourful place.'
+        content: 'UI and Visual Designer trying to make the world a colourful place.'
       },
       {
         hid: 'image',
@@ -70,8 +66,7 @@ module.exports = {
       {
         hid: 'twitter:description',
         name: 'twitter:description',
-        content:
-          'UI and Visual Designer trying to make the world a colourful place.'
+        content: 'UI and Visual Designer trying to make the world a colourful place.'
       },
       { hid: 'twitter:site', name: 'twitter:site', content: '@SNunziella' },
       {
@@ -103,8 +98,7 @@ module.exports = {
       {
         hid: 'og:description',
         property: 'og:description',
-        content:
-          'UI and Visual Designer trying to make the world a colourful place.'
+        content: 'UI and Visual Designer trying to make the world a colourful place.'
       },
       { hid: 'og:locale', property: 'og:locale', content: 'en_GB' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
@@ -242,12 +236,51 @@ module.exports = {
   workbox: {
     runtimeCaching: [
       {
-        // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
-        urlPattern: 'https://api.nunziellasalluce.com/.*',
-        // Defaults to `networkFirst` if omitted
+        urlPattern: 'https://api.nunziellasalluce.com/wp-content/uploads/.*',
         handler: 'cacheFirst',
-        // Defaults to `GET` if omitted
-        method: 'GET'
+        strategyOptions: {
+          cacheName: 'images',
+          cacheExpiration: {
+            maxEntries: 10,
+            maxAgeSeconds: 300
+          },
+          cacheableResponse: { statuses: [0, 200] }
+        }
+      },
+      {
+        urlPattern: 'https://api.nunziellasalluce.com/wp-json/wp/v2/casestudies/.*',
+        handler: 'networkFirst',
+        strategyOptions: {
+          cacheName: 'casestudies',
+          cacheExpiration: {
+            maxEntries: 10,
+            maxAgeSeconds: 0
+          }
+        }
+      },
+      {
+        urlPattern: 'https://api.nunziellasalluce.com/wp-json/wp/v2/pages/18/',
+        handler: 'cacheFirst',
+        strategyOptions: {
+          cacheName: 'homepage',
+          cacheExpiration: {
+            maxEntries: 10,
+            maxAgeSeconds: 300
+          }
+        }
+      },
+      {
+        urlPattern: 'https://fonts.googleapis.com/.*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: {
+          cacheName: 'fonts',
+          cacheExpiration: {
+            maxEntries: 10,
+            maxAgeSeconds: 300
+          },
+          cacheableResponse: { statuses: [0, 200] }
+        }
       }
     ]
   },

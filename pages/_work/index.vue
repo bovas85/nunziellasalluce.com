@@ -30,7 +30,7 @@
     <div
       class="work-navigation step"
       :class="{'animated': animateBottomImage}"
-      v-if="previousProject.acf.hero && nextProject.acf.hero"
+      v-if="previousProject && nextProject"
     >
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="previousProject.slug">
@@ -66,6 +66,7 @@
   import debounce from 'lodash/debounce'
   import Config from '~/assets/config'
   import WorkHero from '@/components/Sections/Work/WorkHero'
+  import get from 'lodash/get'
   let scroller, steps
 
   export default {
@@ -169,8 +170,7 @@
     },
     async created () {
       const { data } = await this.$axios.get(
-        Config.wpDomain + Config.api.projects,
-        { useCache: true }
+        Config.wpDomain + Config.api.projects
       )
       this.$store.commit('setProjects', data)
     },
@@ -280,9 +280,8 @@
         if (
           !this.$store.state.projects.length ||
           !this.$store.state.projects[this.getIndex]
-        )
-          return false
-        return this.$store.state.projects[this.getIndex].acf
+        ) { return false }
+        return get(this.$store.state.projects[this.getIndex], 'acf', false)
       },
       getIndex () {
         if (!this.projects.length) return 0

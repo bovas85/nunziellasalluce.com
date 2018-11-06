@@ -30,6 +30,6 @@ generate_pending
 
 # Generated files
 static/manifest*.json
-static/sw.js
+static/sw.*
 static/workbox-sw*.js
 
