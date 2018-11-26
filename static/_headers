@@ -3,4 +3,7 @@
   X-XSS-Protection: 1; mode=block
 
 /sw.js
-  cache-control: max-age=0
+  cache-control: max-age=0, no-cache, no-store, must-revalidate
+  
+/service-worker.js
+  cache-control: max-age=0, no-cache, no-store, must-revalidate
