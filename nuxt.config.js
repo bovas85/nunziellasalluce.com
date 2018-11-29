@@ -134,7 +134,7 @@ module.exports = {
       {
         src: 'https://cdn.polyfill.io/v2/polyfill.js?features=es6',
         integrity:
-          'OLBgp1GsljhM2TJ+sbHjaiH9txEUvgdDTAzHv2P24donTt6/529l+9Ua0vFImLlb',
+          'sha384-6907363e508bbe05a30f5cd521f126ce76403f9230c6aacfe5bd549ee7b03107153c125f40e3228ee9f7afd2b95e0fb5',
         crossorigin: 'anonymous'
       }
     ]
