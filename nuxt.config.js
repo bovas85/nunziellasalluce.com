@@ -269,17 +269,6 @@ module.exports = {
         }
       },
       {
-        urlPattern: 'https://api.nunziellasalluce.com/wp-json/wp/v2/pages/18/',
-        handler: 'cacheFirst',
-        strategyOptions: {
-          cacheName: 'homepage',
-          cacheExpiration: {
-            maxEntries: 10,
-            maxAgeSeconds: 300
-          }
-        }
-      },
-      {
         urlPattern: 'https://fonts.googleapis.com/.*',
         handler: 'cacheFirst',
         method: 'GET',
