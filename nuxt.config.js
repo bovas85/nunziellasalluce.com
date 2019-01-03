@@ -132,9 +132,8 @@ module.exports = {
     script: [
       // IE 11 polyfill for Array.find
       {
-        src: 'https://cdn.polyfill.io/v2/polyfill.min.js',
-        integrity:
-          'sha256-gDM1gN/a9XMKmmyvPJlgdKOT4HEWEne7U6BXLzQamfo= sha384-POOtw3D3VBs2lheWZ2q5okAvnHhxzVPsKRfnfNmyYLAesfNX5Q9XfI+JXCiqaKkE sha512-UUwoOLLrER67/n/NinAe3URZrNilnuObZEQlGdhiujyuz+bXYBZ8RgdyRVxTcj4HnJSjSn8UgjS7pq+is7POMQ==',
+        src: 'https://cdn.polyfill.io/v2/polyfill.js',
+        integrity: 'sha256-sJJC18TLaKJdd9Ku7ofNeNun7v0qe619Wm0Ildkt13k= sha384-fIFeA7nqS1zIaMcREF4WMKM6BXqxfFA1BQacfnmGQqRLs5C8uAJ5K4c/CONGIYAB sha512-mbZast24sDvi5hxChaedJlluxNySegslYHU7WRymIvvdfaNozguYwx9gd5Bzn7Wa7rRsmkgQPK2xbFdaZuTYOA==',
         crossorigin: 'anonymous'
       }
     ]
