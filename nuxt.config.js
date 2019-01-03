@@ -132,7 +132,7 @@ module.exports = {
     script: [
       // IE 11 polyfill for Array.find
       {
-        src: 'https://cdn.polyfill.io/v2/polyfill.js?features=es6',
+        src: 'https://cdn.polyfill.io/v2/polyfill.min.js',
         integrity:
           'sha384-6907363e508bbe05a30f5cd521f126ce76403f9230c6aacfe5bd549ee7b03107153c125f40e3228ee9f7afd2b95e0fb5',
         crossorigin: 'anonymous'
