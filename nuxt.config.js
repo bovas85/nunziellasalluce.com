@@ -134,7 +134,7 @@ module.exports = {
       {
         src: 'https://cdn.polyfill.io/v2/polyfill.min.js',
         integrity:
-          'sha384-6907363e508bbe05a30f5cd521f126ce76403f9230c6aacfe5bd549ee7b03107153c125f40e3228ee9f7afd2b95e0fb5',
+          'sha256-gDM1gN/a9XMKmmyvPJlgdKOT4HEWEne7U6BXLzQamfo= sha384-POOtw3D3VBs2lheWZ2q5okAvnHhxzVPsKRfnfNmyYLAesfNX5Q9XfI+JXCiqaKkE sha512-UUwoOLLrER67/n/NinAe3URZrNilnuObZEQlGdhiujyuz+bXYBZ8RgdyRVxTcj4HnJSjSn8UgjS7pq+is7POMQ==',
         crossorigin: 'anonymous'
       }
     ]
