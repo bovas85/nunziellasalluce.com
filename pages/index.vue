@@ -10,7 +10,7 @@
 
     <div
       id="work"
-      v-if='$store.state.window'
+      v-if='$store.state.window && filteredProjects'
       class="projects"
     >
       <the-work
@@ -130,45 +130,51 @@
         }
       },
       handleScroll () {
-        if (window.innerWidth > 577) {
-          scroller = this.scrollama()
-          steps = null
-          steps = scroller
-            .setup({
-              step: '.step',
-              offset: 0.6,
-              debug: false
-            })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu)
+        if (process.browser) {
+          const step = document.querySelector('.step')
 
-          steps.resize()
-          steps.enable()
-        } else {
-          scroller = this.scrollama()
-          steps = null
-          steps = scroller
-            .setup({
-              step: '.step',
-              offset: 0.9,
-              debug: false
-            })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu)
-
-          steps.resize()
-          steps.enable()
+          if (step && step.length) {
+              if (window.innerWidth > 577) {
+                scroller = this.scrollama()
+                steps = null
+                steps = scroller
+                  .setup({
+                    step: '.step',
+                    offset: 0.6,
+                    debug: false
+                  })
+                  .onStepEnter(this.handleStepEnter)
+                  .onStepExit(this.showMenu)
+    
+                steps.resize()
+                steps.enable()
+              } else {
+                scroller = this.scrollama()
+                steps = null
+                steps = scroller
+                  .setup({
+                    step: '.step',
+                    offset: 0.9,
+                    debug: false
+                  })
+                  .onStepEnter(this.handleStepEnter)
+                  .onStepExit(this.showMenu)
+    
+                steps.resize()
+                steps.enable()
+              }
+    
+              window.addEventListener(
+                'resize',
+                this.scrollamaResize,
+                { passive: true },
+                false
+              )
+          }
         }
-
-        window.addEventListener(
-          'resize',
-          this.scrollamaResize,
-          { passive: true },
-          false
-        )
       },
       scrollamaResize: debounce(function () {
-        let step = document.querySelector('.step')
+        const step = document.querySelector('.step')
         if (step && step.length) {
           this.handleScroll()
         }
