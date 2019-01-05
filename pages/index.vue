@@ -10,7 +10,7 @@
 
     <div
       id="work"
-      v-if='$store.state.window'
+      v-if='$store.state.window && filteredProjects'
       class="projects"
     >
       <the-work
@@ -208,9 +208,9 @@
         const order = get(this.acf, 'case_studies.order', [])
         if (order) {
           return this.projects.sort((a, b) => {
-            return order.indexOf(a.id) > order.indexOf(b.id)
+            return order.indexOf(a.id) - order.indexOf(b.id)
           })
-        } else return []
+        } else return null
       },
       acf () {
         if (this.$store.state.homePage == null) return false
