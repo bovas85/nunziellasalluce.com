@@ -130,11 +130,9 @@ module.exports = {
       }
     ],
     script: [
-      // IE 11 polyfill for Array.find
+      // IE 11 polyfill
       {
-        src: 'https://cdn.polyfill.io/v2/polyfill.js',
-        integrity: 'sha512-mbZast24sDvi5hxChaedJlluxNySegslYHU7WRymIvvdfaNozguYwx9gd5Bzn7Wa7rRsmkgQPK2xbFdaZuTYOA==',
-        crossorigin: 'anonymous'
+        src: 'https://cdn.polyfill.io/v2/polyfill.js'
       }
     ]
   },
