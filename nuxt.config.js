@@ -133,7 +133,7 @@ module.exports = {
       // IE 11 polyfill for Array.find
       {
         src: 'https://cdn.polyfill.io/v2/polyfill.js',
-        integrity: 'sha384-fIFeA7nqS1zIaMcREF4WMKM6BXqxfFA1BQacfnmGQqRLs5C8uAJ5K4c/CONGIYAB',
+        integrity: 'sha512-mbZast24sDvi5hxChaedJlluxNySegslYHU7WRymIvvdfaNozguYwx9gd5Bzn7Wa7rRsmkgQPK2xbFdaZuTYOA==',
         crossorigin: 'anonymous'
       }
     ]
