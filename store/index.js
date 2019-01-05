@@ -59,32 +59,16 @@ const createStore = () => {
       }
     },
     actions: {
-      async nuxtServerInit ({ commit }, { app, route }) {
-        /**
-         * This is the secret sauce.
-         * If the data being requested is cached, subsequent API calls will not be made
-         * Also, if using nuxt generate, nuxtServerInit will be called for every page
-         * Because of this caching, the API calls will only be done once
-         */
-        // console.log('============= Server Init API calls =============')
+      async nuxtServerInit ({ commit }, { app }) {
         try {
           // console.log('home')
-          if (route.query && route.query.utm_source === 'A/B Testing') {
-            // if we have a query and it matches ab testing, run the second page call instead
-            if (app.$cookies.get('ab-testing', { useCache: true })) {
-              const home = await app.$axios.get(
-                Config.wpDomain + Config.api.homePage2
-              )
-              commit('setHomepage', home.data)
-            }
-          } else {
-            app.$cookies.set('ab-testing', true, 30)
-            const home = await app.$axios.get(
-              Config.wpDomain + Config.api.homePage,
-              { useCache: true }
-            )
-            commit('setHomepage', home.data)
-          }
+          app.$cookies.set('ab-testing', true, 30)
+          const home = await app.$axios.get(
+            Config.wpDomain + Config.api.homePage,
+            { useCache: true }
+          )
+          commit('setHomepage', home.data)
+
           // console.log('case studies')
           const projects = await app.$axios.get(
             Config.wpDomain + Config.api.projects,
