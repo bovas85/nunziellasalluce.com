@@ -10,7 +10,7 @@
 
     <div
       id="work"
-      v-if='$store.state.window && filteredProjects'
+      v-if='$store.state.window'
       class="projects"
     >
       <the-work
@@ -130,10 +130,10 @@
         }
       },
       handleScroll () {
-        if (process.browser) {
+        if (process.client) {
           const step = document.querySelector('.step')
 
-          if (step && step.length) {
+          if (step) {
               if (window.innerWidth > 577) {
                 scroller = this.scrollama()
                 steps = null
@@ -170,6 +170,10 @@
                 { passive: true },
                 false
               )
+          } else {
+            setTimeout(() => {
+              this.handleScroll()
+            }, 600)
           }
         }
       },

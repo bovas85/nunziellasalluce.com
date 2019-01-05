@@ -62,7 +62,6 @@ const createStore = () => {
       async nuxtServerInit ({ commit }, { app }) {
         try {
           // console.log('home')
-          app.$cookies.set('ab-testing', true, 30)
           const home = await app.$axios.get(
             Config.wpDomain + Config.api.homePage,
             { useCache: true }
