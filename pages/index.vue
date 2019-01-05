@@ -1,5 +1,5 @@
 <template>
-  <main class="home">
+  <main class="home" v-if='acf'>
     <hero-section
       :acf="acf"
       :animateHeader="animateHeader"
@@ -77,30 +77,18 @@
     },
     async mounted () {
       if (process.client) {
-        if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
-          // if we have a query and it matches ab testing, run the second page call instead
-          if ((this.$cookies.get('ab-testing'), { useCache: false })) {
-            const home = await this.$axios.get(
-              Config.wpDomain + Config.api.homePage2,
-              { useCache: false }
-            )
-            this.$store.commit('setHomepage', home.data)
-          }
-        } else {
-          this.$cookies.set('ab-testing', true, 30)
-          const home = await this.$axios.get(
-            Config.wpDomain + Config.api.homePage,
-            { useCache: false }
-          )
-          this.$store.commit('setHomepage', home.data)
-        }
+        const home = await this.$axios.get(
+          Config.wpDomain + Config.api.homePage,
+          { useCache: false }
+        )
+        this.$store.commit('setHomepage', home.data)
         setTimeout(() => {
           this.animateHeader = true
           this.handleScroll()
           this.Splitting()
         }, 150)
         if (this.$route.hash) {
-          if (process.browser) {
+          if (process.client) {
             window && window.scrollTo(0, 0)
             setTimeout(() => {
               this.$VueScrollTo.scrollTo('.projects')
