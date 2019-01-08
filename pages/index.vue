@@ -1,5 +1,5 @@
 <template>
-  <main class="home">
+  <main class="home" v-if='acf'>
     <hero-section
       :acf="acf"
       :animateHeader="animateHeader"
@@ -10,7 +10,7 @@
 
     <div
       id="work"
-      v-if='$store.state.window'
+      v-if='$store.state.window && filteredProjects'
       class="projects"
     >
       <the-work
@@ -71,36 +71,24 @@
     async created () {
       const projects = await this.$axios.get(
         Config.wpDomain + Config.api.projects,
-        { useCache: true }
+        { useCache: false }
       )
       this.$store.commit('setProjects', projects.data)
     },
     async mounted () {
       if (process.client) {
-        if (this.$route.query && this.$route.query.utm_source === 'A/B Testing') {
-          // if we have a query and it matches ab testing, run the second page call instead
-          if ((this.$cookies.get('ab-testing'), { useCache: true })) {
-            const home = await this.$axios.get(
-              Config.wpDomain + Config.api.homePage2,
-              { useCache: true }
-            )
-            this.$store.commit('setHomepage', home.data)
-          }
-        } else {
-          this.$cookies.set('ab-testing', true, 30)
-          const home = await this.$axios.get(
-            Config.wpDomain + Config.api.homePage,
-            { useCache: true }
-          )
-          this.$store.commit('setHomepage', home.data)
-        }
+        const home = await this.$axios.get(
+          Config.wpDomain + Config.api.homePage,
+          { useCache: false }
+        )
+        this.$store.commit('setHomepage', home.data)
         setTimeout(() => {
           this.animateHeader = true
           this.handleScroll()
           this.Splitting()
         }, 150)
         if (this.$route.hash) {
-          if (process.browser) {
+          if (process.client) {
             window && window.scrollTo(0, 0)
             setTimeout(() => {
               this.$VueScrollTo.scrollTo('.projects')
@@ -142,45 +130,55 @@
         }
       },
       handleScroll () {
-        if (window.innerWidth > 577) {
-          scroller = this.scrollama()
-          steps = null
-          steps = scroller
-            .setup({
-              step: '.step',
-              offset: 0.6,
-              debug: false
-            })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu)
+        if (process.client) {
+          const step = document.querySelector('.step')
 
-          steps.resize()
-          steps.enable()
-        } else {
-          scroller = this.scrollama()
-          steps = null
-          steps = scroller
-            .setup({
-              step: '.step',
-              offset: 0.9,
-              debug: false
-            })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu)
-
-          steps.resize()
-          steps.enable()
+          if (step) {
+              if (window.innerWidth > 577) {
+                scroller = this.scrollama()
+                steps = null
+                steps = scroller
+                  .setup({
+                    step: '.step',
+                    offset: 0.6,
+                    debug: false
+                  })
+                  .onStepEnter(this.handleStepEnter)
+                  .onStepExit(this.showMenu)
+    
+                steps.resize()
+                steps.enable()
+              } else {
+                scroller = this.scrollama()
+                steps = null
+                steps = scroller
+                  .setup({
+                    step: '.step',
+                    offset: 0.9,
+                    debug: false
+                  })
+                  .onStepEnter(this.handleStepEnter)
+                  .onStepExit(this.showMenu)
+    
+                steps.resize()
+                steps.enable()
+              }
+    
+              window.addEventListener(
+                'resize',
+                this.scrollamaResize,
+                { passive: true },
+                false
+              )
+          } else {
+            setTimeout(() => {
+              this.handleScroll()
+            }, 600)
+          }
         }
-
-        window.addEventListener(
-          'resize',
-          this.scrollamaResize,
-          { passive: true },
-          false
-        )
       },
       scrollamaResize: debounce(function () {
-        let step = document.querySelector('.step')
+        const step = document.querySelector('.step')
         if (step && step.length) {
           this.handleScroll()
         }
@@ -210,9 +208,9 @@
         const order = get(this.acf, 'case_studies.order', [])
         if (order) {
           return this.projects.sort((a, b) => {
-            return order.indexOf(a.id) > order.indexOf(b.id)
+            return order.indexOf(a.id) - order.indexOf(b.id)
           })
-        } else return []
+        } else return null
       },
       acf () {
         if (this.$store.state.homePage == null) return false

@@ -11,7 +11,9 @@ module.exports = {
   head: {
     titleTemplate: titleChunk => {
       // If undefined or blank then we don't need the hyphen
-      return titleChunk ? `${titleChunk} - Nunziella Salluce Design` : 'Nunziella Salluce Design'
+      return titleChunk
+        ? `${titleChunk} - Nunziella Salluce Design`
+        : 'Nunziella Salluce Design'
     },
     htmlAttrs: {
       lang: 'en'
@@ -29,7 +31,8 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'UI and Visual Designer trying to make the world a colourful place.'
+        content:
+          'Digital and Content Designer trying to make the world a colourful place.'
       },
       {
         hid: 'keywords',
@@ -46,7 +49,8 @@ module.exports = {
       {
         hid: 'description',
         itemprop: 'description',
-        content: 'UI and Visual Designer trying to make the world a colourful place.'
+        content:
+          'Digital and Content Designer trying to make the world a colourful place.'
       },
       {
         hid: 'image',
@@ -66,7 +70,8 @@ module.exports = {
       {
         hid: 'twitter:description',
         name: 'twitter:description',
-        content: 'UI and Visual Designer trying to make the world a colourful place.'
+        content:
+          'Digital and Content Designer trying to make the world a colourful place.'
       },
       { hid: 'twitter:site', name: 'twitter:site', content: '@SNunziella' },
       {
@@ -98,7 +103,8 @@ module.exports = {
       {
         hid: 'og:description',
         property: 'og:description',
-        content: 'UI and Visual Designer trying to make the world a colourful place.'
+        content:
+          'Digital and Content Designer trying to make the world a colourful place.'
       },
       { hid: 'og:locale', property: 'og:locale', content: 'en_GB' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
@@ -124,9 +130,9 @@ module.exports = {
       }
     ],
     script: [
-      // IE 11 polyfill for Array.find
+      // IE 11 polyfill
       {
-        src: 'https://cdn.polyfill.io/v2/polyfill.js?features=es6'
+        src: 'https://cdn.polyfill.io/v2/polyfill.js'
       }
     ]
   },
@@ -248,24 +254,14 @@ module.exports = {
         }
       },
       {
-        urlPattern: 'https://api.nunziellasalluce.com/wp-json/wp/v2/casestudies/.*',
+        urlPattern:
+          'https://api.nunziellasalluce.com/wp-json/wp/v2/casestudies/.*',
         handler: 'networkFirst',
         strategyOptions: {
           cacheName: 'casestudies',
           cacheExpiration: {
             maxEntries: 10,
             maxAgeSeconds: 0
-          }
-        }
-      },
-      {
-        urlPattern: 'https://api.nunziellasalluce.com/wp-json/wp/v2/pages/18/',
-        handler: 'cacheFirst',
-        strategyOptions: {
-          cacheName: 'homepage',
-          cacheExpiration: {
-            maxEntries: 10,
-            maxAgeSeconds: 300
           }
         }
       },
