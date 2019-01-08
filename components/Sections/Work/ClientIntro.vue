@@ -5,7 +5,7 @@
         <h3>Client</h3>
         <p>{{project.intro.client_name}}</p>
         <a
-          v-if="project.intro.link != null && project.intro.link != '#'"
+          v-if="project.intro.link != null && project.intro.link !== '' && project.intro.link !== '#'"
           class="animated-border"
           :href="project.intro.link"
           target="_blank">
