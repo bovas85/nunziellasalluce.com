@@ -32,7 +32,7 @@ module.exports = {
         hid: 'description',
         name: 'description',
         content:
-          'UI and Visual Designer trying to make the world a colourful place.'
+          'Digital and Content Designer trying to make the world a colourful place.'
       },
       {
         hid: 'keywords',
@@ -50,7 +50,7 @@ module.exports = {
         hid: 'description',
         itemprop: 'description',
         content:
-          'UI and Visual Designer trying to make the world a colourful place.'
+          'Digital and Content Designer trying to make the world a colourful place.'
       },
       {
         hid: 'image',
@@ -71,7 +71,7 @@ module.exports = {
         hid: 'twitter:description',
         name: 'twitter:description',
         content:
-          'UI and Visual Designer trying to make the world a colourful place.'
+          'Digital and Content Designer trying to make the world a colourful place.'
       },
       { hid: 'twitter:site', name: 'twitter:site', content: '@SNunziella' },
       {
@@ -104,7 +104,7 @@ module.exports = {
         hid: 'og:description',
         property: 'og:description',
         content:
-          'UI and Visual Designer trying to make the world a colourful place.'
+          'Digital and Content Designer trying to make the world a colourful place.'
       },
       { hid: 'og:locale', property: 'og:locale', content: 'en_GB' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
