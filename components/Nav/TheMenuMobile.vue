@@ -22,6 +22,7 @@
           v-else-if="$route.path !== '/'"
           key='work'
           to="/#work"
+          v-scroll-to="{element:'.projects'}"
         >
         Work
       </nuxt-link>

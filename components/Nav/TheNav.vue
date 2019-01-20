@@ -65,6 +65,7 @@
               && 'nuxt-link-active'"
             to='/#work'
             exact
+            v-scroll-to="{element:'.projects'}"
           >
             Work
           </nuxt-link>
