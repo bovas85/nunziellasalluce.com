@@ -85,7 +85,8 @@
       }
     },
     mounted () {
-      document.querySelector('.prev').addEventListener(
+      let prev = document.querySelector('.prev')
+      prev && prev.addEventListener(
         'click',
         event => {
           event.preventDefault()
@@ -96,7 +97,8 @@
         false
       )
 
-      document.querySelector('.next').addEventListener(
+      let next = document.querySelector('.next')
+      next && next.addEventListener(
         'click',
         event => {
           event.preventDefault()
