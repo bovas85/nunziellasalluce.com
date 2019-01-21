@@ -33,7 +33,7 @@
       v-if="previousProject && nextProject"
     >
       <div class="container-fluid is-flex">
-        <nuxt-link class="previous" :to="previousProject.slug">
+        <nuxt-link class="previous" :to="`/${previousProject.slug}`">
           <lazy-image
             v-if="previousProject.acf.hero != null && previousProject.acf.status === 'true'"
             class='image'
@@ -45,7 +45,7 @@
           </lazy-image>
           <p>Previous Project</p>
         </nuxt-link>
-        <nuxt-link class="next" :to="nextProject.slug">
+        <nuxt-link class="next" :to="`/${nextProject.slug}`">
           <lazy-image
             v-if="nextProject.acf.hero != null && nextProject.acf.status === 'true'"
             class='image'
