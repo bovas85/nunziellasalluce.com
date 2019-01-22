@@ -10,23 +10,6 @@
       :animateIntro="animateIntro"
     />
 
-    <the-brand
-      :project="project"
-      :animateBrand="animateBrand"
-    />
-
-    <the-challenge
-      :project="project"
-      :animateChallenge="animateChallenge"
-    />
-    
-    <no-ssr>
-      <final-product
-        :project="project"
-        :animateFinal="animateFinal"
-      />
-    </no-ssr>
-
     <div
       class="work-navigation step"
       :class="{'animated': animateBottomImage}"
@@ -73,9 +56,6 @@
     components: {
       WorkHero,
       ClientIntro: () => import('@/components/Sections/Work/ClientIntro'),
-      TheBrand: () => import('@/components/Sections/Work/TheBrand'),
-      TheChallenge: () => import('@/components/Sections/Work/TheChallenge'),
-      FinalProduct: () => import('@/components/Sections/Work/FinalProduct'),
       LazyImage: () => import('@/components/UI/LazyImage')
     },
     head () {
@@ -284,8 +264,12 @@
       },
       getIndex () {
         if (!this.projects.length) return 0
-        return this.projects.findIndex(
-          index => this.$route.params.work === index.slug
+        return this.projects.findIndex(index => {
+            if (this.$route.params.work) {
+              return this.$route.params.work === index.slug
+            }
+            return this.$route.name === index.slug
+          }
         )
       },
       previousProject () {
