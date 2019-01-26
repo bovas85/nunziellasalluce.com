@@ -64,6 +64,7 @@ const createStore = () => {
       }
     },
     actions: {
+      // we need to set timeouts to both states for the delay to kick in
       async showMenu ({ commit }) {
         await setTimeout(() => {
           commit('showMenuBg')
