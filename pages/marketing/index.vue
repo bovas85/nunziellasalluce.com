@@ -370,7 +370,7 @@
       position: relative;
       overflow: hidden;
 
-      @include media(sm) {
+      @include media(md) {
         padding: 0;
         margin-left: auto;
       }
