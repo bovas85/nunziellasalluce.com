@@ -1,7 +1,7 @@
 <template>
   <section class="rich-media step" v-if="project != null && project.rich_media != null">
     <div class="container is-flex">
-      <h1 class="title" :class="{'animated': animateRich}">{{rich.title}}</h1>
+      <h1 class="title step">{{rich.title}}</h1>
       <div
         class="content"
         v-for="(item, index) in rich.the_content"
