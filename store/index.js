@@ -11,7 +11,8 @@ const createStore = () => {
       navOpen: false,
       current: null,
       modalOpen: false,
-      menuScrolled: false
+      menuScrolled: false,
+      menuScrolledDone: false
     },
     mutations: {
       resetMenus (state) {
@@ -20,9 +21,13 @@ const createStore = () => {
       },
       hideMenuBg (state) {
         state.menuScrolled = false
+        state.menuScrolledDone = false
       },
       showMenuBg (state) {
         state.menuScrolled = true
+      },
+      showMenuBgDone (state) {
+        state.menuScrolledDone = true
       },
       openMenu (state) {
         if (process.browser) {
@@ -59,6 +64,14 @@ const createStore = () => {
       }
     },
     actions: {
+      async showMenu ({ commit }) {
+        await setTimeout(() => {
+          commit('showMenuBg')
+        }, 200)
+        await setTimeout(() => {
+          commit('showMenuBgDone')
+        }, 600)
+      },
       async nuxtServerInit ({ commit }, { app }) {
         try {
           // console.log('home')

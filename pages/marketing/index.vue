@@ -147,7 +147,8 @@
         animateIntro: false,
         animateEmail: false,
         animateDigital: false,
-        animateRich: false
+        animateRich: false,
+        animateBottomImage: false
       };
     },
     async created () {
@@ -168,8 +169,10 @@
       hideMenu () {
         this.$store.commit("hideMenuBg");
       },
-      showMenu () {
-        this.$store.commit("showMenuBg");
+      showMenu (response) {
+        if (response.index === 0) {
+          this.$store.dispatch("showMenu");
+        }
       },
       handleStepEnter (response) {
         // console.log(response.element);

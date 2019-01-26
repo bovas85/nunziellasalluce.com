@@ -50,7 +50,7 @@
       flex-direction: column;
       justify-content: center;
 
-      @include media(md) {
+      @include media(lg) {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 300px 2fr 1fr;
@@ -66,7 +66,7 @@
       transition-delay: 0.2s;
       margin-bottom: $gap * 1.5;
 
-      @include media(md) {
+      @include media(lg) {
         margin-bottom: 0;
         grid-row: 1;
         justify-self: left;
@@ -76,7 +76,7 @@
       &--bottom {
         margin-top: $gap * 1.5;
 
-        @include media(md) {
+        @include media(lg) {
           margin-top: 0;
           grid-row: 3 / -1;
           grid-column: 2;

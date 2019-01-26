@@ -5,7 +5,7 @@
       <div
         class="content"
         v-for="(item, index) in rich.the_content"
-        :key="`${acf_fc_layout}-${index}`"
+        :key="`${item.acf_fc_layout}-${index}`"
       >
         <lazy-image
           v-if="item && item.acf_fc_layout && item.acf_fc_layout === 'image'"

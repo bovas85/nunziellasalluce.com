@@ -1,14 +1,16 @@
 <template>
   <div class="navigation-bar">
-    <div class="navigation" :class="{'scrolled': $store.state.menuScrolled, 'about': $route.path === '/about', 'contact': $route.path === '/contact'}">
-      <nav
-        role="navigation"
-        class="container is-flex navbar">
+    <div
+      class="navigation"
+      :class="{'scrolled': $store.state.menuScrolled, 'done': $store.state.menuScrolled && $store.state.menuScrolledDone, 'about': $route.path === '/about', 'contact': $route.path === '/contact'}"
+    >
+      <nav role="navigation" class="container is-flex navbar">
         <nuxt-link
           to="/"
           @mouseover.native="animating = true"
           @mouseleave.native="animating = false"
-          class="logo col--8-mobile col--4-tablet is-center">
+          class="logo col--8-mobile col--4-tablet is-center"
+        >
           <the-logo-static
             :width="90"
             :height="46"
@@ -40,10 +42,10 @@
               />
             </div>
             <div class="rotate" key="open" v-else>
-                <div :class="$route.path === '/' && 'black'" class="close-icon">
-                    <span class="close-icon--line"/>
-                    <span class="close-icon--line inverted"/>
-                </div>
+              <div :class="$route.path === '/' && 'black'" class="close-icon">
+                <span class="close-icon--line"/>
+                <span class="close-icon--line inverted"/>
+              </div>
             </div>
           </transition-group>
         </div>
@@ -54,68 +56,49 @@
           :class="($route.path === '/' || $route.path === '/contact') && 'black'"
         >
           <nuxt-link
-            to='/'
+            to="/"
             :class="$route.path === '/' && $route.hash !== '#work' && 'nuxt-link-active'"
             exact
-          >
-            Home
-          </nuxt-link>
+          >Home</nuxt-link>
           <nuxt-link
             :class="$route.hash === '#work'
               && 'nuxt-link-active'"
-            to='/#work'
+            to="/#work"
             exact
             v-scroll-to="{element:'.projects'}"
-          >
-            Work
-          </nuxt-link>
-          <nuxt-link
-            to='/about'
-            exact
-          >
-            About
-          </nuxt-link>
-          <nuxt-link
-            to='/contact'
-            exact
-          >
-            Contact
-          </nuxt-link>
+          >Work</nuxt-link>
+          <nuxt-link to="/about" exact>About</nuxt-link>
+          <nuxt-link to="/contact" exact>Contact</nuxt-link>
         </ul>
       </nav>
     </div>
 
     <no-ssr>
       <vue-media :query="{maxWidth: 1024}">
-        <div
-          style="z-index: 9999"
-          class="modal-container is-hidden-desktop">
-          <the-menu-mobile
-            :menu-items="menuItems"
-          />
+        <div style="z-index: 9999" class="modal-container is-hidden-desktop">
+          <the-menu-mobile :menu-items="menuItems"/>
         </div>
       </vue-media>
     </no-ssr>
   </div>
-
 </template>
 
 <script>
-  import debounce from 'lodash/debounce'
-  import TheLogo from '@/components/Icons/TheLogo'
-  import TheLogoStatic from '@/components/Icons/TheLogoStatic'
-  import BurgerMenu from '@/components/Icons/BurgerMenu'
+  import debounce from "lodash/debounce";
+  import TheLogo from "@/components/Icons/TheLogo";
+  import TheLogoStatic from "@/components/Icons/TheLogoStatic";
+  import BurgerMenu from "@/components/Icons/BurgerMenu";
 
   export default {
-    name: 'TheNav',
+    name: "TheNav",
     data () {
       return {
-        menuItems: ['', 'work', 'about', 'contact'],
+        menuItems: ["", "work", "about", "contact"],
         animating: false
-      }
+      };
     },
     components: {
-      TheMenuMobile: () => import('@/components/Nav/TheMenuMobile'),
+      TheMenuMobile: () => import("@/components/Nav/TheMenuMobile"),
       TheLogo,
       TheLogoStatic,
       BurgerMenu
@@ -126,54 +109,54 @@
         var connection =
           navigator.connection ||
           navigator.mozConnection ||
-          navigator.webkitConnection
+          navigator.webkitConnection;
         if (connection != null) {
-          var type = connection.type
-          let vm = this
+          var type = connection.type;
+          let vm = this;
           function updateConnectionStatus () {
             // console.log(
             //   'Connection type changed from ' + type + ' to ' + connection.type
             // )
-            vm.$store.commit('setConnection', connection.type)
+            vm.$store.commit("setConnection", connection.type);
           }
-          connection.addEventListener('typechange', updateConnectionStatus)
+          connection.addEventListener("typechange", updateConnectionStatus);
         }
         // console.log("Connection type: " + type);
-        this.$store.commit('setConnection', type)
+        this.$store.commit("setConnection", type);
         // on load trigger window width mutation once
-        this.$store.commit('windowResize', window.innerWidth)
+        this.$store.commit("windowResize", window.innerWidth);
 
         window.onNuxtReady(app => {
           // resize triggers window width mutation
           window.addEventListener(
-            'resize',
+            "resize",
             debounce(() => {
               // console.log('window resize')
-              this.$store.commit('windowResize', window.innerWidth)
+              this.$store.commit("windowResize", window.innerWidth);
             }, 300)
-          )
-        })
+          );
+        });
 
         // route management for menus/state/transitions
-        this.$root.$on('routeChanged', () => {
+        this.$root.$on("routeChanged", () => {
           // console.log('route changed, transitioning')
-          this.$store.commit('resetMenus')
-          let body = document.querySelector('body')
-          let html = document.querySelector('html')
+          this.$store.commit("resetMenus");
+          let body = document.querySelector("body");
+          let html = document.querySelector("html");
           if (body && html) {
-            body.style.overflow = 'visible'
-            html.style.overflow = 'visible'
-            body.style.position = 'static'
+            body.style.overflow = "visible";
+            html.style.overflow = "visible";
+            body.style.position = "static";
           }
-        })
+        });
       }
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
   .navigation {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -182,7 +165,6 @@
     background-color: transparent;
     box-shadow: unset;
     margin: 0 auto;
-    transition: all 0.3s ease-in-out;
     padding: 0 $gap;
 
     @include media(sm) {
@@ -192,13 +174,10 @@
 
     .navbar {
       align-items: center;
-      // padding: 0 15px;
       height: 100%;
       justify-content: space-between;
       align-items: center;
-      @media (min-width: $tablet) {
-        // padding: 0 36px;
-      }
+
       .logo {
         &:before,
         &:after {
@@ -250,7 +229,7 @@
 
             &:before,
             &:after {
-              content: '';
+              content: "";
               position: absolute;
               width: 0%;
               height: 2px;
@@ -317,7 +296,7 @@
 
               &:before,
               &:after {
-                content: '';
+                content: "";
                 position: absolute;
                 width: 0%;
                 height: 2px;
@@ -347,7 +326,7 @@
     }
 
     &.scrolled {
-      background-color: #f0efef;
+      transform: translateY(-100%);
 
       .navbar a {
         color: $secondary;
@@ -376,6 +355,13 @@
           background: black;
         }
       }
+    }
+
+    &.scrolled.done {
+      position: fixed;
+      background-color: #f0efef;
+      transition: all 0.6s ease-in-out;
+      transform: translateY(0);
     }
 
     &.contact,
