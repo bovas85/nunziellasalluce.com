@@ -1,14 +1,10 @@
 <template>
-  <div class="case-study" v-if="project != null">
-    <work-hero
-      :project="project"
-      :animateHeader="animateHeader"
-    />
+  <div class="case-study marketing" v-if="project != null">
+    <work-hero :project="project" :animateHeader="animateHeader"/>
 
-    <client-intro
-      :project="project"
-      :animateIntro="animateIntro"
-    />
+    <client-intro :project="project" :animateIntro="animateIntro"/>
+
+    <email-newsletter :project="project" :animateEmail="animateEmail"/>
 
     <div
       class="work-navigation step"
@@ -19,7 +15,7 @@
         <nuxt-link class="previous" :to="`/${previousProject.slug}`">
           <lazy-image
             v-if="previousProject.acf.hero != null && previousProject.acf.status === 'true'"
-            class='image'
+            class="image"
             :hover="false"
             :image="previousProject.acf.hero.desktop_bg"
             :imageMobile="previousProject.acf.hero.mobile_bg"
@@ -31,7 +27,7 @@
         <nuxt-link class="next" :to="`/${nextProject.slug}`">
           <lazy-image
             v-if="nextProject.acf.hero != null && nextProject.acf.status === 'true'"
-            class='image'
+            class="image"
             :hover="false"
             :image="nextProject.acf.hero.desktop_bg"
             :imageMobile="nextProject.acf.hero.mobile_bg"
@@ -46,17 +42,18 @@
 </template>
 
 <script>
-  import debounce from 'lodash/debounce'
-  import Config from '~/assets/config'
-  import WorkHero from '@/components/Sections/Work/WorkHero'
-  import get from 'lodash/get'
-  let scroller, steps
+  import debounce from "lodash/debounce";
+  import Config from "~/assets/config";
+  import WorkHero from "@/components/Sections/Work/WorkHero";
+  import get from "lodash/get";
+  let scroller, steps;
 
   export default {
     components: {
       WorkHero,
-      ClientIntro: () => import('@/components/Sections/Work/ClientIntro'),
-      LazyImage: () => import('@/components/UI/LazyImage')
+      ClientIntro: () => import("@/components/Sections/Work/ClientIntro"),
+      EmailNewsletter: () => import("@/components/Sections/Work/EmailNewsletter"),
+      LazyImage: () => import("@/components/UI/LazyImage")
     },
     head () {
       if (
@@ -67,261 +64,253 @@
         this.project.seo.twitter.sizes != null
       ) {
         return {
-          title: this.capitalizeFirstLetter(this.projectTitle.replace(/-/g, ' ')),
+          title: this.capitalizeFirstLetter(this.projectTitle.replace(/-/g, " ")),
           meta: [
             {
-              hid: 'description',
-              name: 'description',
+              hid: "description",
+              name: "description",
               content: this.project.seo.description
             },
             {
-              hid: 'keywords',
-              name: 'keywords',
+              hid: "keywords",
+              name: "keywords",
               content:
                 this.project.keywords ||
                 `${this.projectTitle.replace(
                   /-/g,
-                  ' '
-                )}, ${this.projectTitle.replace(/-/g, ', ')}`
+                  " "
+                )}, ${this.projectTitle.replace(/-/g, ", ")}`
             },
             {
-              hid: 'description',
-              itemprop: 'description',
+              hid: "description",
+              itemprop: "description",
               content: this.project.seo.description
             },
             {
-              hid: 'image',
-              itemprop: 'image',
+              hid: "image",
+              itemprop: "image",
               content: this.project.seo.facebook.sizes.large
             },
             {
-              hid: 'twitter:title',
-              name: 'twitter:title',
+              hid: "twitter:title",
+              name: "twitter:title",
               content: this.capitalizeFirstLetter(
-                this.projectTitle.replace(/-/g, ' ')
+                this.projectTitle.replace(/-/g, " ")
               )
             },
             {
-              hid: 'twitter:description',
-              name: 'twitter:description',
+              hid: "twitter:description",
+              name: "twitter:description",
               content: this.project.seo.description
             },
             {
-              hid: 'twitter:image',
-              name: 'twitter:image',
+              hid: "twitter:image",
+              name: "twitter:image",
               content: this.project.seo.twitter.sizes.large
             },
             {
-              hid: 'og:title',
-              property: 'og:title',
+              hid: "og:title",
+              property: "og:title",
               content: this.capitalizeFirstLetter(
-                this.projectTitle.replace(/-/g, ' ')
+                this.projectTitle.replace(/-/g, " ")
               )
             },
-            { hid: 'og:url', property: 'og:url', content: this.$route.path },
+            { hid: "og:url", property: "og:url", content: this.$route.path },
             {
-              hid: 'og:description',
-              property: 'og:description',
+              hid: "og:description",
+              property: "og:description",
               content: this.project.seo.description
             },
             {
-              hid: 'og:image',
-              property: 'og:image',
+              hid: "og:image",
+              property: "og:image",
               content: this.project.seo.facebook.sizes.large
             }
           ]
-        }
+        };
       } else {
         return {
-          title: 'Case Study'
-        }
+          title: "Case Study"
+        };
       }
     },
     data () {
       return {
         animateHeader: false,
         animateIntro: false,
-        animateBrand: false,
-        animateChallenge: false,
-        animateFinal: false,
-        animateBottomImage: false
-      }
+        animateEmail: false
+      };
     },
     async created () {
       const { data } = await this.$axios.get(
         Config.wpDomain + Config.api.projects
-      )
-      this.$store.commit('setProjects', data)
+      );
+      this.$store.commit("setProjects", data);
     },
     async mounted () {
       if (process.browser) {
         setTimeout(() => {
-          this.animateHeader = true
-          this.handleScroll()
-        }, 150)
+          this.animateHeader = true;
+          this.handleScroll();
+        }, 150);
       }
     },
     methods: {
       hideMenu () {
-        this.$store.commit('hideMenuBg')
+        this.$store.commit("hideMenuBg");
       },
       showMenu () {
-        this.$store.commit('showMenuBg')
+        this.$store.commit("showMenuBg");
       },
       handleStepEnter (response) {
-        // console.log(response.element)
-        response.element.classList.add('animated')
-        const length = document.querySelectorAll('.step').length - 2
+        console.log(response.element);
+        response.element.classList.add("animated");
+        const length = document.querySelectorAll(".step").length - 2;
         switch (response.index) {
           case 0:
-            this.hideMenu()
-            this.animateHeader = true
-            break
+            this.hideMenu();
+            this.animateHeader = true;
+            break;
           case 1:
-            this.animateIntro = true
-            break
+            this.animateIntro = true;
+            break;
           case 2:
-            this.animateBrand = true
-            break
-          case 3:
-            this.animateChallenge = true
-            break
-          case 4:
-            this.animateFinal = true
-            break
+            this.animateEmail = true;
+            break;
           case length:
-            this.animateBottomImage = true
-            break
+            this.animateBottomImage = true;
+            break;
           default:
-            break
+            break;
         }
       },
       handleScroll () {
         if (window.innerWidth > 577) {
-          scroller = this.scrollama()
-          steps = null
+          scroller = this.scrollama();
+          steps = null;
           steps = scroller
             .setup({
-              step: '.step',
+              step: ".step",
               offset: 0.8,
               debug: false
             })
             .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu)
+            .onStepExit(this.showMenu);
 
-          steps.resize()
-          steps.enable()
+          steps.resize();
+          steps.enable();
         } else {
-          scroller = this.scrollama()
-          steps = null
+          scroller = this.scrollama();
+          steps = null;
           steps = scroller
             .setup({
-              step: '.step',
+              step: ".step",
               offset: 0.9,
               debug: false
             })
             .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu)
+            .onStepExit(this.showMenu);
 
-          steps.resize()
-          steps.enable()
+          steps.resize();
+          steps.enable();
         }
 
         window.addEventListener(
-          'resize',
+          "resize",
           this.scrollamaResize,
           { passive: true },
           false
-        )
+        );
       },
       scrollamaResize: debounce(function () {
-        let step = document.querySelector('.step')
+        let step = document.querySelector(".step");
         if (step && step.length) {
-          this.handleScroll()
+          this.handleScroll();
         }
       }, 150)
     },
     computed: {
       projects () {
-        if (!this.$store.state.projects.length) return false
-        return this.$store.state.projects
+        if (!this.$store.state.projects.length) return false;
+        return this.$store.state.projects;
       },
       projectTitle () {
         if (
           !this.$store.state.projects.length ||
           !this.$store.state.projects[this.getIndex]
         ) {
-          return ''
+          return "";
         }
-        return this.$store.state.projects[this.getIndex].slug
+        return this.$store.state.projects[this.getIndex].slug;
       },
       project () {
         if (
           !this.$store.state.projects.length ||
           !this.$store.state.projects[this.getIndex]
-        ) { return false }
-        return get(this.$store.state.projects[this.getIndex], 'acf', false)
+        ) {
+          return false;
+        }
+        return get(this.$store.state.projects[this.getIndex], "acf", false);
       },
       getIndex () {
-        if (!this.projects.length) return 0
+        if (!this.projects.length) return 0;
         return this.projects.findIndex(index => {
-            if (this.$route.params.work) {
-              return this.$route.params.work === index.slug
-            }
-            return this.$route.name === index.slug
+          if (this.$route.params.work) {
+            return this.$route.params.work === index.slug;
           }
-        )
+          return this.$route.name === index.slug;
+        });
       },
       previousProject () {
         if (this.getIndex === 0) {
-          return this.projects[this.projects.length - 1]
-        } else return this.projects[this.getIndex - 1]
+          return this.projects[this.projects.length - 1];
+        } else return this.projects[this.getIndex - 1];
       },
       nextProject () {
         if (this.getIndex === this.projects.length - 1) {
-          return this.projects[0]
-        } else return this.projects[this.getIndex + 1]
+          return this.projects[0];
+        } else return this.projects[this.getIndex + 1];
       },
       bgImage () {
         if (process.browser) {
           if (this.$store.state.window < 577) {
             return get(
               this.project,
-              'hero.mobile_bg.sizes.large',
-              'https://placehold.it/2048/2048'
-            )
+              "hero.mobile_bg.sizes.large",
+              "https://placehold.it/2048/2048"
+            );
           } else if (
             this.$store.state.window > 576 &&
             this.$store.state.window < 1440
           ) {
             return get(
               this.project,
-              'hero.desktop_bg.sizes.large',
-              'https://placehold.it/2048/2048'
-            )
+              "hero.desktop_bg.sizes.large",
+              "https://placehold.it/2048/2048"
+            );
           } else
             return get(
               this.project,
-              'hero.desktop_bg.sizes.ultra',
-              'https://placehold.it/2048/2048'
-            )
+              "hero.desktop_bg.sizes.ultra",
+              "https://placehold.it/2048/2048"
+            );
         }
         return get(
           this.project,
-          'hero.desktop_bg.sizes.large',
-          'https://placehold.it/2048/2048'
-        )
+          "hero.desktop_bg.sizes.large",
+          "https://placehold.it/2048/2048"
+        );
       }
     },
     beforeDestroy () {
-      if (typeof scroller !== 'undefined') {
-        scroller.disable && scroller.disable()
+      if (typeof scroller !== "undefined") {
+        scroller.disable && scroller.disable();
       }
-      scroller = null
-      steps = null
-      window.removeEventListener('resize', this.scrollamaResize, false)
+      scroller = null;
+      steps = null;
+      window.removeEventListener("resize", this.scrollamaResize, false);
     }
-  }
+  };
 </script>
 
 <style lang='scss' scoped>
@@ -338,6 +327,14 @@
 
     @include media(md) {
       margin: $gap * 3 auto;
+    }
+  }
+
+  .case-study {
+    &.marketing {
+      .client-intro {
+        margin-bottom: 0;
+      }
     }
   }
 
@@ -379,7 +376,7 @@
       transition: transform 0.4s ease-in-out;
 
       &:after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
