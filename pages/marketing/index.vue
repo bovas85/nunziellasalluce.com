@@ -6,6 +6,10 @@
 
     <email-newsletter :project="project" :animateEmail="animateEmail"/>
 
+    <digital-infographics :project="project" :animateDigital="animateDigital"/>
+
+    <rich-media :project="project" :animateRich="animateRich"/>
+
     <div
       class="work-navigation step"
       :class="{'animated': animateBottomImage}"
@@ -53,6 +57,9 @@
       WorkHero,
       ClientIntro: () => import("@/components/Sections/Work/ClientIntro"),
       EmailNewsletter: () => import("@/components/Sections/Work/EmailNewsletter"),
+      DigitalInfographics: () =>
+        import("@/components/Sections/Work/DigitalInfographics"),
+      RichMedia: () => import("@/components/Sections/Work/RichMedia"),
       LazyImage: () => import("@/components/UI/LazyImage")
     },
     head () {
@@ -138,7 +145,9 @@
       return {
         animateHeader: false,
         animateIntro: false,
-        animateEmail: false
+        animateEmail: false,
+        animateDigital: false,
+        animateRich: false
       };
     },
     async created () {
@@ -163,7 +172,7 @@
         this.$store.commit("showMenuBg");
       },
       handleStepEnter (response) {
-        console.log(response.element);
+        // console.log(response.element);
         response.element.classList.add("animated");
         const length = document.querySelectorAll(".step").length - 2;
         switch (response.index) {
@@ -176,6 +185,12 @@
             break;
           case 2:
             this.animateEmail = true;
+            break;
+          case 3:
+            this.animateDigital = true;
+            break;
+          case 3:
+            this.animateRich = true;
             break;
           case length:
             this.animateBottomImage = true;

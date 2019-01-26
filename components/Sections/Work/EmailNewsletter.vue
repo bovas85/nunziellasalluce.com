@@ -46,7 +46,7 @@
     margin-top: 0;
 
     .container {
-      max-width: 468px * 2;
+      /* max-width: 468px * 2; */
       grid-template-columns: 1fr;
       grid-template-rows: 1fr;
       grid-gap: $gap;
