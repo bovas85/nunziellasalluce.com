@@ -189,7 +189,14 @@
         if (!this.projects.length) return false;
         const order = get(this.acf, "case_studies.order", []);
         if (order) {
-          return this.projects.sort((a, b) => {
+          let filtered = this.projects;
+          // remove status false
+          if (process.env.NODE_ENV === "production") {
+            filtered = this.projects.filter(project => {
+              return project.acf.status;
+            });
+          }
+          return filtered.sort((a, b) => {
             return order.indexOf(a.id) - order.indexOf(b.id);
           });
         } else return null;
