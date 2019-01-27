@@ -2,27 +2,31 @@
   <section class="client-intro step" v-if="project.intro != null">
     <div class="container is-flex">
       <div class="text-section" :class="{'animated': animateIntro}">
+        <p class="intro-heading" v-if="project.intro.heading">{{project.intro.heading || ''}}</p>
         <h3>Client</h3>
         <p>{{project.intro.client_name}}</p>
         <a
           v-if="project.intro.link != null && project.intro.link !== '' && project.intro.link !== '#'"
           class="animated-border"
           :href="project.intro.link"
-          target="_blank">
-            Launch Site
-        </a>
+          target="_blank"
+        >Launch Site</a>
         <h3>Deliverables</h3>
         <ul>
-          <li 
+          <li
             v-for="(deliverable, index) in project.intro.deliverables"
             :key="index"
           >{{deliverable.item}}</li>
         </ul>
       </div>
 
-      <div class="image-section" :class="{'animated': animateIntro}" v-if="project.intro.image != null">
+      <div
+        class="image-section"
+        :class="{'animated': animateIntro}"
+        v-if="project.intro.image != null"
+      >
         <lazy-image
-          class='image'
+          class="image"
           :hover="false"
           :image="project.intro.image"
           :imageMobile="project.intro.image"
@@ -34,12 +38,12 @@
 
 <script>
   export default {
-    name: 'ClientIntro',
-    props: ['project', 'animateIntro'],
+    name: "ClientIntro",
+    props: ["project", "animateIntro"],
     components: {
-      LazyImage: () => import('@/components/UI/LazyImage')
+      LazyImage: () => import("@/components/UI/LazyImage")
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -126,7 +130,7 @@
 
     a:before,
     a:after {
-      content: '';
+      content: "";
       position: absolute;
       width: 0%;
       height: 2px;
