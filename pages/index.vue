@@ -181,19 +181,18 @@
       },
       projects () {
         if (!this.$store.state.projects.length) return false;
-        return this.$store.state.projects.filter(project => {
-          return project.acf.status === "true";
-        });
+        return this.$store.state.projects;
       },
       filteredProjects () {
+        console.log(process.env.NODE_ENV);
         if (!this.projects.length) return false;
         const order = get(this.acf, "case_studies.order", []);
         if (order) {
           let filtered = this.projects;
-          // remove status false
-          if (process.env.NODE_ENV !== "development") {
+          // remove drafts
+          if (process.env.NODE_ENV === "production") {
             filtered = this.projects.filter(project => {
-              return project.acf.status;
+              return project.acf.status === "true";
             });
           }
           return filtered.sort((a, b) => {

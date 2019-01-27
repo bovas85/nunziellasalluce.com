@@ -253,7 +253,7 @@
       projects () {
         if (!this.$store.state.projects.length) return false;
         const filtered = this.$store.state.projects.filter(project => {
-          return project.acf.status;
+          return project.acf.status === "true";
         });
         if (process.env.NODE_ENV === "development") {
           return this.$store.state.projects;
