@@ -47,8 +47,11 @@
     }
 
     .image {
-      max-width: 80%;
       @include fadeInUp;
+
+      @include media(md) {
+        max-width: 80%;
+      }
 
       &:not(:last-child) {
         margin-bottom: $gap;

@@ -4,6 +4,7 @@
       <h1 class="title step">{{rich.title}}</h1>
       <div
         class="content"
+        :class="{'hidden': !item.text && !item.image}"
         v-for="(item, index) in rich.the_content"
         :key="`${item.acf_fc_layout}-${index}`"
       >
@@ -14,7 +15,7 @@
           :image="item.image"
           :imageMobile="item.image"
         />
-        <p v-else class="text step">text</p>
+        <p v-else-if="item && item.text" class="text step">{{item.text}}</p>
       </div>
     </div>
   </section>
@@ -63,6 +64,10 @@
     .content {
       &:not(:last-child) {
         margin-bottom: $gap;
+      }
+
+      &.hidden {
+        display: none;
       }
     }
   }
