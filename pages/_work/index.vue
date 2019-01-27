@@ -20,7 +20,7 @@
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="`/${previousProject.slug}`">
           <lazy-image
-            v-if="previousProject.acf.hero != null && previousProject.acf.status === 'true'"
+            v-if="previousProject.acf.hero != null"
             class="image"
             :hover="false"
             :image="previousProject.acf.hero.desktop_bg"
@@ -32,7 +32,7 @@
         </nuxt-link>
         <nuxt-link class="next" :to="`/${nextProject.slug}`">
           <lazy-image
-            v-if="nextProject.acf.hero != null && nextProject.acf.status === 'true'"
+            v-if="nextProject.acf.hero != null"
             class="image"
             :hover="false"
             :image="nextProject.acf.hero.desktop_bg"
@@ -252,7 +252,13 @@
     computed: {
       projects () {
         if (!this.$store.state.projects.length) return false;
-        return this.$store.state.projects;
+        const filtered = this.$store.state.projects.filter(project => {
+          return project.acf.status;
+        });
+        if (process.env.NODE_ENV === "development") {
+          return this.$store.state.projects;
+        }
+        return filtered;
       },
       projectTitle () {
         if (
@@ -281,12 +287,14 @@
       previousProject () {
         if (this.getIndex === 0) {
           return this.projects[this.projects.length - 1];
-        } else return this.projects[this.getIndex - 1];
+        }
+        return this.projects[this.getIndex - 1];
       },
       nextProject () {
         if (this.getIndex === this.projects.length - 1) {
           return this.projects[0];
-        } else return this.projects[this.getIndex + 1];
+        }
+        return this.projects[this.getIndex + 1];
       },
       bgImage () {
         if (process.browser) {

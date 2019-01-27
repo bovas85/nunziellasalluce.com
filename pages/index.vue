@@ -191,7 +191,7 @@
         if (order) {
           let filtered = this.projects;
           // remove status false
-          if (process.env.NODE_ENV === "production") {
+          if (process.env.NODE_ENV !== "development") {
             filtered = this.projects.filter(project => {
               return project.acf.status;
             });
