@@ -196,7 +196,7 @@ module.exports = {
     routes: function () {
       return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
         const filtered = res.data.filter(project => {
-          return project.acf.status === 'true'
+          return project.acf.status === 'true' && project.slug !== 'marketing'
         })
         return filtered.map(project => {
           return { route: '/' + project.slug, payload: project }
