@@ -74,10 +74,9 @@
       }
 
       &--bottom {
+        margin-bottom: 0;
         margin-top: $gap * 1.5;
-
         @include media(lg) {
-          margin-top: 0;
           grid-row: 3 / -1;
           grid-column: 2;
           align-self: end;
@@ -101,11 +100,11 @@
         transition-delay: 0.6s;
       }
       &--left {
-        margin-bottom: $gap;
         @include fadeInUp;
         transition-delay: 1s;
 
         @include media(md) {
+          margin-bottom: $gap;
           margin-bottom: 0;
           grid-column: 1;
           grid-row: 2 / -1;
