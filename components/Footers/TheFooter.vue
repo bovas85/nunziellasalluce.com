@@ -2,36 +2,68 @@
   <footer class="footer">
     <div class="container is-flex">
       <div class="left-section is-flex-column">
-        <the-logo-static 
-          :width="90"
-          :height="46"
-          :mobileWidth="50"
-          :mobileHeight="31"
-          static
-          fill='#f4a261'
-        />
+        <nuxt-link to="/">
+          <TheLogoStatic
+            :width="90"
+            :height="46"
+            :mobileWidth="50"
+            :mobileHeight="31"
+            static
+            fill="#f4a261"
+          />
+        </nuxt-link>
         <div class="links">
-          <p>Email: <a href="mailto:hello@nunziellasalluce.com?subject=Interview request">hello@nunziellasalluce.com</a></p>
-          <span><nuxt-link to="/privacy-policy">Privacy Policy</nuxt-link></span>
-          <p class="referral-link">Coded with 🧔 by <a href="https://moustachedesign.xyz?referrer=nunziella-salluce-design" target="_blank">Moustache Design</a></p>
+          <p>Email:
+            <a
+              href="mailto:hello@nunziellasalluce.com?subject=Interview request"
+            >hello@nunziellasalluce.com</a>
+          </p>
+          <span>
+            <nuxt-link to="/privacy-policy">Privacy Policy</nuxt-link>
+          </span>
+          <p class="referral-link">Coded with 🧔 by
+            <a
+              href="https://moustachedesign.xyz?referrer=nunziella-salluce-design"
+              target="_blank"
+            >Moustache Design</a>
+          </p>
         </div>
       </div>
       <div class="right-section">
         <div class="social-and-logos">
           <ul class="social-list">
-              <li class="social__icon">
-                  <a href="https://dribbble.com/nunziella" class="social social--dribbble" rel="noopener" target="_blank"></a>
-              </li>
-              <li class="social__icon">
-                  <a href="https://www.instagram.com/lucettinas/" class="social social--instagram" rel="noopener" target="_blank"></a>
-              </li>
-              <li class="social__icon">
-                  <a href="https://www.behance.net/nunziellasalluce/" class="social social--behance" rel="noopener" target="_blank"></a>
-              </li>
-              <li class="social__icon">
-                  <a class="social social--linkedin" href="https://www.linkedin.com/in/nunziella-salluce"
-                      rel="noopener" target="_blank"></a>
-              </li>
+            <li class="social__icon">
+              <a
+                href="https://dribbble.com/nunziella"
+                class="social social--dribbble"
+                rel="noopener"
+                target="_blank"
+              ></a>
+            </li>
+            <li class="social__icon">
+              <a
+                href="https://www.instagram.com/lucettinas/"
+                class="social social--instagram"
+                rel="noopener"
+                target="_blank"
+              ></a>
+            </li>
+            <li class="social__icon">
+              <a
+                href="https://www.behance.net/nunziellasalluce/"
+                class="social social--behance"
+                rel="noopener"
+                target="_blank"
+              ></a>
+            </li>
+            <li class="social__icon">
+              <a
+                class="social social--linkedin"
+                href="https://www.linkedin.com/in/nunziella-salluce"
+                rel="noopener"
+                target="_blank"
+              ></a>
+            </li>
           </ul>
         </div>
       </div>
@@ -41,7 +73,7 @@
 
 <script>
   export default {
-    name: 'TheFooter',
+    name: "TheFooter",
     props: {
       mobilenav: {
         type: Boolean,
@@ -49,9 +81,9 @@
       }
     },
     components: {
-      TheLogoStatic: () => import('@/components/Icons/TheLogoStatic')
+      TheLogoStatic: () => import("@/components/Icons/TheLogoStatic")
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -268,8 +268,15 @@ module.exports = {
       'nuxt-link-active',
       'scrolled',
       'done',
-      'is-visible'
-    ]
+      'is-visible',
+      'page',
+      'page-not-found',
+      'page-enter-active',
+      'page-leave-active',
+      'acrossIn',
+      'acrossOut'
+    ],
+    whitelistPatterns: [/^page/, /keyframe/]
   },
   workbox: {
     runtimeCaching: [
