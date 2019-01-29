@@ -3,8 +3,8 @@
     <div class="container">
       <h1 :class="{'animated': animateWho}" v-if="acf">{{acf.who_i_am.title}}</h1>
       <div class="wrapper">
-        <lazy-image
-          class='image'
+        <LazyImage
+          class="image"
           :class="{'animated': animateWho}"
           v-if="acf"
           :image="acf.who_i_am.image"
@@ -13,7 +13,7 @@
           :imageMobile="acf.who_i_am.image"
           home
         />
-        <div class="text">
+        <div class="text" v-if="acf">
           <no-ssr>
             <p
               :class="{
@@ -23,13 +23,10 @@
                 'pop-out-color': index === 2
               }"
               v-for="(item, index) in acf.who_i_am.text_group"
-              v-if="acf"
               :key="index"
               class="jumbo"
               data-splitting
-            >
-              {{item.text}}
-            </p>
+            >{{item.text}}</p>
           </no-ssr>
           <nuxt-link
             to="/about"
@@ -44,12 +41,12 @@
 
 <script>
   export default {
-    name: 'WhoIAm',
-    props: ['acf', 'animateWho'],
+    name: "WhoIAm",
+    props: ["acf", "animateWho"],
     components: {
-      LazyImage: () => import('@/components/UI/LazyImage')
+      LazyImage: () => import("@/components/UI/LazyImage")
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

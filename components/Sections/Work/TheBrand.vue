@@ -5,19 +5,19 @@
     </div>
 
     <div class="timeline" :class="{'animated': animateBrand}">
-      <the-timeline :data="project.brand.items"></the-timeline>
+      <TheTimeline :data="project.brand.items"/>
     </div>
   </section>
 </template>
 
 <script>
   export default {
-    name: 'TheBrand',
-    props: ['project', 'animateBrand'],
+    name: "TheBrand",
+    props: ["project", "animateBrand"],
     components: {
-      TheTimeline: () => import('@/components/Sliders/TheTimeline')
+      TheTimeline: () => import("@/components/Sliders/TheTimeline")
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -1,24 +1,25 @@
 <template>
-    <div class="testimonial" v-if="testimonial != null">
-        <img :src="testimonial.image ? testimonial.image.sizes.medium : 'https://placehold.it/200x200'" :alt="testimonial.image.alt">
-        <blockquote>
-            {{testimonial.body}}
-            <span class='author'>
-              {{testimonial.name}}
-            </span>
-        </blockquote>
-    </div>
+  <div class="testimonial" v-if="testimonial != null">
+    <img
+      :src="testimonial.image ? testimonial.image.sizes.medium : 'https://placehold.it/200x200'"
+      :alt="testimonial.image.alt"
+    >
+    <blockquote>
+      {{testimonial.body}}
+      <span class="author">{{testimonial.name}}</span>
+    </blockquote>
+  </div>
 </template>
 
 <script>
   export default {
-    name: 'TheTestimonial',
+    name: "TheTestimonial",
     props: {
       testimonial: {
         type: Object
       }
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -52,7 +53,7 @@
       padding: 0 $gap;
 
       @include media(sm) {
-        background: url('/images/quotes.svg');
+        background: url("/images/quotes.svg");
         background-repeat: no-repeat;
         background-size: 150px;
         background-position: center 0%;

@@ -1,7 +1,7 @@
 <template>
   <section class="section hero step" v-if="project.hero != null">
-    <lazy-image
-      class='image'
+    <LazyImage
+      class="image"
       :image="project.hero.desktop_bg"
       :title="project.hero.title"
       positionMobile="left"
@@ -10,29 +10,33 @@
       home
     />
     <div class="container is-flex-column" :class="{'animated': animateHeader}">
-        <h1 class="jumbo">{{project.hero.title}}</h1>
-        <h3 class="supertitle">Case Studies - {{project.category}}</h3>
-        <h3>{{project.hero.description}}</h3>
+      <h1 class="jumbo">{{project.hero.title}}</h1>
+      <h3 class="supertitle">Case Studies - {{project.category}}</h3>
+      <h3>{{project.hero.description}}</h3>
     </div>
-    <div v-scroll-to="{element:'.client-intro'}" class="scroll-down" :class="{'animated': animateHeader}">
-        <p>scroll</p>
-        <div class="scroll-down__arrow">
-          <icon-arrow :fill="'white'" name='arrow-down' :width="30" :height="40" />
-        </div>
+    <div
+      v-scroll-to="{element:'.client-intro'}"
+      class="scroll-down"
+      :class="{'animated': animateHeader}"
+    >
+      <p>scroll</p>
+      <div class="scroll-down__arrow">
+        <IconArrow :fill="'white'" name="arrow-down" :width="30" :height="40"/>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
-  import LazyImage from '@/components/UI/LazyImage'
+  import LazyImage from "@/components/UI/LazyImage";
   export default {
-    name: 'WorkHero',
-    props: ['project', 'animateHeader'],
+    name: "WorkHero",
+    props: ["project", "animateHeader"],
     components: {
       LazyImage,
-      IconArrow: () => import('@/components/Icons/IconArrow')
+      IconArrow: () => import("@/components/Icons/IconArrow")
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

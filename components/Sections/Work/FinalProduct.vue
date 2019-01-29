@@ -3,20 +3,18 @@
     <div class="container">
       <div class="text-section" :class="{'animated': animateFinal}">
         <h1>{{project.product.title}}</h1>
-        <p>
-          {{project.product.body}}
-        </p>
+        <p>{{project.product.body}}</p>
       </div>
-      
+
       <div
         class="image-section step"
         v-for="(content, index) in project.product.the_content"
         :key="index"
-      > 
+      >
         <p>{{content.text}}</p>
-        <lazy-image
+        <LazyImage
           v-if="content.image != null"
-          class='image'
+          class="image"
           :hover="false"
           :image="content.image"
           :imageMobile="content.image"
@@ -28,7 +26,7 @@
         class="slider-section step"
       >
         <transition-group tag="div" name="fade" mode="out-in">
-          <lazy-image
+          <LazyImage
             v-for="(item, index) in project.product.slider"
             class="image"
             :hover="false"
@@ -40,14 +38,15 @@
             :imageMobile="item.image"
           >
             <p>{{item && item.image.caption}}</p>
-          </lazy-image>
+          </LazyImage>
         </transition-group>
         <div class="pagination">
-          <div 
+          <div
             v-for="(bullet, index) in project.product.slider.length"
             :key="index"
             :class="{'active': index === currentSlide}"
-            class="bullet"></div>
+            class="bullet"
+          ></div>
         </div>
       </div>
     </div>
@@ -55,31 +54,31 @@
 </template>
 
 <script>
-  let interval
+  let interval;
   export default {
-    name: 'FinalProduct',
-    props: ['project', 'animateFinal'],
+    name: "FinalProduct",
+    props: ["project", "animateFinal"],
     components: {
-      LazyImage: () => import('@/components/UI/LazyImage')
+      LazyImage: () => import("@/components/UI/LazyImage")
     },
     data () {
       return {
         currentSlide: 0
-      }
+      };
     },
     mounted () {
       if (process.browser) {
         interval = setInterval(() => {
           if (this.currentSlide === this.project.product.slider.length - 1) {
-            this.currentSlide = 0
-          } else this.currentSlide++
-        }, 5000)
+            this.currentSlide = 0;
+          } else this.currentSlide++;
+        }, 5000);
       }
     },
     beforeDestroy () {
-      clearInterval(interval)
+      clearInterval(interval);
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

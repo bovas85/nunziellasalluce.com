@@ -8,7 +8,7 @@
         v-for="(item, index) in rich.the_content"
         :key="`${item.acf_fc_layout}-${index}`"
       >
-        <lazy-image
+        <LazyImage
           v-if="item && item.acf_fc_layout && item.acf_fc_layout === 'image'"
           class="image step"
           :hover="false"

@@ -3,13 +3,13 @@
     <div class="container" :class="{'animated': animateTestimonials}">
       <h1>{{acf.testimonials.title}}</h1>
     </div>
-    
+
     <no-ssr>
       <div class="wrapper" :class="{'animated': animateTestimonials}">
         <transition-group tag="div" name="fade" mode="out-in">
-          <the-testimonial
+          <TheTestimonial
             v-for="(testimonial, index) in testimonials"
-            :key="index"
+            :key="`${testimonial.name}-${index}`"
             v-if="currentTestimonial === index"
             :testimonial="testimonial"
           />
@@ -23,7 +23,7 @@
             aria-label="previous testimonial"
             @click="currentTestimonial > 0 ? currentTestimonial-- : null"
           >
-            <icon-arrow :fill="'black'" direction='left' name='arrow-left' :width="30" :height="40" />
+            <IconArrow :fill="'black'" direction="left" name="arrow-left" :width="30" :height="40"/>
           </div>
           <div
             class="arrow arrow--right"
@@ -32,7 +32,13 @@
             aria-label="next testimonial"
             @click="currentTestimonial < testimonials.length - 1 ? currentTestimonial++ : null"
           >
-            <icon-arrow :fill="'black'" direction='right' name='arrow-right' :width="30" :height="40" />
+            <IconArrow
+              :fill="'black'"
+              direction="right"
+              name="arrow-right"
+              :width="30"
+              :height="40"
+            />
           </div>
         </div>
       </div>
@@ -42,18 +48,18 @@
 
 <script>
   export default {
-    name: 'TheTestimonials',
-    props: ['acf', 'testimonials', 'animateTestimonials'],
+    name: "TheTestimonials",
+    props: ["acf", "testimonials", "animateTestimonials"],
     data () {
       return {
         currentTestimonial: 0
-      }
+      };
     },
     components: {
-      IconArrow: () => import('@/components/Icons/IconArrow'),
-      TheTestimonial: () => import('@/components/UI/TheTestimonial')
+      IconArrow: () => import("@/components/Icons/IconArrow"),
+      TheTestimonial: () => import("@/components/UI/TheTestimonial")
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

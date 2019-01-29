@@ -237,8 +237,11 @@ module.exports = {
         id: 'UA-55886565-3'
       }
     ],
-    ['nuxt-sass-resources-loader', '~/assets/css/variables.scss']
+    '@nuxtjs/style-resources'
   ],
+  styleResources: {
+    scss: '~/assets/css/variables.scss'
+  },
   workbox: {
     runtimeCaching: [
       {
