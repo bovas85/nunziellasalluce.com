@@ -59,6 +59,7 @@
     "lodash": "^4.17.11",
     "netlify": "^2.2.4",
     "node-sass": "^4.11.0",
+    "nuxt-purgecss": "^0.2.1",
     "nuxt-sass-resources-loader": "^2.0.5",
     "opn": "^5.4.0",
     "postcss-loader": "^3.0.0",
