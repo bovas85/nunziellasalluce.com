@@ -1,24 +1,24 @@
 <template>
   <section class="projects section step" v-if="filteredProjects && acf">
-      <div class="container" :class="{'animated': animateWork}">
-        <h1>{{acf.case_studies.title}}</h1>
-      </div>
-      <the-carousel
-        v-if="filteredProjects"
-        :class="{'animated': animateWork}"
-        :data='filteredProjects'
-      />
-    </section>
+    <div class="container" :class="{'animated': animateWork}">
+      <h1>{{acf.case_studies.title}}</h1>
+    </div>
+    <TheCarousel
+      v-if="filteredProjects"
+      :class="{'animated': animateWork}"
+      :data="filteredProjects"
+    />
+  </section>
 </template>
 
 <script>
   export default {
-    name: 'TheWork',
-    props: ['filteredProjects', 'acf', 'animateWork'],
+    name: "TheWork",
+    props: ["filteredProjects", "acf", "animateWork"],
     components: {
-      TheCarousel: () => import('@/components/Sliders/TheCarousel')
+      TheCarousel: () => import("@/components/Sliders/TheCarousel")
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

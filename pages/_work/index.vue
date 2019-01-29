@@ -1,15 +1,15 @@
 <template>
   <div class="case-study" v-if="project != null">
-    <work-hero :project="project" :animateHeader="animateHeader"/>
+    <WorkHero :project="project" :animateHeader="animateHeader"/>
 
-    <client-intro :project="project" :animateIntro="animateIntro"/>
+    <ClientIntro :project="project" :animateIntro="animateIntro"/>
 
-    <the-brand :project="project" :animateBrand="animateBrand"/>
+    <TheBrand :project="project" :animateBrand="animateBrand"/>
 
-    <the-challenge :project="project" :animateChallenge="animateChallenge"/>
+    <TheChallenge :project="project" :animateChallenge="animateChallenge"/>
 
     <no-ssr>
-      <final-product :project="project" :animateFinal="animateFinal"/>
+      <FinalProduct :project="project" :animateFinal="animateFinal"/>
     </no-ssr>
 
     <div
@@ -19,7 +19,7 @@
     >
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="`/${previousProject.slug}`">
-          <lazy-image
+          <LazyImage
             v-if="previousProject.acf.hero != null"
             class="image"
             :hover="false"
@@ -27,11 +27,11 @@
             :imageMobile="previousProject.acf.hero.mobile_bg"
           >
             <span>{{previousProject.acf.hero.title}}</span>
-          </lazy-image>
+          </LazyImage>
           <p>Previous Project</p>
         </nuxt-link>
         <nuxt-link class="next" :to="`/${nextProject.slug}`">
-          <lazy-image
+          <LazyImage
             v-if="nextProject.acf.hero != null"
             class="image"
             :hover="false"
@@ -39,7 +39,7 @@
             :imageMobile="nextProject.acf.hero.mobile_bg"
           >
             <span>{{nextProject.acf.hero.title}}</span>
-          </lazy-image>
+          </LazyImage>
           <p>Next Project</p>
         </nuxt-link>
       </div>

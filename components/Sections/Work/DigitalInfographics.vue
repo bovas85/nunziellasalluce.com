@@ -2,7 +2,7 @@
   <section class="digital-infographics step" v-if="project != null && project.infographics != null">
     <div class="container is-flex">
       <!-- title in EmailNewsletter -->
-      <lazy-image
+      <LazyImage
         v-if="infographics.image_top != null && infographics.image_top.url"
         class="image image--top"
         :class="{'animated': animateDigital}"
@@ -10,7 +10,7 @@
         :image="infographics.image_top"
         :imageMobile="infographics.image_top"
       />
-      <lazy-image
+      <LazyImage
         v-if="infographics.image_bottom != null && infographics.image_bottom.url"
         class="image image--bottom"
         :class="{'animated': animateDigital}"

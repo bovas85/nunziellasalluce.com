@@ -1,14 +1,14 @@
 <template>
   <div class="case-study marketing" v-if="project != null">
-    <work-hero :project="project" :animateHeader="animateHeader"/>
+    <WorkHero :project="project" :animateHeader="animateHeader"/>
 
-    <client-intro :project="project" :animateIntro="animateIntro"/>
+    <ClientIntro :project="project" :animateIntro="animateIntro"/>
 
-    <email-newsletter :project="project" :animateEmail="animateEmail"/>
+    <EmailNewsletter :project="project" :animateEmail="animateEmail"/>
 
-    <digital-infographics :project="project" :animateDigital="animateDigital"/>
+    <DigitalInfographics :project="project" :animateDigital="animateDigital"/>
 
-    <rich-media :project="project" :animateRich="animateRich"/>
+    <RichMedia :project="project" :animateRich="animateRich"/>
 
     <div
       class="work-navigation step"
@@ -17,7 +17,7 @@
     >
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="`/${previousProject.slug}`">
-          <lazy-image
+          <LazyImage
             v-if="previousProject.acf.hero != null && previousProject.acf.status === 'true'"
             class="image"
             :hover="false"
@@ -25,11 +25,11 @@
             :imageMobile="previousProject.acf.hero.mobile_bg"
           >
             <span>{{previousProject.acf.hero.title}}</span>
-          </lazy-image>
+          </LazyImage>
           <p>Previous Project</p>
         </nuxt-link>
         <nuxt-link class="next" :to="`/${nextProject.slug}`">
-          <lazy-image
+          <LazyImage
             v-if="nextProject.acf.hero != null && nextProject.acf.status === 'true'"
             class="image"
             :hover="false"
@@ -37,7 +37,7 @@
             :imageMobile="nextProject.acf.hero.mobile_bg"
           >
             <span>{{nextProject.acf.hero.title}}</span>
-          </lazy-image>
+          </LazyImage>
           <p>Next Project</p>
         </nuxt-link>
       </div>

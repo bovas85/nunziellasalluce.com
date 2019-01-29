@@ -2,7 +2,7 @@
   <section class="email-newsletter step" v-if="project != null && project.newsletter != null">
     <div class="container">
       <h1 class="title" :class="{'animated': animateEmail}">{{newsletter.title}}</h1>
-      <lazy-image
+      <LazyImage
         v-if="newsletter.image_right != null && newsletter.image_right.url"
         class="image image--right"
         :class="{'animated': animateEmail}"
@@ -10,7 +10,7 @@
         :image="newsletter.image_right"
         :imageMobile="newsletter.image_right"
       />
-      <lazy-image
+      <LazyImage
         v-if="newsletter.image_left != null && newsletter.image_left.url"
         class="image image--left"
         :class="{'animated': animateEmail}"

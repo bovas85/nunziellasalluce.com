@@ -1,18 +1,18 @@
 <template>
   <main class="home" v-if="acf">
-    <hero-section :acf="acf" :animateHeader="animateHeader" :bgImage="bgImage"/>
+    <HeroSection :acf="acf" :animateHeader="animateHeader" :bgImage="bgImage"/>
 
-    <who-i-am :acf="acf" :animateWho="animateWho"/>
+    <WhoIAm :acf="acf" :animateWho="animateWho"/>
 
     <div id="work" v-if="$store.state.window && filteredProjects" class="projects">
-      <the-work :filteredProjects="filteredProjects" :acf="acf" :animateWork="animateWork"/>
+      <TheWork :filteredProjects="filteredProjects" :acf="acf" :animateWork="animateWork"/>
     </div>
 
-    <the-process :acf="acf" :animateProcess="animateProcess"/>
+    <TheProcess :acf="acf" :animateProcess="animateProcess"/>
 
-    <the-capabilities :acf="acf" :animateCapab="animateCapab"/>
+    <TheCapabilities :acf="acf" :animateCapab="animateCapab"/>
 
-    <the-testimonials
+    <TheTestimonials
       :acf="acf"
       :testimonials="testimonials"
       :animateTestimonials="animateTestimonials"
@@ -184,7 +184,6 @@
         return this.$store.state.projects;
       },
       filteredProjects () {
-        console.log(process.env.NODE_ENV);
         if (!this.projects.length) return false;
         const order = get(this.acf, "case_studies.order", []);
         if (order) {

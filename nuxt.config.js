@@ -5,9 +5,9 @@ const opn = require('opn')
 module.exports = {
   mode: 'universal',
   /*
-  ** Headers
-  ** Common headers are already provided by @nuxtjs/pwa preset
-  */
+   ** Headers
+   ** Common headers are already provided by @nuxtjs/pwa preset
+   */
   head: {
     titleTemplate: titleChunk => {
       // If undefined or blank then we don't need the hyphen
@@ -137,8 +137,8 @@ module.exports = {
     ]
   },
   /*
-  ** PWA Configuration
-  */
+   ** PWA Configuration
+   */
   manifest: {
     name: 'Nunziella Salluce Design',
     short_name: 'Nunziella Salluce',
@@ -148,8 +148,8 @@ module.exports = {
     description: ''
   },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     extractCSS: true,
     optimization: {
@@ -172,8 +172,8 @@ module.exports = {
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         /*
-        ** Run ESLint on save
-        */
+         ** Run ESLint on save
+         */
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -216,16 +216,16 @@ module.exports = {
     '@/assets/css/splitting.css'
   ],
   /*
-  ** Customize the progress-bar style
-  */
+   ** Customize the progress-bar style
+   */
   loading: {
     color: '#f4a261',
     height: '4px',
     failedColor: '#DF4661'
   },
   /*
-  ** Modules
-  */
+   ** Modules
+   */
   modules: [
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
@@ -237,8 +237,40 @@ module.exports = {
         id: 'UA-55886565-3'
       }
     ],
-    ['nuxt-sass-resources-loader', '~/assets/css/variables.scss']
+    '@nuxtjs/style-resources',
+    'nuxt-purgecss'
   ],
+  styleResources: {
+    scss: '~/assets/css/variables.scss'
+  },
+  purgeCSS: {
+    whitelist: [
+      'animated',
+      'animating',
+      'direction',
+      'active',
+      'hidden',
+      'text',
+      'image',
+      'is-disabled',
+      'is-error',
+      'form-wrapper',
+      'hover-disabled',
+      'contain',
+      'cover',
+      'on-hover',
+      'mobile-visible',
+      'home',
+      'about',
+      'contact',
+      'disabled-hover',
+      'black',
+      'nuxt-link-active',
+      'scrolled',
+      'done',
+      'is-visible'
+    ]
+  },
   workbox: {
     runtimeCaching: [
       {

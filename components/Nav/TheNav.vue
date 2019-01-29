@@ -11,7 +11,7 @@
           @mouseleave.native="animating = false"
           class="logo col--8-mobile col--4-tablet is-center"
         >
-          <the-logo-static
+          <TheLogoStatic
             :width="90"
             :height="46"
             :mobileWidth="50"
@@ -19,7 +19,7 @@
             :animating="animating"
             :fill="$store.state.menuScrolled ? '#f4a261' : 'white'"
           />
-          <the-logo
+          <TheLogo
             :width="90"
             :height="46"
             :mobileWidth="50"
@@ -36,7 +36,7 @@
         >
           <transition-group name="rotate" mode="out-in">
             <div class="rotate" key="closed" v-if="!$store.state.navOpen">
-              <burger-menu
+              <BurgerMenu
                 :fill="$route.path === '/' && 'black' || $store.state.menuScrolled ? 'black' : 'white'"
                 :stroke="$route.path === '/' && 'black' || $store.state.menuScrolled ? 'black' : 'white'"
               />
@@ -76,7 +76,7 @@
     <no-ssr>
       <vue-media :query="{maxWidth: 1024}">
         <div style="z-index: 9999" class="modal-container is-hidden-desktop">
-          <the-menu-mobile :menu-items="menuItems"/>
+          <TheMenuMobile :menu-items="menuItems"/>
         </div>
       </vue-media>
     </no-ssr>
@@ -156,7 +156,6 @@
 
 <style lang="scss" scoped>
   .navigation {
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -166,10 +165,15 @@
     box-shadow: unset;
     margin: 0 auto;
     padding: 0 $gap;
+    position: fixed;
 
     @include media(sm) {
       height: 90px;
       padding: 0;
+    }
+
+    @include media(lg) {
+      position: absolute;
     }
 
     .navbar {
@@ -326,7 +330,9 @@
     }
 
     &.scrolled {
-      transform: translateY(-100%);
+      @include media(lg) {
+        transform: translateY(-100%);
+      }
 
       .navbar a {
         color: $secondary;
@@ -358,10 +364,12 @@
     }
 
     &.scrolled.done {
-      position: fixed;
-      background-color: #f0efef;
-      transition: all 0.6s ease-in-out;
-      transform: translateY(0);
+      @include media(lg) {
+        position: fixed;
+        background-color: #f0efef;
+        transition: all 0.6s ease-in-out;
+        transform: translateY(0);
+      }
     }
 
     &.contact,

@@ -3,9 +3,7 @@
     <div class="container">
       <div class="text-section" :class="{'animated': animateChallenge}">
         <h1>{{project.challenge.title}}</h1>
-        <p>
-          {{project.challenge.body}}
-        </p>
+        <p>{{project.challenge.body}}</p>
       </div>
       <div class="two-columns">
         <div class="column column--left" :class="{'animated': animateChallenge}">
@@ -14,9 +12,7 @@
             <li
               v-for="(insight, index) in project.challenge.left_list.list_item"
               :key="index"
-            >
-              {{insight.item}}
-            </li>
+            >{{insight.item}}</li>
           </ul>
         </div>
         <div class="column column--right" :class="{'animated': animateChallenge}">
@@ -25,19 +21,20 @@
             <li
               v-for="(action, index) in project.challenge.right_list.list_item"
               :key="index"
-            >
-              {{action.item}}
-            </li>
+            >{{action.item}}</li>
           </ul>
         </div>
       </div>
-      <div class="flexible-content container-fluid" v-if="project.challenge.flexible_content.length">
-        <div 
+      <div
+        class="flexible-content container-fluid"
+        v-if="project.challenge.flexible_content.length"
+      >
+        <div
           v-for="(content, index) in project.challenge.flexible_content"
           :key="index"
           :class="content.acf_fc_layout"
         >
-          <lazy-image
+          <LazyImage
             v-if="content.acf_fc_layout === 'image'"
             class="image"
             :hover="false"
@@ -45,7 +42,7 @@
             :imageMobile="content.image"
           />
           <p v-else-if="content.acf_fc_layout === 'text'">{{content.text}}</p>
-          <lazy-image
+          <LazyImage
             v-else
             class="double_image"
             :hover="false"
@@ -61,12 +58,12 @@
 
 <script>
   export default {
-    name: 'TheChallenge',
-    props: ['project', 'animateChallenge'],
+    name: "TheChallenge",
+    props: ["project", "animateChallenge"],
     components: {
-      LazyImage: () => import('@/components/UI/LazyImage')
+      LazyImage: () => import("@/components/UI/LazyImage")
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -133,7 +130,7 @@
         }
 
         &:after {
-          content: '';
+          content: "";
           position: absolute;
           background: $lightgrey;
           z-index: -1;

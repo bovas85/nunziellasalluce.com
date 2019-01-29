@@ -25,7 +25,7 @@
         :class="{'animated': animateIntro}"
         v-if="project.intro.image != null"
       >
-        <lazy-image
+        <LazyImage
           class="image"
           :hover="false"
           :image="project.intro.image"
