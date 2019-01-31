@@ -332,10 +332,7 @@ module.exports = {
   },
   axios: {
     timeout: 6000,
-    debug: false,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+    debug: false
   },
   plugins: [
     '~/plugins/axios.js',
