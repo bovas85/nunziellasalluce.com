@@ -274,9 +274,14 @@ module.exports = {
       'page-enter-active',
       'page-leave-active',
       'acrossIn',
-      'acrossOut'
+      'acrossOut',
+      'rotate',
+      'rotate-enter-active',
+      'rotate-leave-active',
+      'rotate-enter-to',
+      'rotate-leave-to'
     ],
-    whitelistPatterns: [/^page/, /keyframe/]
+    whitelistPatterns: [/^page/, /^rotate/, /keyframe/]
   },
   workbox: {
     runtimeCaching: [
