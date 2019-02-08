@@ -292,11 +292,11 @@ module.exports = {
     runtimeCaching: [
       {
         urlPattern: 'https://api.nunziellasalluce.com/wp-content/uploads/.*',
-        handler: 'cacheFirst',
+        handler: 'staleWhileRevalidate',
         strategyOptions: {
           cacheName: 'images',
           cacheExpiration: {
-            maxEntries: 10,
+            maxEntries: 30,
             maxAgeSeconds: 300
           },
           cacheableResponse: { statuses: [0, 200] }
@@ -316,13 +316,13 @@ module.exports = {
       },
       {
         urlPattern: 'https://fonts.googleapis.com/.*',
-        handler: 'cacheFirst',
+        handler: 'staleWhileRevalidate',
         method: 'GET',
         strategyOptions: {
           cacheName: 'fonts',
           cacheExpiration: {
             maxEntries: 10,
-            maxAgeSeconds: 300
+            maxAgeSeconds: 30000
           },
           cacheableResponse: { statuses: [0, 200] }
         }
