@@ -177,12 +177,15 @@
     box-shadow: 0 1px 5px 0 $grey;
     height: 600px;
     position: relative;
-    width: 80vw !important;
-    max-width: 80vw !important;
+    
+    @media (max-width: $tablet) {
+      width: 80vw !important;
+      max-width: 80vw !important;
+    }
 
     @include media(sm) {
-      /* width: 80vw !important; */
-      max-width: 80vw !important;
+      /* width: unset !important;
+      max-width: unset !important; */
       height: 600px;
     }
     .lazy-image {
