@@ -52,6 +52,7 @@
     margin-top: 0;
     margin-bottom: $gap - 4px;
     padding: $gap 0;
+    overflow: hidden;
 
     h1 {
       max-width: 150px;
