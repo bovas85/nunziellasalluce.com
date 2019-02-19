@@ -24,6 +24,10 @@
       <p>
         {{aboutPage.skills.body}}
       </p>
+
+      <p>
+        <a class='link' href='/cv.pdf' target='_blank'>Download my CV</a>
+      </p>
     </div>
   </div>
 </template>
@@ -55,6 +59,17 @@
     position: relative;
     min-height: 100vh;
     min-height: calc(100vh - 178px);
+
+    a {
+      color: white;
+      text-decoration: underline;
+      transition: color .3s ease-in-out;
+
+      &:hover {
+        color: $primary;
+        text-decoration: underline;
+      }
+    }
 
     .container {
       padding: 0 $gap $gap * 3;

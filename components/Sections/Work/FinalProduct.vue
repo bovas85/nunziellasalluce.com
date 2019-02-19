@@ -20,36 +20,12 @@
           :imageMobile="content.image"
         />
       </div>
-
-      <div
-        v-if="project.product.slider && project.product.slider.length"
-        class="slider-section step"
-      >
-        <transition-group tag="div" name="fade" mode="out-in">
-          <LazyImage
-            v-for="(item, index) in project.product.slider"
-            class="image"
-            :hover="false"
-            contain
-            noBg
-            :class="{'active': currentSlide === index}"
-            :key="item.image.ID"
-            :image="item.image"
-            :imageMobile="item.image"
-          >
-            <p>{{item && item.image.caption}}</p>
-          </LazyImage>
-        </transition-group>
-        <div class="pagination">
-          <div
-            v-for="(bullet, index) in project.product.slider.length"
-            :key="index"
-            :class="{'active': index === currentSlide}"
-            class="bullet"
-          ></div>
-        </div>
-      </div>
     </div>
+    <Slider
+      class='slider'
+      v-if="project.product.slider && project.product.slider.length"
+      :data="project.product.slider"
+    />
   </section>
 </template>
 
@@ -59,30 +35,20 @@
     name: "FinalProduct",
     props: ["project", "animateFinal"],
     components: {
-      LazyImage: () => import("@/components/UI/LazyImage")
+      LazyImage: () => import("@/components/UI/LazyImage"),
+      Slider: () => import("@/components/Sliders/Slider")
     },
     data () {
       return {
         currentSlide: 0
       };
-    },
-    mounted () {
-      if (process.browser) {
-        interval = setInterval(() => {
-          if (this.currentSlide === this.project.product.slider.length - 1) {
-            this.currentSlide = 0;
-          } else this.currentSlide++;
-        }, 5000);
-      }
-    },
-    beforeDestroy () {
-      clearInterval(interval);
     }
   };
 </script>
 
 <style lang="scss" scoped>
   .final-product {
+    margin: 0;
     margin-top: 0;
     margin-bottom: $gap - 4px;
     padding: $gap 0;
@@ -99,6 +65,14 @@
         display: grid;
       }
       grid-gap: $gap;
+    }
+
+    .slider {
+      display: block;
+      margin: $gap 0;
+      padding: $gap 0;
+      width: 100vw;
+      overflow: hidden;
     }
 
     .text-section {

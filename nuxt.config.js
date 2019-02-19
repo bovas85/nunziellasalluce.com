@@ -280,7 +280,7 @@ module.exports = {
       'fade-enter-active', 
       'fade-leave-active'
     ],
-    whitelistPatterns: [/^page/, /^fade/, /^rotate/, /keyframe/]
+    whitelistPatterns: [/^page/, /^fade/, /^rotate/, /^swiper/, /keyframe/]
   },
   workbox: {
     runtimeCaching: [

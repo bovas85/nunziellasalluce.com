@@ -13,15 +13,11 @@
           />
         </nuxt-link>
         <div class="links">
-          <p>Email:
-            <a
-              href="mailto:hello@nunziellasalluce.com?subject=Interview request"
-            >hello@nunziellasalluce.com</a>
-          </p>
           <span>
             <nuxt-link to="/privacy-policy">Privacy Policy</nuxt-link>
           </span>
-          <p class="referral-link">Coded with 🧔 by
+          <p class="referral-link">
+            Coded with 👨 by
             <a
               href="https://moustachedesign.xyz?referrer=nunziella-salluce-design"
               target="_blank"
