@@ -105,7 +105,7 @@
       @include fadeInUp;
       transition-delay: 0.2s;
 
-      @include media(sm) {
+      @media (min-width: $tablet) and (min-height: 700px) {
         display: flex;
       }
 
@@ -120,7 +120,7 @@
     h1 {
       padding: $gap * 3 0 $gap;
 
-      @include media(sm) {
+      @media (min-width: $tablet) and (min-height: $tablet) {
         max-width: 410px;
         padding: 0 0 $gap;
       }
@@ -137,7 +137,7 @@
 
     .supertitle {
       position: absolute;
-      top: 100px;
+      top: 10vh;
       top: calc(60px + #{$gap * 1.5});
       text-transform: uppercase;
       font-weight: 600;
