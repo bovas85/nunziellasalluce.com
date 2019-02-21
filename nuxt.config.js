@@ -282,47 +282,47 @@ module.exports = {
     ],
     whitelistPatterns: [/^page/, /^fade/, /image/, /^rotate/, /^swiper/, /keyframe/]
   },
-  workbox: {
-    runtimeCaching: [
-      {
-        urlPattern: 'https://api.nunziellasalluce.com/wp-content/uploads/.*',
-        handler: 'staleWhileRevalidate',
-        strategyOptions: {
-          cacheName: 'images',
-          cacheExpiration: {
-            maxEntries: 30,
-            maxAgeSeconds: 300
-          },
-          cacheableResponse: { statuses: [0, 200] }
-        }
-      },
-      {
-        urlPattern:
-          'https://api.nunziellasalluce.com/wp-json/wp/v2/casestudies/.*',
-        handler: 'networkFirst',
-        strategyOptions: {
-          cacheName: 'casestudies',
-          cacheExpiration: {
-            maxEntries: 10,
-            maxAgeSeconds: 0
-          }
-        }
-      },
-      {
-        urlPattern: 'https://fonts.googleapis.com/.*',
-        handler: 'staleWhileRevalidate',
-        method: 'GET',
-        strategyOptions: {
-          cacheName: 'fonts',
-          cacheExpiration: {
-            maxEntries: 10,
-            maxAgeSeconds: 30000
-          },
-          cacheableResponse: { statuses: [0, 200] }
-        }
-      }
-    ]
-  },
+  // workbox: {
+  //   runtimeCaching: [
+  //     {
+  //       urlPattern: 'https://api.nunziellasalluce.com/wp-content/uploads/.*',
+  //       handler: 'staleWhileRevalidate',
+  //       strategyOptions: {
+  //         cacheName: 'images',
+  //         cacheExpiration: {
+  //           maxEntries: 30,
+  //           maxAgeSeconds: 300
+  //         },
+  //         cacheableResponse: { statuses: [0, 200] }
+  //       }
+  //     },
+  //     {
+  //       urlPattern:
+  //         'https://api.nunziellasalluce.com/wp-json/wp/v2/casestudies/.*',
+  //       handler: 'networkFirst',
+  //       strategyOptions: {
+  //         cacheName: 'casestudies',
+  //         cacheExpiration: {
+  //           maxEntries: 10,
+  //           maxAgeSeconds: 0
+  //         }
+  //       }
+  //     },
+  //     {
+  //       urlPattern: 'https://fonts.googleapis.com/.*',
+  //       handler: 'staleWhileRevalidate',
+  //       method: 'GET',
+  //       strategyOptions: {
+  //         cacheName: 'fonts',
+  //         cacheExpiration: {
+  //           maxEntries: 10,
+  //           maxAgeSeconds: 30000
+  //         },
+  //         cacheableResponse: { statuses: [0, 200] }
+  //       }
+  //     }
+  //   ]
+  // },
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://nunziellasalluce.com',
