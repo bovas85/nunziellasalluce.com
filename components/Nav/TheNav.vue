@@ -2,7 +2,7 @@
   <div class="navigation-bar">
     <div
       class="navigation"
-      :class="{'scrolled': $store.state.menuScrolled, 'done': $store.state.menuScrolled && $store.state.menuScrolledDone, 'about': $route.path === '/about', 'contact': $route.path === '/contact', 'static': $route.path === '/privacy-policy'}"
+      :class="{'scrolled': $store.state.menuScrolled, 'done': $store.state.menuScrolled && $store.state.menuScrolledDone || $route.path === '/about' || $route.path === '/contact' || $route.path === '/privacy-policy', 'about': $route.path === '/about', 'contact': $route.path === '/contact', 'static': $route.path === '/privacy-policy'}"
     >
       <nav role="navigation" class="container is-flex navbar">
         <nuxt-link
@@ -373,7 +373,9 @@
     }
 
     &.contact,
-    &.about {
+    &.about,
+    &.scrolled.done.contact,
+    &.scrolled.done.about {
       background-color: transparent;
       .navbar a {
         color: white;
