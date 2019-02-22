@@ -19,9 +19,6 @@ Vue.mixin({
     },
     scrollama () {
       if (process.browser) {
-        if (!('IntersectionObserver' in window)) {
-          require('intersection-observer')
-        }
         let scrollama = require('scrollama')
         return scrollama
       }

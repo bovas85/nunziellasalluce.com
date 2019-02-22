@@ -128,6 +128,9 @@ module.exports = {
         property: 'og:image:height',
         content: '628'
       }
+    ],
+    script: [
+      { src: 'https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver' }
     ]
   },
   /*
