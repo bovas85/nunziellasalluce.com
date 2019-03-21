@@ -48,7 +48,6 @@
 
 <style lang="scss" scoped>
   .final-product {
-    margin: 0;
     margin-top: 0;
     margin-bottom: $gap - 4px;
     padding: $gap 0;

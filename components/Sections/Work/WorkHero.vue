@@ -28,12 +28,11 @@
 </template>
 
 <script>
-  import LazyImage from "@/components/UI/LazyImage";
   export default {
     name: "WorkHero",
     props: ["project", "animateHeader"],
     components: {
-      LazyImage,
+      LazyImage: () => import("@/components/UI/LazyImage"),
       IconArrow: () => import("@/components/Icons/IconArrow")
     }
   };
