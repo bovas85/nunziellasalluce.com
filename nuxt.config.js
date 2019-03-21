@@ -162,8 +162,7 @@ module.exports = {
       }
     },
     postcss: {
-      'postcss-responsive-type': {},
-      'postcss-nested': {}
+      'postcss-responsive-type': {}
     },
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
