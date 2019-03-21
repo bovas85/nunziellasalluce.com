@@ -177,8 +177,8 @@
     position: relative;
     
     @media (max-width: $tablet) {
-      width: 90vw !important;
-      max-width: 90vw !important;
+      width: 80vw !important;
+      max-width: 80vw !important;
     }
 
     @include media(sm) {
