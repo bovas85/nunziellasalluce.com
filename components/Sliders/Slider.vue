@@ -61,13 +61,11 @@
           centeredSlides: true,
           spaceBetween: 32,
           breakpoints: {
-            640: {
-              slidesPerView: "auto",
-              spaceBetween: 32
+            800: {
+              slidesPerView: "auto"
             },
             320: {
-              slidesPerView: "auto",
-              spaceBetween: 16
+              slidesPerView: "auto"
             }
           },
           autoplay: {
@@ -179,8 +177,8 @@
     position: relative;
     
     @media (max-width: $tablet) {
-      width: 80vw !important;
-      max-width: 80vw !important;
+      width: 90vw !important;
+      max-width: 90vw !important;
     }
 
     @include media(sm) {

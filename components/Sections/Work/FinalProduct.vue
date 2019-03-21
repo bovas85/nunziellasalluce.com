@@ -48,6 +48,7 @@
 
 <style lang="scss" scoped>
   .final-product {
+    margin: 0;
     margin-top: 0;
     margin-bottom: $gap - 4px;
     padding: $gap 0;
@@ -60,8 +61,10 @@
     .container {
       display: flex;
       flex-direction: column;
+      margin: 0 $gap;
 
       @include media(md) {
+        margin: 0 auto;
         display: grid;
       }
       grid-gap: $gap;
