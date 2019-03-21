@@ -161,10 +161,9 @@ module.exports = {
         }
       }
     },
-    postcss: [require('postcss-responsive-type')()],
-    analyze: {
-      analyzerMode: 'static',
-      openAnalyzer: true
+    postcss: {
+      'postcss-responsive-type': {},
+      'postcss-nested': {}
     },
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
