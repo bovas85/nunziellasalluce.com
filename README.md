@@ -1,6 +1,7 @@
 # Nunziella Salluce Design
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/bovas85/nunziellasalluce.com.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/bovas85/nunziellasalluce.com.svg?branch=master)](https://travis-ci.org/bovas85/nunziellasalluce.com)
 
 > Nuxt + WordPress REST API for a portfolio site
 
