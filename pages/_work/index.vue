@@ -48,20 +48,21 @@
 </template>
 
 <script>
-  import debounce from "lodash/debounce";
-  import Config from "~/assets/config";
-  import WorkHero from "@/components/Sections/Work/WorkHero";
-  import get from "lodash/get";
+  import debounce from "lodash/debounce"
+  import Config from "~/assets/config"
+  import WorkHero from "@/components/Sections/Work/WorkHero"
+  import LazyImage from "@/components/UI/LazyImage"
+  import get from "lodash/get"
   let scroller, steps;
 
   export default {
     components: {
       WorkHero,
+      LazyImage,
       ClientIntro: () => import("@/components/Sections/Work/ClientIntro"),
       TheBrand: () => import("@/components/Sections/Work/TheBrand"),
       TheChallenge: () => import("@/components/Sections/Work/TheChallenge"),
-      FinalProduct: () => import("@/components/Sections/Work/FinalProduct"),
-      LazyImage: () => import("@/components/UI/LazyImage")
+      FinalProduct: () => import("@/components/Sections/Work/FinalProduct")
     },
     middleware: "routeGuard",
     head () {

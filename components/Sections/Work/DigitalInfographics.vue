@@ -23,11 +23,12 @@
 </template>
 
 <script>
+  import LazyImage from '@/components/UI/LazyImage'
   export default {
     name: "DigitalInfographics",
     props: ["project", "animateDigital"],
     components: {
-      LazyImage: () => import("@/components/UI/LazyImage")
+      LazyImage
     },
     computed: {
       infographics () {

@@ -46,21 +46,22 @@
 </template>
 
 <script>
-  import debounce from "lodash/debounce";
-  import Config from "~/assets/config";
-  import WorkHero from "@/components/Sections/Work/WorkHero";
-  import get from "lodash/get";
+  import debounce from "lodash/debounce"
+  import Config from "~/assets/config"
+  import WorkHero from "@/components/Sections/Work/WorkHero"
+  import LazyImage from "@/components/UI/LazyImage"
+  import get from "lodash/get"
   let scroller, steps;
 
   export default {
     components: {
       WorkHero,
+      LazyImage,
       ClientIntro: () => import("@/components/Sections/Work/ClientIntro"),
       EmailNewsletter: () => import("@/components/Sections/Work/EmailNewsletter"),
       DigitalInfographics: () =>
         import("@/components/Sections/Work/DigitalInfographics"),
-      RichMedia: () => import("@/components/Sections/Work/RichMedia"),
-      LazyImage: () => import("@/components/UI/LazyImage")
+      RichMedia: () => import("@/components/Sections/Work/RichMedia")
     },
     head () {
       if (

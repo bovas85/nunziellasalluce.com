@@ -33,12 +33,16 @@
 </template>
 
 <script>
+  import LazyImage from '@/components/UI/LazyImage'
   export default {
     name: "Slider",
     props: {
       data: {
         type: Array
       }
+    },
+    components: {
+      LazyImage
     },
     data () {
       return {
@@ -84,9 +88,6 @@
           document.querySelector('.swiper-pagination-bullet:first-child').classList.add('swiper-pagination-bullet-active')
         }, 1000)
       }
-    },
-    components: {
-      LazyImage: () => import("@/components/UI/LazyImage")
     }
   };
 </script>

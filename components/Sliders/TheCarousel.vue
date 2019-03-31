@@ -39,6 +39,7 @@
 </template>
 
 <script>
+  import LazyImage from "@/components/UI/LazyImage"
   export default {
     name: "TheCarousel",
     props: {
@@ -49,6 +50,9 @@
         type: String,
         default: ""
       }
+    },
+    components: {
+      LazyImage
     },
     data () {
       return {
@@ -114,9 +118,6 @@
           },
           false
         );
-    },
-    components: {
-      LazyImage: () => import("@/components/UI/LazyImage")
     }
   };
 </script>

@@ -10,7 +10,7 @@
       home
     />
     <div class="container is-flex-column" :class="{'animated': animateHeader}">
-      <h1 class="jumbo">{{project.hero.title}}</h1>
+      <h1 class='jumbo'>{{project.hero.title}}</h1>
       <h3 class="supertitle">Case Studies - {{project.category}}</h3>
       <h3>{{project.hero.description}}</h3>
     </div>
@@ -28,11 +28,12 @@
 </template>
 
 <script>
+  import LazyImage from '@/components/UI/LazyImage'
   export default {
     name: "WorkHero",
     props: ["project", "animateHeader"],
     components: {
-      LazyImage: () => import("@/components/UI/LazyImage"),
+      LazyImage,
       IconArrow: () => import("@/components/Icons/IconArrow")
     }
   };
@@ -42,6 +43,15 @@
   .hero {
     overflow: hidden;
     margin: 0;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    padding: 0 $gap;
+
     /deep/ .lazy-image {
       object-fit: cover;
       object-position: center;
@@ -71,15 +81,6 @@
     @include media(xl) {
       background-position: center;
     }
-
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    position: relative;
-    padding: 0 $gap;
 
     @include media(sm) {
       padding: 0;
@@ -116,8 +117,9 @@
       }
     }
 
-    h1 {
+    h1.jumbo {
       padding: $gap * 3 0 $gap;
+      font-size: responsive(32px 90px);
 
       @media (min-width: $tablet) and (min-height: $tablet) {
         max-width: 410px;

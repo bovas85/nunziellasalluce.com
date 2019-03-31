@@ -26,11 +26,12 @@
 </template>
 
 <script>
+  import LazyImage from '@/components/UI/LazyImage'
   export default {
     name: "EmailNewsletter",
     props: ["project", "animateEmail"],
     components: {
-      LazyImage: () => import("@/components/UI/LazyImage")
+      LazyImage
     },
     computed: {
       newsletter () {

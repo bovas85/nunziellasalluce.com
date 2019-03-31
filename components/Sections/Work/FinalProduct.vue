@@ -30,13 +30,15 @@
 </template>
 
 <script>
+  import LazyImage from '@/components/UI/LazyImage'
+
   let interval;
   export default {
     name: "FinalProduct",
     props: ["project", "animateFinal"],
     components: {
-      LazyImage: () => import("@/components/UI/LazyImage"),
-      Slider: () => import("@/components/Sliders/Slider")
+      Slider: () => import("@/components/Sliders/Slider"),
+      LazyImage
     },
     data () {
       return {

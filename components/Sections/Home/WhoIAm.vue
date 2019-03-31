@@ -40,11 +40,12 @@
 </template>
 
 <script>
+  import LazyImage from '@/components/UI/LazyImage'
   export default {
     name: "WhoIAm",
     props: ["acf", "animateWho"],
     components: {
-      LazyImage: () => import("@/components/UI/LazyImage")
+      LazyImage
     }
   };
 </script>

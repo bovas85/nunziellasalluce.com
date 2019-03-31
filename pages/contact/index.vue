@@ -34,6 +34,7 @@
 
 <script>
   import TheContactForm from '@/components/UI/TheContactForm'
+  import LazyImage from "@/components/UI/LazyImage"
   import Config from '~/assets/config.js'
 
   export default {
@@ -46,7 +47,7 @@
     },
     components: {
       TheContactForm,
-      LazyImage: () => import('@/components/UI/LazyImage')
+      LazyImage
     },
     mounted () {
       if (process.browser) {

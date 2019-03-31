@@ -57,11 +57,12 @@
 </template>
 
 <script>
+  import LazyImage from '@/components/UI/LazyImage'
   export default {
     name: "TheChallenge",
     props: ["project", "animateChallenge"],
     components: {
-      LazyImage: () => import("@/components/UI/LazyImage")
+      LazyImage
     }
   };
 </script>

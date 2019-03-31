@@ -22,11 +22,12 @@
 </template>
 
 <script>
+  import LazyImage from '@/components/UI/LazyImage'
   export default {
     name: "RichMedia",
     props: ["project", "animateRich"],
     components: {
-      LazyImage: () => import("@/components/UI/LazyImage")
+      LazyImage
     },
     computed: {
       rich () {

@@ -19,6 +19,7 @@
 </template>
 
 <script>
+  import LazyImage from "@/components/UI/LazyImage"
   import IconArrow from '@/components/Icons/IconArrow'
 
   export default {
@@ -92,7 +93,7 @@
       })
     },
     components: {
-      LazyImage: () => import('@/components/UI/LazyImage'),
+      LazyImage,
       IconArrow
     },
     methods: {
