@@ -4,6 +4,13 @@
   "description": "Portfolio site for Nunziella Salluce",
   "author": "Alessandro Giordo - <16958684+bovas85@users.noreply.github.com>",
   "private": true,
+  "greenkeeper": {
+    "ignore": [
+      "scrollama",
+      "vue-awesome-swiper",
+      "vue-progressive-image"
+    ]
+  },
   "dependencies": {
     "@nuxtjs/axios": "^5.4.1",
     "@nuxtjs/google-analytics": "^2.2.0",
