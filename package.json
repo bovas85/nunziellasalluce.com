@@ -39,7 +39,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nuxt --analyze",
     "build": "cross-env NODE_ENV=production nuxt build --modern",
-    "start": "cross-env NODE_ENV=development nuxt-start",
+    "start": "cross-env NODE_ENV=production nuxt-start",
     "startProd": "cross-env NODE_ENV=production nuxt-start",
     "generate": "nuxt generate --modern",
     "staging": "cross-env NODE_ENV=development now --public",
@@ -56,7 +56,7 @@
     "netlify": "^2.4.1",
     "node-sass": "^4.11.0",
     "nuxt-purgecss": "^0.2.1",
-    "nuxt-start": "^2.5.0",
+    "nuxt-start": "^2.6.1",
     "opn": "^6.0.0",
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.1.2",
