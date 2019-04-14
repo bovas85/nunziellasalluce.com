@@ -130,7 +130,10 @@ module.exports = {
       }
     ],
     script: [
-      { src: 'https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver' }
+      {
+        src:
+          'https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver'
+      }
     ]
   },
   /*
@@ -236,56 +239,63 @@ module.exports = {
       }
     ],
     '@nuxtjs/style-resources',
-    'nuxt-purgecss'
+    // 'nuxt-purgecss'
   ],
   styleResources: {
     scss: '~/assets/css/variables.scss'
   },
-  purgeCSS: {
-    whitelist: [
-      'animated',
-      'animating',
-      'direction',
-      'active',
-      'hidden',
-      'text',
-      'image',
-      'is-disabled',
-      'is-error',
-      'form-wrapper',
-      'hover-disabled',
-      'contain',
-      'cover',
-      'on-hover',
-      'mobile-visible',
-      'home',
-      'about',
-      'contact',
-      'disabled-hover',
-      'black',
-      'nuxt-link-active',
-      'scrolled',
-      'done',
-      'is-visible',
-      'page',
-      'page-not-found',
-      'page-enter-active',
-      'page-leave-active',
-      'acrossIn',
-      'acrossOut',
-      'rotate',
-      'rotate-enter-active',
-      'rotate-leave-active',
-      'rotate-enter-to',
-      'rotate-leave-to',
-      'fade',
-      'fade-leave-to',
-      'fade-enter-to',
-      'fade-enter-active',
-      'fade-leave-active',
-    ],
-    whitelistPatterns: [/^page/, /^fade/, /image/, /^rotate/, /^swiper/, /keyframe/]
-  },
+  // purgeCSS: {
+  //   whitelist: [
+  //     'animated',
+  //     'animating',
+  //     'direction',
+  //     'active',
+  //     'hidden',
+  //     'text',
+  //     'image',
+  //     'is-disabled',
+  //     'is-error',
+  //     'form-wrapper',
+  //     'hover-disabled',
+  //     'contain',
+  //     'cover',
+  //     'on-hover',
+  //     'mobile-visible',
+  //     'home',
+  //     'about',
+  //     'contact',
+  //     'disabled-hover',
+  //     'black',
+  //     'nuxt-link-active',
+  //     'scrolled',
+  //     'done',
+  //     'is-visible',
+  //     'page',
+  //     'page-not-found',
+  //     'page-enter-active',
+  //     'page-leave-active',
+  //     'acrossIn',
+  //     'acrossOut',
+  //     'rotate',
+  //     'rotate-enter-active',
+  //     'rotate-leave-active',
+  //     'rotate-enter-to',
+  //     'rotate-leave-to',
+  //     'fade',
+  //     'fade-leave-to',
+  //     'fade-enter-to',
+  //     'fade-enter-active',
+  //     'fade-leave-active'
+  //   ],
+  //   whitelistPatterns: [
+  //     /^page/,
+  //     /^fade/,
+  //     /image/,
+  //     /^rotate/,
+  //     /^swiper/,
+  //     /keyframe/
+  //   ]
+  // },
   workbox: {
     runtimeCaching: [
       {
