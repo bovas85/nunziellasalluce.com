@@ -307,7 +307,7 @@
   #cssda-badge {
     /* monogram position here */
     position: absolute;
-    top: calc(50% - 30px);
+    top: calc(50% - 40px);
     left: calc(50% - 30px);
     /* ––– */
     width: 90px;
@@ -356,7 +356,8 @@
     #cssda-badge {
       /* monogram responsive position here */
       top: calc(50% - 65px);
-      left: calc(50% - 30px);
+      left: auto;
+      right: $gap;
       /* ––– */
       width: 60px;
       height: 60px;
