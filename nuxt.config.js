@@ -1,6 +1,7 @@
 const Config = require('./assets/config')
 const axios = require('axios')
 const opn = require('opn')
+let routes = []
 
 module.exports = {
   mode: 'universal',
@@ -199,9 +200,10 @@ module.exports = {
         const filtered = res.data.filter(project => {
           return project.acf.status === 'true' && project.slug !== 'marketing'
         })
-        return filtered.map(project => {
+        routes = filtered.map(project => {
           return { route: '/' + project.slug, payload: project }
         })
+        return routes
       })
     }
   },
@@ -238,64 +240,11 @@ module.exports = {
         id: 'UA-55886565-3'
       }
     ],
-    '@nuxtjs/style-resources',
-    // 'nuxt-purgecss'
+    '@nuxtjs/style-resources'
   ],
   styleResources: {
     scss: '~/assets/css/variables.scss'
   },
-  // purgeCSS: {
-  //   whitelist: [
-  //     'animated',
-  //     'animating',
-  //     'direction',
-  //     'active',
-  //     'hidden',
-  //     'text',
-  //     'image',
-  //     'is-disabled',
-  //     'is-error',
-  //     'form-wrapper',
-  //     'hover-disabled',
-  //     'contain',
-  //     'cover',
-  //     'on-hover',
-  //     'mobile-visible',
-  //     'home',
-  //     'about',
-  //     'contact',
-  //     'disabled-hover',
-  //     'black',
-  //     'nuxt-link-active',
-  //     'scrolled',
-  //     'done',
-  //     'is-visible',
-  //     'page',
-  //     'page-not-found',
-  //     'page-enter-active',
-  //     'page-leave-active',
-  //     'acrossIn',
-  //     'acrossOut',
-  //     'rotate',
-  //     'rotate-enter-active',
-  //     'rotate-leave-active',
-  //     'rotate-enter-to',
-  //     'rotate-leave-to',
-  //     'fade',
-  //     'fade-leave-to',
-  //     'fade-enter-to',
-  //     'fade-enter-active',
-  //     'fade-leave-active'
-  //   ],
-  //   whitelistPatterns: [
-  //     /^page/,
-  //     /^fade/,
-  //     /image/,
-  //     /^rotate/,
-  //     /^swiper/,
-  //     /keyframe/
-  //   ]
-  // },
   workbox: {
     runtimeCaching: [
       {
@@ -343,6 +292,7 @@ module.exports = {
     exclude: [
       '/.git'
     ],
+    routes: routes
   },
   axios: {
     timeout: 6000,
