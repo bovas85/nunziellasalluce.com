@@ -338,10 +338,11 @@ module.exports = {
     ]
   },
   sitemap: {
-    path: '/sitemap.xml',
     hostname: 'https://nunziellasalluce.com',
-    cacheTime: 1000 * 60 * 15,
-    exclude: ['/.git']
+    gzip: true,
+    exclude: [
+      '/.git'
+    ],
   },
   axios: {
     timeout: 6000,
