@@ -1,1 +1,2 @@
-http://nunziellasalluce.netlify.com/* http://nunziellasalluce.com/:splat 301!
+# Redirect default Netlify subdomain to primary domain
+https://nunziellasalluce.netlify.com/* https://nunziellasalluce.com/:splat 301!
