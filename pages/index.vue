@@ -17,6 +17,8 @@
       :testimonials="testimonials"
       :animateTestimonials="animateTestimonials"
     />
+
+    <TheAwards />
   </main>
 </template>
 
@@ -45,7 +47,8 @@
       TheWork: () => import("@/components/Sections/Home/TheWork"),
       TheProcess: () => import("@/components/Sections/Home/TheProcess"),
       TheCapabilities: () => import("@/components/Sections/Home/TheCapabilities"),
-      TheTestimonials: () => import("@/components/Sections/Home/TheTestimonials")
+      TheTestimonials: () => import("@/components/Sections/Home/TheTestimonials"),
+      TheAwards: () => import("@/components/Sections/Home/TheAwards")
     },
     head () {
       return { title: "Home" };
