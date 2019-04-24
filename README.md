@@ -1,5 +1,6 @@
 # Nunziella Salluce Design
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0f5655f164224918b64acca3bcec15a7)](https://app.codacy.com/app/bovas85/nunziellasalluce.com?utm_source=github.com&utm_medium=referral&utm_content=bovas85/nunziellasalluce.com&utm_campaign=Badge_Grade_Dashboard)
 [![Greenkeeper badge](https://badges.greenkeeper.io/bovas85/nunziellasalluce.com.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/bovas85/nunziellasalluce.com.svg?branch=master)](https://travis-ci.org/bovas85/nunziellasalluce.com)
 
