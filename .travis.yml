@@ -6,6 +6,6 @@ cache:
     - node_modules
 script:
   - npm install
-  - npm run build
+  - npm run generate
 branches:
   only: master
