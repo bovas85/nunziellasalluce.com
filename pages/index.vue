@@ -126,7 +126,7 @@
                 .setup({
                   step: ".step",
                   offset: 0.6,
-                  debug: true
+                  debug: false
                 })
                 .onStepEnter(this.handleStepEnter)
                 .onStepExit(this.showMenu);
@@ -140,7 +140,7 @@
                 .setup({
                   step: ".step",
                   offset: 0.8,
-                  debug: true
+                  debug: false
                 })
                 .onStepEnter(this.handleStepEnter)
                 .onStepExit(this.showMenu);
