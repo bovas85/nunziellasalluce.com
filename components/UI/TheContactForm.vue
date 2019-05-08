@@ -4,7 +4,7 @@
         <div class="name">
             <label :class="{'selected': nameFocused || saved}" for="name">Full Name</label>
             <input autocomplete="given-name" @focus="nameFocused = true" @blur="nameClicked = true" :class="{'is-danger': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" v-model="form.yourName" id="name" name="name" type="text" required>
-            <i :class="{'is-danger': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}"><img src="/images/error.svg" alt="error icon"></i>
+            <i :class="{'is-danger': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}"><img class='lazyload' data-src="/images/error.svg" alt="error icon"></i>
             <span :class="{'is-visible': $v.form.yourName.$invalid && sending || $v.form.yourName.$invalid && nameClicked}" class="has-text-danger">Please type your full name</span>
         </div>
 
@@ -12,7 +12,7 @@
         <div class="email">
             <label :class="{'selected': emailFocused || saved}" for="email">Email</label>
             <input autocomplete="email" @focus="emailFocused = true" @blur="emailClicked = true" :class="{'is-danger': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" v-model="form.yourEmail" id="email" name="email" type="email" required>
-            <i :class="{'is-danger': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}"><img src="/images/error.svg" alt="error icon"></i>
+            <i :class="{'is-danger': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}"><img class='lazyload' data-src="/images/error.svg" alt="error icon"></i>
             <span :class="{'is-visible': $v.form.yourEmail.$invalid && sending || $v.form.yourEmail.$invalid && emailClicked}" class="has-text-danger">Please type an Email</span>
         </div>
 

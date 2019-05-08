@@ -302,6 +302,7 @@ module.exports = {
     '~/plugins/axios.js',
     '~/plugins/store.js',
     { src: '~/plugins/vue-media.js', ssr: false },
+    { src: '~/plugins/lazysizes.js', ssr: false },
     { src: '~/plugins/nuxt-swiper.js', ssr: false },
     { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~/plugins/vue-localstorage.js', ssr: false },

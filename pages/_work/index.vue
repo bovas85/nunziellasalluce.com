@@ -383,7 +383,7 @@
       }
     }
 
-    /deep/ .progressive-image-wrapper {
+    /deep/ img {
       padding-top: 0 !important;
     }
 
@@ -480,7 +480,7 @@
           object-fit: cover;
           object-position: center;
           position: relative;
-          bottom: 20px;
+          bottom: 0;
           left: 0;
         }
       }

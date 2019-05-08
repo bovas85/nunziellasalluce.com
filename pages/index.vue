@@ -86,7 +86,10 @@
       hideMenu () {
         this.$store.commit("hideMenuBg");
       },
-      showMenu () {
+      showMenu (response) {
+        if (response.index === 1) {
+          this.animateWork = true;
+        }
         this.$store.dispatch("showMenu");
       },
       handleStepEnter (response) {
@@ -99,15 +102,12 @@
             this.animateWho = true;
             break;
           case 2:
-            this.animateWork = true;
-            break;
-          case 3:
             this.animateProcess = true;
             break;
-          case 4:
+          case 3:
             this.animateCapab = true;
             break;
-          case 5:
+          case 4:
             this.animateTestimonials = true;
             break;
           default:
@@ -126,7 +126,7 @@
                 .setup({
                   step: ".step",
                   offset: 0.6,
-                  debug: false
+                  debug: true
                 })
                 .onStepEnter(this.handleStepEnter)
                 .onStepExit(this.showMenu);
@@ -139,8 +139,8 @@
               steps = scroller
                 .setup({
                   step: ".step",
-                  offset: 0.9,
-                  debug: false
+                  offset: 0.8,
+                  debug: true
                 })
                 .onStepEnter(this.handleStepEnter)
                 .onStepExit(this.showMenu);

@@ -4785,6 +4785,11 @@ launch-editor@^2.2.1:
     chalk "^2.3.0"
     shell-quote "^1.6.1"
 
+lazysizes@^5.0.0-rc1:
+  version "5.0.0-rc1"
+  resolved "https://registry.yarnpkg.com/lazysizes/-/lazysizes-5.0.0-rc1.tgz#a5aecca2ff962c6acdcc2084bc6677d2a047cb08"
+  integrity sha512-Z00uf+1xC7h6SYH/3DibyDX7lJ0hZK+hjzL0Q1RVO4cTJOO6f9NuX8Loiit9DEjRglY7jWOxhRHtVzkULkalbw==
+
 lazystream@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/lazystream/-/lazystream-1.0.0.tgz#f6995fe0f820392f61396be89462407bb77168e4"

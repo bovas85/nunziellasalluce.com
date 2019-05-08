@@ -5,15 +5,15 @@
     :class="{'disabled-hover': !hover, 'home': home}"
   >
     <img 
-      :srcset="image"
+      class='lazyload'
+      :data-srcset="image"
       :alt="sources.alt"
       sizes="(max-width: 576px) 400px,
              (max-width: 1100px) 1024px,
              (min-width: 1101px) 1100px,
              (min-width: 1921px) 2048px"
-      :src="sources.sizes.thumbnail"
+      :data-src="sources.sizes.thumbnail"
     />
-    <!-- <div class="overlay"></div> -->
   </div>
 </template>
 

@@ -3,57 +3,40 @@
     v-if="image.url != null && imageMobile.url != null"
     class="lazy-image"
     :class="[{'hover-disabled': !hover, 'contain': contain}, computedClass]"
-    :style="!this.loaded && !noBg ? `background-color: #f4a261`: null"
   >
     <no-ssr>
       <vue-media :query="{maxWidth: 576}">
-        <progressive-img
-          :src="imageMobile.sizes.medium"
+        <img
+          :class='lazyload ? "lazyload": ""'
+          :data-src="imageMobile.sizes.medium"
           :alt="imageMobile.alt"
-          @onLoad.once="imageLoaded"
-          @onError="capture($event)"
-          :placeholder="thumbnail"
-          no-ratio
-          :blur="15"
         />
       </vue-media>
     </no-ssr>
     <no-ssr>
       <vue-media :query="({minWidth: 577, maxWidth: 1200})">
-        <progressive-img
-          :src="image.sizes.large"
+        <img
+          :class='lazyload ? "lazyload": ""'
+          :data-src="image.sizes.large"
           :alt="image.alt"
-          @onLoad.once="imageLoaded"
-          @onError="capture($event)"
-          :placeholder="thumbnail"
-          no-ratio
-          :blur="15"
         />
       </vue-media>
     </no-ssr>
     <no-ssr>
       <vue-media :query="({minWidth: 1201, maxWidth: 1920})">
-        <progressive-img
-          :src="getImage ? getImage : image.sizes.ultra"
+        <img
+          :class='lazyload ? "lazyload": ""'
+          :data-src="getImage ? getImage : image.sizes.ultra"
           :alt="image.alt"
-          @onLoad.once="imageLoaded"
-          @onError="capture($event)"
-          :placeholder="thumbnail"
-          no-ratio
-          :blur="15"
         />
       </vue-media>
     </no-ssr>
     <no-ssr>
       <vue-media :query="{minWidth: 1921}">
-        <progressive-img
-          :src="getImage ? getImage : image.sizes['4k']"
+        <img
+          :class='lazyload ? "lazyload": ""'
+          :data-src="getImage ? getImage : image.sizes['4k']"
           :alt="image.alt"
-          @onLoad.once="imageLoaded"
-          @onError="capture($event)"
-          :placeholder="thumbnail"
-          no-ratio
-          :blur="15"
         />
       </vue-media>
     </no-ssr>
@@ -72,6 +55,10 @@
   export default {
     name: "LazyImage",
     props: {
+      lazyload: {
+        type: Boolean,
+        default: true,
+      },
       image: {
         type: [Object, Boolean]
       },
@@ -171,13 +158,14 @@
     .progressive-image-wrapper {
       position: relative;
       padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      img,
       .progressive-image-main {
         background: transparent;
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
-        height: auto;
+        height: 100%;
       }
     }
     .work-navigation {
@@ -188,12 +176,16 @@
   }
 
   @supports (display: grid) {
+    img,
     .progressive-image,
     .progressive-image-wrapper {
       position: static;
       height: 100%;
       object-fit: cover;
+      width: 100%;
+      height: 100%;
       padding-top: unset;
+      img,
       .progressive-image-main {
         height: 100%;
         position: relative;
@@ -212,7 +204,7 @@
       }
     }
   }
-
+  
   .lazy-image {
     height: 100%;
     width: 100%;
@@ -325,6 +317,7 @@
       transition: transform 0.6s ease-in-out;
     }
     &.left {
+      img,
       .progressive-image,
       .progressive-image-wrapper {
         .progressive-image-main {
@@ -333,6 +326,7 @@
       }
     }
     &.right {
+      img,
       .progressive-image,
       .progressive-image-wrapper {
         .progressive-image-main {
@@ -341,6 +335,7 @@
       }
     }
     &.bottom {
+      img,
       .progressive-image,
       .progressive-image-wrapper {
         .progressive-image-main {
@@ -349,6 +344,7 @@
       }
     }
     &.top {
+      img,
       .progressive-image,
       .progressive-image-wrapper {
         .progressive-image-main {
@@ -357,6 +353,7 @@
       }
     }
     &.contain {
+      img,
       .progressive-image,
       .progressive-image-wrapper {
         object-fit: contain;
@@ -367,9 +364,11 @@
     }
   }
   .bg-image--second {
+    img,
     .progressive-image-main {
       background: transparent;
-      height: 100% !important;
+      height: 100%;
+      width: 100%;
       object-fit: cover;
       margin-top: 0;
       margin-bottom: -5px;

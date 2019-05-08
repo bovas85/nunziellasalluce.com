@@ -384,7 +384,7 @@
       }
     }
 
-    /deep/ .progressive-image-wrapper {
+    /deep/ img {
       padding-top: 0 !important;
     }
 

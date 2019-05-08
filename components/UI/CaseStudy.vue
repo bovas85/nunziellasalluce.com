@@ -3,7 +3,8 @@
     <h2>{{ caseStudy.title }}</h2>
     <img
       v-if="caseStudy.image != null"
-      :src="caseStudy.image.sizes.medium"
+      class='lazyload'
+      :data-src="caseStudy.image.sizes.medium"
       :alt="caseStudy.image.alt"
     >
     <p>{{ caseStudy.intro }}</p>
@@ -14,7 +15,8 @@
         <p>{{ caseStudy.the_problem.description }}</p>
         <img
           v-if="caseStudy.the_problem.image.sizes != null"
-          :src="caseStudy.the_problem.image.sizes.medium"
+          class='lazyload'
+          :data-src="caseStudy.the_problem.image.sizes.medium"
           :alt="caseStudy.the_problem.image.alt"
         >
       </div>
@@ -24,7 +26,8 @@
         <p>{{ caseStudy.the_process.description }}</p>
         <img
           v-if="caseStudy.the_process.image.sizes != null"
-          :src="caseStudy.the_process.image.sizes.medium"
+          class='lazyload'
+          :data-src="caseStudy.the_process.image.sizes.medium"
           :alt="caseStudy.the_process.image.alt"
         >
       </div>
@@ -34,7 +37,8 @@
         <p>{{ caseStudy.the_solution.description }}</p>
         <img
           v-if="caseStudy.the_solution.image.sizes != null"
-          :src="caseStudy.the_solution.image.sizes.medium"
+          class='lazyload'
+          :data-src="caseStudy.the_solution.image.sizes.medium"
           :alt="caseStudy.the_solution.image.alt"
         >
       </div>

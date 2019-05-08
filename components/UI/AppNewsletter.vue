@@ -14,7 +14,7 @@
                 <div key="success" v-else class="field successful">
                     <div class="columns"> 
                         <div class="column is-2">
-                            <img src="/images/sent.svg" alt="form sent">
+                            <img class='lazyload' data-src="/images/sent.svg" alt="form sent">
                         </div>
                         <div class="column is-10">
                             <p>
