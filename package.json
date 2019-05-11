@@ -40,6 +40,7 @@
     "dev": "cross-env NODE_ENV=development nuxt --analyze",
     "build": "cross-env NODE_ENV=production nuxt build --modern",
     "start": "cross-env NODE_ENV=production nuxt-start",
+    "storybook": "start-storybook",
     "startProd": "cross-env NODE_ENV=production nuxt-start",
     "generate": "nuxt generate --modern",
     "staging": "cross-env NODE_ENV=development now --public",
@@ -47,7 +48,15 @@
     "precommit": "npm run lint"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.4.4",
+    "@storybook/vue": "^5.0.11",
     "babel-eslint": "^10.0.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-vue": "^2.0.2",
     "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-loader": "^2.1.2",
