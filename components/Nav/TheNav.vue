@@ -7,6 +7,7 @@
       <nav role="navigation" class="container is-flex navbar">
         <nuxt-link
           to="/"
+          no-prefetch
           @mouseover.native="animating = true"
           @mouseleave.native="animating = false"
           class="logo col--8-mobile col--4-tablet is-center"
@@ -56,19 +57,21 @@
           :class="($route.path === '/' || $route.path === '/contact') && 'black'"
         >
           <nuxt-link
+            no-prefetch
             to="/"
             :class="$route.path === '/' && $route.hash !== '#work' && 'nuxt-link-active'"
             exact
           >Home</nuxt-link>
           <nuxt-link
+            no-prefetch
             :class="$route.hash === '#work'
               && 'nuxt-link-active'"
             to="/#work"
             exact
             v-scroll-to="{element:'.projects'}"
           >Work</nuxt-link>
-          <nuxt-link to="/about" exact>About</nuxt-link>
-          <nuxt-link to="/contact" exact>Contact</nuxt-link>
+          <nuxt-link no-prefetch to="/about" exact>About</nuxt-link>
+          <nuxt-link no-prefetch to="/contact" exact>Contact</nuxt-link>
         </ul>
       </nav>
     </div>

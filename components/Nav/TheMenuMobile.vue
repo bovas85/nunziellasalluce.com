@@ -10,6 +10,7 @@
     >
       <ul class="menu">
         <nuxt-link
+          no-prefetch
           v-for="menu in menuItems"
           :key="menu === '' ? 'home': menu"
           exact
@@ -19,6 +20,7 @@
           {{ menu === '' ? 'Home' : menu }}
         </nuxt-link>
         <nuxt-link
+          no-prefetch
           v-else-if="$route.path !== '/'"
           key='work'
           to="/#work"

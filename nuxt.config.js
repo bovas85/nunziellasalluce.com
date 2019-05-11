@@ -262,7 +262,8 @@ module.exports = {
       {
         urlPattern:
           'https://api.nunziellasalluce.com/wp-json/wp/v2/casestudies/.*',
-        handler: 'networkFirst',
+        handler: 'staleWhileRevalidate',
+        method: 'GET',
         strategyOptions: {
           cacheName: 'casestudies',
           cacheExpiration: {
