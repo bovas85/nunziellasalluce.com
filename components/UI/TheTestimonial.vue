@@ -3,6 +3,7 @@
     <img
       class='lazyload'
       :data-src="testimonial.image ? testimonial.image.sizes.medium : 'https://placehold.it/200x200'"
+      :src="testimonial.image ? testimonial.image.sizes.thumbnail : 'https://placehold.it/200x200'"
       :alt="testimonial.image.alt"
     >
     <blockquote>

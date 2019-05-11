@@ -39,6 +39,7 @@
     padding: 0 $gap;
     margin: 0;
     background-position: 75%;
+    background-color: $yellow;
 
     @include media(sm) {
       padding: 0;

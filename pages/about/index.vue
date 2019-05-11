@@ -1,12 +1,12 @@
 <template>
-  <div class="about" v-if="page && aboutPage">
+  <div class="about" v-if="aboutPage">
     <lazy-image
       class='image'
-      :image="page.who_i_am.image"
+      :image="aboutPage.about.desktop_image"
       :hover="false"
       position="right"
       positionMobile="right"
-      :imageMobile="page.who_i_am.image"
+      :imageMobile="aboutPage.about.mobile_image"
       home
     />
     <div class="container" v-if="aboutPage">
@@ -45,11 +45,6 @@
     },
     components: {
       LazyImage
-    },
-    computed: {
-      page () {
-        return this.$store.state.homePage.acf
-      }
     }
   }
 </script>
@@ -59,6 +54,8 @@
     position: relative;
     min-height: 100vh;
     min-height: calc(100vh - 178px);
+    background-color: #91754d;
+    z-index: -2;
 
     a {
       color: white;

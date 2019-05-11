@@ -9,6 +9,7 @@
         <img
           :class='lazyload ? "lazyload": ""'
           :data-src="imageMobile.sizes.medium"
+          :src="imageMobile.sizes.thumbnail"
           :alt="imageMobile.alt"
         />
       </vue-media>
@@ -18,6 +19,7 @@
         <img
           :class='lazyload ? "lazyload": ""'
           :data-src="image.sizes.large"
+          :src="image.sizes.thumbnail"
           :alt="image.alt"
         />
       </vue-media>
@@ -27,6 +29,7 @@
         <img
           :class='lazyload ? "lazyload": ""'
           :data-src="getImage ? getImage : image.sizes.ultra"
+          :src="image.sizes.thumbnail"
           :alt="image.alt"
         />
       </vue-media>
@@ -36,6 +39,7 @@
         <img
           :class='lazyload ? "lazyload": ""'
           :data-src="getImage ? getImage : image.sizes['4k']"
+          :src="image.sizes.thumbnail"
           :alt="image.alt"
         />
       </vue-media>
