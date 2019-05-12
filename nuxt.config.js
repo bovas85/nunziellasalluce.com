@@ -302,12 +302,13 @@ module.exports = {
   plugins: [
     '~/plugins/axios.js',
     '~/plugins/store.js',
-    { src: '~/plugins/vue-media.js', ssr: false },
-    { src: '~/plugins/lazysizes.js', ssr: false },
-    { src: '~/plugins/nuxt-swiper.js', ssr: false },
-    { src: '~/plugins/vuelidate.js', ssr: true },
-    { src: '~/plugins/vue-localstorage.js', ssr: false },
-    { src: '~/plugins/vue-smooth-scroll.js', ssr: false },
-    { src: '~/plugins/hotjar.js', ssr: false }
+    '~/plugins/lazysizes.client.js',
+    '~/plugins/vue-media.client.js',
+    '~/plugins/nuxt-swiper.client.js',
+    '~/plugins/vuelidate.client.js',
+    '~/plugins/vue-localstorage.client.js',
+    '~/plugins/vue-smooth-scroll.client.js',
+    '~/plugins/splitting.client.js',
+    '~/plugins/hotjar.client.js'
   ]
 }
