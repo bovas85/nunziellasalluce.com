@@ -162,8 +162,8 @@
     },
     async mounted () {
       if (process.browser) {
+        this.animateHeader = true;
         setTimeout(() => {
-          this.animateHeader = true;
           this.handleScroll();
         }, 150);
       }
@@ -184,7 +184,6 @@
         switch (response.index) {
           case 0:
             this.hideMenu();
-            this.animateHeader = true;
             break;
           case 1:
             this.animateIntro = true;
@@ -212,7 +211,7 @@
           steps = scroller
             .setup({
               step: ".step",
-              offset: 0.8,
+              offset: 0.5,
               debug: false
             })
             .onStepEnter(this.handleStepEnter)
@@ -226,7 +225,7 @@
           steps = scroller
             .setup({
               step: ".step",
-              offset: 0.9,
+              offset: 0.7,
               debug: false
             })
             .onStepEnter(this.handleStepEnter)

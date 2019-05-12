@@ -62,13 +62,13 @@
     },
     async mounted () {
       if (process.client) {
+        this.animateHeader = true;
         const home = await this.$axios.get(
           Config.wpDomain + Config.api.homePage,
           { useCache: false }
         );
         this.$store.commit("setHomepage", home.data);
         setTimeout(() => {
-          this.animateHeader = true;
           this.handleScroll();
           this.Splitting();
         }, 150);
@@ -96,7 +96,6 @@
         switch (response.index) {
           case 0:
             this.hideMenu();
-            this.animateHeader = true;
             break;
           case 1:
             this.animateWho = true;
@@ -125,7 +124,7 @@
               steps = scroller
                 .setup({
                   step: ".step",
-                  offset: 0.6,
+                  offset: 0.5,
                   debug: false
                 })
                 .onStepEnter(this.handleStepEnter)
@@ -139,7 +138,7 @@
               steps = scroller
                 .setup({
                   step: ".step",
-                  offset: 0.8,
+                  offset: 0.7,
                   debug: false
                 })
                 .onStepEnter(this.handleStepEnter)
