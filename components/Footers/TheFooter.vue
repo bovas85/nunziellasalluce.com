@@ -21,6 +21,7 @@
             <a
               href="https://moustachedesign.xyz?referrer=nunziella-salluce-design"
               target="_blank"
+              rel="noopener"
             >Moustache Design</a>
           </p>
         </div>
@@ -65,7 +66,7 @@
       </div>
     </div>
 
-    <a target='_blank' href='https://www.cssdesignawards.com/sites/nunziella-salluce-design/35044/'>
+    <a target='_blank' rel="noopener" href='https://www.cssdesignawards.com/sites/nunziella-salluce-design/35044/'>
       <div id="cssda-badge">
         <svg
           version="1.1"
