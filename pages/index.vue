@@ -1,6 +1,6 @@
 <template>
   <main class="home" v-if="acf">
-    <HeroSection :acf="acf" :animateHeader="animateHeader" :bgImage="bgImage"/>
+    <HeroSection :acf="acf" :animateHeader="animateHeader" />
 
     <WhoIAm :acf="acf" :animateWho="animateWho"/>
 
@@ -56,7 +56,7 @@
     async created () {
       const projects = await this.$axios.get(
         Config.wpDomain + Config.api.projects,
-        { useCache: false }
+        { useCache: true }
       );
       this.$store.commit("setProjects", projects.data);
     },
@@ -65,7 +65,7 @@
         this.animateHeader = true;
         const home = await this.$axios.get(
           Config.wpDomain + Config.api.homePage,
-          { useCache: false }
+          { useCache: true }
         );
         this.$store.commit("setHomepage", home.data);
         setTimeout(() => {
@@ -87,10 +87,13 @@
         this.$store.commit("hideMenuBg");
       },
       showMenu (response) {
-        if (response.index === 1) {
+        if (response.index >= 0
+          && response.direction === 'down'
+          && !this.$store.state.menuScrolled
+        ) {
           this.animateWork = true;
+          this.$store.dispatch("showMenu");
         }
-        this.$store.dispatch("showMenu");
       },
       handleStepEnter (response) {
         switch (response.index) {
@@ -207,36 +210,6 @@
       },
       testimonials () {
         return get(this.acf, "testimonials.testimonials");
-      },
-      bgImage () {
-        if (process.browser) {
-          if (this.$store.state.window < 577) {
-            return get(
-              this.homePage,
-              "acf.hero.mobile_bg.sizes.large",
-              "https://placehold.it/2048/2048"
-            );
-          } else if (
-            this.$store.state.window > 576 &&
-            this.$store.state.window < 1440
-          ) {
-            return get(
-              this.homePage,
-              "acf.hero.desktop_bg.sizes.large",
-              "https://placehold.it/2048/2048"
-            );
-          } else
-            return get(
-              this.homePage,
-              "acf.hero.desktop_bg.sizes.ultra",
-              "https://placehold.it/2048/2048"
-            );
-        }
-        return get(
-          this.homePage,
-          "acf.hero.desktop_bg.sizes.large",
-          "https://placehold.it/2048/2048"
-        );
       }
     }
   };

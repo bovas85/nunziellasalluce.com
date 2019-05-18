@@ -9,12 +9,11 @@
 
 <script>
   import TheNav from "@/components/Nav/TheNav";
-  import TheFooter from "@/components/Footers/TheFooter";
 
   export default {
     components: {
       TheNav,
-      TheFooter,
+      TheFooter: () => import("@/components/Footers/TheFooter"),
       CookieBox: () => import("@/components/UI/CookieBox")
     }
   };

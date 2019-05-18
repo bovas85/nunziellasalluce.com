@@ -1,5 +1,15 @@
 <template>
-  <section v-if="acf" class="section hero step" :style="`background-image: url('${bgImage}')`">
+  <section v-if="acf" class="section hero step">
+    <LazyImage
+      class="image"
+      :image="acf.hero.desktop_bg"
+      :title="acf.hero.title"
+      :hover="false"
+      positionMobile='left'
+      :imageMobile="acf.hero.mobile_bg"
+      lazyload
+      home
+    />
     <div class="container is-flex-column" :class="{'animated': animateHeader}">
       <h1 class="jumbo">{{acf.hero.title}}</h1>
       <h3>{{acf.hero.description}}</h3>
@@ -11,17 +21,19 @@
       </div>
     </div>
     <div class="rotating-text" v-scroll-to="{element:'.projects'}">
-      <img src="/images/rotating-text.png" alt="Check my Portfolio">
+      <img src="/images/rotating-text.png" alt="">
     </div>
   </section>
 </template>
 
 <script>
+import LazyImage from '@/components/UI/LazyImage'
   export default {
     name: "HeroSection",
-    props: ["acf", "animateHeader", "bgImage"],
+    props: ["acf", "animateHeader"],
     components: {
-      IconArrow: () => import("@/components/Icons/IconArrow")
+      IconArrow: () => import("@/components/Icons/IconArrow"),
+      LazyImage
     }
   };
 </script>
@@ -40,6 +52,14 @@
     margin: 0;
     background-position: 75%;
     background-color: $yellow;
+
+    .image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
 
     @include media(sm) {
       padding: 0;

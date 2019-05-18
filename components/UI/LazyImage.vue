@@ -8,8 +8,9 @@
       <vue-media :query="{maxWidth: 576}">
         <img
           :class='lazyload ? "lazyload": ""'
+          :loading='lazyload ? "lazy": ""'
+          src='/images/Homepage.svg'
           :data-src="imageMobile.sizes.medium"
-          :src="imageMobile.sizes.thumbnail"
           :alt="imageMobile.alt"
         />
       </vue-media>
@@ -18,8 +19,8 @@
       <vue-media :query="({minWidth: 577, maxWidth: 1200})">
         <img
           :class='lazyload ? "lazyload": ""'
+          src='/images/Homepage.svg'
           :data-src="image.sizes.large"
-          :src="image.sizes.thumbnail"
           :alt="image.alt"
         />
       </vue-media>
@@ -28,8 +29,8 @@
       <vue-media :query="({minWidth: 1201, maxWidth: 1920})">
         <img
           :class='lazyload ? "lazyload": ""'
+          src='/images/Homepage.svg'
           :data-src="getImage ? getImage : image.sizes.ultra"
-          :src="image.sizes.thumbnail"
           :alt="image.alt"
         />
       </vue-media>
@@ -39,7 +40,7 @@
         <img
           :class='lazyload ? "lazyload": ""'
           :data-src="getImage ? getImage : image.sizes['4k']"
-          :src="image.sizes.thumbnail"
+          src='/images/Homepage.svg'
           :alt="image.alt"
         />
       </vue-media>

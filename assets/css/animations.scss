@@ -366,13 +366,18 @@
   }
 }
 
-// .lazyload {
-//   filter: blur(30px);
-//   transition: filter .3s ease-in-out;
-// }
+.lazyload,
+.lazyloading {
+  filter: blur(30px);
+  transition: filter .3s ease-in-out;
+}
 
-// .lazyloaded {
-//   filter: blur(0);
-// }
+.lazyloaded {
+  filter: blur(0);
+}
+
+img.lazyload:not([src]) {
+	visibility: hidden;
+}
 /* purgecss end ignore */
 

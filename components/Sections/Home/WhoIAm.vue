@@ -11,6 +11,7 @@
           :title="acf.who_i_am.title"
           :hover="false"
           :imageMobile="acf.who_i_am.image"
+          lazyload
           home
         />
         <div class="text" v-if="acf">

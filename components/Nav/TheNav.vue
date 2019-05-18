@@ -117,14 +117,10 @@
           var type = connection.type;
           let vm = this;
           function updateConnectionStatus () {
-            // console.log(
-            //   'Connection type changed from ' + type + ' to ' + connection.type
-            // )
             vm.$store.commit("setConnection", connection.type);
           }
           connection.addEventListener("typechange", updateConnectionStatus);
         }
-        // console.log("Connection type: " + type);
         this.$store.commit("setConnection", type);
         // on load trigger window width mutation once
         this.$store.commit("windowResize", window.innerWidth);
@@ -134,7 +130,6 @@
           window.addEventListener(
             "resize",
             debounce(() => {
-              // console.log('window resize')
               this.$store.commit("windowResize", window.innerWidth);
             }, 300)
           );
@@ -142,7 +137,6 @@
 
         // route management for menus/state/transitions
         this.$root.$on("routeChanged", () => {
-          // console.log('route changed, transitioning')
           this.$store.commit("resetMenus");
           let body = document.querySelector("body");
           let html = document.querySelector("html");
@@ -369,7 +363,7 @@
     &.scrolled.done {
       @include media(lg) {
         position: fixed;
-        background-color: #f0efef;
+        background-color: $lightgrey;
         transition: all 0.6s ease-in-out;
         transform: translateY(0);
       }

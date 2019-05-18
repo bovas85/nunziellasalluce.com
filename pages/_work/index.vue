@@ -173,7 +173,10 @@
         this.$store.commit("hideMenuBg");
       },
       showMenu (response) {
-        if (response.index === 0) {
+        if (response.index >= 0
+          && response.direction === 'down'
+          && !this.$store.state.menuScrolled
+        ) {
           this.$store.dispatch("showMenu");
         }
       },

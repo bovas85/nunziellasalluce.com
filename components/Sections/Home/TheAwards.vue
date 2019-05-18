@@ -4,9 +4,24 @@
       <h1>Awards</h1>
       <h3>I was nominated by public vote for best UI, UX and Innovation as well as receiving special Kudos from CSS Design Awards</h3>
 
-      <img alt='Best UI Design award from CSS Design Awards' src='/images/best-ui-black.png' />
-      <img alt='Best Innovation Design award from CSS Design Awards' src='/images/best-innovation-purple.png' />
-      <img alt='Best UX Design award from CSS Design Awards' src='/images/best-ux-black.png' />
+      <img
+        
+        class='lazyload' 
+        alt='Best UI Design award from CSS Design Awards'
+        data-src='/images/best-ui-black.png'
+      />
+      <img
+        
+        class='lazyload' 
+        alt='Best Innovation Design award from CSS Design Awards'
+        data-src='/images/best-innovation-purple.png'
+      />
+      <img
+        
+        class='lazyload' 
+        alt='Best UX Design award from CSS Design Awards'
+        data-src='/images/best-ux-black.png'
+      />
     </div>
   </section>
 </template>
