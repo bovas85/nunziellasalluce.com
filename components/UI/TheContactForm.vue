@@ -113,9 +113,11 @@
     mounted () {
       if (this.$localStorage.get('formData')) {
         this.saved = true
-        let form = JSON.parse(this.$localStorage.get('formData'))
-        this.form = form
-        this.disabled = false
+        const form = JSON.parse(this.$localStorage.get('formData'))
+        if (form) {
+          this.form = form
+          this.disabled = false
+        }
         return
       }
     },
