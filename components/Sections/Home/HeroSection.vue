@@ -8,6 +8,7 @@
       positionMobile='left'
       :imageMobile="acf.hero.mobile_bg"
       lazyload
+      svg
       home
     />
     <div class="container is-flex-column" :class="{'animated': animateHeader}">
