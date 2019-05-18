@@ -19,12 +19,7 @@
             :key="item.image.ID"
             :image="item.image"
             :imageMobile="item.image"
-          >
-            <!-- <div class="text-section">
-              <h3>{{item}}</h3>
-              <h4 class="subtitle">{{item.acf.category}}</h4>
-            </div>   -->
-          </LazyImage>
+          />
         </div>
       </div>
       <div class="swiper-pagination"></div>
@@ -165,7 +160,7 @@
 
   }
   /deep/ .swiper-pagination-bullet {
-    box-shadow: 0 0 2px 1px black;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.5);
   }
   /deep/ .swiper-pagination-bullet-active {
     background: $primary;
