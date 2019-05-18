@@ -15,6 +15,13 @@
             type="image/webp"
             :alt="imageMobile.alt"
           >
+          <source
+            :class='lazyload ? "lazyload": ""'
+            :loading='lazyload ? "lazy": ""'
+            src='/images/Homepage.svg'
+            :data-src="`${imageMobile.sizes.medium}`"
+            :alt="imageMobile.alt"
+          >
           <img
             :class='lazyload ? "lazyload": ""'
             :loading='lazyload ? "lazy": ""'
@@ -34,6 +41,13 @@
             srcset='/images/Homepage.svg'
             :data-srcset="`${image.sizes.large}${svg ? '' : '.webp'}`"
             type="image/webp"
+            :alt="image.alt"
+          >
+          <source
+            :class='lazyload ? "lazyload": ""'
+            :loading='lazyload ? "lazy": ""'
+            srcset='/images/Homepage.svg'
+            :data-srcset="`${image.sizes.large}`"
             :alt="image.alt"
           >
           <img
@@ -56,6 +70,13 @@
             type="image/webp"
             :alt="image.alt"
           >
+          <source
+            :class='lazyload ? "lazyload": ""'
+            :loading='lazyload ? "lazy": ""'
+            srcset='/images/Homepage.svg'
+            :data-srcset="getImage ? `${getImage}` : `${image.sizes.ultra}`"
+            :alt="image.alt"
+          >
           <img
             :class='lazyload ? "lazyload": ""'
             src='/images/Homepage.svg'
@@ -63,17 +84,33 @@
             :alt="image.alt"
           />
         </picture>
-        
       </vue-media>
     </no-ssr>
     <no-ssr>
       <vue-media :query="{minWidth: 1921}">
-        <img
-          :class='lazyload ? "lazyload": ""'
-          :data-src="getImage ? getImage : image.sizes['4k']"
-          src='/images/Homepage.svg'
-          :alt="image.alt"
-        />
+        <picture>
+          <source
+            :class='lazyload ? "lazyload": ""'
+            :loading='lazyload ? "lazy": ""'
+            srcset='/images/Homepage.svg'
+            :data-srcset="getImage ? `${getImage}${svg ? '' : '.webp'}` : `${image.sizes['4k']}${svg ? '' : '.webp'}`"
+            type="image/webp"
+            :alt="image.alt"
+          >
+          <source
+            :class='lazyload ? "lazyload": ""'
+            :loading='lazyload ? "lazy": ""'
+            srcset='/images/Homepage.svg'
+            :data-srcset="getImage ? `${getImage}` : `${image.sizes['4k']}`"
+            :alt="image.alt"
+          >
+          <img
+            :class='lazyload ? "lazyload": ""'
+            src='/images/Homepage.svg'
+            :data-src="getImage ? getImage : image.sizes['4k']"
+            :alt="image.alt"
+          />
+        </picture>
       </vue-media>
     </no-ssr>
     <div
