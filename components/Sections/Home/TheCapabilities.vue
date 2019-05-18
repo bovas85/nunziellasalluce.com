@@ -4,7 +4,7 @@
       <h1 :class="{'animated': animateCapab}">{{acf.capabilities.title}}</h1>
       <div :class="{'animated': animateCapab}" class="skill col--4-tablet">
         <img
-          class='lazyload'
+          class='lazyload' loading='lazy'
           :data-src="acf.capabilities.media_object.image.sizes.large"
           :src="acf.capabilities.media_object.image.sizes.thumbnail"
           :alt="acf.capabilities.media_object.image.alt"
@@ -14,7 +14,7 @@
       </div>
       <div :class="{'animated': animateCapab}" class="skill col--4-tablet padded-top">
         <img
-          class='lazyload'
+          class='lazyload' loading='lazy'
           :data-src="acf.capabilities.media_object2.image.sizes.large"
           :src="acf.capabilities.media_object2.image.sizes.thumbnail"
           :alt="acf.capabilities.media_object2.image.alt"
@@ -24,7 +24,7 @@
       </div>
       <div :class="{'animated': animateCapab}" class="skill col--4-tablet">
         <img
-          class='lazyload'
+          class='lazyload' loading='lazy'
           :data-src="acf.capabilities.media_object3.image.sizes.large"
           :src="acf.capabilities.media_object3.image.sizes.thumbnail"
           :alt="acf.capabilities.media_object3.image.alt"
