@@ -75,13 +75,6 @@ export const actions = {
   },
   async nuxtServerInit ({ commit }, { app }) {
     try {
-      // console.log('home')
-      const home = await app.$axios.get(Config.wpDomain + Config.api.homePage, {
-        useCache: true
-      })
-      commit('setHomepage', home.data)
-
-      // console.log('case studies')
       const projects = await app.$axios.get(
         Config.wpDomain + Config.api.projects,
         { useCache: true }

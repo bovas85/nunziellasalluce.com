@@ -155,10 +155,12 @@
       };
     },
     async created () {
-      const { data } = await this.$axios.get(
-        Config.wpDomain + Config.api.projects
-      );
-      this.$store.commit("setProjects", data);
+      if (!this.$store.state.projects) {
+        const { data } = await this.$axios.get(
+          Config.wpDomain + Config.api.projects
+        );
+        this.$store.commit("setProjects", data);
+      }
     },
     async mounted () {
       if (process.browser) {

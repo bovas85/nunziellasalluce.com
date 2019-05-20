@@ -30,6 +30,22 @@
   let scroller, steps;
 
   export default {
+    async fetch ({ app, store }) {
+      if (!store.state.homePage.length) {
+        const home = await app.$axios.$get(
+          Config.wpDomain + Config.api.homePage,
+          { useCache: true }
+        );
+        store.commit("setHomepage", home);
+      }
+      if (!store.state.projects.length) {
+        const projects = await app.$axios.$get(
+          Config.wpDomain + Config.api.projects,
+          { useCache: true }
+        );
+        store.commit("setProjects", projects);
+      }
+    },
     scrollToTop: true,
     data () {
       return {
@@ -53,21 +69,9 @@
     head () {
       return { title: "Home" };
     },
-    async created () {
-      const projects = await this.$axios.get(
-        Config.wpDomain + Config.api.projects,
-        { useCache: true }
-      );
-      this.$store.commit("setProjects", projects.data);
-    },
     async mounted () {
       if (process.client) {
         this.animateHeader = true;
-        const home = await this.$axios.get(
-          Config.wpDomain + Config.api.homePage,
-          { useCache: true }
-        );
-        this.$store.commit("setHomepage", home.data);
         setTimeout(() => {
           this.handleScroll();
           this.Splitting();
