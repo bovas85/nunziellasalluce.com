@@ -8,7 +8,7 @@
       class="right-nav"
       :class="{'is-visible': $store.state.navOpen}"
     >
-      <ul class="menu">
+      <div class="menu">
         <nuxt-link
           no-prefetch
           v-for="menu in menuItems"
@@ -29,7 +29,7 @@
         Work
       </nuxt-link>
       <a v-else @click="$store.commit('resetMenus')" key='work' href='#work' v-scroll-to="{element:'.projects'}">Work</a>
-      </ul>
+      </div>
       <div class="bottom-section">
         <p>email: <a href="mailto:hello@nunziellasalluce.com?Subject=Hello">hello@nunziellasalluce.com</a></p>
         <div class="social-list">
