@@ -8,7 +8,7 @@
     >
     <blockquote>
       {{testimonial.body}}
-      <span class="author">{{testimonial.name}}</span>
+      <p class="author">{{testimonial.name}}</p>
     </blockquote>
   </div>
 </template>
@@ -78,8 +78,8 @@
         min-width: 740px;
       }
 
-      span {
-        padding-top: $gap * 1.5;
+      .author {
+        padding-top: $gap;
         display: block;
         color: $subtitle;
         font-style: normal;
