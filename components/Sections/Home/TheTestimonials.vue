@@ -15,7 +15,7 @@
           />
         </transition-group>
 
-        <div class="arrows" role="pagination">
+        <div class="arrows">
           <div
             class="arrow arrow--left"
             :disabled="currentTestimonial === 0"

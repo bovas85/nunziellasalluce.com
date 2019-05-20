@@ -35,16 +35,16 @@
         <div class="social-list">
           <ul class="social-list">
             <li class="social__icon">
-                <a href="https://dribbble.com/nunziella" class="social social--dribbble" rel="noopener" target="_blank"></a>
+                <a href="https://dribbble.com/nunziella" aria-label='Go to dribbble' class="social social--dribbble" rel="noopener" target="_blank"></a>
             </li>
             <li class="social__icon">
-                <a href="https://www.instagram.com/lucettinas/" class="social social--instagram" rel="noopener" target="_blank"></a>
+                <a href="https://www.instagram.com/lucettinas/" aria-label='Go to instagram' class="social social--instagram" rel="noopener" target="_blank"></a>
             </li>
             <li class="social__icon">
-                <a href="https://www.behance.net/nunziellasalluce/" class="social social--behance" rel="noopener" target="_blank"></a>
+                <a href="https://www.behance.net/nunziellasalluce/" aria-label='Go to behance' class="social social--behance" rel="noopener" target="_blank"></a>
             </li>
             <li class="social__icon">
-                <a class="social social--linkedin" href="https://www.linkedin.com/in/nunziella-salluce"
+                <a class="social social--linkedin" aria-label='Go to linkedin' href="https://www.linkedin.com/in/nunziella-salluce"
                     rel="noopener" target="_blank"></a>
             </li>
           </ul>

@@ -113,13 +113,6 @@
         </picture>
       </vue-media>
     </no-ssr>
-    <div
-      v-show="onHover || type !== 'case_study'"
-      class="text-container"
-      :class="{'on-hover': onHover, 'mobile-visible': hoverFixed}"
-    >
-      <nuxt-link v-if="link && title" :to="type === 'case_study' ? `/${link}` : link" class="text"></nuxt-link>
-    </div>
     <slot></slot>
   </div>
 </template>

@@ -34,6 +34,7 @@
                 href="https://dribbble.com/nunziella"
                 class="social social--dribbble"
                 rel="noopener"
+                aria-label='Go to dribble'
                 target="_blank"
               ></a>
             </li>
@@ -42,6 +43,7 @@
                 href="https://www.instagram.com/lucettinas/"
                 class="social social--instagram"
                 rel="noopener"
+                aria-label='Go to instagram'
                 target="_blank"
               ></a>
             </li>
@@ -50,6 +52,7 @@
                 href="https://www.behance.net/nunziellasalluce/"
                 class="social social--behance"
                 rel="noopener"
+                aria-label='Go to behance'
                 target="_blank"
               ></a>
             </li>
@@ -58,6 +61,7 @@
                 class="social social--linkedin"
                 href="https://www.linkedin.com/in/nunziella-salluce"
                 rel="noopener"
+                aria-label='Go to linkedin'
                 target="_blank"
               ></a>
             </li>
@@ -66,7 +70,7 @@
       </div>
     </div>
 
-    <a target='_blank' rel="noopener" href='https://www.cssdesignawards.com/sites/nunziella-salluce-design/35044/'>
+    <a target='_blank' aria-label='Go to my entry for the css design awards website' rel="noopener" href='https://www.cssdesignawards.com/sites/nunziella-salluce-design/35044/'>
       <div id="cssda-badge">
         <svg
           version="1.1"

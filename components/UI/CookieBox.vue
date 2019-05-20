@@ -4,7 +4,6 @@
       <p>This site uses cookies.
         <nuxt-link to="/privacy-policy">Find out more.</nuxt-link>
         <span
-          role="accept-cookie"
           @click="setCookie()"
           class="privacy-link"
           to="/privacy-policy"
