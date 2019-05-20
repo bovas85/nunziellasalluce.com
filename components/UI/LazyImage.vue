@@ -10,16 +10,16 @@
           <source
             :class='lazyload ? "lazyload": ""'
             :loading='lazyload ? "lazy": ""'
-            src='/images/Homepage.svg'
-            :data-src="`${imageMobile.sizes.medium}${svg ? '' : '.webp'}`"
+            srcset='/images/Homepage.svg'
+            :data-srcset="`${imageMobile.sizes.medium}${svg ? '' : '.webp'}`"
             type="image/webp"
             :alt="imageMobile.alt"
           >
           <source
             :class='lazyload ? "lazyload": ""'
             :loading='lazyload ? "lazy": ""'
-            src='/images/Homepage.svg'
-            :data-src="`${imageMobile.sizes.medium}`"
+            srcset='/images/Homepage.svg'
+            :data-srcset="`${imageMobile.sizes.medium}`"
             :alt="imageMobile.alt"
           >
           <img

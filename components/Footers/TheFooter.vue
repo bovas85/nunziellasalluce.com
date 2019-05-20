@@ -5,9 +5,9 @@
         <nuxt-link to="/">
           <TheLogoStatic
             :width="90"
-            :height="46"
+            :height="48"
             :mobileWidth="50"
-            :mobileHeight="31"
+            :mobileHeight="48"
             static
             fill="#f4a261"
           />
@@ -308,6 +308,7 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-around;
+      margin-top: $gap / 4;
 
       a {
         color: white;
