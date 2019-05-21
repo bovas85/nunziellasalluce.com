@@ -1,5 +1,5 @@
 const Config = require('./assets/config')
-const axios = require('axios')
+const $http = require('@nuxt/http')
 const opn = require('opn')
 let routes = []
 
@@ -197,7 +197,7 @@ module.exports = {
   generate: {
     fallback: '404.html',
     routes: function () {
-      return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
+      return $http.$get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
         const filtered = res.data.filter(project => {
           return project.acf.status === 'true' && project.slug !== 'marketing'
         })
@@ -232,7 +232,7 @@ module.exports = {
    */
   modules: [
     '@nuxtjs/pwa',
-    '@nuxtjs/axios',
+    '@nuxt/http',
     '@nuxtjs/sitemap',
     'cookie-universal-nuxt',
     [
@@ -296,12 +296,7 @@ module.exports = {
     ],
     routes: routes
   },
-  axios: {
-    timeout: 6000,
-    debug: false
-  },
   plugins: [
-    '~/plugins/axios.js',
     '~/plugins/store.js',
     '~/plugins/vuelidate.js',
     '~/plugins/lazysizes.client.js',

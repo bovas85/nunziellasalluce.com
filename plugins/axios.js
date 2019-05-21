@@ -4,8 +4,8 @@ const ONE_HOUR = 1000 * 60 * 60
 
 const defaultCache = new LRUCache({ maxAge: ONE_HOUR })
 
-export default function ({ $axios }) {
-  const defaults = $axios.defaults
+export default function ({ $http }) {
+  const defaults = $http.defaults
   // https://github.com/kuitos/axios-extensions
   defaults.adapter = cacheAdapterEnhancer(defaults.adapter, {
     enabledByDefault: false,

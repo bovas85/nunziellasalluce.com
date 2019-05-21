@@ -1119,6 +1119,16 @@
     fs-extra "^8.0.1"
     html-minifier "^4.0.0"
 
+"@nuxt/http@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@nuxt/http/-/http-0.1.2.tgz#6e958b27f5226deadffcbced13439e827785dd9e"
+  integrity sha512-Iq86Kk3+QwPjO/n/R4VKXAkh/RSEGFiuqxA46+fovqAsKAgCrCha051oqX8E66NrG4+mqbRRarIoh8HOF//VGg==
+  dependencies:
+    "@nuxtjs/proxy" "^1.3.3"
+    consola "^2.6.0"
+    ky "^0.10.0"
+    ky-universal "^0.2.0"
+
 "@nuxt/loading-screen@^0.5.2":
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/@nuxt/loading-screen/-/loading-screen-0.5.2.tgz#4226543ca00506a0a61d400f3c5df79548e5eea3"
@@ -1248,15 +1258,6 @@
     webpack-hot-middleware "^2.24.4"
     webpack-node-externals "^1.7.2"
     webpackbar "^3.2.0"
-
-"@nuxtjs/axios@^5.4.1":
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.4.1.tgz#8dbc841e939c082271f7053edc1180bf5a441ee3"
-  dependencies:
-    "@nuxtjs/proxy" "^1.3.3"
-    axios "^0.18.0"
-    axios-retry "^3.1.2"
-    consola "^2.5.6"
 
 "@nuxtjs/google-analytics@^2.2.0":
   version "2.2.0"
@@ -1588,6 +1589,13 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
+abort-controller@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
+  integrity sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==
+  dependencies:
+    event-target-shim "^5.0.0"
+
 accepts@~1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.5.tgz#eb777df6011723a3b14e8a72c0805c8e86746bd2"
@@ -1884,19 +1892,6 @@ axios-extensions@^3.0.5:
     lru-cache "^4.1.5"
     tslib "^1.9.0"
     util "^0.11.1"
-
-axios-retry@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/axios-retry/-/axios-retry-3.1.2.tgz#4f4dcbefb0b434e22b72bd5e28a027d77b8a3458"
-  dependencies:
-    is-retry-allowed "^1.1.0"
-
-axios@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
-  dependencies:
-    follow-redirects "^1.3.0"
-    is-buffer "^1.1.5"
 
 babel-eslint@^10.0.1:
   version "10.0.1"
@@ -3583,6 +3578,11 @@ etag@^1.8.1, etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
 
+event-target-shim@^5.0.0:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/event-target-shim/-/event-target-shim-5.0.1.tgz#5d4d3ebdf9583d63a5333ce2deb7480ab2b05789"
+  integrity sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
+
 eventemitter3@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.0.tgz#090b4d6cdbd645ed10bf750d4b5407942d7ba163"
@@ -3902,7 +3902,7 @@ folder-walker@^3.2.0:
   dependencies:
     from2 "^2.1.0"
 
-follow-redirects@^1.0.0, follow-redirects@^1.3.0:
+follow-redirects@^1.0.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.7.0.tgz#489ebc198dc0e7f64167bd23b03c4c19b5784c76"
   dependencies:
@@ -4771,10 +4771,6 @@ is-resolvable@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-resolvable/-/is-resolvable-1.1.0.tgz#fb18f87ce1feb925169c9a407c19318a3206ed88"
 
-is-retry-allowed@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/is-retry-allowed/-/is-retry-allowed-1.1.0.tgz#11a060568b67339444033d0125a61a20d564fb34"
-
 is-stream@^1.0.1, is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
@@ -4970,6 +4966,19 @@ kind-of@^5.0.0:
 kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
+
+ky-universal@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ky-universal/-/ky-universal-0.2.0.tgz#fbe4f029a06029c8e88be9c4aca256d6f5149b7b"
+  integrity sha512-OmA2/whehME/S07k7TWnS3odC6csdo0f5qHzljasjkBHTJMx0BSHKP62wmnIdZzGtDxo6XjB81GAvKhv7HhEig==
+  dependencies:
+    abort-controller "^3.0.0"
+    node-fetch "^2.3.0"
+
+ky@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-0.10.0.tgz#b736665a484962f02d8e2498ab27cfb316cfb7d7"
+  integrity sha512-2OiL0TJiex7tGTUvYOrijLbXKV9rb9IJcLvDh+m5+v87ZhBThIlXwEjaC8/H0e8zMW+hq4HCznVBIdbNMsSQKg==
 
 last-call-webpack-plugin@^3.0.0:
   version "3.0.0"
