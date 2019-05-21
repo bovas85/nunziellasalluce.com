@@ -1,6 +1,6 @@
-const Config = require('./assets/config')
-const axios = require('axios')
-const opn = require('opn')
+import Config from './assets/config'
+import axios from 'axios'
+import opn from 'opn'
 let routes = []
 
 module.exports = {
@@ -194,8 +194,12 @@ module.exports = {
       opn(`http://${host}:${port}`)
     }
   },
+  http: {
+    retry: 3
+  },
   generate: {
     fallback: '404.html',
+    interval: 2000,
     routes: function () {
       return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
         const filtered = res.data.filter(project => {
