@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    name: 'IconArrow',
+    name: 'BurgerMenu',
     props: {
       fill: {
         type: String,
