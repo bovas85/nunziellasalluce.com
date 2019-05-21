@@ -133,6 +133,7 @@ module.exports = {
     script: [
       {
         defer: true,
+        body: true,
         src:
           'https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver'
       }
@@ -245,6 +246,7 @@ module.exports = {
         id: 'UA-55886565-3'
       }
     ],
+    '@nuxtjs/component-cache',
     '@nuxtjs/style-resources'
   ],
   styleResources: {
