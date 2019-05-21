@@ -37,11 +37,9 @@
   import Config from '~/assets/config'
 
   export default {
-    async asyncData ({ $axios }) {
-      const { data } = await $axios.get(Config.wpDomain + Config.api.aboutPage, {
-        useCache: true
-      })
-      return { aboutPage: data.acf }
+    async asyncData ({ $http }) {
+      const { acf } = await $http.$get(Config.wpDomain + Config.api.aboutPage)
+      return { aboutPage: acf }
     },
     components: {
       LazyImage

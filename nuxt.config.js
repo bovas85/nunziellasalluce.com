@@ -1,5 +1,5 @@
 const Config = require('./assets/config')
-const $http = require('@nuxt/http')
+const axios = require('axios')
 const opn = require('opn')
 let routes = []
 
@@ -197,7 +197,7 @@ module.exports = {
   generate: {
     fallback: '404.html',
     routes: function () {
-      return $http.$get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
+      return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
         const filtered = res.data.filter(project => {
           return project.acf.status === 'true' && project.slug !== 'marketing'
         })

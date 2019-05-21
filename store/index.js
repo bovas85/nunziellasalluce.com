@@ -73,13 +73,10 @@ export const actions = {
       commit('showMenuBgDone')
     }, 600)
   },
-  async nuxtServerInit ({ commit }, { app }) {
+  async nuxtServerInit ({ commit }) {
     try {
-      const projects = await app.$axios.get(
-        Config.wpDomain + Config.api.projects,
-        { useCache: true }
-      )
-      commit('setProjects', projects.data)
+      const projects = await this.$http.$get(Config.wpDomain + Config.api.projects)
+      commit('setProjects', projects)
     } catch (e) {
       console.log('error with API', e)
     }

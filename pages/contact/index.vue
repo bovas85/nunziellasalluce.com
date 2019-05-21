@@ -38,11 +38,8 @@
   import Config from '~/assets/config.js'
 
   export default {
-    async asyncData ({ $axios }) {
-      const { data } = await $axios.get(
-        Config.wpDomain + Config.api.contactPage,
-        { useCache: true }
-      )
+    async asyncData ({ $http }) {
+      const data = await $http.$get(Config.wpDomain + Config.api.contactPage)
       return { contactPage: data }
     },
     components: {

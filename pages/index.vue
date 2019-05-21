@@ -32,17 +32,11 @@
   export default {
     async fetch ({ app, store }) {
       if (!store.state.homePage.length) {
-        const home = await app.$axios.$get(
-          Config.wpDomain + Config.api.homePage,
-          { useCache: true }
-        );
+        const home = await app.$http.$get(Config.wpDomain + Config.api.homePage);
         store.commit("setHomepage", home);
       }
       if (!store.state.projects.length) {
-        const projects = await app.$axios.$get(
-          Config.wpDomain + Config.api.projects,
-          { useCache: true }
-        );
+        const projects = await app.$http.$get(Config.wpDomain + Config.api.projects);
         store.commit("setProjects", projects);
       }
     },

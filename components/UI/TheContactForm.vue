@@ -183,7 +183,7 @@
           formData.append('your-name', this.form.yourName)
           formData.append('your-email', this.form.yourEmail)
           formData.append('your-message', this.form.yourMessage)
-          this.$axios
+          this.$http
             .post(`${Config.wpDomain}${Config.api.postFormContact}`, formData)
             .then(res => {
               this.disabled = false

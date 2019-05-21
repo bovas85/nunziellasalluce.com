@@ -75,7 +75,7 @@
               var formData = new FormData();
               formData.append("your-email", email);
               formData.append("token", this.token);
-              this.$axios
+              this.$http
                 .post(
                   `${Config.client}${Config.api.postFormNewsletter}`,
                   formData

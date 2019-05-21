@@ -154,10 +154,8 @@
     },
     async created () {
       if (!this.$store.state.projects) {
-        const { data } = await this.$axios.get(
-          Config.wpDomain + Config.api.projects
-        );
-        this.$store.commit("setProjects", data);
+        const { data } = await this.$http.$get(Config.wpDomain + Config.api.projects)
+        this.$store.commit("setProjects", data)
       }
     },
     async mounted () {
