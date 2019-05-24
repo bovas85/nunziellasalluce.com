@@ -1119,14 +1119,14 @@
     fs-extra "^8.0.1"
     html-minifier "^4.0.0"
 
-"@nuxt/http@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@nuxt/http/-/http-0.1.2.tgz#6e958b27f5226deadffcbced13439e827785dd9e"
-  integrity sha512-Iq86Kk3+QwPjO/n/R4VKXAkh/RSEGFiuqxA46+fovqAsKAgCrCha051oqX8E66NrG4+mqbRRarIoh8HOF//VGg==
+"@nuxt/http@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@nuxt/http/-/http-0.2.0.tgz#ba110d8c6468dbdba0d469bb25706999022c1431"
+  integrity sha512-0K+UNBLe2iNXRQXX+vwIr1wX1t78NC/YYqQlfXHgRDNI1l3/5NXeYjCLAy1M0deIJaQWcQrxK2d+hTUXo35bRA==
   dependencies:
     "@nuxtjs/proxy" "^1.3.3"
-    consola "^2.6.0"
-    ky "^0.10.0"
+    consola "^2.6.2"
+    ky "^0.11.0"
     ky-universal "^0.2.0"
 
 "@nuxt/loading-screen@^0.5.2":
@@ -2214,9 +2214,10 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
-bulma@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.4.tgz#7e74512e9118d9799021339e67e365ee0ac4f3f9"
+bulma@^0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.5.tgz#35066c37f82c088b68f94450be758fc00a967208"
+  integrity sha512-cX98TIn0I6sKba/DhW0FBjtaDpxTelU166pf7ICXpCCuplHWyu6C9LYZmL5PEsnePIeJaiorsTEzzNk3Tsm1hw==
 
 bytes@3.0.0:
   version "3.0.0"
@@ -2653,6 +2654,11 @@ consola@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.6.1.tgz#d2f2bee385b5dba11907e4e0d17fc563d5fb9fa6"
   integrity sha512-vt35owQG6OxYDJVaViQ4aFgOK+b98hIvs+R5CWkKgpO8rTPyaYwlMadZ7oZcjnWz1/+u4czDnrcogFr5AtrRug==
+
+consola@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-2.6.2.tgz#4c1238814bb80688b19f0db97123508889577752"
+  integrity sha512-GNJhwvF4bJ8eiAlyB8r4WNM8kBqkl+y4DvMehMbyywoJiv37N0M6/xrKqrrZw/5maZA+UagQV8UZ+XBeuGMzUg==
 
 console-browserify@^1.1.0:
   version "1.1.0"
@@ -4990,10 +4996,10 @@ ky-universal@^0.2.0:
     abort-controller "^3.0.0"
     node-fetch "^2.3.0"
 
-ky@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/ky/-/ky-0.10.0.tgz#b736665a484962f02d8e2498ab27cfb316cfb7d7"
-  integrity sha512-2OiL0TJiex7tGTUvYOrijLbXKV9rb9IJcLvDh+m5+v87ZhBThIlXwEjaC8/H0e8zMW+hq4HCznVBIdbNMsSQKg==
+ky@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-0.11.0.tgz#032e01e10979f9f16682f6acff7daf43cafa5507"
+  integrity sha512-8EHh1PfPKrERUf5XTSSUkuvfMygg6qyFmW7fqjjHxoGTySMQ5TfF006QenZmtcSSbJmd71wLYY04xxIS7vNpJg==
 
 last-call-webpack-plugin@^3.0.0:
   version "3.0.0"
