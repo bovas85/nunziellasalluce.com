@@ -154,8 +154,7 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    extractCSS: true,
-    hardSource: true,
+    hardSource: process.env.NODE_ENV === 'development',
     optimization: {
       runtimeChunk: true,
       splitChunks: {
