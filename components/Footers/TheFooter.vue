@@ -26,7 +26,7 @@
           </p>
         </div>
       </div>
-      <badge />
+      <badge/>
       <div class="right-section">
         <div class="social-and-logos">
           <ul class="social-list">
@@ -35,7 +35,7 @@
                 href="https://dribbble.com/nunziella"
                 class="social social--dribbble"
                 rel="noopener"
-                aria-label='Go to dribble'
+                aria-label="Go to dribble"
                 target="_blank"
               ></a>
             </li>
@@ -44,7 +44,7 @@
                 href="https://www.instagram.com/lucettinas/"
                 class="social social--instagram"
                 rel="noopener"
-                aria-label='Go to instagram'
+                aria-label="Go to instagram"
                 target="_blank"
               ></a>
             </li>
@@ -53,7 +53,7 @@
                 href="https://www.behance.net/nunziellasalluce/"
                 class="social social--behance"
                 rel="noopener"
-                aria-label='Go to behance'
+                aria-label="Go to behance"
                 target="_blank"
               ></a>
             </li>
@@ -62,7 +62,7 @@
                 class="social social--linkedin"
                 href="https://www.linkedin.com/in/nunziella-salluce"
                 rel="noopener"
-                aria-label='Go to linkedin'
+                aria-label="Go to linkedin"
                 target="_blank"
               ></a>
             </li>
@@ -76,12 +76,6 @@
 <script>
   export default {
     name: "TheFooter",
-    props: {
-      mobilenav: {
-        type: Boolean,
-        default: true
-      }
-    },
     components: {
       TheLogoStatic: () => import("@/components/Icons/TheLogoStatic"),
       Badge: () => import("./Badge")

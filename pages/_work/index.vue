@@ -2,20 +2,20 @@
   <div class="case-study" v-if="project != null">
     <WorkHero :project="project" :animateHeader="animateHeader"/>
 
-    <ClientIntro :project="project" :animateIntro="animateIntro"/>
+    <ClientIntro v-if="defer(2)" :project="project" :animateIntro="animateIntro"/>
 
-    <TheBrand :project="project" :animateBrand="animateBrand"/>
+    <TheBrand v-if="defer(3)" :project="project" :animateBrand="animateBrand"/>
 
-    <TheChallenge :project="project" :animateChallenge="animateChallenge"/>
+    <TheChallenge v-if="defer(4)" :project="project" :animateChallenge="animateChallenge"/>
 
     <no-ssr>
-      <FinalProduct :project="project" :animateFinal="animateFinal"/>
+      <FinalProduct v-if="defer(5)" :project="project" :animateFinal="animateFinal"/>
     </no-ssr>
 
     <div
       class="work-navigation step"
       :class="{'animated': animateBottomImage}"
-      v-if="previousProject && nextProject"
+      v-if="previousProject && nextProject && defer(6)"
     >
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="`/${previousProject.slug}`">
@@ -48,14 +48,16 @@
 </template>
 
 <script>
-  import debounce from "lodash/debounce"
-  import Config from "~/assets/config"
-  import WorkHero from "@/components/Sections/Work/WorkHero"
-  import LazyImage from "@/components/UI/LazyImage"
-  import get from "lodash/get"
+  import debounce from "lodash/debounce";
+  import Config from "~/assets/config";
+  import WorkHero from "@/components/Sections/Work/WorkHero";
+  import LazyImage from "@/components/UI/LazyImage";
+  import get from "lodash/get";
+  import Defer from "@/mixins/Defer";
   let scroller, steps;
 
   export default {
+    mixins: [Defer()],
     components: {
       WorkHero,
       LazyImage,
@@ -175,9 +177,10 @@
         this.$store.commit("hideMenuBg");
       },
       showMenu (response) {
-        if (response.index >= 0
-          && response.direction === 'down'
-          && !this.$store.state.menuScrolled
+        if (
+          response.index >= 0 &&
+          response.direction === "down" &&
+          !this.$store.state.menuScrolled
         ) {
           this.$store.dispatch("showMenu");
         }
@@ -210,34 +213,42 @@
         }
       },
       handleScroll () {
-        if (window.innerWidth > 577) {
-          scroller = this.scrollama();
-          steps = null;
-          steps = scroller
-            .setup({
-              step: ".step",
-              offset: 0.5,
-              debug: false
-            })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu);
+        const step = document.querySelector(".step");
 
-          steps.resize();
-          steps.enable();
+        if (step && this.defer(6)) {
+          if (window.innerWidth > 577) {
+            scroller = this.scrollama();
+            steps = null;
+            steps = scroller
+              .setup({
+                step: ".step",
+                offset: 0.5,
+                debug: false
+              })
+              .onStepEnter(this.handleStepEnter)
+              .onStepExit(this.showMenu);
+
+            steps.resize();
+            steps.enable();
+          } else {
+            scroller = this.scrollama();
+            steps = null;
+            steps = scroller
+              .setup({
+                step: ".step",
+                offset: 0.7,
+                debug: false
+              })
+              .onStepEnter(this.handleStepEnter)
+              .onStepExit(this.showMenu);
+
+            steps.resize();
+            steps.enable();
+          }
         } else {
-          scroller = this.scrollama();
-          steps = null;
-          steps = scroller
-            .setup({
-              step: ".step",
-              offset: 0.7,
-              debug: false
-            })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu);
-
-          steps.resize();
-          steps.enable();
+          setTimeout(() => {
+            this.handleScroll();
+          }, 600);
         }
 
         window.addEventListener(
@@ -255,6 +266,12 @@
       }, 150)
     },
     computed: {
+      scrollama () {
+        if (process.browser) {
+          let scrollama = require("scrollama");
+          return scrollama;
+        }
+      },
       projects () {
         if (!this.$store.state.projects.length) return false;
         const filtered = this.$store.state.projects.filter(project => {

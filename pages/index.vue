@@ -1,24 +1,25 @@
 <template>
   <main class="home" v-if="acf">
-    <HeroSection :acf="acf" :animateHeader="animateHeader" />
+    <HeroSection :acf="acf" :animateHeader="animateHeader"/>
 
     <WhoIAm :acf="acf" :animateWho="animateWho"/>
 
-    <div id="work" v-if="$store.state.window && filteredProjects" class="projects">
+    <section id="work" v-if="defer(3) && $store.state.window && filteredProjects" class="projects">
       <TheWork :filteredProjects="filteredProjects" :acf="acf" :animateWork="animateWork"/>
-    </div>
+    </section>
 
-    <TheProcess :acf="acf" :animateProcess="animateProcess"/>
+    <TheProcess v-if="defer(4)" :acf="acf" :animateProcess="animateProcess"/>
 
-    <TheCapabilities :acf="acf" :animateCapab="animateCapab"/>
+    <TheCapabilities v-if="defer(5)" :acf="acf" :animateCapab="animateCapab"/>
 
     <TheTestimonials
+      v-if="defer(5)"
       :acf="acf"
       :testimonials="testimonials"
       :animateTestimonials="animateTestimonials"
     />
 
-    <TheAwards />
+    <TheAwards v-if="defer(5)"/>
   </main>
 </template>
 
@@ -27,6 +28,7 @@
   import HeroSection from "@/components/Sections/Home/HeroSection";
   import Config from "~/assets/config";
   import get from "lodash/get";
+  import Defer from "@/mixins/Defer";
   let scroller, steps;
 
   export default {
@@ -36,11 +38,13 @@
         store.commit("setHomepage", home);
       }
       if (!store.state.projects.length) {
-        const projects = await app.$http.$get(Config.wpDomain + Config.api.projects);
+        const projects = await app.$http.$get(
+          Config.wpDomain + Config.api.projects
+        );
         store.commit("setProjects", projects);
       }
     },
-    scrollToTop: true,
+    mixins: [Defer()],
     data () {
       return {
         animateHeader: false,
@@ -85,9 +89,10 @@
         this.$store.commit("hideMenuBg");
       },
       showMenu (response) {
-        if (response.index >= 0
-          && response.direction === 'down'
-          && !this.$store.state.menuScrolled
+        if (
+          response.index >= 0 &&
+          response.direction === "down" &&
+          !this.$store.state.menuScrolled
         ) {
           this.animateWork = true;
           this.$store.dispatch("showMenu");
@@ -118,7 +123,7 @@
         if (process.client) {
           const step = document.querySelector(".step");
 
-          if (step) {
+          if (step && this.defer(5)) {
             if (window.innerWidth > 577) {
               scroller = this.scrollama();
               steps = null;
@@ -167,7 +172,16 @@
         if (step && step.length) {
           this.handleScroll();
         }
-      }, 150)
+      }, 150),
+      Splitting () {
+        if (process.client) {
+          import("splitting").then(module => {
+            module.default();
+          });
+          // let Splitting = require('splitting')
+          // return Splitting
+        }
+      }
     },
     beforeDestroy () {
       if (typeof scroller !== "undefined") {
@@ -178,6 +192,12 @@
       window.removeEventListener("resize", this.scrollamaResize, false);
     },
     computed: {
+      scrollama () {
+        if (process.browser) {
+          let scrollama = require("scrollama");
+          return scrollama;
+        }
+      },
       homePage () {
         if (this.$store.state.homePage == null) return false;
         return this.$store.state.homePage;

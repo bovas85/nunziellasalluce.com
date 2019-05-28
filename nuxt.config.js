@@ -155,6 +155,7 @@ module.exports = {
    */
   build: {
     extractCSS: true,
+    hardSource: true,
     optimization: {
       runtimeChunk: true,
       splitChunks: {
@@ -311,9 +312,7 @@ module.exports = {
   sitemap: {
     hostname: 'https://nunziellasalluce.com',
     gzip: true,
-    exclude: [
-      '/.git'
-    ],
+    exclude: ['/.git'],
     routes: routes
   },
   plugins: [
