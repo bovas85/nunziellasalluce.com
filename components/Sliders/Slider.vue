@@ -1,9 +1,6 @@
 <template>
   <div class="carousel" v-if="data != null && data.length > 0">
-    <div
-      ref="Swiper"
-      v-swiper:appSwiper="swiperOptions"
-    >
+    <div ref="Swiper" v-swiper:appSwiper="swiperOptions">
       <div class="app-carousel swiper-wrapper">
         <div
           class="swiper-slide"
@@ -28,7 +25,11 @@
 </template>
 
 <script>
-  import LazyImage from '@/components/UI/LazyImage'
+  import Vue from "vue";
+  import LazyImage from "@/components/UI/LazyImage";
+  import VueAwesomeSwiper from "vue-awesome-swiper/ssr";
+  Vue.use(VueAwesomeSwiper);
+
   export default {
     name: "Slider",
     props: {
@@ -80,8 +81,10 @@
     mounted () {
       if (process.client) {
         setTimeout(() => {
-          document.querySelector('.swiper-pagination-bullet:first-child').classList.add('swiper-pagination-bullet-active')
-        }, 1000)
+          document
+            .querySelector(".swiper-pagination-bullet:first-child")
+            .classList.add("swiper-pagination-bullet-active");
+        }, 1000);
       }
     }
   };
@@ -157,7 +160,6 @@
   }
   .swiper-pagination {
     bottom: -30px;
-
   }
   /deep/ .swiper-pagination-bullet {
     box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.5);
@@ -171,7 +173,7 @@
     box-shadow: 0 1px 5px 0 $grey;
     height: 600px;
     position: relative;
-    
+
     @media (max-width: $tablet) {
       width: 80vw !important;
       max-width: 80vw !important;
@@ -179,7 +181,7 @@
 
     @include media(sm) {
       /* width: unset !important;
-      max-width: unset !important; */
+          max-width: unset !important; */
       height: 600px;
     }
     .lazy-image {

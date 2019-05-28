@@ -26,7 +26,11 @@
             <div class="text-section">
               <h3>{{item.acf.hero.title}}</h3>
               <h4 class="subtitle">{{item.acf.category}}</h4>
-              <button role="navigation" aria-label='Show case study' class="subtitle subtitle--show">Show Case Study</button>
+              <button
+                role="navigation"
+                aria-label="Show case study"
+                class="subtitle subtitle--show"
+              >Show Case Study</button>
             </div>
           </LazyImage>
         </div>
@@ -39,7 +43,12 @@
 </template>
 
 <script>
-  import LazyImage from "@/components/UI/LazyImage"
+  import Vue from "vue";
+  import LazyImage from "@/components/UI/LazyImage";
+
+  import VueAwesomeSwiper from "vue-awesome-swiper/ssr";
+  Vue.use(VueAwesomeSwiper);
+
   export default {
     name: "TheCarousel",
     props: {

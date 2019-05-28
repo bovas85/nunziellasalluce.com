@@ -1,29 +1,35 @@
 <template>
   <div class="carousel" v-if="data != null && data.length">
-    <div ref="Timeline" v-swiper:blogSwiper="swiperOptions" >
+    <div ref="Timeline" v-swiper:blogSwiper="swiperOptions">
       <div class="app-carousel swiper-wrapper">
         <div class="swiper-slide" v-for="(item, index) in data" :key="index">
-          <span class="circle" :style="{background: item.background}"><h3>{{item.title}}</h3></span>
-          <p>
-            {{item.body}}
-          </p>
+          <span class="circle" :style="{background: item.background}">
+            <h3>{{item.title}}</h3>
+          </span>
+          <p>{{item.body}}</p>
         </div>
-
       </div>
     </div>
 
     <!-- slider arrows -->
-    <div class="prev" :class="{'is-disabled': sliderPosition === 0}"><icon-arrow direction='left' :fill="'black'" name='arrow-left' :width="30" :height="40" /></div>
-    <div class="next" :class="{'is-disabled': sliderPosition === data.length - responsiveNumber}"><icon-arrow direction='right' :fill="'black'" name='arrow-right' :width="30" :height="40" /></div>
+    <div class="prev" :class="{'is-disabled': sliderPosition === 0}">
+      <icon-arrow direction="left" :fill="'black'" name="arrow-left" :width="30" :height="40"/>
+    </div>
+    <div class="next" :class="{'is-disabled': sliderPosition === data.length - responsiveNumber}">
+      <icon-arrow direction="right" :fill="'black'" name="arrow-right" :width="30" :height="40"/>
+    </div>
   </div>
 </template>
 
 <script>
-  import LazyImage from "@/components/UI/LazyImage"
-  import IconArrow from '@/components/Icons/IconArrow'
+  import Vue from "vue";
+  import LazyImage from "@/components/UI/LazyImage";
+  import IconArrow from "@/components/Icons/IconArrow";
+  import VueAwesomeSwiper from "vue-awesome-swiper/ssr";
+  Vue.use(VueAwesomeSwiper);
 
   export default {
-    name: 'TheTimeline',
+    name: "TheTimeline",
     props: {
       data: {
         type: Array
@@ -56,41 +62,41 @@
           grabCursor: true,
           threshold: 60,
           paginationHide: true,
-          pagination: '.swiper-pagination',
+          pagination: ".swiper-pagination",
           onSlideChangeStart: swiper => {
-            this.$root.$emit('swiped', swiper.activeIndex)
+            this.$root.$emit("swiped", swiper.activeIndex);
           }
         }
-      }
+      };
     },
     mounted () {
-      document.querySelector('.prev').addEventListener(
-        'click',
+      document.querySelector(".prev").addEventListener(
+        "click",
         event => {
-          event.preventDefault()
+          event.preventDefault();
           try {
-            this.$refs.Timeline.swiper.slidePrev()
-            this.checkIndex()
+            this.$refs.Timeline.swiper.slidePrev();
+            this.checkIndex();
           } catch (e) {}
         },
         false
-      )
+      );
 
-      document.querySelector('.next').addEventListener(
-        'click',
+      document.querySelector(".next").addEventListener(
+        "click",
         event => {
-          event.preventDefault()
+          event.preventDefault();
           try {
-            this.$refs.Timeline.swiper.slideNext()
-            this.checkIndex()
+            this.$refs.Timeline.swiper.slideNext();
+            this.checkIndex();
           } catch (e) {}
         },
         false
-      )
+      );
 
-      this.$root.$on('swiped', position => {
-        this.sliderPosition = position
-      })
+      this.$root.$on("swiped", position => {
+        this.sliderPosition = position;
+      });
     },
     components: {
       LazyImage,
@@ -98,19 +104,19 @@
     },
     methods: {
       checkIndex (index) {
-        return this.doubles.indexOf(index) !== -1
+        return this.doubles.indexOf(index) !== -1;
       }
     },
     computed: {
       responsiveNumber () {
         if (process.browser) {
           if (this.$store.state.window < 481) {
-            return 1
-          } else return 3
-        } else return 3
+            return 1;
+          } else return 3;
+        } else return 3;
       }
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -128,7 +134,7 @@
     }
 
     &:after {
-      content: '';
+      content: "";
       height: 2px;
       background-color: $grey;
       position: absolute;

@@ -320,7 +320,6 @@ module.exports = {
     '~/plugins/vuelidate.js',
     '~/plugins/lazysizes.client.js',
     '~/plugins/vue-media.client.js',
-    '~/plugins/nuxt-swiper.client.js',
     '~/plugins/vue-localstorage.client.js',
     '~/plugins/vue-smooth-scroll.client.js',
     '~/plugins/splitting.client.js',
