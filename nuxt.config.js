@@ -3,7 +3,7 @@ import opn from 'opn'
 import axios from 'axios'
 let routes = []
 
-module.exports = {
+export default {
   mode: 'universal',
   /*
    ** Headers
