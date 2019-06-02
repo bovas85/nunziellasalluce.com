@@ -3,33 +3,32 @@
     <div class="container is-flex">
       <h1>Awards</h1>
       <h3>I was nominated by public vote for best UI, UX and Innovation as well as receiving special Kudos from CSS Design Awards</h3>
-
       <img
-        
-        class='lazyload' 
-        alt='Best UI Design award from CSS Design Awards'
-        data-src='/images/best-ui-black.png'
-      />
+        class="lazyload"
+        alt="Best UI Design award from CSS Design Awards"
+        title="UI Design award from CSS Design Awards"
+        data-src="/images/best-ui-black.png"
+      >
       <img
-        
-        class='lazyload' 
-        alt='Best Innovation Design award from CSS Design Awards'
-        data-src='/images/best-innovation-purple.png'
-      />
+        class="lazyload"
+        alt="Best Innovation Design award from CSS Design Awards"
+        title="Innovation Design award from CSS Design Awards"
+        data-src="/images/best-innovation-purple.png"
+      >
       <img
-        
-        class='lazyload' 
-        alt='Best UX Design award from CSS Design Awards'
-        data-src='/images/best-ux-black.png'
-      />
+        class="lazyload"
+        alt="Best UX Design award from CSS Design Awards"
+        title="UX Design award from CSS Design Awards"
+        data-src="/images/best-ux-black.png"
+      >
     </div>
   </section>
 </template>
 
 <script>
-export default {
-  name: "TheAwards"
-}
+  export default {
+    name: "TheAwards"
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -37,7 +36,7 @@ export default {
     position: relative;
     padding: 0 $gap;
     margin: $gap 0;
-    
+
     @include media(md) {
       margin: $gap * 2 0 $gap * 3;
     }

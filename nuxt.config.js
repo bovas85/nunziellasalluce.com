@@ -1,6 +1,6 @@
 import Config from './assets/config'
-import opn from 'opn'
 import axios from 'axios'
+import open from 'open'
 let routes = []
 
 export default {
@@ -206,7 +206,9 @@ export default {
   },
   hooks: {
     listen (server, { host, port }) {
-      opn(`http://${host}:${port}`)
+      if (process.env.NODE_ENV !== 'production') {
+        open(`http://${host}:${port}`)
+      }
     }
   },
   http: {

@@ -45,7 +45,6 @@
 <script>
   import Vue from "vue";
   import LazyImage from "@/components/UI/LazyImage";
-
   import VueAwesomeSwiper from "vue-awesome-swiper/ssr";
   Vue.use(VueAwesomeSwiper);
 
