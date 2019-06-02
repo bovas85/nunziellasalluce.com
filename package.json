@@ -15,9 +15,11 @@
     "precommit": "npm run lint"
   },
   "browserslist": [
-    "last 2 versions",
+    "last 1 version",
+    "> 1%",
+    "maintained node versions",
     "not dead",
-    "not ie <= 11"
+    "not ie > 0"
   ],
   "greenkeeper": {
     "ignore": [
