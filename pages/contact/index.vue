@@ -3,7 +3,7 @@
     <section class="section hero">
       <div class="grid-wrapper" v-if="contactPage != null">
         <lazy-image
-          class='image'
+          class="image"
           v-if="contactPage.acf"
           noBg
           :image="contactPage.acf.background"
@@ -14,18 +14,17 @@
           home
         />
         <div class="container">
-          <h1 class="jumbo" v-if="contactPage.acf">
-            {{contactPage.acf.title}}
-          </h1>
-          <h3>Email:
-            <a href="mailto:hello@nunziellasalluce.com?subject=hello">
-              hello@nunziellasalluce.com
-            </a>
+          <h1 class="jumbo" v-if="contactPage.acf">{{contactPage.acf.title}}</h1>
+          <h3>
+            Email:
+            <a
+              href="mailto:hello@nunziellasalluce.com?subject=hello"
+            >hello@nunziellasalluce.com</a>
           </h3>
         </div>
 
-        <div class="contact-form--wrapper" :class="{'animated': $root.showForm}">
-          <the-contact-form />
+        <div class="contact-form--wrapper" :class="{'animated': showForm}">
+          <the-contact-form/>
         </div>
       </div>
     </section>
@@ -33,14 +32,19 @@
 </template>
 
 <script>
-  import TheContactForm from '@/components/UI/TheContactForm'
-  import LazyImage from "@/components/UI/LazyImage"
-  import Config from '~/assets/config.js'
+  import TheContactForm from "@/components/UI/TheContactForm";
+  import LazyImage from "@/components/UI/LazyImage";
+  import Config from "~/assets/config.js";
 
   export default {
     async asyncData ({ $http }) {
-      const data = await $http.$get(Config.wpDomain + Config.api.contactPage)
-      return { contactPage: data }
+      const data = await $http.$get(Config.wpDomain + Config.api.contactPage);
+      return { contactPage: data };
+    },
+    data () {
+      return {
+        showForm: false
+      };
     },
     components: {
       TheContactForm,
@@ -49,11 +53,11 @@
     mounted () {
       if (process.browser) {
         setTimeout(() => {
-          this.$root.showForm = true
-        }, 1000)
+          this.showForm = true;
+        }, 1000);
       }
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
