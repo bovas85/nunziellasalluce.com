@@ -427,7 +427,7 @@
         transition: opacity 0.2s ease-in-out;
 
         @supports (display: grid) {
-          bottom: 20px;
+          bottom: 18px;
         }
       }
 

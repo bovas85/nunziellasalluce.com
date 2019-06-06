@@ -505,7 +505,7 @@
           object-fit: cover;
           object-position: center;
           position: relative;
-          bottom: 20px;
+          bottom: 0;
           left: 0;
         }
       }
