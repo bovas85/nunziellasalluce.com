@@ -2,18 +2,18 @@
   <div class="case-study marketing" v-if="project != null">
     <WorkHero :project="project" :animateHeader="animateHeader"/>
 
-    <ClientIntro :project="project" :animateIntro="animateIntro"/>
+    <ClientIntro v-if="defer(2)" :project="project" :animateIntro="animateIntro"/>
 
-    <EmailNewsletter :project="project" :animateEmail="animateEmail"/>
+    <EmailNewsletter v-if="defer(3)" :project="project" :animateEmail="animateEmail"/>
 
-    <DigitalInfographics :project="project" :animateDigital="animateDigital"/>
+    <DigitalInfographics v-if="defer(4)" :project="project" :animateDigital="animateDigital"/>
 
-    <RichMedia :project="project" :animateRich="animateRich"/>
+    <RichMedia v-if="defer(5)" :project="project" :animateRich="animateRich"/>
 
     <div
       class="work-navigation step"
       :class="{'animated': animateBottomImage}"
-      v-if="previousProject && nextProject"
+      v-if="previousProject && nextProject && defer(6)"
     >
       <div class="container-fluid is-flex">
         <nuxt-link class="previous" :to="`/${previousProject.slug}`">
@@ -46,11 +46,11 @@
 </template>
 
 <script>
-  import debounce from "lodash/debounce"
-  import Config from "~/assets/config"
-  import WorkHero from "@/components/Sections/Work/WorkHero"
-  import LazyImage from "@/components/UI/LazyImage"
-  import get from "lodash/get"
+  import debounce from "lodash/debounce";
+  import Config from "~/assets/config";
+  import WorkHero from "@/components/Sections/Work/WorkHero";
+  import LazyImage from "@/components/UI/LazyImage";
+  import get from "lodash/get";
   let scroller, steps;
 
   export default {
@@ -154,8 +154,10 @@
     },
     async created () {
       if (!this.$store.state.projects) {
-        const { data } = await this.$http.$get(Config.wpDomain + Config.api.projects)
-        this.$store.commit("setProjects", data)
+        const { data } = await this.$http.$get(
+          Config.wpDomain + Config.api.projects
+        );
+        this.$store.commit("setProjects", data);
       }
     },
     async mounted () {
@@ -204,34 +206,42 @@
         }
       },
       handleScroll () {
-        if (window.innerWidth > 577) {
-          scroller = this.scrollama();
-          steps = null;
-          steps = scroller
-            .setup({
-              step: ".step",
-              offset: 0.8,
-              debug: false
-            })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu);
+        const step = document.querySelector(".step");
 
-          steps.resize();
-          steps.enable();
+        if (step && this.defer(6)) {
+          if (window.innerWidth > 577) {
+            scroller = this.scrollama();
+            steps = null;
+            steps = scroller
+              .setup({
+                step: ".step",
+                offset: 0.8,
+                debug: false
+              })
+              .onStepEnter(this.handleStepEnter)
+              .onStepExit(this.showMenu);
+
+            steps.resize();
+            steps.enable();
+          } else {
+            scroller = this.scrollama();
+            steps = null;
+            steps = scroller
+              .setup({
+                step: ".step",
+                offset: 0.9,
+                debug: false
+              })
+              .onStepEnter(this.handleStepEnter)
+              .onStepExit(this.showMenu);
+
+            steps.resize();
+            steps.enable();
+          }
         } else {
-          scroller = this.scrollama();
-          steps = null;
-          steps = scroller
-            .setup({
-              step: ".step",
-              offset: 0.9,
-              debug: false
-            })
-            .onStepEnter(this.handleStepEnter)
-            .onStepExit(this.showMenu);
-
-          steps.resize();
-          steps.enable();
+          setTimeout(() => {
+            this.handleScroll();
+          }, 600);
         }
 
         window.addEventListener(
@@ -249,9 +259,21 @@
       }, 150)
     },
     computed: {
+      scrollama () {
+        if (process.browser) {
+          let scrollama = require("scrollama");
+          return scrollama;
+        }
+      },
       projects () {
         if (!this.$store.state.projects.length) return false;
-        return this.$store.state.projects;
+        const filtered = this.$store.state.projects.filter(project => {
+          return project.acf.status === "true";
+        });
+        if (process.env.NODE_ENV === "development") {
+          return this.$store.state.projects;
+        }
+        return filtered;
       },
       projectTitle () {
         if (
