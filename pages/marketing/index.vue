@@ -51,9 +51,11 @@
   import WorkHero from "@/components/Sections/Work/WorkHero";
   import LazyImage from "@/components/UI/LazyImage";
   import get from "lodash/get";
+  import Defer from "@/mixins/Defer";
   let scroller, steps;
 
   export default {
+    mixins: [Defer()],
     components: {
       WorkHero,
       LazyImage,
