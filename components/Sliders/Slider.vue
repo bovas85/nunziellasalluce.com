@@ -90,6 +90,10 @@
   };
 </script>
 
+<style lang='scss'>
+  @import '@/assets/css/swiper.css';
+</style>
+
 <style lang="scss" scoped>
   .swiper-container {
     height: auto !important;

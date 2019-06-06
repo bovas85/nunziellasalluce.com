@@ -131,6 +131,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '@/assets/css/swiper.css';
   .swiper-container {
     height: auto !important;
     background: white;

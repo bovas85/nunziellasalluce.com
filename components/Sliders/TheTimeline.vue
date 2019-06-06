@@ -120,6 +120,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '@/assets/css/swiper.css';
   .swiper-container {
     height: auto !important;
     min-height: 100%;

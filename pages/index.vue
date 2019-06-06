@@ -234,6 +234,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '@/assets/css/splitting.css';
   h1 {
     @include media(sm) {
       max-width: 480px;
