@@ -31,7 +31,7 @@ For detailed explanation on how things work with Nuxt, checkout the [Nuxt.js doc
 ## Special Thanks
 
 <a href="https://www.browserstack.com">
-  <img src="/assets/browserstack-logo-600x315.png" height="80" title="BrowserStack Logo" alt="BrowserStack Logo" />
+  <img src="https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/uploads/2018/03/header-logo.svg" height="80" title="BrowserStack Logo" alt="BrowserStack Logo" />
 </a>
 
 Special thanks to [BrowserStack](https://www.browserstack.com) for letting me use their service to debug browser specific issues.
