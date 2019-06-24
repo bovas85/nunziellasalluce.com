@@ -27,3 +27,11 @@ $ npm run generate
 ## Nuxt Docs
 
 For detailed explanation on how things work with Nuxt, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+
+## Special Thanks
+
+<a href="https://www.browserstack.com">
+  <img src="/assets/browserstack-logo-600x315.png" height="80" title="BrowserStack Logo" alt="BrowserStack Logo" />
+</a>
+
+Special thanks to [BrowserStack](https://www.browserstack.com) for letting me use their service to debug browser specific issues.
