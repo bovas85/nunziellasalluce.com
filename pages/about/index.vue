@@ -25,9 +25,11 @@
         {{aboutPage.skills.body}}
       </p>
 
+      <!--
       <p>
         <a class='link' href='/cv.pdf'>Download my CV</a>
       </p>
+      -->
     </div>
   </div>
 </template>
