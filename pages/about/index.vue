@@ -26,7 +26,7 @@
       </p>
 
       <p>
-        <a class='link' href='/cv.pdf' target='_blank'>Download my CV</a>
+        <a class='link' href='/cv.pdf'>Download my CV</a>
       </p>
     </div>
   </div>
@@ -59,6 +59,7 @@
       color: white;
       text-decoration: underline;
       transition: color .3s ease-in-out;
+      z-index: 1;
 
       &:hover {
         color: $primary;
