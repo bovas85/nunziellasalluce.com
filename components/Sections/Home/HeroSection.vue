@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="rotating-text" v-scroll-to="{element:'.projects'}">
-      <img src="/images/rotating-text.png" alt="">
+      <img src="/images/stamp.png" alt="">
     </div>
   </section>
 </template>
