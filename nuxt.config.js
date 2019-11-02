@@ -323,5 +323,13 @@ export default {
     '~/plugins/vue-smooth-scroll.client.js',
     '~/plugins/splitting.client.js',
     '~/plugins/hotjar.client.js'
-  ]
+  ],
+  // layoutTransition: {
+  //   name: 'intro',
+  //   mode: 'in-out'
+  // },
+  pageTransition: {
+    name: 'intro',
+    mode: 'out-in'
+  }
 }

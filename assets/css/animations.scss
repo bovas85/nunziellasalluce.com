@@ -1,3 +1,67 @@
+$t-duration: 800ms;
+$t-delay: 300ms;
+
+.intro-enter-active,
+.intro-leave-active {
+  transition-duration: $t-duration * 2;
+
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition-property: opacity, transform;
+    transition-timing-function: ease-in-out;
+  }
+
+  &::before {
+    background-color: $yellow;
+  }
+}
+
+.intro-leave {
+  &::before,
+  &::after {
+    transform: scaleX(0);
+  }
+}
+
+.intro-leave-active {
+  &::before {
+    transition-duration: $t-duration;
+  }
+}
+
+.intro-leave-to {
+  &::before {
+    transform: scale(1);
+    transform-origin: left;
+  }
+}
+
+.intro-enter {
+  &::before {
+    transform: scaleX(1);
+  }
+}
+
+.intro-enter-active {
+  &::before {
+    transition-duration: $t-duration;
+  }
+}
+
+.intro-enter-to {
+  &::before {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: all 0.8s ease-in-out;
