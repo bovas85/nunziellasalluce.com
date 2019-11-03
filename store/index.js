@@ -5,6 +5,7 @@ export const strict = false
 export const state = () => ({
   homePage: [],
   projects: [],
+  currentProject: null,
   window: 320,
   connection: null,
   navOpen: false,
@@ -56,6 +57,9 @@ export const mutations = {
   setProjects (state, obj) {
     state.projects = obj
   },
+  setProject (state, obj) {
+    state.currentProject = obj
+  },
   windowResize (state, size) {
     state.window = size
   },
@@ -74,6 +78,7 @@ export const actions = {
     }, 600)
   },
   async nuxtServerInit ({ commit }) {
+    // yarn generate runs this every page rendered, but doesn't run this on page visit or refresh
     try {
       const projects = await this.$http.$get(Config.wpDomain + Config.api.projects)
       commit('setProjects', projects)

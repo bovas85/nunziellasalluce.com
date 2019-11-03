@@ -49,14 +49,20 @@
 
 <script>
   import debounce from "lodash/debounce";
+  import get from "lodash/get";
   import Config from "~/assets/config";
   import WorkHero from "@/components/Sections/Work/WorkHero";
   import LazyImage from "@/components/UI/LazyImage";
-  import get from "lodash/get";
   import Defer from "@/mixins/Defer";
   let scroller, steps;
 
   export default {
+    async fetch ({ app, store, params }) {
+      const data = await app.$http.$get(
+        `${Config.wpDomain}${Config.api.caseStudy}${params.work}`
+      );
+      store.commit("setProject", get(data, '[0]', null));
+    },
     mixins: [Defer()],
     components: {
       WorkHero,
@@ -156,14 +162,6 @@
         animateBottomImage: false
       };
     },
-    async created () {
-      if (!this.$store.state.projects) {
-        const { data } = await this.$http.$get(
-          Config.wpDomain + Config.api.projects
-        );
-        this.$store.commit("setProjects", data);
-      }
-    },
     async mounted () {
       if (process.browser) {
         this.animateHeader = true;
@@ -186,7 +184,6 @@
         }
       },
       handleStepEnter (response) {
-        // console.log(response.element)
         response.element.classList.add("animated");
         const length = document.querySelectorAll(".step").length - 2;
         switch (response.index) {
@@ -292,6 +289,7 @@
         return this.$store.state.projects[this.getIndex].slug;
       },
       project () {
+        if (this.$store.state.currentProject) return get(this.$store.state.currentProject, 'acf', null);
         if (
           !this.$store.state.projects.length ||
           !this.$store.state.projects[this.getIndex]
