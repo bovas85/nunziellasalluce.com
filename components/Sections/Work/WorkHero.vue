@@ -72,7 +72,7 @@
         animation-delay: 0.3s;
         animation-timing-function: linear;
         animation-fill-mode: both;
-        animation-duration: 40s;
+        animation-duration: 60s;
         backface-visibility: hidden;
       }
       // background-position: right;
