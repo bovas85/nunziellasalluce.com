@@ -370,7 +370,7 @@
           animation-delay: 0.3s;
           animation-timing-function: linear;
           animation-fill-mode: both;
-          animation-duration: 80s;
+          animation-duration: 40s;
           backface-visibility: hidden;
           &:hover {
             .overlay {
