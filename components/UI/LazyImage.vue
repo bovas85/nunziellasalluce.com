@@ -455,7 +455,7 @@
     }
     50% {
       opacity: 1;
-      transform: scale3d(1.4, 1.4, 1.4);
+      transform: scale3d(1.3, 1.3, 1.3);
     }
     100% {
       opacity: 1;
