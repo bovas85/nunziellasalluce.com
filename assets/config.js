@@ -1,14 +1,12 @@
-'use strict'
-
-const Config = {
+export default {
   appTitle: 'Nunziella Salluce Design',
   appTitleShort: 'Nunziella Salluce',
   appDescription: 'Portfolio Website for Nunziella Salluce',
   appThemeColor: '#ffffff ',
   appBgColor: '#00172c ',
   appIcon: 'assets/app-icon.png',
-  wpDomain: 'https://api.nunziellasalluce.com/wp-json',
-  client: 'https://api.nunziellasalluce.com',
+  wpDomain: 'https://nunziella.moustachedesign.xyz/wp-json',
+  client: 'https://nunziella.moustachedesign.xyz',
   url: 'https://nunziellasalluce.netlify.com',
   loadDbName: 'starter_wp',
   api: {
@@ -21,5 +19,3 @@ const Config = {
     postFormContact: '/contact-form-7/v1/contact-forms/78/feedback'
   }
 }
-
-module.exports = Config
