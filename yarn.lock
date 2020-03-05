@@ -8938,10 +8938,10 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==
 
-vue-intersect@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/vue-intersect/-/vue-intersect-1.1.3.tgz#34d57c76ab1ca04392ec382366db1a2cec1c7f9d"
-  integrity sha512-8ry42W6zHrpCpWtIiCMsYVBmEdQf9upAZnIFh8ffpCFbfhQcOOtX2xpwyzPaVAoW2MSZuSDGjaKK6Cy1z+Ap8w==
+vue-intersect@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/vue-intersect/-/vue-intersect-1.1.5.tgz#dd7e9754e1bcb3bff572588d7c657e81996aedf0"
+  integrity sha512-7o8oX45SDXUsYZktEpgEOZ1q0FSCiBMnz8xe71hFwGTnFPP/NSeAJLDL+vNf1NAJOI5B5neKg80bwYkNmm4Eyw==
 
 vue-loader@^15.8.3:
   version "15.8.3"
