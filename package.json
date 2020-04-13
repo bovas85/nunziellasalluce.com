@@ -37,7 +37,7 @@
     "@nuxtjs/style-resources": "^1.0.0",
     "bulma": "^0.8.0",
     "cookie-universal-nuxt": "^2.1.1",
-    "intersection-observer": "^0.7.0",
+    "intersection-observer": "^0.8.0",
     "lazysizes": "^5.2.0",
     "nuxt": "^2.11.0",
     "scrollama": "1.4.4",
