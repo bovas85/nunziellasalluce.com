@@ -12,9 +12,7 @@
     "generate": "nuxt generate --modern",
     "staging": "cross-env NODE_ENV=development now --public",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint",
-    "snyk-protect": "snyk protect",
-    "prepare": "yarn run snyk-protect"
+    "precommit": "npm run lint"
   },
   "browserslist": [
     "last 1 version",
@@ -44,8 +42,7 @@
     "vue-media": "^1.1.1",
     "vue-no-ssr": "^1.1.1",
     "vue-scrollto": "^2.18.1",
-    "vuelidate": "^0.7.5",
-    "snyk": "^1.319.0"
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
     "axios": "^0.19.2",
@@ -64,6 +61,5 @@
     "postcss-nested": "^4.2.1",
     "postcss-responsive-type": "^1.0.0",
     "sass-loader": "^8.0.2"
-  },
-  "snyk": true
+  }
 }
