@@ -38,3 +38,37 @@ patch:
         patched: '2020-05-01T05:05:35.068Z'
     - nuxt > @nuxt/webpack > @nuxt/babel-preset-app > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
         patched: '2020-05-01T05:05:35.068Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > @babel/cli > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > @babel/preset-env > @babel/plugin-transform-block-scoping > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > babel-eslint > @babel/traverse > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - nuxt > @nuxt/builder > @nuxt/webpack > hard-source-webpack-plugin > lodash:
+        patched: '2020-05-05T18:22:41.126Z'
+    - nuxt > @nuxt/builder > @nuxt/webpack > html-webpack-plugin > lodash:
+        patched: '2020-05-05T18:22:41.126Z'
+    - nuxt > @nuxt/builder > @nuxt/webpack > webpack-bundle-analyzer > lodash:
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > @babel/preset-env > @babel/plugin-transform-modules-umd > @babel/helper-module-transforms > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > babel-eslint > @babel/traverse > @babel/generator > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - nuxt > @nuxt/builder > @nuxt/webpack > optimize-css-assets-webpack-plugin > last-call-webpack-plugin > lodash:
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > @babel/preset-env > @babel/plugin-transform-unicode-regex > @babel/helper-create-regexp-features-plugin > @babel/helper-regex > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > babel-eslint > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > @babel/preset-env > @babel/preset-modules > @babel/plugin-transform-dotall-regex > @babel/helper-create-regexp-features-plugin > @babel/helper-regex > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > babel-eslint > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/generator > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - '@nuxtjs/style-resources > sass-resources-loader > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash':
+        patched: '2020-05-05T18:22:41.126Z'
+    - nuxt > @nuxt/builder > @nuxt/webpack > @nuxt/babel-preset-app > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2020-05-05T18:22:41.126Z'
