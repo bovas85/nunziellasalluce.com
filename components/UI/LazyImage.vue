@@ -1,6 +1,12 @@
 <template>
+  <div class="video" v-if="typeof video === 'string'">
+    <video autoplay muted loop>
+      <source :src="video" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
   <div
-    v-if="image.url != null && imageMobile.url != null"
+    v-else-if="image.url != null && imageMobile.url != null"
     class="lazy-image"
     :class="[{ 'hover-disabled': !hover, contain: contain }, computedClass]"
   >
@@ -139,6 +145,9 @@ export default {
     },
     image: {
       type: [Object, Boolean]
+    },
+    video: {
+      type: [String, Boolean]
     },
     imageMobile: {
       type: [Object, Boolean]
@@ -280,6 +289,17 @@ export default {
     .progressive-image-wrapper {
       overflow: hidden;
     }
+  }
+}
+
+.video {
+  display: flex;
+  width: 100%;
+  position: relative;
+
+  video {
+    width: 100%;
+    height: 600px;
   }
 }
 

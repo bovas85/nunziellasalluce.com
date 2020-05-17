@@ -6,9 +6,13 @@
     <the-footer />
     <div
       id="awwwards"
+      v-if="$route.path === '/'"
       style="position: fixed; z-index: 999; transform: translateY(-50%); top: 20%;  right: 0"
     >
-      <a href="https://www.awwwards.com/sites/nunziella-salluce-designer" target="_blank">
+      <a
+        href="https://www.awwwards.com/sites/nunziella-salluce-designer"
+        target="_blank"
+      >
         <svg width="53.08" height="171.358">
           <path class="js-color-bg" fill="black" d="M0 0h53.08v171.358H0z" />
           <g class="js-color-text" fill="white">

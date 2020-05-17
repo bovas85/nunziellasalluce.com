@@ -231,7 +231,7 @@ export default {
           steps = scroller
             .setup({
               step: ".step",
-              offset: 0.5,
+              offset: 0.6,
               debug: false
             })
             .onStepEnter(this.handleStepEnter)
