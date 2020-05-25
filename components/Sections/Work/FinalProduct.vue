@@ -20,11 +20,11 @@
           :imageMobile="content.image"
         />
         <LazyImage
-          v-if="content.video != null"
+          v-if="content.videoMobile != null && content.videoDesktop != null"
           class="image"
-          isVideo
           :hover="false"
-          :video="content.video"
+          :videoMobile="content.videoMobile"
+          :videoDesktop="content.videoDesktop"
         />
       </div>
     </div>

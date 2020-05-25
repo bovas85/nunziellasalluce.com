@@ -1,9 +1,35 @@
 <template>
-  <div class="video" v-if="typeof video === 'string'">
-    <video autoplay muted loop>
-      <source :src="video" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+  <div class="video" v-if="videoMobile && videoDesktop">
+    <client-only>
+      <vue-media :query="{ maxWidth: 576 }">
+        <!-- mobile video -->
+        <video
+          :class="lazyload ? 'lazyload' : ''"
+          autoplay
+          muted
+          loop
+          playsinline
+          poster="/images/Homepage.svg"
+        >
+          <source :data-src="videoMobile" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </vue-media>
+      <vue-media :query="{ minWidth: 577 }">
+        <!-- desktop video -->
+        <video
+          :class="lazyload ? 'lazyload' : ''"
+          autoplay
+          muted
+          loop
+          playsinline
+          poster="/images/Homepage.svg"
+        >
+          <source :data-src="videoDesktop" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </vue-media>
+    </client-only>
   </div>
   <div
     v-else-if="image.url != null && imageMobile.url != null"
@@ -146,7 +172,10 @@ export default {
     image: {
       type: [Object, Boolean]
     },
-    video: {
+    videoMobile: {
+      type: [String, Boolean]
+    },
+    videoDesktop: {
       type: [String, Boolean]
     },
     imageMobile: {
@@ -197,6 +226,43 @@ export default {
     hoverFixed: {
       type: Boolean,
       default: false
+    }
+  },
+  mounted() {
+    // lazy load video if present
+    if (process.browser) {
+      const lazyVideos = [].slice.call(
+        document.querySelectorAll("video.lazyload")
+      );
+
+      if ("IntersectionObserver" in window) {
+        const lazyVideoObserver = new IntersectionObserver(function(
+          entries,
+          observer
+        ) {
+          entries.forEach(function(video) {
+            if (video.isIntersecting) {
+              for (let source in video.target.children) {
+                const videoSource = video.target.children[source];
+                if (
+                  typeof videoSource.tagName === "string" &&
+                  videoSource.tagName === "SOURCE"
+                ) {
+                  videoSource.src = videoSource.dataset.src;
+                }
+              }
+
+              video.target.load();
+              video.target.classList.remove("lazyload");
+              lazyVideoObserver.unobserve(video.target);
+            }
+          });
+        });
+
+        lazyVideos.forEach(function(lazyVideo) {
+          lazyVideoObserver.observe(lazyVideo);
+        });
+      }
     }
   },
   data() {
