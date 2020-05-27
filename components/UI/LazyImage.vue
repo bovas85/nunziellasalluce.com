@@ -1,35 +1,29 @@
 <template>
   <div class="video" v-if="videoMobile && videoDesktop">
-    <client-only>
-      <vue-media :query="{ maxWidth: 576 }">
-        <!-- mobile video -->
-        <video
-          :class="lazyload ? 'lazyload' : ''"
-          autoplay
-          muted
-          loop
-          playsinline
-          poster="/images/Homepage.svg"
-        >
-          <source :data-src="videoMobile" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </vue-media>
-      <vue-media :query="{ minWidth: 577 }">
-        <!-- desktop video -->
-        <video
-          :class="lazyload ? 'lazyload' : ''"
-          autoplay
-          muted
-          loop
-          playsinline
-          poster="/images/Homepage.svg"
-        >
-          <source :data-src="videoDesktop" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </vue-media>
-    </client-only>
+    <!-- desktop video -->
+    <video
+      :class="lazyload ? 'lazyload' : ''"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="/images/Homepage.svg"
+    >
+      <source :data-src="videoDesktop" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <!-- mobile video -->
+    <video
+      :class="lazyload ? 'lazyload' : ''"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="/images/Homepage.svg"
+    >
+      <source :data-src="videoMobile" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
   </div>
   <div
     v-else-if="image.url != null && imageMobile.url != null"
@@ -360,12 +354,15 @@ export default {
 
 .video {
   display: flex;
+  justify-content: center;
   width: 100%;
+  flex-wrap: wrap;
   position: relative;
 
   video {
+    margin-bottom: $gap;
+    flex-basis: 100%;
     width: 100%;
-    height: 600px;
   }
 }
 
