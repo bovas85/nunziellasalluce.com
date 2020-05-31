@@ -220,15 +220,16 @@ export default {
       if (order) {
         let filtered = this.projects;
         // remove drafts
-        if (process.env.NODE_ENV === "production") {
-          filtered = this.projects.filter(project => {
-            return project.acf.status === "true";
+        if (process.env.NODE_ENV === "development") {
+          return filtered.sort((a, b) => {
+            return order.indexOf(a.id) - order.indexOf(b.id);
           });
         }
-        return filtered.sort((a, b) => {
-          return order.indexOf(a.id) - order.indexOf(b.id);
+        return this.projects.filter(project => {
+          return project.acf.status === "true";
         });
-      } else return null;
+      }
+      return null;
     },
     acf() {
       if (this.$store.state.homePage == null) return false;
