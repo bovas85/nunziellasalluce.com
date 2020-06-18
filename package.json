@@ -46,6 +46,7 @@
     "vuelidate": "^0.7.5"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.10.1",
     "axios": "^0.19.2",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",

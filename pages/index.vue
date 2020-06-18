@@ -218,16 +218,16 @@ export default {
       if (!this.projects.length) return false;
       const order = get(this.acf, "case_studies.order", []);
       if (order) {
-        let filtered = this.projects;
+        const sorted = this.projects?.sort((a, b) => {
+          return order.indexOf(a.id) - order.indexOf(b.id);
+        });
         // remove drafts
-        if (process.env.NODE_ENV === "development") {
-          return filtered.sort((a, b) => {
-            return order.indexOf(a.id) - order.indexOf(b.id);
+        if (process.env.NODE_ENV !== "development") {
+          return sorted?.filter(project => {
+            return project.acf.status === "true";
           });
         }
-        return this.projects.filter(project => {
-          return project.acf.status === "true";
-        });
+        return sorted;
       }
       return null;
     },
