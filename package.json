@@ -9,7 +9,8 @@
     "build": "cross-env NODE_ENV=production nuxt build --modern",
     "start": "cross-env NODE_ENV=production nuxt-start --modern",
     "startProd": "cross-env NODE_ENV=production nuxt-start --modern",
-    "generate": "nuxt generate --modern",
+    "serve": "nuxt serve",
+    "generate": "nuxt build --modern && nuxt export --modern",
     "staging": "cross-env NODE_ENV=development now --public",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"

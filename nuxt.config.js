@@ -5,6 +5,7 @@ let routes = [];
 
 export default {
   mode: "universal",
+  target: "static",
   /*
    ** Headers
    ** Common headers are already provided by @nuxtjs/pwa preset
@@ -217,10 +218,11 @@ export default {
   generate: {
     fallback: "404.html",
     interval: 200,
+    exclude: ["/marketing"],
     routes: function() {
       return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
         const filtered = res.data.filter(project => {
-          return project.acf.status === "true" && project.slug !== "marketing";
+          return project.acf.status === "true";
         });
         routes = filtered.map(project => {
           return { route: "/" + project.slug, payload: project };
@@ -321,8 +323,9 @@ export default {
     "~/plugins/vue-media.client.js",
     "~/plugins/vue-localstorage.client.js",
     "~/plugins/vue-smooth-scroll.client.js",
-    "~/plugins/splitting.client.js"
-    // '~/plugins/hotjar.client.js'
+    "~/plugins/splitting.client.js",
+    "~/plugins/preview.client.js"
+    // "~/plugins/hotjar.client.js"
   ],
   // layoutTransition: {
   //   name: 'intro',
