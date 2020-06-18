@@ -1,10 +1,11 @@
-import Config from './assets/config'
-import axios from 'axios'
-import open from 'open'
-let routes = []
+import Config from "./assets/config";
+import axios from "axios";
+import open from "open";
+let routes = [];
 
 export default {
-  mode: 'universal',
+  mode: "universal",
+  target: "static",
   /*
    ** Headers
    ** Common headers are already provided by @nuxtjs/pwa preset
@@ -14,120 +15,120 @@ export default {
       // If undefined or blank then we don't need the hyphen
       return titleChunk
         ? `${titleChunk} - Nunziella Salluce Design`
-        : 'Nunziella Salluce Design'
+        : "Nunziella Salluce Design";
     },
     htmlAttrs: {
-      lang: 'en'
+      lang: "en"
     },
     meta: [
-      { charset: 'utf-8' },
+      { charset: "utf-8" },
       {
-        hid: 'viewport',
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
+        hid: "viewport",
+        name: "viewport",
+        content: "width=device-width, initial-scale=1"
       },
-      { name: 'msapplication-TileColor', content: '#ffffff' },
-      { name: 'msapplication-TileImage', content: '/ms-icon-144x144.png' },
-      { name: 'theme-color', content: '#ffffff' },
+      { name: "msapplication-TileColor", content: "#ffffff" },
+      { name: "msapplication-TileImage", content: "/ms-icon-144x144.png" },
+      { name: "theme-color", content: "#ffffff" },
       {
-        hid: 'description',
-        name: 'description',
+        hid: "description",
+        name: "description",
         content:
-          'Digital and Content Designer trying to make the world a colourful place.'
+          "Digital and Content Designer trying to make the world a colourful place."
       },
       {
-        hid: 'keywords',
-        name: 'keywords',
+        hid: "keywords",
+        name: "keywords",
         content:
-          'Nunziella Salluce, Nunziella, Portfolio, UI Design, UI London, Design London, Web Designer London, UI Designer in London, UX Design'
+          "Nunziella Salluce, Nunziella, Portfolio, UI Design, UI London, Design London, Web Designer London, UI Designer in London, UX Design"
       },
       {
-        hid: 'image',
-        name: 'image',
-        content: 'https://nunziellasalluce.com/images/seo.png'
+        hid: "image",
+        name: "image",
+        content: "https://nunziellasalluce.com/images/seo.png"
       },
-      { hid: 'name', itemprop: 'name', content: 'Nunziella Salluce Design' },
+      { hid: "name", itemprop: "name", content: "Nunziella Salluce Design" },
       {
-        hid: 'description',
-        itemprop: 'description',
+        hid: "description",
+        itemprop: "description",
         content:
-          'Digital and Content Designer trying to make the world a colourful place.'
+          "Digital and Content Designer trying to make the world a colourful place."
       },
       {
-        hid: 'image',
-        itemprop: 'image',
-        content: 'https://nunziellasalluce.com/images/seo.png'
+        hid: "image",
+        itemprop: "image",
+        content: "https://nunziellasalluce.com/images/seo.png"
       },
       {
-        hid: 'twitter:card',
-        name: 'twitter:card',
-        content: 'summary_large_image'
+        hid: "twitter:card",
+        name: "twitter:card",
+        content: "summary_large_image"
       },
       {
-        hid: 'twitter:title',
-        name: 'twitter:title',
-        content: 'Nunziella Salluce Design'
+        hid: "twitter:title",
+        name: "twitter:title",
+        content: "Nunziella Salluce Design"
       },
       {
-        hid: 'twitter:description',
-        name: 'twitter:description',
+        hid: "twitter:description",
+        name: "twitter:description",
         content:
-          'Digital and Content Designer trying to make the world a colourful place.'
+          "Digital and Content Designer trying to make the world a colourful place."
       },
-      { hid: 'twitter:site', name: 'twitter:site', content: '@SNunziella' },
+      { hid: "twitter:site", name: "twitter:site", content: "@SNunziella" },
       {
-        hid: 'twitter:creator',
-        name: 'twitter:creator',
-        content: '@SNunziella'
-      },
-      {
-        hid: 'twitter:image',
-        name: 'twitter:image',
-        content: 'https://nunziellasalluce.com/images/seo.png'
+        hid: "twitter:creator",
+        name: "twitter:creator",
+        content: "@SNunziella"
       },
       {
-        hid: 'twitter:image:alt',
-        name: 'twitter:image:alt',
-        content: 'My Website Image'
+        hid: "twitter:image",
+        name: "twitter:image",
+        content: "https://nunziellasalluce.com/images/seo.png"
       },
       {
-        hid: 'og:title',
-        property: 'og:title',
-        content: 'Nunziella Salluce Design'
-      },
-      { hid: 'og:url', property: 'og:url', content: Config.url },
-      {
-        hid: 'og:site_name',
-        property: 'og:site_name',
-        content: 'Nunziella Salluce Design Website'
+        hid: "twitter:image:alt",
+        name: "twitter:image:alt",
+        content: "My Website Image"
       },
       {
-        hid: 'og:description',
-        property: 'og:description',
+        hid: "og:title",
+        property: "og:title",
+        content: "Nunziella Salluce Design"
+      },
+      { hid: "og:url", property: "og:url", content: Config.url },
+      {
+        hid: "og:site_name",
+        property: "og:site_name",
+        content: "Nunziella Salluce Design Website"
+      },
+      {
+        hid: "og:description",
+        property: "og:description",
         content:
-          'Digital and Content Designer trying to make the world a colourful place.'
+          "Digital and Content Designer trying to make the world a colourful place."
       },
-      { hid: 'og:locale', property: 'og:locale', content: 'en_GB' },
-      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: "og:locale", property: "og:locale", content: "en_GB" },
+      { hid: "og:type", property: "og:type", content: "website" },
       {
-        hid: 'og:image',
-        property: 'og:image',
-        content: 'https://nunziellasalluce.com/images/seo.png'
-      },
-      {
-        hid: 'og:image:url',
-        property: 'og:image:url',
-        content: 'https://nunziellasalluce.com/images/seo.png'
+        hid: "og:image",
+        property: "og:image",
+        content: "https://nunziellasalluce.com/images/seo.png"
       },
       {
-        hid: 'og:image:width',
-        property: 'og:image:width',
-        content: '1200'
+        hid: "og:image:url",
+        property: "og:image:url",
+        content: "https://nunziellasalluce.com/images/seo.png"
       },
       {
-        hid: 'og:image:height',
-        property: 'og:image:height',
-        content: '628'
+        hid: "og:image:width",
+        property: "og:image:width",
+        content: "1200"
+      },
+      {
+        hid: "og:image:height",
+        property: "og:image:height",
+        content: "628"
       }
     ],
     script: [
@@ -135,7 +136,7 @@ export default {
         defer: true,
         body: true,
         src:
-          'https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver'
+          "https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver"
       }
     ]
   },
@@ -143,22 +144,22 @@ export default {
    ** PWA Configuration
    */
   manifest: {
-    name: 'Nunziella Salluce Design',
-    short_name: 'Nunziella Salluce',
-    theme_color: '#000000',
-    background_color: '#f2d636',
-    display: 'standalone',
-    description: ''
+    name: "Nunziella Salluce Design",
+    short_name: "Nunziella Salluce",
+    theme_color: "#000000",
+    background_color: "#f2d636",
+    display: "standalone",
+    description: ""
   },
   /*
    ** Build configuration
    */
   build: {
-    hardSource: process.env.NODE_ENV === 'development',
+    hardSource: process.env.NODE_ENV === "development",
     optimization: {
       runtimeChunk: true,
       splitChunks: {
-        chunks: 'async',
+        chunks: "async",
         minSize: 30000,
         maxSize: 0,
         cacheGroups: {
@@ -173,9 +174,9 @@ export default {
             reuseExistingChunk: true
           },
           styles: {
-            name: 'styles',
+            name: "styles",
             test: /\.(css|vue)$/,
-            chunks: 'all',
+            chunks: "all",
             enforce: true
           }
         }
@@ -183,31 +184,31 @@ export default {
     },
     postcss: {
       plugins: {
-        'postcss-responsive-type': {},
-        'postcss-nested': {}
+        "postcss-responsive-type": {},
+        "postcss-nested": {}
       }
     },
-    extend (config, { isDev, isClient }) {
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         /*
          ** Run ESLint on save
          */
         config.module.rules.push({
-          enforce: 'pre',
+          enforce: "pre",
           test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
+          loader: "eslint-loader",
           exclude: /(node_modules)/,
           options: {
             // fix: true
           }
-        })
+        });
       }
     }
   },
   hooks: {
-    listen (server, { host, port }) {
-      if (process.env.NODE_ENV !== 'production') {
-        open(`http://${host}:${port}`)
+    listen(server, { host, port }) {
+      if (process.env.NODE_ENV !== "production") {
+        open(`http://${host}:${port}`);
       }
     }
   },
@@ -215,18 +216,18 @@ export default {
     retry: 3
   },
   generate: {
-    fallback: '404.html',
+    fallback: "404.html",
     interval: 200,
-    routes: function () {
+    routes: function() {
       return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
         const filtered = res.data.filter(project => {
-          return project.acf.status === 'true' && project.slug !== 'marketing'
-        })
+          return project.acf.status === "true" && project.slug !== "marketing";
+        });
         routes = filtered.map(project => {
-          return { route: '/' + project.slug, payload: project }
-        })
-        return routes
-      })
+          return { route: "/" + project.slug, payload: project };
+        });
+        return routes;
+      });
     }
   },
   render: {
@@ -236,43 +237,43 @@ export default {
   },
   css: [
     // node.js module but we specify the pre-processor
-    '@/assets/css/main.scss',
+    "@/assets/css/main.scss"
   ],
   /*
    ** Customize the progress-bar style
    */
   loading: {
-    color: '#f4a261',
-    height: '4px',
-    failedColor: '#DF4661'
+    color: "#f4a261",
+    height: "4px",
+    failedColor: "#DF4661"
   },
   /*
    ** Modules
    */
   modules: [
-    '@nuxtjs/pwa',
-    '@nuxt/http',
-    '@nuxtjs/sitemap',
-    'cookie-universal-nuxt',
+    "@nuxtjs/pwa",
+    "@nuxt/http",
+    "@nuxtjs/sitemap",
+    "cookie-universal-nuxt",
     [
-      '@nuxtjs/google-analytics',
+      "@nuxtjs/google-analytics",
       {
-        id: 'UA-55886565-3'
+        id: "UA-55886565-3"
       }
     ],
-    '@nuxtjs/component-cache',
-    '@nuxtjs/style-resources'
+    "@nuxtjs/component-cache",
+    "@nuxtjs/style-resources"
   ],
   styleResources: {
-    scss: '~/assets/css/variables.scss'
+    scss: "~/assets/css/variables.scss"
   },
   workbox: {
     runtimeCaching: [
       {
-        urlPattern: 'https://api.nunziellasalluce.com/wp-content/uploads/.*',
-        handler: 'staleWhileRevalidate',
+        urlPattern: "https://api.nunziellasalluce.com/wp-content/uploads/.*",
+        handler: "staleWhileRevalidate",
         strategyOptions: {
-          cacheName: 'images',
+          cacheName: "images",
           cacheExpiration: {
             maxEntries: 30,
             maxAgeSeconds: 300
@@ -282,11 +283,11 @@ export default {
       },
       {
         urlPattern:
-          'https://api.nunziellasalluce.com/wp-json/wp/v2/casestudies/.*',
-        handler: 'staleWhileRevalidate',
-        method: 'GET',
+          "https://api.nunziellasalluce.com/wp-json/wp/v2/casestudies/.*",
+        handler: "staleWhileRevalidate",
+        method: "GET",
         strategyOptions: {
-          cacheName: 'casestudies',
+          cacheName: "casestudies",
           cacheExpiration: {
             maxEntries: 10,
             maxAgeSeconds: 0
@@ -294,11 +295,11 @@ export default {
         }
       },
       {
-        urlPattern: 'https://fonts.googleapis.com/.*',
-        handler: 'staleWhileRevalidate',
-        method: 'GET',
+        urlPattern: "https://fonts.googleapis.com/.*",
+        handler: "staleWhileRevalidate",
+        method: "GET",
         strategyOptions: {
-          cacheName: 'fonts',
+          cacheName: "fonts",
           cacheExpiration: {
             maxEntries: 10,
             maxAgeSeconds: 30000
@@ -309,27 +310,27 @@ export default {
     ]
   },
   sitemap: {
-    hostname: 'https://nunziellasalluce.com',
+    hostname: "https://nunziellasalluce.com",
     gzip: true,
-    exclude: ['/.git'],
+    exclude: ["/.git"],
     routes: routes
   },
   plugins: [
-    '~/plugins/store.js',
-    '~/plugins/vuelidate.js',
-    '~/plugins/lazysizes.client.js',
-    '~/plugins/vue-media.client.js',
-    '~/plugins/vue-localstorage.client.js',
-    '~/plugins/vue-smooth-scroll.client.js',
-    '~/plugins/splitting.client.js',
-    '~/plugins/hotjar.client.js'
+    "~/plugins/store.js",
+    "~/plugins/vuelidate.js",
+    "~/plugins/lazysizes.client.js",
+    "~/plugins/vue-media.client.js",
+    "~/plugins/vue-localstorage.client.js",
+    "~/plugins/vue-smooth-scroll.client.js",
+    "~/plugins/splitting.client.js",
+    "~/plugins/hotjar.client.js"
   ],
   // layoutTransition: {
   //   name: 'intro',
   //   mode: 'in-out'
   // },
   pageTransition: {
-    name: 'intro',
-    mode: 'out-in'
+    name: "intro",
+    mode: "out-in"
   }
-}
+};
