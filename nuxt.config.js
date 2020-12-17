@@ -4,7 +4,6 @@ import open from "open";
 let routes = [];
 
 export default {
-  mode: "universal",
   target: "static",
   /*
    ** Headers
@@ -184,8 +183,7 @@ export default {
     },
     postcss: {
       plugins: {
-        "postcss-responsive-type": {},
-        "postcss-nested": {}
+        "postcss-responsive-type": {}
       }
     },
     extend(config, { isDev, isClient }) {

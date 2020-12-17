@@ -41,8 +41,8 @@ export default {
     return { aboutPage: acf };
   },
   components: {
-    LazyImage
-  }
+    LazyImage,
+  },
 };
 </script>
 
@@ -52,7 +52,7 @@ export default {
   min-height: 100vh;
   min-height: calc(100vh - 178px);
   background-color: #91754d;
-  z-index: -2;
+  z-index: 1;
 
   a {
     color: white;
