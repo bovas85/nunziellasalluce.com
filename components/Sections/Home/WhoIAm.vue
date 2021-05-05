@@ -97,7 +97,7 @@ section {
         }
 
         @include media(md) {
-          height: 550px;
+          height: 650px;
         }
 
         @include media(xl) {
