@@ -53,7 +53,7 @@
     "eslint": "^7.15.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-vue": "^7.3.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "node-fetch": "^2.6.1",
     "node-sass": "^5.0.0",
     "nuxt-purgecss": "^1.0.0",
