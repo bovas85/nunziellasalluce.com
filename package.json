@@ -37,7 +37,7 @@
     "nuxt": "^2.15.5",
     "scrollama": "1.4.4",
     "splitting": "^1.0.6",
-    "swiper": "3.4.2",
+    "swiper": "6.5.1",
     "vue-awesome-swiper": "2.6.7",
     "vue-intersect": "^1.1.6",
     "vue-localstorage": "^0.6.2",
@@ -70,7 +70,7 @@
     "sass-loader": "10.2.0"
   },
   "resolutions": {
-    "swiper": "3.4.2"
+    "swiper": "6.5.1"
   },
   "volta": {
     "node": "14.16.1"
