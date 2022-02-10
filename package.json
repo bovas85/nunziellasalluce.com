@@ -57,7 +57,7 @@
     "eslint-plugin-vue": "^7.9.0",
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.1",
-    "node-sass": "^6.0.0",
+    "node-sass": "^7.0.0",
     "nuxt-purgecss": "^1.0.0",
     "nuxt-start": "^2.15.5",
     "open": "^8.0.8",
