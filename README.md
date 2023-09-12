@@ -1,6 +1,6 @@
 # Nunziella Salluce Design
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0f5655f164224918b64acca3bcec15a7)](https://app.codacy.com/app/bovas85/nunziellasalluce.com?utm_source=github.com&utm_medium=referral&utm_content=bovas85/nunziellasalluce.com&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1860f5a126ed43e6b4a24b61bd5fa37e)](https://app.codacy.com/gh/bovas85/nunziellasalluce.com/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a709b57f-44b5-4522-9309-2bdc2978acfe/deploy-status)](https://app.netlify.com/sites/nunziellasalluce/deploys)
 
 > Nuxt + WordPress REST API for a portfolio site
