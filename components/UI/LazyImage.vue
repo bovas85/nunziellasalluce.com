@@ -1,8 +1,7 @@
 <template>
   <div class="video" v-if="videoMobile && videoDesktop">
-    <!-- desktop video -->
     <video
-      :class="lazyload ? 'lazyload' : ''"
+      :class="lazyload ? 'lazyload hidden-mobile' : 'hidden-mobile'"
       autoplay
       muted
       loop
@@ -14,7 +13,9 @@
     </video>
     <!-- mobile video -->
     <video
-      :class="lazyload ? 'lazyload' : ''"
+      :class="
+        lazyload ? 'lazyload is-hidden-mobile-large' : 'is-hidden-mobile-large'
+      "
       autoplay
       muted
       loop
@@ -363,6 +364,17 @@ export default {
     margin-bottom: $gap;
     flex-basis: 100%;
     width: 100%;
+
+    &.hidden-mobile {
+      @media (max-width: $mobile) {
+        display: none;
+      }
+    }
+    &.is-hidden-desktop {
+      @media (min-width: $tablet) {
+        display: none;
+      }
+    }
   }
 }
 
