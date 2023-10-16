@@ -91,7 +91,7 @@ export default {
       this.project.seo.twitter.sizes != null
     ) {
       return {
-        title: this.capitalizeFirstLetter(this.projectTitle.replace(/-/g, " ")),
+        title: this.capitalizeEveryWord(this.projectTitle.replace(/-/g, " ")),
         meta: [
           {
             hid: "description",
@@ -121,7 +121,7 @@ export default {
           {
             hid: "twitter:title",
             name: "twitter:title",
-            content: this.capitalizeFirstLetter(
+            content: this.capitalizeEveryWord(
               this.projectTitle.replace(/-/g, " ")
             )
           },
@@ -138,7 +138,7 @@ export default {
           {
             hid: "og:title",
             property: "og:title",
-            content: this.capitalizeFirstLetter(
+            content: this.capitalizeEveryWord(
               this.projectTitle.replace(/-/g, " ")
             )
           },

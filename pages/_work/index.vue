@@ -90,11 +90,11 @@ export default {
       this.project &&
       this.projectTitle != null &&
       this.project.seo != null &&
-      this.project.seo.facebook.sizes != null &&
-      this.project.seo.twitter.sizes != null
+      this.project.seo?.facebook.sizes != null &&
+      this.project.seo?.twitter.sizes != null
     ) {
       return {
-        title: this.capitalizeFirstLetter(this.projectTitle.replace(/-/g, " ")),
+        title: this.capitalizeEveryWord(this.projectTitle.replace(/-/g, " ")),
         meta: [
           {
             hid: "description",
@@ -124,7 +124,7 @@ export default {
           {
             hid: "twitter:title",
             name: "twitter:title",
-            content: this.capitalizeFirstLetter(
+            content: this.capitalizeEveryWord(
               this.projectTitle.replace(/-/g, " ")
             )
           },
@@ -141,7 +141,7 @@ export default {
           {
             hid: "og:title",
             property: "og:title",
-            content: this.capitalizeFirstLetter(
+            content: this.capitalizeEveryWord(
               this.projectTitle.replace(/-/g, " ")
             )
           },
@@ -154,6 +154,11 @@ export default {
           {
             hid: "og:image",
             property: "og:image",
+            content: this.project.seo.facebook.sizes.large
+          },
+          {
+            hid: "og:image:url",
+            property: "og:image:url",
             content: this.project.seo.facebook.sizes.large
           }
         ]

@@ -36,13 +36,18 @@ import LazyImage from "@/components/UI/LazyImage";
 import Config from "~/assets/config";
 
 export default {
+  head() {
+    return {
+      title: "About Me"
+    };
+  },
   async asyncData({ $http }) {
     const { acf } = await $http.$get(Config.wpDomain + Config.api.aboutPage);
     return { aboutPage: acf };
   },
   components: {
-    LazyImage,
-  },
+    LazyImage
+  }
 };
 </script>
 
