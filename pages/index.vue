@@ -45,12 +45,10 @@ export default {
       const home = await app.$http.$get(Config.wpDomain + Config.api.homePage);
       store.commit("setHomepage", home);
     }
-    if (!store.state.projects.length) {
-      const projects = await app.$http.$get(
-        Config.wpDomain + Config.api.projects
-      );
-      store.commit("setProjects", projects);
-    }
+    const projects = await app.$http.$get(
+      Config.wpDomain + Config.api.projects
+    );
+    store.commit("setProjects", projects);
   },
   mixins: [Defer()],
   data() {
