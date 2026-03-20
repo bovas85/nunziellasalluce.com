@@ -1,7 +1,7 @@
 <template>
   <section class="digital-infographics step" v-if="project != null && project.infographics != null">
     <div class="container is-flex">
-      <!-- title in EmailNewsletter -->
+      <h1 class="title step">{{infographics.title}}</h1>
       <LazyImage
         v-if="infographics.image_top != null && infographics.image_top.url"
         class="image image--top"
