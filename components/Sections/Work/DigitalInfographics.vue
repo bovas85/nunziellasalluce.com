@@ -20,14 +20,14 @@
       />
       <LazyImage
           v-if="content.video_top != null"
-          class="image"
+          class="image image--top2"
           :hover="false"
           :videoMobile="content.video_top"
           :videoDesktop="content.video_top"
       />
       <LazyImage
           v-if="content.video_bottom != null"
-          class="image"
+          class="image image--bottom2"
           :hover="false"
           :videoMobile="content.video_bottom"
           :videoDesktop="content.video_bottom"
@@ -79,6 +79,14 @@
       &--bottom {
         align-self: flex-start;
         transition-delay: 0.8s;
+      }
+      &--top2 {
+        align-self: flex-end;
+        transition-delay: 1.2s;
+      }
+      &--bottom2 {
+        align-self: flex-start;
+        transition-delay: 1.6s;
       }
     }
   }
