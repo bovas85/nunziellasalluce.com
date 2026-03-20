@@ -19,14 +19,14 @@
         :imageMobile="infographics.image_bottom"
       />
       <LazyImage
-          v-if="content.video_top != null"
+          v-if="infographics.video_top != null"
           class="image image--top2"
           :hover="false"
           :videoMobile="content.video_top"
           :videoDesktop="content.video_top"
       />
       <LazyImage
-          v-if="content.video_bottom != null"
+          v-if="infographics.video_bottom != null"
           class="image image--bottom2"
           :hover="false"
           :videoMobile="content.video_bottom"
