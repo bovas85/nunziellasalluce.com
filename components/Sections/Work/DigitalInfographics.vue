@@ -22,15 +22,15 @@
           v-if="infographics.video_top != null"
           class="image image--top2"
           :hover="false"
-          :videoMobile="content.video_top"
-          :videoDesktop="content.video_top"
+          :videoMobile="infographics.video_top"
+          :videoDesktop="infographics.video_top"
       />
       <LazyImage
           v-if="infographics.video_bottom != null"
           class="image image--bottom2"
           :hover="false"
-          :videoMobile="content.video_bottom"
-          :videoDesktop="content.video_bottom"
+          :videoMobile="infographics.video_bottom"
+          :videoDesktop="infographics.video_bottom"
       />
     </div>
   </section>
