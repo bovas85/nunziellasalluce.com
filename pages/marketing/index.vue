@@ -14,13 +14,13 @@
       :animateEmail="animateEmail"
     />
 
+    <RichMedia v-if="defer(5)" :project="project" :animateRich="animateRich" />
+
     <DigitalInfographics
       v-if="defer(4)"
       :project="project"
       :animateDigital="animateDigital"
     />
-
-    <RichMedia v-if="defer(5)" :project="project" :animateRich="animateRich" />
 
     <div
       class="work-navigation step"
