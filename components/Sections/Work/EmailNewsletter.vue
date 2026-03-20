@@ -19,7 +19,7 @@
         :imageMobile="newsletter.image_left"
       />
       <!-- title for next section is here to respect grid -->
-      <h1 class="title title--bottom" :class="{'animated': animateEmail}">Digital Infographics</h1>
+      <h1 class="title title--bottom" :class="{'animated': animateEmail}">Paid Ads</h1>
       <!-- <h1 class="title title--bottom" :class="{'animated': animateEmail}">{{projects.infographics.title}}</h1> -->
     </div>
   </section>
