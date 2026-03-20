@@ -18,6 +18,20 @@
         :image="infographics.image_bottom"
         :imageMobile="infographics.image_bottom"
       />
+      <LazyImage
+          v-if="content.video_top != null"
+          class="image"
+          :hover="false"
+          :videoMobile="content.video_top"
+          :videoDesktop="content.video_top"
+      />
+      <LazyImage
+          v-if="content.video_bottom != null"
+          class="image"
+          :hover="false"
+          :videoMobile="content.video_bottom"
+          :videoDesktop="content.video_bottom"
+      />
     </div>
   </section>
 </template>
