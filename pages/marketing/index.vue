@@ -14,10 +14,10 @@
       :animateEmail="animateEmail"
     />
 
-    <RichMedia v-if="defer(5)" :project="project" :animateRich="animateRich" />
+    <RichMedia v-if="defer(4)" :project="project" :animateRich="animateRich" />
 
     <DigitalInfographics
-      v-if="defer(4)"
+      v-if="defer(5)"
       :project="project"
       :animateDigital="animateDigital"
     />
