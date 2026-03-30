@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   appTitle: 'Nunziella Salluce Design',
   appTitleShort: 'Nunziella Salluce',
   appDescription: 'Portfolio Website for Nunziella Salluce',
