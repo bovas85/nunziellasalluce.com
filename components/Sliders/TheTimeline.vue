@@ -1,6 +1,6 @@
 <template>
   <div class="carousel" v-if="data != null && data.length">
-    <div ref="Timeline" v-swiper:blogSwiper="swiperOptions">
+    <div ref="Timeline" v-swiper:blogSwiper="swiperOptions" class="swiper-container">
       <div class="app-carousel swiper-wrapper">
         <div class="swiper-slide" v-for="(item, index) in data" :key="index">
           <span class="circle" :style="{background: item.background}">
@@ -25,7 +25,8 @@
   import Vue from "vue";
   import LazyImage from "@/components/UI/LazyImage";
   import IconArrow from "@/components/Icons/IconArrow";
-  import VueAwesomeSwiper from "vue-awesome-swiper/ssr";
+  import VueAwesomeSwiper from "vue-awesome-swiper";
+  import "swiper/swiper-bundle.css";
   Vue.use(VueAwesomeSwiper);
 
   export default {
@@ -61,10 +62,18 @@
           loop: false,
           grabCursor: true,
           threshold: 60,
-          paginationHide: true,
-          pagination: ".swiper-pagination",
-          onSlideChangeStart: swiper => {
-            this.$root.$emit("swiped", swiper.activeIndex);
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true
+          },
+          on: {
+            slideChange: () => {
+              try {
+                if (this.$refs.Timeline && this.$refs.Timeline.$swiper) {
+                  this.$root.$emit("swiped", this.$refs.Timeline.$swiper.activeIndex);
+                }
+              } catch(e){}
+            }
           }
         }
       };
@@ -75,7 +84,7 @@
         event => {
           event.preventDefault();
           try {
-            this.$refs.Timeline.swiper.slidePrev();
+            this.$refs.Timeline.$swiper.slidePrev();
             this.checkIndex();
           } catch (e) {}
         },
@@ -87,7 +96,7 @@
         event => {
           event.preventDefault();
           try {
-            this.$refs.Timeline.swiper.slideNext();
+            this.$refs.Timeline.$swiper.slideNext();
             this.checkIndex();
           } catch (e) {}
         },
@@ -120,7 +129,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/css/swiper.css';
   .swiper-container {
     height: auto !important;
     min-height: 100%;
