@@ -161,7 +161,6 @@
         this.sendError = false
         this.error = false
         if (this.$v.form.yourName.$invalid) {
-          // console.log('email not valid')
           this.form.yourEmail = ''
           setTimeout(() => {
             // this.error = false
@@ -214,13 +213,10 @@
           return false
         } else if (this.sending) {
           if (this.$v.form.yourEmail.$invalid && this.emailClicked) {
-            // console.log('invalid email')
             return true
           } else if (this.$v.form.yourName.$invalid && this.nameClicked) {
-            // console.log('invalid name')
             return true
           } else if (!this.form.youAgree) {
-            // console.log('invalid agree')
             return true
           } else return false
         }
