@@ -33,6 +33,7 @@
 
 <script>
 import debounce from "lodash/debounce";
+import scrollama from "scrollama";
 import HeroSection from "@/components/Sections/Home/HeroSection";
 import Config from "~/assets/config";
 import get from "lodash/get";

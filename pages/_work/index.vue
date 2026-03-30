@@ -62,6 +62,7 @@
 <script>
 import debounce from "lodash/debounce";
 import get from "lodash/get";
+import scrollama from "scrollama";
 import Config from "~/assets/config";
 import WorkHero from "@/components/Sections/Work/WorkHero";
 import LazyImage from "@/components/UI/LazyImage";
