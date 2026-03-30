@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import scrollama from "scrollama";
 import debounce from "lodash/debounce";
 import Config from "~/assets/config";
 import WorkHero from "@/components/Sections/Work/WorkHero";
@@ -279,8 +280,7 @@ export default {
   },
   computed: {
     scrollama() {
-      if (process.browser) {
-        let scrollama = require("scrollama");
+      if (process.client) {
         return scrollama;
       }
     },

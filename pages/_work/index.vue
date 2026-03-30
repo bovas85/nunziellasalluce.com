@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import scrollama from "scrollama";
 import debounce from "lodash/debounce";
 import get from "lodash/get";
 import Config from "~/assets/config";
@@ -281,8 +282,7 @@ export default {
   },
   computed: {
     scrollama() {
-      if (process.browser) {
-        let scrollama = require("scrollama");
+      if (process.client) {
         return scrollama;
       }
     },

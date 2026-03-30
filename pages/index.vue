@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import scrollama from "scrollama";
 import debounce from "lodash/debounce";
 import HeroSection from "@/components/Sections/Home/HeroSection";
 import Config from "~/assets/config";
@@ -199,8 +200,7 @@ export default {
   },
   computed: {
     scrollama() {
-      if (process.browser) {
-        let scrollama = require("scrollama");
+      if (process.client) {
         return scrollama;
       }
     },
