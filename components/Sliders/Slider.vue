@@ -1,6 +1,6 @@
 <template>
   <div class="carousel" v-if="data != null && data.length > 0">
-    <div ref="Swiper" v-swiper:appSwiper="swiperOptions">
+    <div ref="Swiper" v-swiper:appSwiper="swiperOptions" class="swiper-container">
       <div class="app-carousel swiper-wrapper">
         <div
           class="swiper-slide"
@@ -27,7 +27,11 @@
 <script>
   import Vue from "vue";
   import LazyImage from "@/components/UI/LazyImage";
-  import VueAwesomeSwiper from "vue-awesome-swiper/ssr";
+  import VueAwesomeSwiper from "vue-awesome-swiper";
+  import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper/core';
+  import "swiper/swiper-bundle.css";
+
+  SwiperCore.use([Navigation, Pagination, Autoplay]);
   Vue.use(VueAwesomeSwiper);
 
   export default {
@@ -69,21 +73,24 @@
             }
           },
           autoplay: {
-            delay: 3000
+            delay: 3000,
+            disableOnInteraction: true
           },
-          disableOnInteraction: true,
           loop: false,
-          paginationHide: false,
-          pagination: ".swiper-pagination"
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true
+          }
         }
       };
     },
     mounted () {
       if (process.client) {
         setTimeout(() => {
-          document
-            .querySelector(".swiper-pagination-bullet:first-child")
-            .classList.add("swiper-pagination-bullet-active");
+          let firstBullet = document.querySelector(".swiper-pagination-bullet:first-child");
+          if (firstBullet) {
+            firstBullet.classList.add("swiper-pagination-bullet-active");
+          }
         }, 1000);
       }
     }
@@ -91,7 +98,6 @@
 </script>
 
 <style lang='scss'>
-  @import '@/assets/css/swiper.css';
 </style>
 
 <style lang="scss" scoped>

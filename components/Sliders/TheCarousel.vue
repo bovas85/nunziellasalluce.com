@@ -5,6 +5,7 @@
       @mouseleave="hovering = false"
       ref="Carousel"
       v-swiper:blogSwiper="swiperOption"
+      class="swiper-container"
     >
       <div class="app-carousel swiper-wrapper">
         <div
@@ -47,7 +48,11 @@
 <script>
 import LazyImage from "@/components/UI/LazyImage";
 import Vue from "vue";
-import VueAwesomeSwiper from "vue-awesome-swiper/ssr";
+import VueAwesomeSwiper from "vue-awesome-swiper";
+import SwiperCore, { Navigation, Pagination } from 'swiper/core';
+import "swiper/swiper-bundle.css";
+
+SwiperCore.use([Navigation, Pagination]);
 Vue.use(VueAwesomeSwiper);
 
 export default {
@@ -97,43 +102,21 @@ export default {
         },
         autoplay: false,
         loop: false,
-        paginationHide: false,
-        pagination: ".swiper-pagination"
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.next',
+          prevEl: '.prev',
+        }
       }
     };
-  },
-  mounted() {
-    let prev = document.querySelector(".prev");
-    prev &&
-      prev.addEventListener(
-        "click",
-        event => {
-          event.preventDefault();
-          try {
-            this.$refs.Carousel.swiper.slidePrev();
-          } catch (e) {}
-        },
-        false
-      );
-
-    let next = document.querySelector(".next");
-    next &&
-      next.addEventListener(
-        "click",
-        event => {
-          event.preventDefault();
-          try {
-            this.$refs.Carousel.swiper.slideNext();
-          } catch (e) {}
-        },
-        false
-      );
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/swiper.css";
 .swiper-container {
   height: auto !important;
   background: white;
