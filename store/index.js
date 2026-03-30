@@ -1,4 +1,4 @@
-import Config from '~/assets/config.js'
+import Config from '../assets/config.js'
 
 export const strict = false
 

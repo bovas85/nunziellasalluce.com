@@ -4,6 +4,7 @@
   "description": "Portfolio site for Nunziella Salluce",
   "author": "Alessandro Giordo - <16958684+bovas85@users.noreply.github.com>",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nuxt",
     "build": "cross-env NODE_ENV=production nuxt build",
@@ -13,6 +14,7 @@
     "generate": "nuxt build && nuxt generate",
     "staging": "cross-env NODE_ENV=development now --public",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "test": "node store/actions.test.js",
     "precommit": "npm run lint"
   },
   "browserslist": [
