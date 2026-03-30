@@ -39,8 +39,8 @@
         </div>
       </div>
       <!-- slider arrows -->
-      <div class="prev">Prev</div>
-      <div class="next">Next</div>
+      <div class="prev" @click="slidePrev">Prev</div>
+      <div class="next" @click="slideNext">Next</div>
     </div>
   </div>
 </template>
@@ -106,32 +106,21 @@ export default {
       }
     };
   },
-  mounted() {
-    let prev = document.querySelector(".prev");
-    prev &&
-      prev.addEventListener(
-        "click",
-        event => {
-          event.preventDefault();
-          try {
-            this.$refs.Carousel.$swiper.slidePrev();
-          } catch (e) {}
-        },
-        false
-      );
-
-    let next = document.querySelector(".next");
-    next &&
-      next.addEventListener(
-        "click",
-        event => {
-          event.preventDefault();
-          try {
-            this.$refs.Carousel.$swiper.slideNext();
-          } catch (e) {}
-        },
-        false
-      );
+  methods: {
+    slidePrev() {
+      try {
+        if (this.$refs.Carousel && this.$refs.Carousel.$swiper) {
+          this.$refs.Carousel.$swiper.slidePrev();
+        }
+      } catch (e) {}
+    },
+    slideNext() {
+      try {
+        if (this.$refs.Carousel && this.$refs.Carousel.$swiper) {
+          this.$refs.Carousel.$swiper.slideNext();
+        }
+      } catch (e) {}
+    }
   }
 };
 </script>

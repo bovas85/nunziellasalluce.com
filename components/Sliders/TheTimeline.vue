@@ -12,10 +12,10 @@
     </div>
 
     <!-- slider arrows -->
-    <div class="prev" :class="{'is-disabled': sliderPosition === 0}">
+    <div class="prev" :class="{'is-disabled': sliderPosition === 0}" @click="slidePrev">
       <icon-arrow direction="left" :fill="'black'" name="arrow-left" :width="30" :height="40"/>
     </div>
-    <div class="next" :class="{'is-disabled': sliderPosition === data.length - responsiveNumber}">
+    <div class="next" :class="{'is-disabled': sliderPosition === data.length - responsiveNumber}" @click="slideNext">
       <icon-arrow direction="right" :fill="'black'" name="arrow-right" :width="30" :height="40"/>
     </div>
   </div>
@@ -79,30 +79,6 @@
       };
     },
     mounted () {
-      document.querySelector(".prev").addEventListener(
-        "click",
-        event => {
-          event.preventDefault();
-          try {
-            this.$refs.Timeline.$swiper.slidePrev();
-            this.checkIndex();
-          } catch (e) {}
-        },
-        false
-      );
-
-      document.querySelector(".next").addEventListener(
-        "click",
-        event => {
-          event.preventDefault();
-          try {
-            this.$refs.Timeline.$swiper.slideNext();
-            this.checkIndex();
-          } catch (e) {}
-        },
-        false
-      );
-
       this.$root.$on("swiped", position => {
         this.sliderPosition = position;
       });
@@ -113,7 +89,23 @@
     },
     methods: {
       checkIndex (index) {
-        return this.doubles.indexOf(index) !== -1;
+        return this.doubles ? this.doubles.indexOf(index) !== -1 : false;
+      },
+      slidePrev() {
+        try {
+          if (this.$refs.Timeline && this.$refs.Timeline.$swiper) {
+            this.$refs.Timeline.$swiper.slidePrev();
+            this.checkIndex();
+          }
+        } catch (e) {}
+      },
+      slideNext() {
+        try {
+          if (this.$refs.Timeline && this.$refs.Timeline.$swiper) {
+            this.$refs.Timeline.$swiper.slideNext();
+            this.checkIndex();
+          }
+        } catch (e) {}
       }
     },
     computed: {
