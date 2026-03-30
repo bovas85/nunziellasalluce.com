@@ -37,7 +37,7 @@
     "nuxt": "^2.15.5",
     "scrollama": "1.4.4",
     "splitting": "^1.0.6",
-    "swiper": "^6.8.4",
+    "swiper": "^12.1.2",
     "vue-awesome-swiper": "^4.1.1",
     "vue-intersect": "^1.1.6",
     "vue-localstorage": "^0.6.2",
