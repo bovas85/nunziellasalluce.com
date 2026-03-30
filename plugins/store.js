@@ -12,7 +12,14 @@ Vue.mixin({
       const words = string.split(" ");
 
       for (let i = 0; i < words.length; i++) {
-        words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+        const word = words[i];
+        if (word.length > 0) {
+          const firstChar = word[0];
+          const upperFirstChar = firstChar.toUpperCase();
+          if (firstChar !== upperFirstChar) {
+            words[i] = upperFirstChar + word.substr(1);
+          }
+        }
       }
 
       return words.join(" ");
