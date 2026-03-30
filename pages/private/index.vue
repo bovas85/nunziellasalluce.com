@@ -182,7 +182,10 @@ export default {
       return;
     } else {
       const isValid = await this.$http.$get(
-        `${Config.wpDomain}/validate/password/?pass=${pass}`
+        `${Config.wpDomain}/validate/password/`,
+        {
+          searchParams: { pass }
+        }
       );
       if (!isValid) {
         this.$router.replace("/");
