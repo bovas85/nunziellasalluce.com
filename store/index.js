@@ -1,8 +1,8 @@
-import Config from '~/assets/config.js'
+const Config = require('../assets/config.js')
 
-export const strict = false
+exports.strict = false
 
-export const state = () => ({
+exports.state = () => ({
   homePage: [],
   projects: [],
   currentProject: null,
@@ -15,7 +15,7 @@ export const state = () => ({
   menuScrolledDone: false
 })
 
-export const mutations = {
+exports.mutations = {
   resetMenus (state) {
     state.modalOpen = false
     state.navOpen = false
@@ -67,7 +67,7 @@ export const mutations = {
     state.connection = type
   }
 }
-export const actions = {
+exports.actions = {
   // we need to set timeouts to both states for the delay to kick in
   async showMenu ({ commit }) {
     await setTimeout(() => {
