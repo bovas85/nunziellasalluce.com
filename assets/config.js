@@ -15,7 +15,7 @@ export default {
     contactPage: '/wp/v2/pages/235/',
     aboutPage: '/wp/v2/pages/310/',
     projects: '/wp/v2/casestudies',
-    caseStudy: '/wp/v2/casestudies?slug=',
+    caseStudy: '/wp/v2/casestudies',
     postFormContact: '/contact-form-7/v1/contact-forms/78/feedback'
   }
 }

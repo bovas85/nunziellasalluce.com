@@ -68,13 +68,11 @@
 <script>
 import scrollama from "scrollama";
 import debounce from "lodash/debounce";
-import scrollama from "scrollama";
 import Config from "~/assets/config";
 import WorkHero from "@/components/Sections/Work/WorkHero";
 import LazyImage from "@/components/UI/LazyImage";
 import get from "lodash/get";
 import Defer from "@/mixins/Defer";
-import scrollama from "scrollama";
 let scroller, steps;
 
 export default {
@@ -185,7 +183,10 @@ export default {
       return;
     } else {
       const isValid = await this.$http.$get(
-        `${Config.wpDomain}/validate/password/?pass=${pass}`
+        `${Config.wpDomain}/validate/password/`,
+        {
+          searchParams: { pass }
+        }
       );
       if (!isValid) {
         this.$router.replace("/");
