@@ -1,5 +1,5 @@
-import { actions } from './index.js';
-import { assertEquals } from '../test-utils.js';
+const { actions } = require('./index.js');
+const { assertEquals } = require('../test-utils.js');
 
 // Mocking setTimeout
 const originalSetTimeout = global.setTimeout;

@@ -4,7 +4,6 @@
   "description": "Portfolio site for Nunziella Salluce",
   "author": "Alessandro Giordo - <16958684+bovas85@users.noreply.github.com>",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nuxt",
     "build": "cross-env NODE_ENV=production nuxt build",

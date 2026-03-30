@@ -1,11 +1,11 @@
-export const assertEquals = (actual, expected, message = '') => {
+exports.assertEquals = (actual, expected, message = '') => {
   if (JSON.stringify(actual) !== JSON.stringify(expected)) {
     throw new Error(`Assertion Failed: ${message}\nExpected: ${JSON.stringify(expected)}\nActual: ${JSON.stringify(actual)}`);
   }
   console.log(`PASS: ${message}`);
 };
 
-export const assertAsync = async (fn, message = '') => {
+exports.assertAsync = async (fn, message = '') => {
   try {
     await fn();
     console.log(`PASS: ${message}`);
@@ -14,7 +14,7 @@ export const assertAsync = async (fn, message = '') => {
   }
 };
 
-export const assertThrows = async (fn, message = '') => {
+exports.assertThrows = async (fn, message = '') => {
   try {
     await fn();
   } catch (error) {
