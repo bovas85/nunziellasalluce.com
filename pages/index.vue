@@ -211,8 +211,14 @@ export default {
       if (!this.projects.length) return false;
       const order = get(this.acf, "case_studies.order", []);
       if (order) {
-        const sorted = this.projects?.sort((a, b) => {
-          return order.indexOf(a.id) - order.indexOf(b.id);
+        const orderMap = new Map();
+        order.forEach((id, index) => {
+          orderMap.set(id, index);
+        });
+        const sorted = [...this.projects]?.sort((a, b) => {
+          const indexA = orderMap.has(a.id) ? orderMap.get(a.id) : -1;
+          const indexB = orderMap.has(b.id) ? orderMap.get(b.id) : -1;
+          return indexA - indexB;
         });
         // remove drafts
         if (process.env.NODE_ENV !== "development") {
