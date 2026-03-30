@@ -181,7 +181,6 @@ form {
     cursor: pointer;
     color: #fff;
     width: 60px;
-    //   background-color: #66C0BE;
     @media (min-width: $tablet) {
       width: 60px;
     }
@@ -205,7 +204,6 @@ form {
     line-height: 23px;
     background-color: #ffffff;
     box-shadow: 0 0 1px 1px transparent;
-    // border: 1px solid #64CCC9;
     padding: 0 60px 0 12px;
     margin-right: -60px; // button margin
     @media (min-width: $tablet) {
@@ -219,9 +217,6 @@ form {
       outline: 0;
       background: #fff;
     }
-    // &::-webkit-input-placeholder {
-    //   color: #646362;
-    // }
     &:-moz-placeholder {
       color: #646362;
     }
@@ -344,23 +339,6 @@ form {
       width: 270px;
     }
   }
-  input {
-    background-color: #252d34;
-    border: none;
-    padding: 5px 10px;
-    padding-right: 65px;
-    width: 100%;
-    height: 50px;
-    .button {
-      height: 50px;
-    }
-    @media (min-width: $desktop) {
-      height: 40px;
-      .button {
-        height: 40px;
-      }
-    }
-  }
   .button {
     position: absolute;
     right: 10px;
@@ -375,8 +353,6 @@ form {
     background-color: #252d34;
     border: none;
     padding: 5px 10px;
-    padding-right: 10px;
-    padding-right: 65px;
     width: 100%;
     height: 50px;
     color: #ffffff !important;
@@ -385,10 +361,6 @@ form {
     border: unset;
     font-size: 14px;
     padding-right: 70px;
-    // &:-webkit-autofill {
-    //   color: white !important;
-    //   box-shadow: 0 0 0px 1000px #00172c inset;
-    // }
     @media (min-width: $desktop) {
       background-color: #252d34;
       height: 40px;
