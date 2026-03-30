@@ -232,7 +232,7 @@ export default {
 
       if (step && this.defer(6)) {
         if (window.innerWidth > 577) {
-          scroller = this.scrollama();
+          scroller = scrollama();
           steps = null;
           steps = scroller
             .setup({
@@ -246,7 +246,7 @@ export default {
           steps.resize();
           steps.enable();
         } else {
-          scroller = this.scrollama();
+          scroller = scrollama();
           steps = null;
           steps = scroller
             .setup({
@@ -281,11 +281,6 @@ export default {
     }, 150)
   },
   computed: {
-    scrollama() {
-      if (process.client) {
-        return scrollama;
-      }
-    },
     projects() {
       if (!this.$store.state.projects.length) return false;
       const filtered = this.$store.state.projects.filter(project => {
