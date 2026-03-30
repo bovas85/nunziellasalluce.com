@@ -75,7 +75,13 @@
     "follow-redirects": "^1.14.8",
     "loader-utils": "1.4.2",
     "minimist": "^1.2.6",
-    "path-parse": "^1.0.7"
+    "path-parse": "^1.0.7",
+    "serialize-javascript": "^6.0.2",
+    "@babel/traverse": "^7.23.2",
+    "json-schema": "^0.4.0",
+    "form-data": "^4.0.0",
+    "semver": "^7.5.3",
+    "parse-url": "^8.1.0"
   },
   "volta": {
     "node": "16.20.2"
