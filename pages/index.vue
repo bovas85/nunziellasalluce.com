@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import scrollama from "scrollama";
 import debounce from "lodash/debounce";
 import scrollama from "scrollama";
 import HeroSection from "@/components/Sections/Home/HeroSection";

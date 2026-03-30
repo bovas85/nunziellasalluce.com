@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import scrollama from "scrollama";
 import debounce from "lodash/debounce";
 import scrollama from "scrollama";
 import Config from "~/assets/config";
