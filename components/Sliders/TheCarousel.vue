@@ -39,8 +39,8 @@
         </div>
       </div>
       <!-- slider arrows -->
-      <div class="prev" @click="slidePrev">Prev</div>
-      <div class="next" @click="slideNext">Next</div>
+      <div class="prev">Prev</div>
+      <div class="next">Next</div>
     </div>
   </div>
 </template>
@@ -49,7 +49,10 @@
 import LazyImage from "@/components/UI/LazyImage";
 import Vue from "vue";
 import VueAwesomeSwiper from "vue-awesome-swiper";
+import SwiperCore, { Navigation, Pagination } from 'swiper/core';
 import "swiper/swiper-bundle.css";
+
+SwiperCore.use([Navigation, Pagination]);
 Vue.use(VueAwesomeSwiper);
 
 export default {
@@ -102,25 +105,13 @@ export default {
         pagination: {
           el: ".swiper-pagination",
           clickable: true
+        },
+        navigation: {
+          nextEl: '.next',
+          prevEl: '.prev',
         }
       }
     };
-  },
-  methods: {
-    slidePrev() {
-      try {
-        if (this.$refs.Carousel && this.$refs.Carousel.$swiper) {
-          this.$refs.Carousel.$swiper.slidePrev();
-        }
-      } catch (e) {}
-    },
-    slideNext() {
-      try {
-        if (this.$refs.Carousel && this.$refs.Carousel.$swiper) {
-          this.$refs.Carousel.$swiper.slideNext();
-        }
-      } catch (e) {}
-    }
   }
 };
 </script>

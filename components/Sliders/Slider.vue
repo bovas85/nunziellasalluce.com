@@ -28,7 +28,10 @@
   import Vue from "vue";
   import LazyImage from "@/components/UI/LazyImage";
   import VueAwesomeSwiper from "vue-awesome-swiper";
+  import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper/core';
   import "swiper/swiper-bundle.css";
+
+  SwiperCore.use([Navigation, Pagination, Autoplay]);
   Vue.use(VueAwesomeSwiper);
 
   export default {

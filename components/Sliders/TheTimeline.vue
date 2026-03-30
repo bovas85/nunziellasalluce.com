@@ -12,10 +12,10 @@
     </div>
 
     <!-- slider arrows -->
-    <div class="prev" :class="{'is-disabled': sliderPosition === 0}" @click="slidePrev">
+    <div class="prev" :class="{'is-disabled': sliderPosition === 0}">
       <icon-arrow direction="left" :fill="'black'" name="arrow-left" :width="30" :height="40"/>
     </div>
-    <div class="next" :class="{'is-disabled': sliderPosition === data.length - responsiveNumber}" @click="slideNext">
+    <div class="next" :class="{'is-disabled': sliderPosition === data.length - responsiveNumber}">
       <icon-arrow direction="right" :fill="'black'" name="arrow-right" :width="30" :height="40"/>
     </div>
   </div>
@@ -26,7 +26,10 @@
   import LazyImage from "@/components/UI/LazyImage";
   import IconArrow from "@/components/Icons/IconArrow";
   import VueAwesomeSwiper from "vue-awesome-swiper";
+  import SwiperCore, { Navigation, Pagination } from 'swiper/core';
   import "swiper/swiper-bundle.css";
+
+  SwiperCore.use([Navigation, Pagination]);
   Vue.use(VueAwesomeSwiper);
 
   export default {
@@ -66,6 +69,10 @@
             el: ".swiper-pagination",
             clickable: true
           },
+          navigation: {
+            nextEl: '.next',
+            prevEl: '.prev',
+          },
           on: {
             slideChange: () => {
               try {
@@ -90,22 +97,6 @@
     methods: {
       checkIndex (index) {
         return this.doubles ? this.doubles.indexOf(index) !== -1 : false;
-      },
-      slidePrev() {
-        try {
-          if (this.$refs.Timeline && this.$refs.Timeline.$swiper) {
-            this.$refs.Timeline.$swiper.slidePrev();
-            this.checkIndex();
-          }
-        } catch (e) {}
-      },
-      slideNext() {
-        try {
-          if (this.$refs.Timeline && this.$refs.Timeline.$swiper) {
-            this.$refs.Timeline.$swiper.slideNext();
-            this.checkIndex();
-          }
-        } catch (e) {}
       }
     },
     computed: {
