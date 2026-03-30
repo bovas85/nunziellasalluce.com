@@ -63,12 +63,10 @@
 import scrollama from "scrollama";
 import debounce from "lodash/debounce";
 import get from "lodash/get";
-import scrollama from "scrollama";
 import Config from "~/assets/config";
 import WorkHero from "@/components/Sections/Work/WorkHero";
 import LazyImage from "@/components/UI/LazyImage";
 import Defer from "@/mixins/Defer";
-import scrollama from "scrollama";
 let scroller, steps;
 
 export default {
