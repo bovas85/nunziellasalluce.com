@@ -33,6 +33,7 @@
 
 <script>
 import debounce from "lodash/debounce";
+import scrollama from "scrollama";
 import HeroSection from "@/components/Sections/Home/HeroSection";
 import Config from "~/assets/config";
 import get from "lodash/get";
@@ -131,7 +132,7 @@ export default {
 
         if (step && this.defer(5)) {
           if (window.innerWidth > 577) {
-            scroller = this.scrollama();
+            scroller = scrollama();
             steps = null;
             steps = scroller
               .setup({
@@ -145,7 +146,7 @@ export default {
             steps.resize();
             steps.enable();
           } else {
-            scroller = this.scrollama();
+            scroller = scrollama();
             steps = null;
             steps = scroller
               .setup({
@@ -198,12 +199,6 @@ export default {
     window.removeEventListener("resize", this.scrollamaResize, false);
   },
   computed: {
-    scrollama() {
-      if (process.browser) {
-        let scrollama = require("scrollama");
-        return scrollama;
-      }
-    },
     homePage() {
       if (this.$store.state.homePage == null) return false;
       return this.$store.state.homePage;
