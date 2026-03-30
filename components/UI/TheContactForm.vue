@@ -163,7 +163,6 @@
         if (this.$v.form.yourName.$invalid) {
           this.form.yourEmail = ''
           setTimeout(() => {
-            // this.error = false
             this.sending = false
             return false
           }, 5000)
