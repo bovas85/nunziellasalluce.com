@@ -111,14 +111,19 @@
       }
     },
     mounted () {
-      if (this.$localStorage.get('formData')) {
-        this.saved = true
-        const form = JSON.parse(this.$localStorage.get('formData'))
-        if (form) {
-          this.form = form
-          this.disabled = false
+      const savedData = this.$localStorage.get('formData')
+      if (savedData) {
+        try {
+          const form = JSON.parse(savedData)
+          if (form && typeof form === 'object' && !Array.isArray(form)) {
+            this.form = form
+            this.saved = true
+            this.disabled = false
+          }
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('Error parsing saved form data', e)
         }
-        return
       }
     },
     beforeDestroy () {
