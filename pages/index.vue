@@ -34,12 +34,10 @@
 <script>
 import scrollama from "scrollama";
 import debounce from "lodash/debounce";
-import scrollama from "scrollama";
 import HeroSection from "@/components/Sections/Home/HeroSection";
 import Config from "~/assets/config";
 import get from "lodash/get";
 import Defer from "@/mixins/Defer";
-import scrollama from "scrollama";
 let scroller, steps;
 
 export default {
@@ -61,7 +59,8 @@ export default {
       animateWork: false,
       animateProcess: false,
       animateCapab: false,
-      animateTestimonials: false
+      animateTestimonials: false,
+      stepElement: null
     };
   },
   components: {
@@ -130,9 +129,11 @@ export default {
     },
     handleScroll() {
       if (process.client) {
-        const step = document.querySelector(".step");
+        if (!this.stepElement) {
+          this.stepElement = document.querySelector(".step");
+        }
 
-        if (step && this.defer(5)) {
+        if (this.stepElement && this.defer(5)) {
           if (window.innerWidth > 577) {
             scroller = scrollama();
             steps = null;
@@ -163,6 +164,7 @@ export default {
             steps.enable();
           }
 
+          window.removeEventListener("resize", this.scrollamaResize, false);
           window.addEventListener(
             "resize",
             this.scrollamaResize,
@@ -177,8 +179,10 @@ export default {
       }
     },
     scrollamaResize: debounce(function() {
-      const step = document.querySelector(".step");
-      if (step && step.length) {
+      if (!this.stepElement) {
+        this.stepElement = document.querySelector(".step");
+      }
+      if (this.stepElement) {
         this.handleScroll();
       }
     }, 150),

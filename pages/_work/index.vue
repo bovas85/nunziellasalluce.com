@@ -63,12 +63,10 @@
 import scrollama from "scrollama";
 import debounce from "lodash/debounce";
 import get from "lodash/get";
-import scrollama from "scrollama";
 import Config from "~/assets/config";
 import WorkHero from "@/components/Sections/Work/WorkHero";
 import LazyImage from "@/components/UI/LazyImage";
 import Defer from "@/mixins/Defer";
-import scrollama from "scrollama";
 let scroller, steps;
 
 export default {
@@ -179,7 +177,8 @@ export default {
       animateBrand: false,
       animateChallenge: false,
       animateFinal: false,
-      animateBottomImage: false
+      animateBottomImage: false,
+      stepElement: null
     };
   },
   async mounted() {
@@ -230,9 +229,11 @@ export default {
       }
     },
     handleScroll() {
-      const step = document.querySelector(".step");
+      if (!this.stepElement) {
+        this.stepElement = document.querySelector(".step");
+      }
 
-      if (step && this.defer(6)) {
+      if (this.stepElement && this.defer(6)) {
         if (window.innerWidth > 577) {
           scroller = scrollama();
           steps = null;
@@ -268,6 +269,7 @@ export default {
         }, 600);
       }
 
+      window.removeEventListener("resize", this.scrollamaResize, false);
       window.addEventListener(
         "resize",
         this.scrollamaResize,
@@ -276,8 +278,10 @@ export default {
       );
     },
     scrollamaResize: debounce(function() {
-      let step = document.querySelector(".step");
-      if (step && step.length) {
+      if (!this.stepElement) {
+        this.stepElement = document.querySelector(".step");
+      }
+      if (this.stepElement) {
         this.handleScroll();
       }
     }, 150)
