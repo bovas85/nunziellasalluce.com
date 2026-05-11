@@ -237,8 +237,12 @@ export default {
         ) {
           entries.forEach(function(video) {
             if (video.isIntersecting) {
-              for (let source in video.target.children) {
-                const videoSource = video.target.children[source];
+              for (
+                let i = 0, len = video.target.children.length;
+                i < len;
+                i++
+              ) {
+                const videoSource = video.target.children[i];
                 if (
                   typeof videoSource.tagName === "string" &&
                   videoSource.tagName === "SOURCE"
