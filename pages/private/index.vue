@@ -216,7 +216,6 @@ export default {
       }
     },
     handleStepEnter(response) {
-      // console.log(response.element);
       response.element.classList.add("animated");
       const length = document.querySelectorAll(".step").length - 2;
       switch (response.index) {

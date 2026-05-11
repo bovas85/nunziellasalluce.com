@@ -113,15 +113,9 @@ export default {
                 `${Config.client}${Config.api.postFormNewsletter}`,
                 formData
               )
-              .then(res => {
-                // console.log("newsletter signup sent");
-              })
-              .catch(err => {
-                // console.log('newsletter send error', err);
-              });
-          } catch (e) {
-            // console.log('newsletter send error', e);
-          }
+              .then(() => {})
+              .catch(() => {});
+          } catch (e) {}
         } else {
           this.success = false;
           this.error = true;
