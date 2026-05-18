@@ -193,7 +193,9 @@
                   eventLabel: 'submission',
                   eventValue: 0
                 })
-              } catch (e) {}
+              } catch (e) {
+                // Google Analytics might be blocked
+              }
             })
             .catch(err => {
               console.log('contact send error', err)

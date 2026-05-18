@@ -48,7 +48,9 @@ export const mutations = {
           return a.slug.localeCompare(b.slug)
         })
         state.projects = filteredProjects
-      } catch (e) {}
+      } catch (e) {
+        console.log('Error sorting projects:', e)
+      }
     }
   },
   setHomepage (state, obj) {
