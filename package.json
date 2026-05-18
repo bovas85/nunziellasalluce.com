@@ -13,6 +13,7 @@
     "generate": "nuxt build && nuxt generate",
     "staging": "cross-env NODE_ENV=development now --public",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "test": "node test/store.manual.js",
     "precommit": "npm run lint"
   },
   "browserslist": [
