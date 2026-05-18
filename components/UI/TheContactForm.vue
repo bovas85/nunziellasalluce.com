@@ -121,8 +121,7 @@
             this.disabled = false
           }
         } catch (e) {
-          // eslint-disable-next-line no-console
-          console.error('Error parsing saved form data', e)
+          // ignore parsing errors to prevent crash
         }
       }
     },
