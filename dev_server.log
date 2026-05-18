@@ -1,0 +1,23 @@
+
+> nunziella-salluce-design@2.0.0 dev
+> cross-env NODE_ENV=development nuxt
+
+ℹ Listening on: http://localhost:3000/
+ℹ Preparing project for development
+ℹ Initial build may take a while
+✔ Builder initialized
+✔ Nuxt files generated
+ℹ Compiling Client
+ℹ Compiling Server
+
+ WARN  Browserslist: caniuse-lite is outdated. Please run:
+npx browserslist@latest --update-db
+
+Why you should do it regularly:
+https://github.com/browserslist/browserslist#browsers-data-updating
+
+✔ Server: Compiled successfully in 17.64s
+✔ Client: Compiled successfully in 18.08s
+ℹ Waiting for file changes
+ℹ Memory usage: 267 MB (RSS: 613 MB)
+ℹ Listening on: http://localhost:3000/

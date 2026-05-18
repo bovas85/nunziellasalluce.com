@@ -275,7 +275,7 @@ export default {
     },
     scrollamaResize: debounce(function() {
       let step = document.querySelector(".step");
-      if (step && step.length) {
+      if (step) {
         this.handleScroll();
       }
     }, 150)

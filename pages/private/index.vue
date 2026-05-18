@@ -231,7 +231,7 @@ export default {
         case 3:
           this.animateDigital = true;
           break;
-        case 3:
+        case 4:
           this.animateRich = true;
           break;
         case length:
@@ -289,7 +289,7 @@ export default {
     },
     scrollamaResize: debounce(function() {
       let step = document.querySelector(".step");
-      if (step && step.length) {
+      if (step) {
         this.handleScroll();
       }
     }, 150)
