@@ -68,13 +68,11 @@
 <script>
 import scrollama from "scrollama";
 import debounce from "lodash/debounce";
-import scrollama from "scrollama";
 import Config from "~/assets/config";
 import WorkHero from "@/components/Sections/Work/WorkHero";
 import LazyImage from "@/components/UI/LazyImage";
 import get from "lodash/get";
 import Defer from "@/mixins/Defer";
-import scrollama from "scrollama";
 let scroller, steps;
 
 export default {
@@ -233,7 +231,7 @@ export default {
         case 3:
           this.animateDigital = true;
           break;
-        case 3:
+        case 4:
           this.animateRich = true;
           break;
         case length:
@@ -291,7 +289,7 @@ export default {
     },
     scrollamaResize: debounce(function() {
       let step = document.querySelector(".step");
-      if (step && step.length) {
+      if (step) {
         this.handleScroll();
       }
     }, 150)

@@ -34,12 +34,10 @@
 <script>
 import scrollama from "scrollama";
 import debounce from "lodash/debounce";
-import scrollama from "scrollama";
 import HeroSection from "@/components/Sections/Home/HeroSection";
 import Config from "~/assets/config";
 import get from "lodash/get";
 import Defer from "@/mixins/Defer";
-import scrollama from "scrollama";
 let scroller, steps;
 
 export default {
@@ -178,7 +176,7 @@ export default {
     },
     scrollamaResize: debounce(function() {
       const step = document.querySelector(".step");
-      if (step && step.length) {
+      if (step) {
         this.handleScroll();
       }
     }, 150),
