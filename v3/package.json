@@ -14,6 +14,8 @@
     "lint:css:fix": "stylelint 'app/**/*.{css,scss,vue}' --fix",
     "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules' '#dist'",
     "lint:md:fix": "markdownlint-cli2 --fix '**/*.md' '#node_modules' '#dist'",
+    "typecheck": "tsc --noEmit",
+    "lint:all": "yarn lint && yarn lint:css && yarn lint:md && yarn typecheck",
     "prepare": "husky"
   },
   "dependencies": {
@@ -31,7 +33,10 @@
     "node": "24.13.0"
   },
   "lint-staged": {
-    "*.{js,ts,vue}": "eslint --fix",
+    "*.{js,ts,vue}": [
+      "eslint --fix",
+      "bash -c 'yarn typecheck'"
+    ],
     "*.{css,scss,vue}": "stylelint --fix",
     "*.md": "markdownlint-cli2 --fix"
   },

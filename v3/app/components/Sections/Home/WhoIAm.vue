@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { HomePageACF } from '~/types/acf';
+
 defineProps<{
-  acf: unknown
+  acf: HomePageACF
   animateWho: boolean
 }>()
 </script>

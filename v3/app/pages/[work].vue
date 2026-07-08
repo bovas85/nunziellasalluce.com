@@ -65,23 +65,22 @@ const capitalizeEveryWord = (str: string) => {
 if (!project.value && import.meta.server) {
   const event = useRequestEvent()
   if (event) {
-    import('h3').then(({ setResponseStatus }) => {
-      setResponseStatus(event, 404)
-    })
+    const { setResponseStatus } = await import('h3')
+    setResponseStatus(event, 404)
   }
 }
 
 useHead(() => {
   if (project.value && projectTitle.value && project.value.seo?.facebook?.sizes && project.value.seo?.twitter?.sizes) {
     return {
-      title: capitalizeEveryWord(projectTitle.value.replace(/-/g, ' ')),
+      title: capitalizeEveryWord(projectTitle.value.replaceAll('-', ' ')),
       meta: [
         { name: 'description', content: project.value.seo.description },
-        { name: 'keywords', content: project.value.keywords || `${projectTitle.value.replace(/-/g, ' ')}, ${projectTitle.value.replace(/-/g, ', ')}` },
-        { hid: 'og:title', property: 'og:title', content: capitalizeEveryWord(projectTitle.value.replace(/-/g, ' ')) },
+        { name: 'keywords', content: project.value.keywords || `${projectTitle.value.replaceAll('-', ' ')}, ${projectTitle.value.replaceAll('-', ', ')}` },
+        { hid: 'og:title', property: 'og:title', content: capitalizeEveryWord(projectTitle.value.replaceAll('-', ' ')) },
         { hid: 'og:description', property: 'og:description', content: project.value.seo.description },
         { hid: 'og:image', property: 'og:image', content: project.value.seo.facebook.sizes.large },
-        { hid: 'twitter:title', name: 'twitter:title', content: capitalizeEveryWord(projectTitle.value.replace(/-/g, ' ')) },
+        { hid: 'twitter:title', name: 'twitter:title', content: capitalizeEveryWord(projectTitle.value.replaceAll('-', ' ')) },
         { hid: 'twitter:description', name: 'twitter:description', content: project.value.seo.description },
         { hid: 'twitter:image', name: 'twitter:image', content: project.value.seo.twitter.sizes.large }
       ]

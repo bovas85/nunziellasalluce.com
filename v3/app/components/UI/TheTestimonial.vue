@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { Testimonial } from '~/types/acf';
+
 defineProps<{
-  testimonial: unknown
+  testimonial: Testimonial
 }>()
 </script>
 

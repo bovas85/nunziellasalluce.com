@@ -11,8 +11,10 @@
 </template>
 
 <script setup lang="ts">
+import type { ProjectACF } from '~/types/acf';
+
 defineProps<{
-  project: unknown
+  project: ProjectACF
   animateBrand: boolean
 }>()
 </script>

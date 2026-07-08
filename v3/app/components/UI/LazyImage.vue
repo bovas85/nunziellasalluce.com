@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
+import type { WPImage } from '~/types/acf';
 
 const props = withDefaults(defineProps<{
   svg?: boolean
   lazyload?: boolean
-  image?: unknown
+  image?: WPImage
   videoMobile?: string | boolean
   videoDesktop?: string | boolean
-  imageMobile?: unknown
+  imageMobile?: WPImage
   title?: string
-  link?: unknown
+  link?: string
   noPlaceholder?: boolean
   type?: string
   home?: boolean
@@ -29,7 +30,7 @@ const props = withDefaults(defineProps<{
   videoDesktop: undefined,
   imageMobile: undefined,
   title: '',
-  link: false,
+  link: undefined,
   type: '',
   home: false,
   noBg: false,
@@ -66,7 +67,7 @@ onMounted(() => {
   if (import.meta.client) {
     const lazyVideos = Array.from(document.querySelectorAll('video.lazyload')) as HTMLVideoElement[]
 
-    if ('IntersectionObserver' in window) {
+    if ('IntersectionObserver' in globalThis) {
       const lazyVideoObserver = new IntersectionObserver((entries, _observer) => {
         entries.forEach(video => {
           if (video.isIntersecting) {

@@ -24,9 +24,10 @@ v-if="project.product.slider && project.product.slider.length" class="slider"
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { ProjectACF } from '~/types/acf';
 
 defineProps<{
-  project: unknown
+  project: ProjectACF
   animateFinal: boolean
 }>()
 

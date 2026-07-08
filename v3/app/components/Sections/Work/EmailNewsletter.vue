@@ -19,9 +19,10 @@ v-if="newsletter.image_left != null && newsletter.image_left.url" class="image i
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { ProjectACF } from '~/types/acf';
 
 const props = defineProps<{
-  project: Record<string, unknown>
+  project: ProjectACF
   animateEmail: boolean
 }>()
 

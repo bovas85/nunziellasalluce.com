@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { HomePageACF, Project } from '~/types/acf';
+
 defineProps<{
-  filteredProjects: unknown[]
-  acf: unknown
+  filteredProjects: Project[]
+  acf: HomePageACF
   animateWork: boolean
 }>()
 </script>

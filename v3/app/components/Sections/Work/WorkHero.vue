@@ -18,8 +18,10 @@ class="image" :image="project.hero.desktop_bg" :title="project.hero.title" posit
 </template>
 
 <script setup lang="ts">
+import type { ProjectACF } from '~/types/acf';
+
 defineProps<{
-  project: unknown
+  project: ProjectACF
   animateHeader: boolean
 }>()
 

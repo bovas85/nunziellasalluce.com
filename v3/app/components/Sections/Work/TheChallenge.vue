@@ -35,8 +35,10 @@ v-else class="double_image" :hover="false" position="right" :image="content.doub
 </template>
 
 <script setup lang="ts">
+import type { ProjectACF } from '~/types/acf';
+
 defineProps<{
-  project: unknown
+  project: ProjectACF
   animateChallenge: boolean
 }>()
 </script>

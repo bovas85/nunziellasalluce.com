@@ -3,6 +3,7 @@ import { useAsyncData } from '#app'
 import Config from '@/assets/config'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import type { HomePageACF, Project } from '~/types/acf'
 
 const route = useRoute()
 
@@ -35,12 +36,13 @@ const animateProcess = ref(false)
 const animateCapab = ref(false)
 const animateTestimonials = ref(false)
 
-const acf = computed(() => (homePage.value as Record<string, unknown>)?.acf as Record<string, unknown> | undefined)
+const acf = computed(() => (homePage.value as Record<string, unknown>)?.acf as HomePageACF | undefined)
 const testimonials = computed(() => acf.value?.testimonials?.testimonials || [])
 
 const filteredProjects = computed(() => {
   if (!projects.value || !Array.isArray(projects.value)) return null
 
+  const projectsList = projects.value as Project[]
   const order = acf.value?.case_studies?.order || []
   if (order.length > 0) {
     const orderMap = new Map()
@@ -48,7 +50,7 @@ const filteredProjects = computed(() => {
       orderMap.set(id, index)
     })
 
-    const sorted = [...projects.value].sort((a, b) => {
+    const sorted = [...projectsList].sort((a, b) => {
       const indexA = orderMap.has(a.id) ? orderMap.get(a.id) : -1
       const indexB = orderMap.has(b.id) ? orderMap.get(b.id) : -1
       return indexA - indexB
@@ -99,7 +101,7 @@ onMounted(() => {
     <SectionsHomeWhoIAm :acf="acf" :animate-who="animateWho" />
 
     <section v-if="projects" id="work" class="projects">
-      <SectionsHomeTheWork :filtered-projects="filteredProjects" :acf="acf" :animate-work="animateWork" />
+      <SectionsHomeTheWork :filtered-projects="filteredProjects || []" :acf="acf" :animate-work="animateWork" />
     </section>
 
     <SectionsHomeTheProcess :acf="acf" :animate-process="animateProcess" />

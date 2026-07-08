@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { HomePageACF, Testimonial } from '~/types/acf';
 
 defineProps<{
-  acf: unknown
-  testimonials: unknown[]
+  acf: HomePageACF
+  testimonials: Testimonial[]
   animateTestimonials: boolean
 }>()
 

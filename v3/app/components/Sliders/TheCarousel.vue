@@ -6,9 +6,10 @@ import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import type { Project } from '~/types/acf'
 
 const props = defineProps<{
-  data: unknown[]
+  data: Project[]
   location?: string
 }>()
 

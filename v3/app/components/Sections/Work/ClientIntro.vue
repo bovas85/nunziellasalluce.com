@@ -29,8 +29,10 @@ v-if="
 </template>
 
 <script setup lang="ts">
+import type { ProjectACF } from '~/types/acf';
+
 defineProps<{
-  project: unknown
+  project: ProjectACF
   animateIntro: boolean
 }>()
 </script>

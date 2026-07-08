@@ -4,8 +4,9 @@
       <h1 class="title step">{{ infographics.title }}</h1>
 
       <UILazyImage
-v-if="infographics.video_top != null" class="image image--top2" :class="{ 'animated': animateDigital }"
-        :hover="false" :video-mobile="infographics.video_top" :video-desktop="infographics.video_top" />
+v-if="infographics.video_top != null" class="image image--top2"
+        :class="{ 'animated': animateDigital }" :hover="false" :video-mobile="infographics.video_top"
+        :video-desktop="infographics.video_top" />
       <UILazyImage
 v-if="infographics.video_bottom != null" class="image image--bottom2"
         :class="{ 'animated': animateDigital }" :hover="false" :video-mobile="infographics.video_bottom"
@@ -25,9 +26,10 @@ v-if="infographics.image_bottom != null && infographics.image_bottom.url" class=
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { ProjectACF } from '~/types/acf';
 
 const props = defineProps<{
-  project: Record<string, unknown>
+  project: ProjectACF
   animateDigital: boolean
 }>()
 

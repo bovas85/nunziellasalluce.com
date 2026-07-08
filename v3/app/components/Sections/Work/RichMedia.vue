@@ -16,9 +16,10 @@ v-if="item && item.acf_fc_layout && item.acf_fc_layout === 'image'" class="image
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { ProjectACF } from '~/types/acf';
 
 const props = defineProps<{
-  project: Record<string, unknown>
+  project: ProjectACF
   animateRich: boolean
 }>()
 
