@@ -1,9 +1,13 @@
 ---
-# Disable ESLint engine in Codacy because v3 uses @nuxt/eslint which requires
-# generated .nuxt/eslint.config.mjs files that don't exist in Codacy's
-# environment. Local linting works via pre-commit hooks with husky + lint-staged.
+# Disable ESLint and Stylelint engines in Codacy because:
+# - ESLint: v3 uses @nuxt/eslint which requires generated .nuxt/eslint.config.mjs
+# - Stylelint: v3 uses stylelint-config-recommended-vue which isn't available in
+#   Codacy's Docker container (codacy/codacy-stylelint:2.13.70)
+# Local linting works via pre-commit hooks with husky + lint-staged.
 engines:
   eslint:
+    enabled: false
+  stylelint:
     enabled: false
 
 exclude_paths:

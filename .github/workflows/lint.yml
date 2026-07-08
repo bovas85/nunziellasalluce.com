@@ -1,0 +1,39 @@
+name: Lint
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - "v3/**"
+      - ".github/workflows/lint.yml"
+
+defaults:
+  run:
+    working-directory: v3
+
+jobs:
+  lint:
+    name: ESLint & Stylelint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: v3/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Generate Nuxt types
+        run: yarn nuxt prepare
+
+      - name: Run ESLint
+        run: yarn lint
+
+      - name: Run Stylelint
+        run: yarn lint:css
