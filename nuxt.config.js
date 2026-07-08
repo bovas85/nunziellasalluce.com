@@ -1,6 +1,6 @@
-import Config from "./assets/config";
 import axios from "axios";
 import open from "open";
+import Config from "./assets/config";
 let routes = [];
 
 export default {
@@ -130,14 +130,7 @@ export default {
         content: "628"
       }
     ],
-    script: [
-      {
-        defer: true,
-        body: true,
-        src:
-          "https://polyfill.io/v2/polyfill.min.js?features=IntersectionObserver"
-      }
-    ]
+    script: []
   },
   /*
    ** PWA Configuration
@@ -217,7 +210,7 @@ export default {
     fallback: "404.html",
     interval: 200,
     exclude: ["/marketing"],
-    routes: function() {
+    routes: function () {
       return axios.get(`${Config.wpDomain}${Config.api.projects}`).then(res => {
         const filtered = res.data.filter(project => {
           return project.acf.status === "true";
