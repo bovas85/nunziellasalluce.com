@@ -3,9 +3,10 @@ import { useAsyncData } from '#app'
 import { useHead } from '#imports'
 import Config from '@/assets/config'
 import { useWindowScroll } from '@vueuse/core'
-import scrollama from 'scrollama'
+import scrollama, { type ScrollamaInstance, type ScrollamaResponse } from 'scrollama'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import type { Project, ProjectACF } from '~/types/acf'
 
 const route = useRoute()
 const { y: _y } = useWindowScroll()
@@ -24,7 +25,7 @@ const { data: projectsData } = await useAsyncData(
 
 const projects = computed(() => {
   if (!projectsData.value) return []
-  return (projectsData.value as Record<string, unknown>[]).filter(p => (p.acf as Record<string, unknown>).status === 'true')
+  return (projectsData.value as Project[]).filter(p => p.acf?.status === 'true')
 })
 
 const getIndex = computed(() => {
@@ -33,16 +34,16 @@ const getIndex = computed(() => {
 })
 
 const projectTitle = computed(() => {
-  if (!projects.value.length || !projects.value[getIndex.value]) return ''
-  return projects.value[getIndex.value].slug
+  const proj = projects.value[getIndex.value]
+  return proj?.slug || ''
 })
 
-const project = computed(() => {
-  if (!projects.value.length || !projects.value[getIndex.value]) return null
-  return projects.value[getIndex.value].acf
+const project = computed<ProjectACF | null>(() => {
+  const proj = projects.value[getIndex.value]
+  return proj?.acf || null
 })
 
-const previousProject = computed(() => {
+const previousProject = computed<Project | null>(() => {
   if (!projects.value.length) return null
   if (getIndex.value === 0) {
     return projects.value[projects.value.length - 1]
@@ -50,7 +51,7 @@ const previousProject = computed(() => {
   return projects.value[getIndex.value - 1]
 })
 
-const nextProject = computed(() => {
+const nextProject = computed<Project | null>(() => {
   if (!projects.value.length) return null
   if (getIndex.value === projects.value.length - 1) {
     return projects.value[0]
@@ -97,13 +98,7 @@ const animateChallenge = ref(false)
 const animateFinal = ref(false)
 const animateBottomImage = ref(false)
 
-let scroller: unknown
-
-interface ScrollamaResponse {
-  element: HTMLElement
-  index: number
-  direction: string
-}
+let scroller: ScrollamaInstance | null = null
 
 const handleStepEnter = (response: ScrollamaResponse) => {
   if (response.element) {
@@ -145,13 +140,13 @@ const handleScroll = () => {
   const step = document.querySelector('.step')
   if (step) {
     scroller = scrollama()
-      ; (scroller as { setup: (opts: unknown) => { onStepEnter: (fn: unknown) => { onStepExit: (fn: unknown) => unknown } } }).setup({
-        step: '.step',
-        offset: window.innerWidth > 577 ? 0.6 : 0.7,
-        debug: false
-      })
-        .onStepEnter(handleStepEnter)
-        .onStepExit(showMenu)
+    scroller.setup({
+      step: '.step',
+      offset: window.innerWidth > 577 ? 0.6 : 0.7,
+      debug: false
+    })
+      .onStepEnter(handleStepEnter)
+      .onStepExit(showMenu)
   } else {
     setTimeout(() => {
       handleScroll()
@@ -199,7 +194,7 @@ onBeforeUnmount(() => {
       <div class="container-fluid is-flex">
         <NuxtLink class="previous" :to="`/${previousProject.slug}`">
           <UILazyImage
-v-if="previousProject.acf.hero != null" class="image" :hover="false"
+v-if="previousProject.acf?.hero" class="image" :hover="false"
             :image="previousProject.acf.hero.desktop_bg" :image-mobile="previousProject.acf.hero.mobile_bg">
             <span>{{ previousProject.acf.hero.title }}</span>
           </UILazyImage>
@@ -207,7 +202,7 @@ v-if="previousProject.acf.hero != null" class="image" :hover="false"
         </NuxtLink>
         <NuxtLink class="next" :to="`/${nextProject.slug}`">
           <UILazyImage
-v-if="nextProject.acf.hero != null" class="image" :hover="false"
+v-if="nextProject.acf?.hero" class="image" :hover="false"
             :image="nextProject.acf.hero.desktop_bg" :image-mobile="nextProject.acf.hero.mobile_bg">
             <span>{{ nextProject.acf.hero.title }}</span>
           </UILazyImage>

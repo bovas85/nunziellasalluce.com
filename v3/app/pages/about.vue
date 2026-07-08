@@ -3,6 +3,7 @@ import { useAsyncData } from '#app'
 import { useHead } from '#imports'
 import Config from '@/assets/config'
 import { computed } from 'vue'
+import type { AboutPageACF } from '~/types/acf'
 
 useHead({
   title: 'About Me'
@@ -18,7 +19,7 @@ const { data } = await useAsyncData(
   }
 )
 
-const aboutPage = computed(() => (data.value as Record<string, unknown>)?.acf)
+const aboutPage = computed(() => (data.value as Record<string, unknown>)?.acf as AboutPageACF | undefined)
 </script>
 
 <template>
