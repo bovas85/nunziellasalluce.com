@@ -31,3 +31,6 @@ generate_pending
 # Generated files
 sw.*
 
+
+# Local Netlify folder
+.netlify
