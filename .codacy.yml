@@ -1,0 +1,16 @@
+---
+# Disable ESLint engine in Codacy because v3 uses @nuxt/eslint which requires
+# generated .nuxt/eslint.config.mjs files that don't exist in Codacy's
+# environment. Local linting works via pre-commit hooks with husky + lint-staged.
+engines:
+  eslint:
+    enabled: false
+
+exclude_paths:
+  - "node_modules/**"
+  - ".nuxt/**"
+  - ".output/**"
+  - "dist/**"
+  - "v3/node_modules/**"
+  - "v3/.nuxt/**"
+  - "v3/.output/**"
