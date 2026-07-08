@@ -1,0 +1,20 @@
+---
+# Disable linting engines in Codacy — handled by GitHub Actions CI workflow
+# (.github/workflows/lint.yml) and local pre-commit hooks (husky + lint-staged).
+engines:
+  eslint:
+    enabled: false
+  stylelint:
+    enabled: false
+  remarkint:
+    enabled: false
+
+exclude_paths:
+  - "node_modules/**"
+  - ".nuxt/**"
+  - ".output/**"
+  - "dist/**"
+  - "v3/node_modules/**"
+  - "v3/.nuxt/**"
+  - "v3/.output/**"
+  - "**/*.md" # Markdown linting handled by GitHub Actions

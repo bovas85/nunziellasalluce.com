@@ -13,7 +13,12 @@
     "generate": "cross-env NODE_OPTIONS=--openssl-legacy-provider nuxt build && nuxt generate",
     "staging": "cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=development now --public",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "v3/**/*.{js,ts,vue}": "cd v3 && eslint --fix",
+    "v3/**/*.{css,scss,vue}": "cd v3 && stylelint --fix"
   },
   "browserslist": [
     "last 1 version",
@@ -55,9 +60,10 @@
     "eslint": "^7.26.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-vue": "^7.9.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
     "lodash": "^4.17.23",
     "node-fetch": "^2.6.7",
-    "sass": "^1.77.8",
     "nuxt-purgecss": "^1.0.0",
     "nuxt-start": "^2.15.5",
     "open": "^8.0.8",
@@ -67,6 +73,7 @@
     "postcss-nested": "^5.0.5",
     "postcss-responsive-type": "^1.0.0",
     "postcss-url": "^10.1.3",
+    "sass": "^1.77.8",
     "sass-loader": "10.2.0"
   },
   "resolutions": {
