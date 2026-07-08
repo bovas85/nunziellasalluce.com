@@ -10,7 +10,6 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          api: 'modern-compiler',
           additionalData: '@use "~/assets/css/variables.scss" as *;',
           silenceDeprecations: ['color-functions', 'if-function', 'import', 'global-builtin', 'legacy-js-api']
         }
@@ -33,5 +32,12 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/wp-json/**': { proxy: 'https://nunziella.moustachedesign.xyz/wp-json/**' }
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      failOnError: false,
+      routes: ['/', '/about', '/contact', '/privacy-policy']
+    }
   }
 })
