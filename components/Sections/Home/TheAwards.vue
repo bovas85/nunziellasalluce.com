@@ -59,7 +59,7 @@
       img {
         width: 180px;
         height: 180px;
-        margin: $gap / 2 auto;
+        margin: calc($gap / 2) auto;
       }
 
       @include media(md) {

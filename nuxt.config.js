@@ -147,6 +147,14 @@ export default {
    ** Build configuration
    */
   build: {
+    loaders: {
+      scss: {
+        sassOptions: {
+          quietDeps: true,
+          silenceDeprecations: ["color-functions", "if-function", "import", "global-builtin", "legacy-js-api"]
+        }
+      }
+    },
     hardSource: process.env.NODE_ENV === "development",
     optimization: {
       runtimeChunk: true,
@@ -175,8 +183,10 @@ export default {
       }
     },
     postcss: {
-      plugins: {
-        "postcss-responsive-type": {}
+      postcssOptions: {
+        plugins: {
+          "postcss-responsive-type": {}
+        }
       }
     },
     extend(config, { isDev, isClient }) {

@@ -244,7 +244,7 @@ form {
 
 .form-wrapper-mobile {
   input {
-    margin: ($gap / 1.5) 0 $gap;
+    margin: calc(calc($gap / 1.5)) 0 $gap;
     border-radius: 0;
   }
   button {

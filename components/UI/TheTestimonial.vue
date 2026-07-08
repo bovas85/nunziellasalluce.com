@@ -42,7 +42,7 @@
       @include media(sm) {
         width: 130px;
         height: 130px;
-        margin-bottom: $gap / 2;
+        margin-bottom: calc($gap / 2);
       }
     }
 

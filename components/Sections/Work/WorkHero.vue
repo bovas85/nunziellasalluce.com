@@ -52,7 +52,7 @@
     position: relative;
     padding: 0 $gap;
 
-    /deep/ .lazy-image {
+    ::v-deep .lazy-image {
       object-fit: cover;
       object-position: center;
       position: absolute;
@@ -66,7 +66,7 @@
     }
 
     @include media(md) {
-      /deep/ .lazy-image {
+      ::v-deep .lazy-image {
         object-position: right;
         animation: zoomImage infinite;
         animation-delay: 0.3s;

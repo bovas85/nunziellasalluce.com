@@ -96,10 +96,10 @@
   list-style-type: none;
   justify-content: flex-start;
   padding-left: 0;
-  margin-top: $gap / 2;
+  margin-top: calc($gap / 2);
 
   li {
-    margin: 0 $gap / 3;
+    margin: 0 calc($gap / 3);
 
     &:first-child {
       margin-left: 0;

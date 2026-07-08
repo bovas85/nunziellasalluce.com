@@ -122,8 +122,8 @@ section {
 
         p {
           text-align: center;
-          margin: $gap / 1.5 0;
-          padding: 0 $gap / 2;
+          margin: calc($gap / 1.5) 0;
+          padding: 0 calc($gap / 2);
           @include size(h3);
           @include fadeInUp;
 

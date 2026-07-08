@@ -80,7 +80,7 @@
       background: $red;
       display: inline-flex;
       align-items: center;
-      margin-top: $gap / 2;
+      margin-top: calc($gap / 2);
       cursor: pointer;
       transition: all 0.3s ease-in-out;
 

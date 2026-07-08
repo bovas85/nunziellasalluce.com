@@ -118,7 +118,7 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-around;
-      margin-top: $gap / 4;
+      margin-top: calc($gap / 4);
 
       a {
         color: white;
@@ -133,7 +133,7 @@
 
       p {
         line-height: 1.5;
-        margin-top: $gap / 2.5;
+        margin-top: calc($gap / 2.5);
 
         &.referral-link {
           font-size: $font-size;

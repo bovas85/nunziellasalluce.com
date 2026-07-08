@@ -227,7 +227,7 @@
 <style lang="scss" scoped>
   .contact-form {
     background: white;
-    padding: $gap * 1.5 $gap $gap / 2;
+    padding: $gap * 1.5 $gap calc($gap / 2);
     max-width: 100%;
     width: 100%;
     margin: 0;

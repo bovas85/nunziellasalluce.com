@@ -414,7 +414,7 @@ section {
     }
   }
 
-  /deep/ img {
+  ::v-deep img {
     padding-top: 0 !important;
   }
 
@@ -501,7 +501,7 @@ section {
       }
     }
 
-    /deep/ img {
+    ::v-deep img {
       display: none;
 
       @include media(md) {

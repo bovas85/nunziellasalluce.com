@@ -171,10 +171,10 @@
   .swiper-pagination {
     bottom: -30px;
   }
-  /deep/ .swiper-pagination-bullet {
+  ::v-deep .swiper-pagination-bullet {
     box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.5);
   }
-  /deep/ .swiper-pagination-bullet-active {
+  ::v-deep .swiper-pagination-bullet-active {
     background: $primary;
   }
   .swiper-slide {
@@ -260,7 +260,7 @@
         }
       }
     }
-    /deep/ img {
+    ::v-deep img {
       height: 600px;
       @media (min-width: $tablet) {
         height: 600px;
