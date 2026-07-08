@@ -60,7 +60,9 @@ section {
 
     h1 {
       max-width: 150px;
+
       @include fadeInUp;
+
       padding-left: $gap;
 
       @include media(md) {
@@ -71,8 +73,10 @@ section {
     @include media(xl) {
       margin: $gap * 1.5 0;
     }
+
     .container {
-      grid-gap: 0;
+      gap: 0;
+
       .wrapper {
         display: flex;
         flex-direction: column;
@@ -85,7 +89,9 @@ section {
         margin: 0 auto;
         object-fit: cover;
         object-position: center;
+
         @include fadeInUp;
+
         transition-delay: 0.2s;
         position: absolute;
 
@@ -104,6 +110,7 @@ section {
 
       .text {
         position: relative;
+
         @supports (display: grid) {
           position: absolute;
           top: 50%;
@@ -121,29 +128,36 @@ section {
           text-align: center;
           margin: calc($gap / 1.5) 0;
           padding: 0 calc($gap / 2);
+
           @include size(h3);
           @include fadeInUp;
 
           @include media(lg) {
             padding: 0;
+
             @include size(h2);
           }
+
           @include media(xl) {
             @include size(h1);
           }
+
           @include media(xxl) {
             @include size(jumbo);
           }
+
           @include media(md) {
             &:nth-child(1) {
               margin-left: auto;
               margin-right: auto;
               transition-delay: 0.4s;
             }
+
             &:nth-child(2) {
               margin-right: 10%;
               transition-delay: 0.6s;
             }
+
             &:nth-child(3) {
               margin-left: 10%;
               transition-delay: 0.8s;
@@ -154,6 +168,7 @@ section {
 
       a {
         @include fadeInUp;
+
         transition-delay: 0.8s;
       }
     }

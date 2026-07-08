@@ -21,6 +21,7 @@ const props = defineProps(["project", "animateBrand"])
 
     h1 {
       @include fadeInUp;
+
       padding-bottom: 60px;
       margin-bottom: $gap * 2;
       max-width: 150px;
@@ -32,6 +33,7 @@ const props = defineProps(["project", "animateBrand"])
 
     .timeline {
       @include fadeInUp;
+
       transition-delay: 0.2s;
     }
   }

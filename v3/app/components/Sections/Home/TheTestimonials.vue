@@ -79,13 +79,16 @@ const currentTestimonial = ref(0)
 
   .container {
     @include fadeInUp;
+
     flex-basis: 100%;
   }
 
   .wrapper {
     max-width: $tablet;
     position: relative;
+
     @include fadeInUp;
+
     transition-delay: 0.2s;
   }
 
@@ -115,9 +118,11 @@ const currentTestimonial = ref(0)
       top: 100px;
     }
   }
+
   .arrow {
     position: absolute;
     cursor: pointer;
+
     &.is-disabled {
       opacity: 0.4;
       pointer-events: none;

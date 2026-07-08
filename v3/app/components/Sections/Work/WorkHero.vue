@@ -41,7 +41,6 @@ const scrollTo = (selector) => {
 <style lang="scss" scoped>
   .hero {
     overflow: hidden;
-    margin: 0;
     height: 100vh;
     margin: 0;
     display: flex;
@@ -56,10 +55,7 @@ const scrollTo = (selector) => {
       height: 100vh;
       width: 100%;
       z-index: -1;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
+      inset: 0;
     }
 
     :deep(.lazy-image img) {
@@ -88,6 +84,7 @@ const scrollTo = (selector) => {
     .container {
       height: 100%;
       justify-content: center;
+
       @include fadeInUp;
     }
 
@@ -101,10 +98,12 @@ const scrollTo = (selector) => {
       color: white;
       cursor: pointer;
       display: none;
+
       @include fadeInUp;
+
       transition-delay: 0.2s;
 
-      @media (min-width: $tablet) and (min-height: 700px) {
+      @media (min-width: $tablet) and (height >= 700px) {
         display: flex;
       }
 

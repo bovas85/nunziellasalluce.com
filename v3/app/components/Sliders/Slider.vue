@@ -68,6 +68,7 @@ const swiperOptions = {
     margin-right: auto;
     padding: 0;
     position: relative;
+
     .prev,
     .next {
       display: none;
@@ -94,34 +95,41 @@ const swiperOptions = {
         width: 10vw;
       }
     }
+
     .prev {
       left: -21px;
+
       @include media(xl) {
         left: -32px;
       }
+
       opacity: 1;
       background: linear-gradient(
         to left,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.4) 100%
+        rgb(0 0 0 / 0%) 0%,
+        rgb(0 0 0 / 40%) 100%
       );
       transition: opacity 0.3s ease-in-out;
     }
+
     .next {
       left: unset;
       right: -21px;
+
       @include media(xl) {
         right: -32px;
       }
+
       opacity: 1;
       background: linear-gradient(
         to right,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.4) 100%
+        rgb(0 0 0 / 0%) 0%,
+        rgb(0 0 0 / 40%) 100%
       );
       transition: opacity 0.3s ease-in-out;
     }
   }
+
   .app-carousel {
     background: white;
     position: static;
@@ -130,9 +138,11 @@ const swiperOptions = {
   :deep(.swiper-pagination) {
     bottom: -30px;
   }
+
   :deep(.swiper-pagination-bullet) {
-    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 4px 1px rgb(0 0 0 / 50%);
   }
+
   :deep(.swiper-pagination-bullet-active) {
     background: $primary;
   }
@@ -156,6 +166,7 @@ const swiperOptions = {
     .lazy-image {
       pointer-events: none;
     }
+
     .text-section {
       position: absolute;
       top: 50%;
@@ -211,6 +222,7 @@ const swiperOptions = {
         }
       }
     }
+
     &:hover {
       .text-section .subtitle {
         @include media(lg) {
@@ -219,11 +231,14 @@ const swiperOptions = {
         }
       }
     }
+
     :deep(img) {
       height: 600px;
+
       @media (min-width: $tablet) {
         height: 600px;
       }
+
       width: 100%;
       object-fit: cover;
       object-position: center;
@@ -244,9 +259,11 @@ const swiperOptions = {
         transform: scale(1.05);
       }
     }
+
     .image {
       position: relative;
       height: 100%;
+
       .text {
         position: absolute;
         top: 50%;

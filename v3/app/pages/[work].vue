@@ -246,6 +246,7 @@ h1 {
     max-width: 280px;
   }
 }
+
 section {
   margin: $gap * 1.5 $gap;
 
@@ -257,7 +258,9 @@ section {
 .work-navigation {
   margin: $gap * 2 0 $gap * 1.5;
   height: 100%;
+
   @include fadeInUp;
+
   transition-delay: 1s;
 
   p {
@@ -291,15 +294,12 @@ section {
     height: 100%;
     transition: transform 0.4s ease-in-out;
 
-    &:after {
+    &::after {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      inset: 0;
       z-index: 1;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgb(0 0 0 / 40%);
       opacity: 0;
       transition: opacity 0.2s ease-in-out;
 
@@ -316,6 +316,7 @@ section {
 
     span {
       @include size(h4);
+
       color: white;
       max-width: 100px;
       position: absolute;
@@ -329,6 +330,7 @@ section {
 
     &.previous {
       text-align: right;
+
       @include media(md) {
         transform: translateX(-120px);
       }
@@ -358,11 +360,13 @@ section {
         &.previous {
           transform: translateX(0);
         }
+
         span {
           opacity: 1;
           transform: translate(-50%, -50%);
         }
-        &:after {
+
+        &::after {
           opacity: 1;
         }
       }

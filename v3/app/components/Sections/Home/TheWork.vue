@@ -31,6 +31,7 @@ const props = defineProps<{
 
       .carousel {
         @include fadeInUp;
+
         transition-delay: 0.2s;
       }
 

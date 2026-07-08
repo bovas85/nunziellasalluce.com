@@ -58,7 +58,6 @@ const scrollToProjects = () => {
   .hero {
     background-size: cover;
     height: 100vh;
-    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -71,10 +70,7 @@ const scrollToProjects = () => {
 
     .image {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      inset: 0;
     }
 
     @include media(sm) {

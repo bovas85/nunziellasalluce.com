@@ -53,7 +53,6 @@ export default {
 <style lang="scss" scoped>
 .final-product {
   margin: 0;
-  margin-top: 0;
   margin-bottom: $gap - 4px;
   padding: $gap 0;
   overflow: hidden;
@@ -71,7 +70,8 @@ export default {
       margin: 0 auto;
       display: grid;
     }
-    grid-gap: $gap;
+
+    gap: $gap;
   }
 
   .slider {
@@ -84,6 +84,7 @@ export default {
 
   .text-section {
     @include fadeInUp;
+
     margin-bottom: $gap;
 
     @include media(sm) {
@@ -97,7 +98,7 @@ export default {
 
   .image-section {
     display: grid;
-    grid-gap: $gap;
+    gap: $gap;
     margin-top: $gap;
 
     @include media(md) {
@@ -112,14 +113,19 @@ export default {
 
     &:nth-child(2) {
       @include fadeInUp;
+
       transition-delay: 0.2s;
     }
+
     &:nth-child(3) {
       @include fadeInUp;
+
       transition-delay: 0.4s;
     }
+
     &:nth-child(n + 1) {
       @include fadeInUp;
+
       transition-delay: 0.6s;
     }
   }
@@ -127,7 +133,9 @@ export default {
   .slider-section {
     position: relative;
     width: 100%;
+
     @include fadeInUp;
+
     margin: $gap auto;
     height: 50vh;
 
@@ -137,10 +145,7 @@ export default {
 
     .image {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       max-height: 70vh;

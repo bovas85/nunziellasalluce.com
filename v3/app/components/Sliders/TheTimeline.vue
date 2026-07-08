@@ -96,7 +96,7 @@ const swiperOptions = {
       margin-left: $gap * 3;
     }
 
-    &:after {
+    &::after {
       content: "";
       height: 2px;
       background-color: $grey;
@@ -122,14 +122,16 @@ const swiperOptions = {
       width: 1000px !important;
       background: linear-gradient(
         to right,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 1) 15%,
-        rgba(255, 255, 255, 1) 100%
+        rgb(255 255 255 / 0%) 0%,
+        rgb(255 255 255 / 100%) 15%,
+        rgb(255 255 255 / 100%) 100%
       );
     }
+
     .lazy-image {
       pointer-events: none;
     }
+
     .circle {
       background: $lightgrey;
       display: flex;
@@ -140,7 +142,6 @@ const swiperOptions = {
       height: 165px;
       width: 165px;
       position: absolute;
-      z-index: 9999;
       top: 5px;
       left: 5px;
       border-radius: 100%;
@@ -163,9 +164,11 @@ const swiperOptions = {
         font-weight: 600;
       }
     }
+
     .image {
       position: relative;
       height: 100%;
+
       .text {
         position: absolute;
         top: 50%;
@@ -175,17 +178,18 @@ const swiperOptions = {
         font-size: 24px;
       }
     }
+
     p {
       margin-top: 200px;
       max-width: 230px;
       padding-right: calc($gap / 1.5);
     }
   }
+
   .prev,
   .next {
     position: absolute;
     cursor: pointer;
-    display: block;
     top: -100px;
     right: -$gap;
     width: 100px;
@@ -207,6 +211,7 @@ const swiperOptions = {
       cursor: not-allowed;
     }
   }
+
   .prev {
     right: $gap * 2;
 

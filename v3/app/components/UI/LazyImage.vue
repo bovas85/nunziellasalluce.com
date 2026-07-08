@@ -216,6 +216,7 @@ onMounted(() => {
       height: 100%;
     }
   }
+
   .work-navigation {
     .progressive-image-wrapper {
       padding-top: 0 !important;
@@ -228,25 +229,26 @@ onMounted(() => {
   .progressive-image,
   .progressive-image-wrapper {
     position: static;
-    height: 100%;
     object-fit: cover;
     width: 100%;
     height: 100%;
     padding-top: unset;
+
     img,
     .progressive-image-main {
-      height: 100%;
       position: relative;
       object-fit: cover;
       z-index: -1;
       width: 100%;
       height: 100%;
     }
+
     .progressive-image-placeholder {
       background-size: cover;
       background-position: center;
       width: auto;
     }
+
     .progressive-image-wrapper {
       overflow: hidden;
     }
@@ -270,6 +272,7 @@ onMounted(() => {
         display: none;
       }
     }
+
     &.is-hidden-desktop {
       @media (min-width: $tablet) {
         display: none;
@@ -286,9 +289,10 @@ onMounted(() => {
   background-position: center;
   position: relative;
 
-  &:before {
+  &::before {
     display: none;
   }
+
   .text-container {
     position: absolute;
     top: 50%;
@@ -298,17 +302,21 @@ onMounted(() => {
     text-align: center;
     z-index: 101;
     transition: all 0.3s ease-in-out;
+
     &.on-hover {
       justify-content: center !important;
       padding: 0 !important;
       opacity: 0;
+
       &.mobile-visible {
         opacity: 1;
       }
     }
+
     @media (max-width: $mobile) {
       opacity: 1 !important;
     }
+
     .text {
       font-size: 52px;
       line-height: 1;
@@ -318,52 +326,65 @@ onMounted(() => {
       font-weight: 300;
       text-decoration: none;
       border: none;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgb(255 255 255 / 50%);
       margin-bottom: 0;
     }
+
     &:hover {
       opacity: 1;
       color: white;
     }
   }
+
   &:hover {
     .text-container {
       opacity: 1;
     }
+
     img {
       transform: scale(1.05);
     }
   }
+
   &.hover-disabled {
     cursor: auto;
-    &:before {
+
+    &::before {
       transition: all 0.3s ease-in-out;
     }
+
     &:hover {
       .text-container {
         opacity: 1;
       }
-      &:before {
+
+      &::before {
         display: none;
       }
+
       img {
         transform: scale(1);
       }
     }
   }
+
   &.home {
     overflow: hidden;
     background-size: cover;
     background-repeat: no-repeat;
     pointer-events: none;
+
     &:hover {
       pointer-events: none;
+
       .text-container {
         opacity: 0;
       }
     }
+
     img {
       object-position: right;
+
       @media (min-width: $tablet) {
         animation: zoomImage infinite;
         animation-delay: 0.3s;
@@ -371,10 +392,12 @@ onMounted(() => {
         animation-fill-mode: both;
         animation-duration: 60s;
         backface-visibility: hidden;
+
         &:hover {
           .overlay {
             opacity: 0;
           }
+
           img {
             transform: none;
           }
@@ -382,25 +405,32 @@ onMounted(() => {
       }
     }
   }
+
   img {
     transition: transform 0.6s ease-in-out;
   }
+
   &.left img {
     object-position: left;
   }
+
   &.right img {
     object-position: right;
   }
+
   &.bottom img {
     object-position: bottom;
   }
+
   &.top img {
     object-position: top;
   }
+
   &.contain img {
     object-fit: contain;
   }
 }
+
 .bg-image--second {
   img,
   .progressive-image-main {
@@ -411,20 +441,24 @@ onMounted(() => {
     margin-top: 0;
     margin-bottom: -5px;
     object-position: 0 0;
+
     @media (min-width: $tablet) {
       object-fit: cover;
     }
   }
 }
+
 @keyframes zoomImage {
   0% {
     opacity: 1;
     transform: scale3d(1, 1, 1);
   }
+
   50% {
     opacity: 1;
     transform: scale3d(1.3, 1.3, 1.3);
   }
+
   100% {
     opacity: 1;
     transform: scale3d(1, 1, 1);

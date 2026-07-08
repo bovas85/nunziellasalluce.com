@@ -78,14 +78,17 @@
         align-self: flex-end;
         transition-delay: 0.4s;
       }
+
       &--bottom {
         align-self: flex-start;
         transition-delay: 0.8s;
       }
+
       &--top2 {
         align-self: flex-end;
         transition-delay: 1.2s;
       }
+
       &--bottom2 {
         align-self: flex-start;
         transition-delay: 1.6s;

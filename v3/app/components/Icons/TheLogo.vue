@@ -60,9 +60,11 @@ const computedViewBox = computed(() => {
 <style lang="scss" scoped>
   svg {
     display: none;
+
     @include media(md) {
       display: inline-block;
     }
+
     vertical-align: baseline;
     margin-bottom: -2px;
     position: absolute;
@@ -74,10 +76,9 @@ const computedViewBox = computed(() => {
       stroke-dashoffset: 348;
       opacity: 0;
       z-index: 1;
-      fill: transparent;
       stroke: #fa7921;
       stroke-width: 1px;
-      fill: rgba(255, 255, 255, 0);
+      fill: rgb(255 255 255 / 0%);
     }
 
     &.animating {

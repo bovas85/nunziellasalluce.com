@@ -30,6 +30,7 @@ const props = defineProps<{
       @include media(md) {
         padding-left: 0;
       }
+
       @include fadeInUp;
     }
 
@@ -42,7 +43,7 @@ const props = defineProps<{
     .image-grid {
       display: flex;
       display: grid;
-      grid-gap: 0;
+      gap: 0;
       grid-template-columns: 1fr;
       grid-template-rows: repeat(18, 1fr);
       width: 100%;
@@ -51,7 +52,6 @@ const props = defineProps<{
 
       div {
         border-radius: 100%;
-        display: block;
         width: calc(100vw - 90px);
         height: calc(100vw - 90px);
         max-width: 320px;
@@ -63,9 +63,10 @@ const props = defineProps<{
         justify-content: center;
         align-items: center;
         grid-column: 1 / -1;
+
         @include fadeInUp;
 
-        @media not all and (min-resolution: 0.001dpcm) {
+        @media not all and (resolution >= 0.001dpcm) {
           mix-blend-mode: multiply;
         }
 
@@ -83,16 +84,19 @@ const props = defineProps<{
           background-color: #95d3e8;
           transition-delay: 0.2s;
         }
+
         &:nth-child(2) {
           grid-row: 5 / 10;
           background-color: #ff83c1;
           transition-delay: 0.3s;
         }
+
         &:nth-child(3) {
           grid-row: 9 / 14;
           background-color: #f9e344;
           transition-delay: 0.4s;
         }
+
         &:nth-child(4) {
           grid-row: 13 / 18;
           background-color: #b4d27a;
@@ -120,14 +124,17 @@ const props = defineProps<{
             grid-row: 1 / 1;
             grid-column: 3 / 7;
           }
+
           &:nth-child(2) {
             grid-row: 1 / 1;
             grid-column: 6 / 10;
           }
+
           &:nth-child(3) {
             grid-row: 1 / 1;
             grid-column: 9 / 13;
           }
+
           &:nth-child(4) {
             grid-row: 1 / 1;
             grid-column: 12 / 16;

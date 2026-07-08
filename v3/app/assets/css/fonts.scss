@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,900&display=optional');
+@import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,900&display=optional';
 
 .social {
   display: inline-block;
@@ -9,7 +9,7 @@
 
   // mobile defaults to orange
   &--behance {
-    background-position: -0px -24px;
+    background-position: -0 -24px;
   }
 
   &--linkedin {
@@ -29,19 +29,19 @@
     transition: background-position 0.2s ease;
 
     &--behance {
-      background-position: -0px -0px;
+      background-position: -0 -0;
     }
 
     &--linkedin {
-      background-position: -24px -0px;
+      background-position: -24px -0;
     }
 
     &--dribbble {
-      background-position: -48px -0px;
+      background-position: -48px -0;
     }
 
     &--instagram {
-      background-position: -72px -0px;
+      background-position: -72px -0;
     }
   }
 }
@@ -50,25 +50,25 @@
 .social-and-logos {
   .social {
     &--behance {
-      background-position: -0px -0px;
+      background-position: -0 -0;
     }
 
     &--linkedin {
-      background-position: -24px -0px;
+      background-position: -24px -0;
     }
 
     &--dribbble {
-      background-position: -48px -0px;
+      background-position: -48px -0;
     }
 
     &--instagram {
-      background-position: -72px -0px;
+      background-position: -72px -0;
     }
 
     &--behance:hover,
     &--behance:focus,
     &--behance:active {
-      background-position: -0px -24px;
+      background-position: -0 -24px;
     }
 
     &--linkedin:hover,
@@ -104,6 +104,7 @@
     &:first-child {
       margin-left: 0;
     }
+
     &:last-child {
       margin-right: 0;
     }

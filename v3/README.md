@@ -1,75 +1,44 @@
-# Nuxt Minimal Starter
+# Nunziella Salluce Design (Nuxt 4)
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+> Nuxt 4 + WordPress REST API for a portfolio site
 
-## Setup
-
-Make sure to install dependencies:
+## Build Setup
 
 ```bash
-# npm
-npm install
+# install dependencies
+$ yarn install
 
-# pnpm
-pnpm install
+# serve with hot reload at localhost:3000
+$ yarn dev
 
-# yarn
-yarn install
+# build for production and launch server
+$ yarn build
+$ yarn preview
 
-# bun
-bun install
+# generate static project for deployment
+$ yarn generate
 ```
 
-## Development Server
+## Deployment
 
-Start the development server on `http://localhost:3000`:
+The static site is generated to `.output/public` and can be deployed to any static hosting:
 
 ```bash
-# npm
-npm run dev
+# preview deploy to Netlify (doesn't affect production)
+$ npx netlify-cli deploy --dir=.output/public
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+# production deploy to Netlify
+$ npx netlify-cli deploy --dir=.output/public --prod
 ```
 
-## Production
+## Nuxt Docs
 
-Build the application for production:
+For detailed explanation on how things work with Nuxt, check out the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction).
 
-```bash
-# npm
-npm run build
+## Special Thanks
 
-# pnpm
-pnpm build
+<a href="https://www.browserstack.com">
+  <img alt="BrowserStack logo" class="w-svg" height="43" src="https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/themes/browserstack/img/browserstack-logo.svg" style="height: 43px;" width="188">
+</a>
 
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Special thanks to [BrowserStack](https://www.browserstack.com) for letting me use their service to debug browser specific issues.

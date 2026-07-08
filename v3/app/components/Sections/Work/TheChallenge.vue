@@ -79,6 +79,7 @@
 
     .two-columns {
       margin-bottom: $gap * 2;
+
       @include media(md) {
         display: flex;
         flex-wrap: wrap;
@@ -86,6 +87,7 @@
         justify-content: space-between;
       }
     }
+
     .column {
       width: 100%;
 
@@ -100,6 +102,7 @@
         line-height: 3;
         color: $primary;
       }
+
       ul {
         list-style-type: none;
         margin: 0;
@@ -107,16 +110,20 @@
 
         li {
           @include size(h3);
+
           padding: 8px 0;
         }
       }
 
       &--left {
         @include fadeInUp;
+
         transition-delay: 0.2s;
       }
+
       &--right {
         @include fadeInUp;
+
         position: relative;
         background: transparent;
         transition-delay: 0.4s;
@@ -128,33 +135,31 @@
           margin-top: 0;
         }
 
-        &:after {
+        &::after {
           content: "";
           position: absolute;
           background: $lightgrey;
           z-index: -1;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           opacity: 0;
           transform: translateX(200%);
           transition: all 0.6s ease-in-out 0.8s;
         }
 
         &.animated {
-          &:after {
+          &::after {
             transform: translateX(0);
             opacity: 1;
           }
         }
       }
     }
+
     .text-section {
       @include fadeInUp;
     }
+
     .flexible-content {
-      display: flex;
       flex-basis: 100%;
       flex-direction: column;
       margin: 0 auto;
@@ -180,14 +185,17 @@
         @include media(lg) {
           grid-column: span 6;
         }
+
         :deep(img) {
           object-fit: cover;
           object-position: center;
+
           @supports (display: grid) {
             height: 340px;
           }
         }
       }
+
       .text {
         margin: $gap 0;
       }

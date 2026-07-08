@@ -82,11 +82,13 @@ const closeMenu = () => {
     z-index: -2;
     cursor: pointer;
     transition: all 0.6s ease-in-out;
+
     &.is-visible {
       opacity: 1;
       z-index: 9000;
     }
   }
+
   .right-nav {
     background: white;
     overflow: auto;
@@ -95,17 +97,14 @@ const closeMenu = () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    top: 60px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 60px 0 0;
     width: 100%;
     height: calc(100% - 60px);
     height: calc(100vh - 60px);
     opacity: 1;
     z-index: 9999;
     padding: 0 15px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 50%);
     transform: translateX(102%);
     transition: transform 0.6s ease-in-out;
 
@@ -119,11 +118,13 @@ const closeMenu = () => {
       opacity: 1;
       transform: translateX(0);
     }
+
     .close-button {
       display: flex;
       height: 60px;
       justify-content: flex-end;
       align-items: center;
+
       .text {
         cursor: pointer;
         font-size: 14px;
@@ -135,6 +136,7 @@ const closeMenu = () => {
 
     .menu-items {
       margin-bottom: 100px;
+
       li {
         padding: 15px 0;
         display: flex;
@@ -143,12 +145,14 @@ const closeMenu = () => {
         align-items: center;
         border-bottom: 1px solid #ededed;
         transition: all 0.3s ease-in-out;
+
         &:hover,
         &:hover i,
         &:hover a {
           color: $red;
         }
       }
+
       a {
         font-size: 14px;
         line-height: 1;
@@ -158,6 +162,7 @@ const closeMenu = () => {
         text-transform: uppercase;
         transition: all 0.3s ease-in-out;
       }
+
       i {
         line-height: 1;
         width: 7px;
@@ -167,6 +172,7 @@ const closeMenu = () => {
       }
     }
   }
+
   .menu {
     display: flex;
     height: 100%;
@@ -175,6 +181,7 @@ const closeMenu = () => {
     align-items: center;
     padding: 0;
     flex-direction: column;
+
     a {
       margin: 15px 0;
       cursor: pointer;
@@ -182,11 +189,13 @@ const closeMenu = () => {
       color: black;
       text-transform: capitalize;
       font-weight: 400;
+
       &.nuxt-link-active {
         font-weight: bold;
       }
     }
   }
+
   .bottom-section {
     margin-top: auto;
 
@@ -196,6 +205,7 @@ const closeMenu = () => {
       font-weight: 600;
     }
   }
+
   .social-list {
     display: flex;
     justify-content: space-around;

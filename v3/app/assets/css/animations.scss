@@ -99,6 +99,7 @@ $t-delay: 300ms;
     transition: color 0.5s linear;
     transition-delay: calc(0.04s * var(--char-index));
   }
+
   &:hover {
     color: $primary;
   }
@@ -116,12 +117,15 @@ $t-delay: 300ms;
   25% {
     color: $yellow;
   }
+
   50% {
     color: $primary;
   }
+
   75% {
     color: $red;
   }
+
   100% {
     color: $primary;
   }
@@ -136,15 +140,15 @@ $t-delay: 300ms;
     animation-duration: calc(0.08s * calc(var(--char-total)));
     animation-delay: calc(0.08s * var(--char-index));
 
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       visibility: visible;
       color: #fff;
       z-index: 1;
       animation: inherit;
     }
 
-    &:after {
+    &::after {
       color: #fff;
       z-index: 2;
     }
@@ -153,10 +157,12 @@ $t-delay: 300ms;
   &:hover .char {
     animation-name: color-cycle;
   }
-  &:hover .char:after {
+
+  &:hover .char::after {
     animation-name: pop-char-out;
   }
-  &:hover .char:before {
+
+  &:hover .char::before {
     animation-name: pop-char-out2, color-cycle;
   }
 }
@@ -165,8 +171,9 @@ $t-delay: 300ms;
   0%,
   70%,
   100% {
-    transform: translate(0em, 0em);
+    transform: translate(0, 0);
   }
+
   35% {
     transform: translate(0.025em, -0.05em);
   }
@@ -185,6 +192,7 @@ $t-delay: 300ms;
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -194,6 +202,7 @@ $t-delay: 300ms;
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -257,9 +266,10 @@ $t-delay: 300ms;
 
 @keyframes blurOut {
   from {
-    filter: blur(0px);
+    filter: blur(0);
     opacity: 0;
   }
+
   to {
     filter: blur(15px);
     opacity: 1;
@@ -270,8 +280,9 @@ $t-delay: 300ms;
   from {
     filter: blur(15px);
   }
+
   to {
-    filter: blur(0px);
+    filter: blur(0);
   }
 }
 
@@ -279,6 +290,7 @@ $t-delay: 300ms;
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0.1;
   }
@@ -288,6 +300,7 @@ $t-delay: 300ms;
   from {
     opacity: 0.1;
   }
+
   to {
     opacity: 1;
   }
@@ -298,6 +311,7 @@ $t-delay: 300ms;
     transform: translateY(0%);
     opacity: 0;
   }
+
   to {
     transform: translateY(-101%);
     opacity: 1;
@@ -308,6 +322,7 @@ $t-delay: 300ms;
   from {
     transform: translateY(-100%);
   }
+
   to {
     transform: translateY(0%);
   }
@@ -317,33 +332,43 @@ $t-delay: 300ms;
   0% {
     right: 0;
   }
+
   10% {
     right: 5px;
   }
+
   20% {
     right: 10px;
   }
+
   30% {
     right: 15px;
   }
+
   40% {
     right: 20px;
   }
+
   50% {
     right: 25px;
   }
+
   60% {
     right: 30px;
   }
+
   70% {
     right: 35px;
   }
+
   80% {
     right: 40px;
   }
+
   90% {
     right: 45px;
   }
+
   100% {
     right: 50px;
   }
@@ -353,35 +378,45 @@ $t-delay: 300ms;
   0% {
     right: 50px;
   }
+
   10% {
     right: 45px;
   }
+
   20% {
     right: 40px;
   }
+
   30% {
     right: 35px;
   }
+
   40% {
     right: 30px;
   }
+
   50% {
     right: 25px;
   }
+
   60% {
     right: 20px;
   }
+
   70% {
     right: 15px;
   }
+
   80% {
     right: 10px;
   }
+
   90% {
     right: 5px;
   }
+
   100% {
-    right: 0px;
+    right: 0;
   }
 }
 
@@ -389,6 +424,7 @@ $t-delay: 300ms;
   from {
     stroke-dashoffset: 1000;
   }
+
   to {
     stroke-dashoffset: 0;
   }
@@ -396,6 +432,7 @@ $t-delay: 300ms;
 
 @keyframes ghostLogoAnim {
   0% {
+    opacity: 0;
   }
 
   60% {
@@ -443,5 +480,6 @@ $t-delay: 300ms;
 img.lazyload:not([src]) {
 	visibility: hidden;
 }
+
 /* purgecss end ignore */
 

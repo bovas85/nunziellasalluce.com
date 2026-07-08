@@ -68,6 +68,7 @@ const computedViewBox = computed(() => {
       opacity: 1;
       z-index: 0;
     }
+
     @include media(md) {
       &.animating {
         .path {

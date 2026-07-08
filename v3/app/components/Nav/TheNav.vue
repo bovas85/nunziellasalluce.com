@@ -162,32 +162,36 @@ watch(() => route.path, () => {
   }
 
   .navbar {
-    align-items: center;
     height: 100%;
     justify-content: space-between;
     align-items: center;
 
     .logo {
-      &:before,
-      &:after {
+      &::before,
+      &::after {
         display: none;
       }
     }
+
     img {
       width: 50px;
       height: 31px;
       object-fit: contain;
       stroke: $primary;
     }
+
     .menu {
       cursor: pointer;
+
       .rotate {
         cursor: pointer;
       }
+
       &--mobile {
         display: block;
         position: relative;
       }
+
       &--desktop {
         display: flex;
         justify-content: space-around;
@@ -216,8 +220,8 @@ watch(() => route.path, () => {
             text-decoration: none;
           }
 
-          &:before,
-          &:after {
+          &::before,
+          &::after {
             content: "";
             position: absolute;
             width: 0%;
@@ -226,23 +230,23 @@ watch(() => route.path, () => {
             background: #fff;
           }
 
-          &:before {
+          &::before {
             left: 0;
           }
 
-          &:after {
+          &::after {
             right: 0;
             background: #fff;
             transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
           }
 
-          &:hover:before {
+          &:hover::before {
             background: #fff;
             width: 100%;
             transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
           }
 
-          &:hover:after {
+          &:hover::after {
             background: transparent;
             width: 100%;
             transition: 0s;
@@ -251,21 +255,22 @@ watch(() => route.path, () => {
           &.nuxt-link-active {
             color: $primary;
 
-            &:before,
-            &:after {
+            &::before,
+            &::after {
               background: $primary;
             }
 
-            &:after {
+            &::after {
               right: 0;
               background: $primary;
             }
 
             &:hover {
-              &:before {
+              &::before {
                 background: $primary;
               }
-              &:after {
+
+              &::after {
                 background: transparent;
                 width: 100%;
                 transition: 0s;
@@ -283,8 +288,8 @@ watch(() => route.path, () => {
               text-decoration: none;
             }
 
-            &:before,
-            &:after {
+            &::before,
+            &::after {
               content: "";
               position: absolute;
               width: 0%;
@@ -293,17 +298,17 @@ watch(() => route.path, () => {
               background: black;
             }
 
-            &:before {
+            &::before {
               left: 0;
             }
 
-            &:after {
+            &::after {
               right: 0;
               background: black;
               transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
             }
 
-            &:hover:before {
+            &:hover::before {
               background: black;
               width: 100%;
               transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -322,18 +327,18 @@ watch(() => route.path, () => {
     .navbar a {
       color: $secondary;
 
-      &:before,
-      &:after {
+      &::before,
+      &::after {
         background: $primary;
       }
 
-      &:hover:before {
+      &:hover::before {
         background: $primary;
         width: 100%;
         transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
       }
 
-      &:hover:after {
+      &:hover::after {
         background: transparent;
         width: 100%;
         transition: 0s;
@@ -342,6 +347,7 @@ watch(() => route.path, () => {
 
     .close-icon {
       cursor: pointer;
+
       &--line {
         background: black;
       }
@@ -362,6 +368,7 @@ watch(() => route.path, () => {
   &.scrolled.done.contact,
   &.scrolled.done.about {
     background-color: transparent;
+
     .navbar a {
       color: white;
     }
@@ -375,11 +382,13 @@ watch(() => route.path, () => {
     color: $grey;
     cursor: pointer;
     font-size: 14px;
+
     @media (min-width: $tablet) {
       font-size: 16px;
     }
   }
 }
+
 .close-icon {
   cursor: pointer;
   position: relative;
@@ -401,6 +410,7 @@ watch(() => route.path, () => {
     height: 2px;
     width: 15px;
     transform: rotate(45deg);
+
     &.inverted {
       transform: rotate(-45deg);
     }

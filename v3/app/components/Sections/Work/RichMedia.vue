@@ -45,18 +45,22 @@
 
     .title {
       max-width: 300px;
+
       @include fadeInUp;
+
       transition-delay: 0.2s;
     }
 
     .image {
       @include fadeInUp;
+
       transition-delay: 0.2s;
     }
 
     .text {
       display: block;
       max-width: 70vw;
+
       @include fadeInUp;
     }
 

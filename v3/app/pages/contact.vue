@@ -137,10 +137,12 @@ onMounted(() => {
       h1 {
         max-width: 150px;
         padding-top: 60px;
+
         @include media(sm) {
           max-width: 350px;
           padding-top: 96px;
         }
+
         grid-row: 2 / 4;
       }
 
@@ -188,12 +190,14 @@ onMounted(() => {
         }
       }
     }
+
     .contact-form--wrapper {
       @include media(lg) {
         margin-left: auto;
         margin-right: 10vw;
         min-height: 546px;
       }
+
       @include fadeInUp;
 
       &.animated {

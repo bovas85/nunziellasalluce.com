@@ -53,7 +53,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 300px 2fr 1fr;
-        grid-gap: $gap;
+        gap: $gap;
         justify-items: center;
       }
     }
@@ -61,20 +61,22 @@
     .title {
       max-width: 405px;
       padding: 0;
+
       @include fadeInUp;
+
       transition-delay: 0.2s;
       margin-bottom: $gap * 1.5;
 
       @include media(lg) {
         margin-bottom: 0;
         grid-row: 1;
-        justify-self: left;
-        align-self: center;
+        place-self: center left;
       }
 
       &--bottom {
         margin-bottom: 0;
         margin-top: $gap * 1.5;
+
         @include media(lg) {
           grid-row: 3 / -1;
           grid-column: 2;
@@ -95,11 +97,15 @@
       &--right {
         grid-column: 2;
         grid-row: 1 / 3;
+
         @include fadeInUp;
+
         transition-delay: 0.6s;
       }
+
       &--left {
         @include fadeInUp;
+
         transition-delay: 1s;
 
         @include media(md) {

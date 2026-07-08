@@ -222,15 +222,17 @@ const sendForm = async () => {
       max-width: $tablet;
     }
   }
+
   p {
     margin: 0;
-    padding: 0 0 10px 0;
+    padding: 0 0 10px;
     line-height: 2;
     color: $secondary;
     font-weight: 300;
     font-size: 16px;
     margin-bottom: 20px;
   }
+
   .sent {
     opacity: 0;
     position: fixed;
@@ -251,18 +253,21 @@ const sendForm = async () => {
       font-size: 18px;
       text-transform: uppercase;
     }
+
     &.is-visible {
       position: relative;
       opacity: 1;
       max-height: 100%;
       z-index: 1;
     }
+
     p {
       line-height: 1.2;
       font-weight: 600;
       font-size: $font-size;
     }
   }
+
   .is-danger {
     color: $red;
     margin-left: 0;
@@ -276,32 +281,39 @@ const sendForm = async () => {
     font-weight: 400;
     text-align: left;
     letter-spacing: 1.8px;
-    margin: 0 0 4px 0;
+    margin: 0 0 4px;
+
     @media (min-width: $tablet) {
       font-size: 24px;
     }
+
     span.red {
       color: $red;
       line-height: 1;
     }
   }
+
   h4 {
     font-size: 22px;
     line-height: 22px;
     color: $secondary;
     letter-spacing: 0.4px;
-    margin: 0 0 24px 0;
+    margin: 0 0 24px;
     padding: 0;
     font-weight: 700;
   }
+
   form {
-    grid-row-gap: 0;
+    row-gap: 0;
+
     &.sending {
       display: none;
     }
+
     .check {
       display: block;
       margin: 20px 0 0;
+
       p {
         margin-bottom: 0;
         padding-bottom: 0;
@@ -315,6 +327,7 @@ const sendForm = async () => {
         color: $secondary;
       }
     }
+
     .checkbox {
       font-size: 14px;
       font-weight: 300;
@@ -326,14 +339,17 @@ const sendForm = async () => {
       padding-top: 0;
       margin: 0;
       opacity: 1 !important;
+
       a {
         color: $secondary;
         font-weight: 600;
+
         &:hover {
           color: $secondary;
           text-decoration: underline;
         }
       }
+
       span {
         &.is-visible {
           margin-bottom: 0 !important;
@@ -346,14 +362,15 @@ const sendForm = async () => {
       position: absolute;
       opacity: 0;
       height: 0 !important;
+
       &:focus {
-        ~ label:before {
+        ~ label::before {
           border: 2px solid $secondary;
         }
       }
     }
 
-    .checkbox:after {
+    .checkbox::after {
       background-image: url('/images/tick.svg');
       background-repeat: no-repeat;
       background-size: 70%;
@@ -362,10 +379,10 @@ const sendForm = async () => {
       width: 32px;
       height: 32px;
       line-height: 1;
-      font-size: 0px;
+      font-size: 0;
       position: absolute;
       top: -5px;
-      left: 0px;
+      left: 0;
       opacity: 0;
       color: $secondary;
 
@@ -378,10 +395,11 @@ const sendForm = async () => {
     label {
       &.checkbox {
         &.opacity {
-          &:after {
+          &::after {
             opacity: 1 !important;
           }
         }
+
         height: 33px;
         position: relative;
         padding-left: 44px;
@@ -389,7 +407,8 @@ const sendForm = async () => {
         flex-direction: column;
         justify-content: center;
         font-size: 12px;
-        &:before {
+
+        &::before {
           content: '';
           background-color: transparent;
           border: solid 1px $secondary;
@@ -404,26 +423,29 @@ const sendForm = async () => {
             top: 3px;
           }
         }
+
         &.is-danger {
-          &:before {
+          &::before {
             border: solid 2px #ffd2d2;
           }
         }
+
         &:checked {
-          &:before {
+          &::before {
             border: solid 1px $secondary;
             color: $secondary;
           }
         }
+
         &:hover {
-          &:before {
+          &::before {
             border: solid 2px $secondary;
           }
         }
       }
     }
 
-    input:checked + label:before {
+    input:checked + label::before {
       border: 1px solid $secondary;
       color: #99a1a7;
     }
@@ -431,19 +453,22 @@ const sendForm = async () => {
     .honeypot {
       visibility: hidden;
       height: 0;
-      font-size: 0px;
+      font-size: 0;
       width: 0;
       position: absolute;
       text-indent: 9999px;
     }
+
     span {
       visibility: hidden;
       display: block;
+
       &.is-visible {
         visibility: visible;
         margin-bottom: $gap;
       }
     }
+
     .email {
       margin-bottom: $gap;
     }
@@ -456,13 +481,14 @@ const sendForm = async () => {
     text-transform: uppercase;
     font-weight: 600;
     font-size: 14px;
+
     &.error {
       color: $red;
     }
   }
 
   input {
-    margin: 12px 0 20px 0;
+    margin: 12px 0 20px;
     height: 50px;
     font-size: $font-size;
     border: 0 solid transparent;
@@ -494,17 +520,19 @@ const sendForm = async () => {
       border-bottom: 2px solid $red;
     }
   }
+
   .emailErrorMsg {
     color: $red;
     font-size: 16px;
-    margin: 0 0 10px 0px;
+    margin: 0 0 10px;
     padding: 0;
     display: none;
   }
+
   .name,
   .email {
     label {
-      transform: translate(0px, 32px);
+      transform: translate(0, 32px);
       display: block;
       position: absolute;
       transition: transform 0.3s ease-in-out;
@@ -541,13 +569,15 @@ const sendForm = async () => {
     height: 100px;
     width: 100%;
     outline: none !important;
-    margin: 10px 0 0 0;
+    margin: 10px 0 0;
     padding: 10px;
     color: $grey;
     resize: vertical;
+
     &.error {
       border-bottom-color: $red;
     }
+
     &:focus {
       border-bottom: 2px solid $secondary;
     }
@@ -563,12 +593,15 @@ const sendForm = async () => {
     .container {
       max-width: 500px;
     }
+
     form {
       padding-top: 24px;
     }
+
     .is-flex {
       align-items: center;
       justify-content: space-between;
+
       i {
         color: $secondary;
         font-size: 12px;

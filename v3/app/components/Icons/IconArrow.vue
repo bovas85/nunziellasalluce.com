@@ -50,12 +50,13 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+
   .svg {
     position: relative;
     display: inline-block;
     text-align: right;
 
-    &:before {
+    &::before {
       content: "";
       position: absolute;
       bottom: 12px;
@@ -65,32 +66,37 @@
       right: 48%;
       height: 30px;
       margin-top: -1px;
-      color: currentColor;
-      background-color: currentColor;
+      color: currentcolor;
+      background-color: currentcolor;
       transition: all 0.3s ease-in-out;
     }
 
     &:hover {
-      &:before {
+      &::before {
         height: 40px;
       }
     }
   }
+
   .left,
   .right,
   .bottom,
   .up {
     transform-origin: center;
   }
+
   .left {
     transform: rotate(90deg);
   }
+
   .right {
     transform: rotate(-90deg);
   }
+
   .down {
     transform: rotate(0deg);
   }
+
   .up {
     transform: rotate(180deg);
   }

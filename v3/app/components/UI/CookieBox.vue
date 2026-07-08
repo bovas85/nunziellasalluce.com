@@ -69,6 +69,7 @@ const setCookie = () => {
         text-decoration: underline;
       }
     }
+
     .privacy-link {
       border: none;
       width: auto;
@@ -91,6 +92,7 @@ const setCookie = () => {
         opacity: 0.9;
       }
     }
+
     p {
       font-size: 16px;
       font-weight: 400;
@@ -99,10 +101,12 @@ const setCookie = () => {
       text-align: left;
       color: white;
       margin-right: 16px;
+
       @include media(md) {
         margin: 0;
       }
     }
+
     .container {
       display: flex;
       height: 100%;

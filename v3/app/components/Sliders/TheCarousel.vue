@@ -130,30 +130,36 @@ const swiperOptions = {
       width: 10vw;
     }
   }
+
   .prev {
     left: -21px;
+
     @include media(xl) {
       left: -32px;
     }
+
     opacity: 1;
     background: linear-gradient(
       to left,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.4) 100%
+      rgb(0 0 0 / 0%) 0%,
+      rgb(0 0 0 / 40%) 100%
     );
     transition: opacity 0.3s ease-in-out;
   }
+
   .next {
     left: unset;
     right: -21px;
+
     @include media(xl) {
       right: -32px;
     }
+
     opacity: 1;
     background: linear-gradient(
       to right,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.4) 100%
+      rgb(0 0 0 / 0%) 0%,
+      rgb(0 0 0 / 40%) 100%
     );
     transition: opacity 0.3s ease-in-out;
   }
@@ -187,6 +193,7 @@ const swiperOptions = {
   .lazy-image {
     pointer-events: none;
   }
+
   .text-section {
     position: absolute;
     top: 50%;
@@ -242,6 +249,7 @@ const swiperOptions = {
       }
     }
   }
+
   &:hover {
     .text-section .subtitle {
       @include media(lg) {
@@ -253,9 +261,11 @@ const swiperOptions = {
   
   :deep(img) {
     height: 300px;
+
     @media (min-width: $tablet) {
       height: 600px;
     }
+
     width: 100%;
     object-fit: cover;
     object-position: center;
@@ -266,14 +276,17 @@ const swiperOptions = {
     box-shadow: 0 0 5px 1px white;
     border: 0 solid transparent;
     transition: transform 0.3s ease-in-out;
+
     &:hover {
       z-index: 1;
       transform: scale(1.05);
     }
   }
+
   .image {
     position: relative;
     height: 100%;
+
     .text {
       position: absolute;
       top: 50%;

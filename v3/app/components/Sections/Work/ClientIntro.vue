@@ -67,6 +67,7 @@ export default {
     height: 100%;
     align-self: flex-end;
     color: black;
+
     @include fadeInUp;
 
     h3 {
@@ -94,17 +95,19 @@ export default {
       color: $primary;
       font-weight: 600;
       text-decoration: none;
+
       @include size(h4);
     }
 
     h3,
     li {
-      color: currentColor;
+      color: currentcolor;
     }
   }
 
   .image-section {
     @include fadeInUp;
+
     transition-delay: 0.2s;
 
     @include media(lg) {
@@ -117,6 +120,7 @@ export default {
       @include media(md) {
         max-height: 50vh;
       }
+
       img {
         position: relative;
         object-fit: cover;
@@ -136,8 +140,8 @@ export default {
     text-decoration: none;
   }
 
-  a:before,
-  a:after {
+  a::before,
+  a::after {
     content: "";
     position: absolute;
     width: 0%;
@@ -146,21 +150,21 @@ export default {
     background: $primary;
   }
 
-  a:before {
+  a::before {
     left: 0;
   }
 
-  a:after {
+  a::after {
     right: 0;
     transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
-  a:hover:before {
+  a:hover::before {
     width: 100%;
     transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
-  a:hover:after {
+  a:hover::after {
     background: transparent;
     width: 100%;
     transition: 0s;

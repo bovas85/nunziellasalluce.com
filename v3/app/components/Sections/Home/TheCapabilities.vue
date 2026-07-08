@@ -56,6 +56,7 @@ const props = defineProps<{
 
     .skill {
       margin: $gap * 1.5 $gap;
+
       @include fadeInUp;
 
       @include media(md) {
@@ -93,9 +94,11 @@ const props = defineProps<{
       &:nth-child(2) {
         transition-delay: 0.2s;
       }
+
       &:nth-child(3) {
         transition-delay: 0.4s;
       }
+
       &:nth-child(4) {
         transition-delay: 0.6s;
       }

@@ -85,10 +85,7 @@ const aboutPage = computed(() => (data.value as any)?.acf)
 
   .image {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
@@ -99,6 +96,7 @@ const aboutPage = computed(() => (data.value as any)?.acf)
     text-transform: uppercase;
     font-weight: 600;
     padding-top: $gap * 4;
+
     @include size(h1);
   }
 
@@ -109,7 +107,9 @@ const aboutPage = computed(() => (data.value as any)?.acf)
   p {
     color: black;
     max-width: 568px;
+
     @include size(h3);
+
     margin-bottom: $gap;
 
     @include media(md) {
