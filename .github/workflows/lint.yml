@@ -13,7 +13,7 @@ defaults:
 
 jobs:
   lint:
-    name: ESLint & Stylelint
+    name: ESLint, Stylelint & Markdownlint
     runs-on: ubuntu-latest
 
     steps:
@@ -37,3 +37,6 @@ jobs:
 
       - name: Run Stylelint
         run: yarn lint:css
+
+      - name: Run Markdownlint
+        run: yarn lint:md

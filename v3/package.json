@@ -12,6 +12,8 @@
     "lint:fix": "eslint . --fix",
     "lint:css": "stylelint 'app/**/*.{css,scss,vue}'",
     "lint:css:fix": "stylelint 'app/**/*.{css,scss,vue}' --fix",
+    "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules' '#dist'",
+    "lint:md:fix": "markdownlint-cli2 --fix '**/*.md' '#node_modules' '#dist'",
     "prepare": "husky"
   },
   "dependencies": {
@@ -30,13 +32,15 @@
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --fix",
-    "*.{css,scss,vue}": "stylelint --fix"
+    "*.{css,scss,vue}": "stylelint --fix",
+    "*.md": "markdownlint-cli2 --fix"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.16.0",
     "eslint": "^10.6.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.8",
+    "markdownlint-cli2": "^0.23.0",
     "postcss-html": "^1.8.1",
     "postcss-responsive-type": "^1.0.0",
     "sass": "^1.101.0",
