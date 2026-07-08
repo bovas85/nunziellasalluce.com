@@ -47,16 +47,16 @@
         right: true,
         swiperOptions: {
           initialSlide: 0,
-          slidesPerView: 3,
+          slidesPerView: 1,
           breakpoints: {
-            1024: {
-              slidesPerView: 3
+            480: {
+              slidesPerView: 1
             },
             640: {
               slidesPerView: 2
             },
-            480: {
-              slidesPerView: 1
+            1024: {
+              slidesPerView: 3
             }
           },
           centeredSlides: false,
@@ -102,9 +102,13 @@
     computed: {
       responsiveNumber () {
         if (process.browser) {
-          if (this.$store.state.window < 481) {
+          if (this.$store.state.window < 640) {
             return 1;
-          } else return 3;
+          } else if (this.$store.state.window < 1024) {
+            return 2;
+          } else {
+            return 3;
+          }
         } else return 3;
       }
     }
