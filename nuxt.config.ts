@@ -31,6 +31,9 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/eslint'
   ],
+  eslint: {
+    checker: false
+  },
   postcss: {
     plugins: {
       'postcss-responsive-type': {}
