@@ -93,7 +93,7 @@
 
       @include media(md) {
         width: 48%;
-        flex-basis: calc(50% - #{$gap / 2});
+        flex-basis: calc(50% - calc(calc($gap / 2)));
       }
 
       h3 {
@@ -123,7 +123,7 @@
         background: transparent;
         transition-delay: 0.4s;
         z-index: 1;
-        padding: 0 $gap / 1.5 $gap / 1.5;
+        padding: 0 calc($gap / 1.5) calc($gap / 1.5);
         margin-top: $gap;
 
         @include media(md) {
@@ -182,7 +182,7 @@
         @include media(lg) {
           grid-column: span 6;
         }
-        /deep/ img {
+        ::v-deep img {
           object-fit: cover;
           object-position: center;
           @supports (display: grid) {

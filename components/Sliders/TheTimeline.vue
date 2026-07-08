@@ -119,7 +119,7 @@
     margin: 0;
     padding: 0;
     position: relative;
-    margin-left: $gap / 2;
+    margin-left: calc($gap / 2);
 
     @include media(md) {
       margin-left: $gap * 3;
@@ -202,7 +202,7 @@
     p {
       margin-top: 200px;
       max-width: 230px;
-      padding-right: $gap / 1.5;
+      padding-right: calc($gap / 1.5);
     }
   }
   .prev,

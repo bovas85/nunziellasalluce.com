@@ -79,7 +79,7 @@
       }
 
       h3 {
-        margin: $gap / 2 0;
+        margin: calc($gap / 2) 0;
         color: $primary;
       }
 

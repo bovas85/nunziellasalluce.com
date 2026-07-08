@@ -109,7 +109,7 @@ export default {
       margin-top: 0;
     }
 
-    /deep/ img {
+    ::v-deep img {
       object-fit: cover;
       object-position: center;
       grid-row: span 1;

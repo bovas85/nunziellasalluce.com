@@ -246,7 +246,7 @@ export default {
           }
 
           position: relative;
-          padding: $gap / 3 0;
+          padding: calc($gap / 3) 0;
 
           &:hover {
             color: #fff;
