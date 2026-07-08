@@ -178,9 +178,14 @@
           this.$root.sent = true
           this.disabled = true
           var formData = new FormData()
+          formData.append('_wpcf7', '78')
+          formData.append('_wpcf7_version', '5.9')
+          formData.append('_wpcf7_locale', 'en_GB')
+          formData.append('_wpcf7_unit_tag', 'wpcf7-f78-p235-o1')
           formData.append('your-name', this.form.yourName)
           formData.append('your-email', this.form.yourEmail)
           formData.append('your-message', this.form.yourMessage)
+          formData.append('acceptance-privacy', this.form.youAgree ? '1' : '')
           this.$http
             .post(`${Config.wpDomain}${Config.api.postFormContact}`, formData)
             .then(res => {
