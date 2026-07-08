@@ -1,69 +1,130 @@
 <script setup lang="ts">
-// Minimal setup for the new Vue 3 Composition API homepage
+import { ref, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useAsyncData } from '#app'
+import Config from '@/assets/config'
+
+const route = useRoute()
+
+// Fetch data using useAsyncData with caching to prevent back-navigation suspension
+const { data: homePage } = await useAsyncData(
+  'homePage', 
+  () => $fetch(Config.wpDomain + Config.api.homePage),
+  {
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+    }
+  }
+)
+
+const { data: projects } = await useAsyncData(
+  'projects', 
+  () => $fetch(Config.wpDomain + Config.api.projects),
+  {
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+    }
+  }
+)
+
+// State for animations
 const animateHeader = ref(false)
+const animateWho = ref(false)
+const animateWork = ref(false)
+const animateProcess = ref(false)
+const animateCapab = ref(false)
+const animateTestimonials = ref(false)
+
+const acf = computed(() => (homePage.value as any)?.acf)
+const testimonials = computed(() => acf.value?.testimonials?.testimonials || [])
+
+const filteredProjects = computed(() => {
+  if (!projects.value || !Array.isArray(projects.value)) return null
+  
+  const order = acf.value?.case_studies?.order || []
+  if (order.length > 0) {
+    const orderMap = new Map()
+    order.forEach((id: number, index: number) => {
+      orderMap.set(id, index)
+    })
+    
+    const sorted = [...projects.value].sort((a, b) => {
+      const indexA = orderMap.has(a.id) ? orderMap.get(a.id) : -1
+      const indexB = orderMap.has(b.id) ? orderMap.get(b.id) : -1
+      return indexA - indexB
+    })
+    
+    // remove drafts in production
+    if (process.env.NODE_ENV !== 'development') {
+      return sorted.filter(project => project.acf?.status === 'true')
+    }
+    return sorted
+  }
+  return null
+})
 
 onMounted(() => {
-  animateHeader.value = true
+  if (process.client) {
+    animateHeader.value = true
+    setTimeout(() => {
+      animateWho.value = true
+      // Also animate work shortly after for now since we haven't implemented full scroll triggers yet
+      setTimeout(() => { 
+        animateWork.value = true
+        animateProcess.value = true
+        animateCapab.value = true
+        animateTestimonials.value = true
+      }, 200)
+      
+      import('splitting').then(module => {
+        module.default()
+      })
+    }, 150)
+    
+    if (route.hash) {
+      window.scrollTo(0, 0)
+      setTimeout(() => {
+        const el = document.querySelector(route.hash)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      }, 600)
+    }
+  }
 })
 </script>
 
 <template>
-  <main class="home">
-    <section class="hero-placeholder">
-      <div class="container">
-        <h1 :class="{ 'animate-in': animateHeader }">Nunziella Salluce Design</h1>
-        <p>Minimal Homepage Scaffolded in Nuxt 3</p>
-      </div>
+  <main class="home" v-if="acf">
+    <SectionsHomeHeroSection :acf="acf" :animateHeader="animateHeader" />
+
+    <SectionsHomeWhoIAm :acf="acf" :animateWho="animateWho" />
+
+    <section id="work" v-if="projects" class="projects">
+      <SectionsHomeTheWork :filteredProjects="filteredProjects" :acf="acf" :animateWork="animateWork" />
     </section>
 
-    <section class="placeholder-section">
-      <h2>Who I Am</h2>
-      <p>Content will be ported here...</p>
-    </section>
-
-    <section class="placeholder-section">
-      <h2>Selected Work</h2>
-      <p>Projects will be fetched and ported here...</p>
-    </section>
+    <SectionsHomeTheProcess :acf="acf" :animateProcess="animateProcess" />
+    <SectionsHomeTheCapabilities :acf="acf" :animateCapab="animateCapab" />
+    <SectionsHomeTheTestimonials :acf="acf" :testimonials="testimonials" :animateTestimonials="animateTestimonials" />
+    <SectionsHomeTheAwards />
   </main>
 </template>
 
-<style scoped>
-.home {
-  font-family: sans-serif;
-  padding: 2rem;
-}
-
-.hero-placeholder {
-  min-height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background-color: #f4a261;
-  color: white;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-}
+<style lang="scss" scoped>
+@import "@/assets/css/splitting.css";
 
 h1 {
-  font-size: 3rem;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1s ease, transform 1s ease;
+  @include media(sm) {
+    max-width: 480px;
+    padding-left: 0;
+  }
 }
 
-h1.animate-in {
-  opacity: 1;
-  transform: translateY(0);
-}
+section {
+  margin: calc($gap / 1.5) 0;
+  width: 100%;
 
-.placeholder-section {
-  padding: 3rem 1rem;
-  background: #f9f9f9;
-  border: 2px dashed #ddd;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-  text-align: center;
+  @include media(md) {
+    margin: $gap * 3 auto;
+  }
 }
 </style>

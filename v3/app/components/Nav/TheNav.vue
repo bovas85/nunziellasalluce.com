@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useMediaQuery } from '@vueuse/core'
+import { useMediaQuery, useWindowScroll } from '@vueuse/core'
 
 const route = useRoute()
 const animating = ref(false)
@@ -12,6 +12,28 @@ const menuScrolledDone = useState('menuScrolledDone', () => false)
 const navOpen = useState('navOpen', () => false)
 
 const isLargeScreen = useMediaQuery('(min-width: 1024px)')
+const { y } = useWindowScroll()
+
+let scrollTimeout1: NodeJS.Timeout
+let scrollTimeout2: NodeJS.Timeout
+
+watch(y, (newY) => {
+  // If we scroll past 150px, trigger the sticky menu animations
+  if (newY > 150) {
+    if (!menuScrolled.value) {
+      clearTimeout(scrollTimeout1)
+      clearTimeout(scrollTimeout2)
+      scrollTimeout1 = setTimeout(() => { menuScrolled.value = true }, 150)
+      scrollTimeout2 = setTimeout(() => { menuScrolledDone.value = true }, 400)
+    }
+  } else {
+    // Reset when at the top
+    clearTimeout(scrollTimeout1)
+    clearTimeout(scrollTimeout2)
+    menuScrolled.value = false
+    menuScrolledDone.value = false
+  }
+})
 
 const menuItems = ["", "work", "about", "contact"]
 
@@ -22,6 +44,8 @@ const toggleMenu = () => {
 // Reset menu on route change
 watch(() => route.path, () => {
   navOpen.value = false
+  menuScrolled.value = false
+  menuScrolledDone.value = false
   if (process.client) {
     document.body.style.overflow = "visible"
     document.documentElement.style.overflow = "visible"
