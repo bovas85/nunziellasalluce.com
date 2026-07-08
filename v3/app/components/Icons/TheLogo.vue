@@ -83,7 +83,7 @@ const computedViewBox = computed(() => {
 
     &.animating {
       .path {
-        animation: ghostLogoAnim 1.9s linear forwards;
+        animation: ghost-logo-anim 1.9s linear forwards;
       }
     }
   }

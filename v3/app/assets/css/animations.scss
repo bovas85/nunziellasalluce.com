@@ -14,12 +14,9 @@ $t-delay: 300ms;
     display: block;
     width: 100%;
     height: 100%;
+    background-color: $yellow;
     transition-property: opacity, transform;
     transition-timing-function: ease-in-out;
-  }
-
-  &::before {
-    background-color: $yellow;
   }
 }
 
@@ -180,15 +177,15 @@ $t-delay: 300ms;
 }
 
 .page-enter-active {
-  animation: acrossIn 0.4s ease-out both;
+  animation: across-in 0.4s ease-out both;
 }
 
 .page-leave-active {
   display: block;
-  animation: acrossOut 0.4s ease-in both;
+  animation: across-out 0.4s ease-in both;
 }
 
-@keyframes acrossIn {
+@keyframes across-in {
   0% {
     opacity: 0;
   }
@@ -198,7 +195,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes acrossOut {
+@keyframes across-out {
   0% {
     opacity: 1;
   }
@@ -237,34 +234,24 @@ $t-delay: 300ms;
 }
 
 .fadeIn-leave-active {
-  animation: fadeOut 0.6s ease-in both;
+  animation: fade-out 0.6s ease-in both 0.2s;
   overflow-y: hidden !important;
 }
 
 .fadeIn-enter-active {
-  animation: fadeIn 0.6s ease-in both;
-  overflow-y: hidden !important;
-}
-
-.fadeIn-leave-active {
-  animation: fadeOut 0.6s ease-in both 0.2s;
-  overflow-y: hidden !important;
-}
-
-.fadeIn-enter-active {
-  animation: fadeIn 0.6s ease-in both 0.2s;
+  animation: fade-in 0.6s ease-in both 0.2s;
 }
 
 .slide-leave-active {
-  animation: slideOut 1s ease-in 1s both;
+  animation: slide-out 1s ease-in 1s both;
   overflow-y: hidden !important;
 }
 
 .slide-enter-active {
-  animation: slideIn 1s ease-in 1s both;
+  animation: slide-in 1s ease-in 1s both;
 }
 
-@keyframes blurOut {
+@keyframes blur-out {
   from {
     filter: blur(0);
     opacity: 0;
@@ -276,7 +263,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes blurIn {
+@keyframes blur-in {
   from {
     filter: blur(15px);
   }
@@ -286,7 +273,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes fadeOut {
+@keyframes fade-out {
   from {
     opacity: 1;
   }
@@ -296,7 +283,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   from {
     opacity: 0.1;
   }
@@ -306,7 +293,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes slideOut {
+@keyframes slide-out {
   from {
     transform: translateY(0%);
     opacity: 0;
@@ -318,7 +305,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes slideIn {
+@keyframes slide-in {
   from {
     transform: translateY(-100%);
   }
@@ -328,7 +315,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes nudgeLeft {
+@keyframes nudge-left {
   0% {
     right: 0;
   }
@@ -374,7 +361,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes nudgeRight {
+@keyframes nudge-right {
   0% {
     right: 50px;
   }
@@ -430,7 +417,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes ghostLogoAnim {
+@keyframes ghost-logo-anim {
   0% {
     opacity: 0;
   }
@@ -449,7 +436,7 @@ $t-delay: 300ms;
   }
 }
 
-@keyframes viLogoAnim {
+@keyframes vi-logo-anim {
   0% {
     opacity: 0;
   }

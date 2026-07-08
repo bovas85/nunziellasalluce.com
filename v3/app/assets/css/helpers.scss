@@ -142,12 +142,6 @@
   }
 }
 
-@media (max-width: $tablet - 1) {
-  .is-hidden-mobile-large-only {
-    display: none !important;
-  }
-}
-
 @media (min-width: $mobile-large) {
   .is-hidden-mobile-large {
     display: none !important;

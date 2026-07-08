@@ -21,7 +21,8 @@ $ yarn generate
 
 ## Deployment
 
-The static site is generated to `.output/public` and can be deployed to any static hosting:
+The static site is generated to `.output/public` and can be deployed to
+any static hosting:
 
 ```bash
 # preview deploy to Netlify (doesn't affect production)
@@ -33,12 +34,12 @@ $ npx netlify-cli deploy --dir=.output/public --prod
 
 ## Nuxt Docs
 
-For detailed explanation on how things work with Nuxt, check out the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction).
+For detailed explanation on how things work with Nuxt, check out the
+[Nuxt documentation](https://nuxt.com/docs/getting-started/introduction).
 
 ## Special Thanks
 
-<a href="https://www.browserstack.com">
-  <img alt="BrowserStack logo" class="w-svg" height="43" src="https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/themes/browserstack/img/browserstack-logo.svg" style="height: 43px;" width="188">
-</a>
+[![BrowserStack logo](https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/themes/browserstack/img/browserstack-logo.svg)](https://www.browserstack.com)
 
-Special thanks to [BrowserStack](https://www.browserstack.com) for letting me use their service to debug browser specific issues.
+Special thanks to [BrowserStack](https://www.browserstack.com) for
+letting me use their service to debug browser specific issues.

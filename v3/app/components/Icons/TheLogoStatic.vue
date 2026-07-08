@@ -72,7 +72,7 @@ const computedViewBox = computed(() => {
     @include media(md) {
       &.animating {
         .path {
-          animation: viLogoAnim 1.9s linear forwards;
+          animation: vi-logo-anim 1.9s linear forwards;
         }
       }
     }
