@@ -11,7 +11,7 @@ const currentTestimonial = ref(0)
 </script>
 
 <template>
-  <section class="testimonials step" v-if="acf">
+  <section v-if="acf" class="testimonials step">
     <div class="container" :class="{ animated: animateTestimonials }">
       <h1>{{ acf.testimonials.title }}</h1>
     </div>
@@ -21,8 +21,8 @@ const currentTestimonial = ref(0)
         <div class="testimonial-group">
           <UITheTestimonial
             v-for="(testimonial, index) in testimonials"
-            :key="`${testimonial.name}-${index}`"
             v-show="currentTestimonial === index"
+            :key="`${testimonial.name}-${index}`"
             :testimonial="testimonial"
           />
         </div>

@@ -8,8 +8,8 @@
     <FootersTheFooter />
     
     <div
-      id="awwwards"
       v-if="$route.path === '/'"
+      id="awwwards"
       style="position: fixed; z-index: 999; transform: translateY(-50%); top: 20%; right: 0"
     >
       <a

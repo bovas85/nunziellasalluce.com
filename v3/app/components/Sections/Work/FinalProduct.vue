@@ -1,5 +1,5 @@
 <template>
-  <section class="final-product step" v-if="project.product != null">
+  <section v-if="project.product != null" class="final-product step">
     <div class="container">
       <div class="text-section" :class="{ animated: animateFinal }">
         <h1>{{ project.product.title }}</h1>
@@ -7,9 +7,9 @@
       </div>
 
       <div
-        class="image-section step"
         v-for="(content, index) in project.product.the_content"
         :key="index"
+        class="image-section step"
       >
         <p>{{ content.text }}</p>
         <UILazyImage
@@ -17,20 +17,20 @@
           class="image"
           :hover="false"
           :image="content.image"
-          :imageMobile="content.image"
+          :image-mobile="content.image"
         />
         <UILazyImage
         v-if="content.videoMobile != null && content.videoDesktop != null"
           class="image"
           :hover="false"
-          :videoMobile="content.videoMobile"
-          :videoDesktop="content.videoDesktop"
+          :video-mobile="content.videoMobile"
+          :video-desktop="content.videoDesktop"
         />
       </div>
     </div>
     <SlidersSlider
-      class="slider"
       v-if="project.product.slider && project.product.slider.length"
+      class="slider"
       :data="project.product.slider"
     />
   </section>

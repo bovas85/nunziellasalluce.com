@@ -1,5 +1,5 @@
 <template>
-  <section class="email-newsletter step" v-if="project != null && project.newsletter != null">
+  <section v-if="project != null && project.newsletter != null" class="email-newsletter step">
     <div class="container">
       <h1 class="title" :class="{'animated': animateEmail}">{{newsletter.title}}</h1>
       <UILazyImage
@@ -8,7 +8,7 @@
         :class="{'animated': animateEmail}"
         :hover="false"
         :image="newsletter.image_right"
-        :imageMobile="newsletter.image_right"
+        :image-mobile="newsletter.image_right"
       />
       <UILazyImage
         v-if="newsletter.image_left != null && newsletter.image_left.url"
@@ -16,7 +16,7 @@
         :class="{'animated': animateEmail}"
         :hover="false"
         :image="newsletter.image_left"
-        :imageMobile="newsletter.image_left"
+        :image-mobile="newsletter.image_left"
       />
       <!-- title for next section is here to respect grid -->
       <h1 class="title title--bottom" :class="{'animated': animateEmail}">Paid Ads</h1>
@@ -28,9 +28,9 @@
 <script>
     export default {
     name: "EmailNewsletter",
-    props: ["project", "animateEmail"],
     components: {
           },
+    props: ["project", "animateEmail"],
     computed: {
       newsletter () {
         return this.project.newsletter || null;

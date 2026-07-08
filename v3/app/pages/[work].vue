@@ -62,7 +62,7 @@ const capitalizeEveryWord = (str: string) => {
   return str.replace(/\b\w/g, l => l.toUpperCase())
 }
 
-if (!project.value && process.server) {
+if (!project.value && import.meta.server) {
   const event = useRequestEvent()
   if (event) {
     import('h3').then(({ setResponseStatus }) => {
@@ -137,7 +137,7 @@ const showMenu = (response: any) => {
 }
 
 const handleScroll = () => {
-  if (!process.client) return
+  if (!import.meta.client) return
   const step = document.querySelector('.step')
   if (step) {
     scroller = scrollama()
@@ -161,7 +161,7 @@ const scrollamaResize = () => {
 }
 
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     animateHeader.value = true
     setTimeout(() => {
       handleScroll()
@@ -179,32 +179,32 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="case-study" v-if="project != null">
-    <SectionsWorkHero :project="project" :animateHeader="animateHeader" />
+  <div v-if="project != null" class="case-study">
+    <SectionsWorkHero :project="project" :animate-header="animateHeader" />
 
     <SectionsWorkClientIntro
       :project="project"
-      :animateIntro="animateIntro"
+      :animate-intro="animateIntro"
     />
 
-    <SectionsWorkTheBrand :project="project" :animateBrand="animateBrand" />
+    <SectionsWorkTheBrand :project="project" :animate-brand="animateBrand" />
 
     <SectionsWorkTheChallenge
       :project="project"
-      :animateChallenge="animateChallenge"
+      :animate-challenge="animateChallenge"
     />
 
     <ClientOnly>
       <SectionsWorkFinalProduct
         :project="project"
-        :animateFinal="animateFinal"
+        :animate-final="animateFinal"
       />
     </ClientOnly>
 
     <div
+      v-if="previousProject && nextProject"
       class="work-navigation step"
       :class="{ animated: animateBottomImage }"
-      v-if="previousProject && nextProject"
     >
       <div class="container-fluid is-flex">
         <NuxtLink class="previous" :to="`/${previousProject.slug}`">
@@ -213,7 +213,7 @@ onBeforeUnmount(() => {
             class="image"
             :hover="false"
             :image="previousProject.acf.hero.desktop_bg"
-            :imageMobile="previousProject.acf.hero.mobile_bg"
+            :image-mobile="previousProject.acf.hero.mobile_bg"
           >
             <span>{{ previousProject.acf.hero.title }}</span>
           </UILazyImage>
@@ -225,7 +225,7 @@ onBeforeUnmount(() => {
             class="image"
             :hover="false"
             :image="nextProject.acf.hero.desktop_bg"
-            :imageMobile="nextProject.acf.hero.mobile_bg"
+            :image-mobile="nextProject.acf.hero.mobile_bg"
           >
             <span>{{ nextProject.acf.hero.title }}</span>
           </UILazyImage>

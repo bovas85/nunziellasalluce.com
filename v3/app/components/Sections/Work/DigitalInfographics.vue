@@ -1,5 +1,5 @@
 <template>
-  <section class="digital-infographics step" v-if="project != null && project.infographics != null">
+  <section v-if="project != null && project.infographics != null" class="digital-infographics step">
     <div class="container is-flex">
       <h1 class="title step">{{infographics.title}}</h1>
       
@@ -8,16 +8,16 @@
           class="image image--top2"
           :class="{'animated': animateDigital}"
           :hover="false"
-          :videoMobile="infographics.video_top"
-          :videoDesktop="infographics.video_top"
+          :video-mobile="infographics.video_top"
+          :video-desktop="infographics.video_top"
       />
       <UILazyImage
         v-if="infographics.video_bottom != null"
           class="image image--bottom2"
           :class="{'animated': animateDigital}"
           :hover="false"
-          :videoMobile="infographics.video_bottom"
-          :videoDesktop="infographics.video_bottom"
+          :video-mobile="infographics.video_bottom"
+          :video-desktop="infographics.video_bottom"
       />
 
       <UILazyImage
@@ -26,7 +26,7 @@
         :class="{'animated': animateDigital}"
         :hover="false"
         :image="infographics.image_top"
-        :imageMobile="infographics.image_top"
+        :image-mobile="infographics.image_top"
       />
       <UILazyImage
         v-if="infographics.image_bottom != null && infographics.image_bottom.url"
@@ -34,7 +34,7 @@
         :class="{'animated': animateDigital}"
         :hover="false"
         :image="infographics.image_bottom"
-        :imageMobile="infographics.image_bottom"
+        :image-mobile="infographics.image_bottom"
       />
     </div>
   </section>
@@ -43,9 +43,9 @@
 <script>
     export default {
     name: "DigitalInfographics",
-    props: ["project", "animateDigital"],
     components: {
           },
+    props: ["project", "animateDigital"],
     computed: {
       infographics () {
         return this.project.infographics || null;

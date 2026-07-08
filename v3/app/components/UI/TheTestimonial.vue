@@ -5,7 +5,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="testimonial" v-if="testimonial != null">
+  <div v-if="testimonial != null" class="testimonial">
     <img
       class="lazyload" 
       :data-src="testimonial.image ? testimonial.image.sizes.medium : 'https://placehold.it/200x200'"

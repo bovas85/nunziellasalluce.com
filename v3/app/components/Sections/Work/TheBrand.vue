@@ -1,5 +1,5 @@
 <template>
-  <section class="the-brand step" v-if="project.brand != null">
+  <section v-if="project.brand != null" class="the-brand step">
     <div class="container">
       <h1 :class="{'animated': animateBrand}">{{project.brand.title}}</h1>
     </div>

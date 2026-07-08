@@ -1,5 +1,5 @@
 <template>
-  <section class="the-challenge step" v-if="project.challenge != null">
+  <section v-if="project.challenge != null" class="the-challenge step">
     <div class="container">
       <div class="text-section" :class="{'animated': animateChallenge}">
         <h1>{{project.challenge.title}}</h1>
@@ -26,8 +26,8 @@
         </div>
       </div>
       <div
-        class="flexible-content container-fluid"
         v-if="project.challenge.flexible_content.length"
+        class="flexible-content container-fluid"
       >
         <div
           v-for="(content, index) in project.challenge.flexible_content"
@@ -39,7 +39,7 @@
             class="image"
             :hover="false"
             :image="content.image"
-            :imageMobile="content.image"
+            :image-mobile="content.image"
           />
           <p v-else-if="content.acf_fc_layout === 'text'">{{content.text}}</p>
           <UILazyImage
@@ -48,7 +48,7 @@
             :hover="false"
             position="right"
             :image="content.double_image"
-            :imageMobile="content.double_image"
+            :image-mobile="content.double_image"
           />
         </div>
       </div>
@@ -59,9 +59,9 @@
 <script>
     export default {
     name: "TheChallenge",
-    props: ["project", "animateChallenge"],
     components: {
-          }
+          },
+    props: ["project", "animateChallenge"]
   };
 </script>
 

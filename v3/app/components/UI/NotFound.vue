@@ -9,7 +9,7 @@ useHead({
   title: 'Page not Found'
 })
 
-if (process.server) {
+if (import.meta.server) {
   const event = useRequestEvent()
   if (event) {
     setResponseStatus(event, 404)

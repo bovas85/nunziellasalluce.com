@@ -1,12 +1,12 @@
 <template>
-  <section class="section hero step" v-if="project.hero != null">
+  <section v-if="project.hero != null" class="section hero step">
     <UILazyImage
         class="image"
       :image="project.hero.desktop_bg"
       :title="project.hero.title"
-      positionMobile="left"
+      position-mobile="left"
       :hover="false"
-      :imageMobile="project.hero.mobile_bg"
+      :image-mobile="project.hero.mobile_bg"
       home
     />
     <div class="container is-flex-column" :class="{'animated': animateHeader}">
@@ -15,9 +15,9 @@
       <h3>{{project.hero.description}}</h3>
     </div>
     <div
-      @click="scrollTo('.client-intro')"
       class="scroll-down"
       :class="{'animated': animateHeader}"
+      @click="scrollTo('.client-intro')"
     >
       <p>scroll</p>
       <div class="scroll-down__arrow">
@@ -31,7 +31,7 @@
 const props = defineProps(["project", "animateHeader"])
 
 const scrollTo = (selector) => {
-  if (process.client) {
+  if (import.meta.client) {
     const el = document.querySelector(selector)
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }

@@ -36,7 +36,7 @@ const swiperOptions = {
 </script>
 
 <template>
-  <div class="carousel" v-if="data != null && data.length > 0">
+  <div v-if="data != null && data.length > 0" class="carousel">
     <div class="swiper-container">
       <Swiper v-bind="swiperOptions" class="app-carousel">
         <SwiperSlide
@@ -48,9 +48,9 @@ const swiperOptions = {
             class="image"
             :hover="false"
             cover
-            noBg
+            no-bg
             :image="item.image"
-            :imageMobile="item.image"
+            :image-mobile="item.image"
           />
         </SwiperSlide>
       </Swiper>

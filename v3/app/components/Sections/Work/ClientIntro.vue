@@ -1,8 +1,8 @@
 <template>
-  <section class="client-intro step" v-if="project.intro != null">
+  <section v-if="project.intro != null" class="client-intro step">
     <div class="container is-flex">
       <div class="text-section" :class="{ animated: animateIntro }">
-        <p class="intro-heading" v-if="project.intro.heading">
+        <p v-if="project.intro.heading" class="intro-heading">
           {{ project.intro.heading || "" }}
         </p>
         <h3>Client</h3>
@@ -30,15 +30,15 @@
       </div>
 
       <div
+        v-if="project.intro.image != null"
         class="image-section"
         :class="{ animated: animateIntro }"
-        v-if="project.intro.image != null"
       >
         <UILazyImage
         class="image"
           :hover="false"
           :image="project.intro.image"
-          :imageMobile="project.intro.image"
+          :image-mobile="project.intro.image"
         />
       </div>
     </div>
@@ -48,9 +48,9 @@
 <script>
 export default {
   name: "ClientIntro",
-  props: ["project", "animateIntro"],
   components: {
-      }
+      },
+  props: ["project", "animateIntro"]
 };
 </script>
 

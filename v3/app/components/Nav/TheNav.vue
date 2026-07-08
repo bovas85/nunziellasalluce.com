@@ -46,7 +46,7 @@ watch(() => route.path, () => {
   navOpen.value = false
   menuScrolled.value = false
   menuScrolledDone.value = false
-  if (process.client) {
+  if (import.meta.client) {
     document.body.style.overflow = "visible"
     document.documentElement.style.overflow = "visible"
     document.body.style.position = "static"
@@ -69,23 +69,23 @@ watch(() => route.path, () => {
       <nav role="navigation" class="container is-flex navbar">
         <NuxtLink
           to="/"
+          class="logo col--8-mobile col--4-tablet is-center"
           @mouseover="animating = true"
           @mouseleave="animating = false"
-          class="logo col--8-mobile col--4-tablet is-center"
         >
           <IconsTheLogoStatic
             :width="90"
             :height="46"
-            :mobileWidth="50"
-            :mobileHeight="31"
+            :mobile-width="50"
+            :mobile-height="31"
             :animating="animating"
             :fill="menuScrolled ? '#f4a261' : 'white'"
           />
           <IconsTheLogo
             :width="90"
             :height="46"
-            :mobileWidth="50"
-            :mobileHeight="31"
+            :mobile-width="50"
+            :mobile-height="31"
             :animating="animating"
             :fill="menuScrolled ? '#f4a261' : 'white'"
           />
@@ -93,17 +93,17 @@ watch(() => route.path, () => {
 
         <div
           v-if="!isLargeScreen"
-          @click="toggleMenu"
           class="menu menu--mobile"
+          @click="toggleMenu"
         >
           <transition name="rotate" mode="out-in">
-            <div class="rotate" key="closed" v-if="!navOpen">
+            <div v-if="!navOpen" key="closed" class="rotate">
               <IconsBurgerMenu
                 :fill="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'"
                 :stroke="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'"
               />
             </div>
-            <div class="rotate" key="open" v-else>
+            <div v-else key="open" class="rotate">
               <div :class="route.path === '/' && 'black'" class="close-icon">
                 <span class="close-icon--line" />
                 <span class="close-icon--line inverted" />

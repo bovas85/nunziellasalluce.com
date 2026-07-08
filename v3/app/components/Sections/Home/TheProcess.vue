@@ -6,7 +6,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <section class="the-process step" v-if="acf">
+  <section v-if="acf" class="the-process step">
     <div class="container">
       <h1 :class="{'animated': animateProcess}">{{acf.the_process.title}}</h1>
       <div class="container is-flex">

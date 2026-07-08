@@ -1,19 +1,19 @@
 <template>
-  <section class="rich-media step" v-if="project != null && project.rich_media != null">
+  <section v-if="project != null && project.rich_media != null" class="rich-media step">
     <div class="container is-flex">
       <!-- <h1 class="title step">{{rich.title}}</h1> /** Title removed as clashing */ -->
       <div
-        class="content"
-        :class="{'hidden': !item.text && !item.image}"
         v-for="(item, index) in rich.the_content"
         :key="`${item.acf_fc_layout}-${index}`"
+        class="content"
+        :class="{'hidden': !item.text && !item.image}"
       >
         <UILazyImage
         v-if="item && item.acf_fc_layout && item.acf_fc_layout === 'image'"
           class="image step"
           :hover="false"
           :image="item.image"
-          :imageMobile="item.image"
+          :image-mobile="item.image"
         />
         <p v-else-if="item && item.text" class="text step">{{item.text}}</p>
       </div>
@@ -24,9 +24,9 @@
 <script>
     export default {
     name: "RichMedia",
-    props: ["project", "animateRich"],
     components: {
           },
+    props: ["project", "animateRich"],
     computed: {
       rich () {
         return this.project.rich_media || null;

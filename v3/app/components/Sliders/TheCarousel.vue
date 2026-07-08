@@ -44,11 +44,11 @@ const swiperOptions = {
 </script>
 
 <template>
-  <div class="carousel" v-if="data != null && data.length > 0">
+  <div v-if="data != null && data.length > 0" class="carousel">
     <div
+      class="swiper-container"
       @mouseover="hovering = true"
       @mouseleave="hovering = false"
-      class="swiper-container"
     >
       <Swiper v-bind="swiperOptions" class="app-carousel">
         <SwiperSlide
@@ -58,8 +58,8 @@ const swiperOptions = {
         >
           <div
             v-if="item.acf.hero && item.acf.product"
-            @click="router.push(item.slug)"
             class="slide-content"
+            @click="router.push(item.slug)"
           >
             <UILazyImage
               class="image"
@@ -67,7 +67,7 @@ const swiperOptions = {
               :image="item.acf.hero.desktop_bg"
               type="'case_study'"
               :title="item.acf.hero.title"
-              :imageMobile="item.acf.hero.mobile_bg"
+              :image-mobile="item.acf.hero.mobile_bg"
               :link="item.slug"
             >
               <div class="text-section">

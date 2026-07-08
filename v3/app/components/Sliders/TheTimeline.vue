@@ -60,9 +60,9 @@ const swiperOptions = {
 </script>
 
 <template>
-  <div class="carousel" v-if="data != null && data.length">
+  <div v-if="data != null && data.length" class="carousel">
     <div class="swiper-container">
-      <Swiper v-bind="swiperOptions" class="app-carousel" @slideChange="onSlideChange">
+      <Swiper v-bind="swiperOptions" class="app-carousel" @slide-change="onSlideChange">
         <SwiperSlide v-for="(item, index) in data" :key="index">
           <span class="circle" :style="{background: item.background}">
             <h3>{{item.title}}</h3>

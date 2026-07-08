@@ -31,8 +31,8 @@ const setCookie = () => {
       <p>This site uses cookies.
         <NuxtLink to="/privacy-policy">Find out more.</NuxtLink>
         <span
-          @click="setCookie"
           class="privacy-link"
+          @click="setCookie"
         >OK, Close</span>
       </p>
     </div>

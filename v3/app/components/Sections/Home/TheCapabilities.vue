@@ -6,7 +6,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <section class="capabilities step" v-if="acf">
+  <section v-if="acf" class="capabilities step">
     <div class="container">
       <h1 :class="{'animated': animateCapab}">{{acf.capabilities.title}}</h1>
       <div :class="{'animated': animateCapab}" class="skill col--4-tablet">

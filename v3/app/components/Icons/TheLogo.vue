@@ -24,7 +24,7 @@ const length = ref(302)
 const { width: windowWidth } = useWindowSize()
 
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     setTimeout(() => {
       const path = document.querySelector('.path') as SVGPathElement
       if (path) {

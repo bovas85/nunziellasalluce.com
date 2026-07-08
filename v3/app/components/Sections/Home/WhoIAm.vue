@@ -6,34 +6,34 @@ const props = defineProps<{
 </script>
 
 <template>
-  <section class="section who-i-am step" v-if="acf">
+  <section v-if="acf" class="section who-i-am step">
     <div class="container">
-      <h1 :class="{ animated: animateWho }" v-if="acf">
+      <h1 v-if="acf" :class="{ animated: animateWho }">
         {{ acf.who_i_am.title }}
       </h1>
       <div class="wrapper">
         <UILazyImage
+          v-if="acf"
           class="image"
           :class="{ animated: animateWho }"
-          v-if="acf"
           :image="acf.who_i_am.image"
           :title="acf.who_i_am.title"
           :hover="false"
-          :imageMobile="acf.who_i_am.image"
+          :image-mobile="acf.who_i_am.image"
           lazyload
           home
         />
-        <div class="text" v-if="acf">
+        <div v-if="acf" class="text">
           <ClientOnly>
             <p
+              v-for="(item, index) in acf.who_i_am.text_group"
+              :key="index"
               :class="{
                 animated: animateWho,
                 'stagger-it': index === 0,
                 'color-cycle': index === 1,
                 'pop-out-color': index === 2
               }"
-              v-for="(item, index) in acf.who_i_am.text_group"
-              :key="index"
               class="jumbo"
               data-splitting
             >

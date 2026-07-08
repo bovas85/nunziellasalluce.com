@@ -22,17 +22,17 @@ const aboutPage = computed(() => (data.value as any)?.acf)
 </script>
 
 <template>
-  <div class="about" v-if="aboutPage">
+  <div v-if="aboutPage" class="about">
     <UILazyImage
       class="image"
       :image="aboutPage.about.desktop_image"
       :hover="false"
       position="right"
-      positionMobile="right"
-      :imageMobile="aboutPage.about.mobile_image"
+      position-mobile="right"
+      :image-mobile="aboutPage.about.mobile_image"
       home
     />
-    <div class="container" v-if="aboutPage">
+    <div v-if="aboutPage" class="container">
       <h1>{{ aboutPage.title }}</h1>
 
       <h3>{{ aboutPage.about.title }}</h3>

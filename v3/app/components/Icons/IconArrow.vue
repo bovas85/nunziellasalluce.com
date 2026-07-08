@@ -7,7 +7,7 @@
         :stroke="fill"
         d="M50 92l16-29.1M50 92L34 62.9"
         class="st0"
-      ></path>
+      />
     </svg>
   </div>
 </template>

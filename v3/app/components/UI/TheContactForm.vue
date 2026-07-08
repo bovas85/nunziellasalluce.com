@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useLocalStorage } from '@vueuse/core'
+import { useLocalStorage, useNetwork  } from '@vueuse/core'
 import Config from '@/assets/config'
-import { useNetwork } from '@vueuse/core'
 
 const { isOnline } = useNetwork()
 
@@ -146,25 +145,25 @@ const sendForm = async () => {
 
 <template>
   <div class="contact-form">
-    <form key="notSent" :class="{'sending': sent}" @submit.prevent class="go-bottom is-flex-column">
+    <form key="notSent" :class="{'sending': sent}" class="go-bottom is-flex-column" @submit.prevent>
         <div class="name">
             <label :class="{'selected': nameFocused || saved}" for="name">Full Name</label>
-            <input autocomplete="given-name" @focus="nameFocused = true" @blur="nameClicked = true" :class="{'is-danger': vNameInvalid && sending || vNameInvalid && nameClicked}" v-model="form.yourName" id="name" name="name" type="text" required>
+            <input id="name" v-model="form.yourName" autocomplete="given-name" :class="{'is-danger': vNameInvalid && sending || vNameInvalid && nameClicked}" name="name" type="text" required @focus="nameFocused = true" @blur="nameClicked = true">
             <i :class="{'is-danger': vNameInvalid && sending || vNameInvalid && nameClicked}"><img src="/images/error.svg" alt="error icon"></i>
             <span :class="{'is-visible': vNameInvalid && sending || vNameInvalid && nameClicked}" class="has-text-danger">Please type your full name</span>
         </div>
 
         <div class="email">
             <label :class="{'selected': emailFocused || saved}" for="email">Email</label>
-            <input autocomplete="email" @focus="emailFocused = true" @blur="emailClicked = true" :class="{'is-danger': vEmailInvalid && sending || vEmailInvalid && emailClicked}" v-model="form.yourEmail" id="email" name="email" type="email" required>
+            <input id="email" v-model="form.yourEmail" autocomplete="email" :class="{'is-danger': vEmailInvalid && sending || vEmailInvalid && emailClicked}" name="email" type="email" required @focus="emailFocused = true" @blur="emailClicked = true">
             <i :class="{'is-danger': vEmailInvalid && sending || vEmailInvalid && emailClicked}"><img src="/images/error.svg" alt="error icon"></i>
             <span :class="{'is-visible': vEmailInvalid && sending || vEmailInvalid && emailClicked}" class="has-text-danger">Please type a valid Email</span>
         </div>
 
         <div class="message">
-            <label :class="{'selected': messageFocused || saved}" @focus="messageFocused = true" for="message">Message</label>
-            <textarea class="hidden-mobile" rows="5" v-model="form.yourMessage" id="message" name="message"></textarea>
-            <textarea class="is-hidden-mobile-large" rows="1" placeholder="Write your message here ..." v-model="form.yourMessage" id="message_mobile" name="message_mobile"></textarea>
+            <label :class="{'selected': messageFocused || saved}" for="message" @focus="messageFocused = true">Message</label>
+            <textarea id="message" v-model="form.yourMessage" class="hidden-mobile" rows="5" name="message"/>
+            <textarea id="message_mobile" v-model="form.yourMessage" class="is-hidden-mobile-large" rows="1" placeholder="Write your message here ..." name="message_mobile"/>
         </div>
 
         <div class="check">
@@ -177,13 +176,13 @@ const sendForm = async () => {
 
         <div class="field is-grouped">
             <div class="control">
-                <input type="text" hidden autocomplete="off" v-model="honeypot" class="hidden honeypot" />
-                <button :disabled="disabled || saved" :class="{'is-disabled': disabled || saved}" @click.prevent="sendForm()" class="button button--contact">{{ isOnline ? 'Submit' : 'Save'}}</button>
+                <input v-model="honeypot" type="text" hidden autocomplete="off" class="hidden honeypot" >
+                <button :disabled="disabled || saved" :class="{'is-disabled': disabled || saved}" class="button button--contact" @click.prevent="sendForm()">{{ isOnline ? 'Submit' : 'Save'}}</button>
             </div>
         </div>
 
-        <p class="is-danger col--12 is-left send-error" v-show="sendError">There was an error sending the form.</p>
-        <p class="is-danger col--12 is-left send-error" v-show="checkValidation">There is an error in one of the fields. Please review your previous answers</p>
+        <p v-show="sendError" class="is-danger col--12 is-left send-error">There was an error sending the form.</p>
+        <p v-show="checkValidation" class="is-danger col--12 is-left send-error">There is an error in one of the fields. Please review your previous answers</p>
     </form>
 
     <div class="sent" :class="{'is-visible': sent}">

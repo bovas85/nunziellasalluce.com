@@ -6,8 +6,8 @@
           <IconsTheLogoStatic
             :width="90"
             :height="48"
-            :mobileWidth="50"
-            :mobileHeight="48"
+            :mobile-width="50"
+            :mobile-height="48"
             static
             fill="#f4a261"
           />
@@ -37,7 +37,7 @@
                 rel="noopener"
                 aria-label="Go to dribble"
                 target="_blank"
-              ></a>
+              />
             </li>
             <li class="social__icon">
               <a
@@ -46,7 +46,7 @@
                 rel="noopener"
                 aria-label="Go to instagram"
                 target="_blank"
-              ></a>
+              />
             </li>
             <li class="social__icon">
               <a
@@ -55,7 +55,7 @@
                 rel="noopener"
                 aria-label="Go to behance"
                 target="_blank"
-              ></a>
+              />
             </li>
             <li class="social__icon">
               <a
@@ -64,7 +64,7 @@
                 rel="noopener"
                 aria-label="Go to linkedin"
                 target="_blank"
-              ></a>
+              />
             </li>
           </ul>
         </div>

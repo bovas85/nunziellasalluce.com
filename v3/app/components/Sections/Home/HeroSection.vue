@@ -7,7 +7,7 @@ const props = defineProps<{
 }>()
 
 const scrollToWhoIAm = () => {
-  if (process.client) {
+  if (import.meta.client) {
     const el = document.querySelector('.who-i-am')
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' })
@@ -16,7 +16,7 @@ const scrollToWhoIAm = () => {
 }
 
 const scrollToProjects = () => {
-  if (process.client) {
+  if (import.meta.client) {
     const el = document.querySelector('.projects')
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' })
@@ -32,8 +32,8 @@ const scrollToProjects = () => {
       :image="acf.hero.desktop_bg"
       :title="acf.hero.title"
       :hover="false"
-      positionMobile="left"
-      :imageMobile="acf.hero.mobile_bg"
+      position-mobile="left"
+      :image-mobile="acf.hero.mobile_bg"
       lazyload
       svg
       home
@@ -42,7 +42,7 @@ const scrollToProjects = () => {
       <h1 class="jumbo">{{acf.hero.title}}</h1>
       <h3>{{acf.hero.description}}</h3>
     </div>
-    <div @click="scrollToWhoIAm" class="scroll-down">
+    <div class="scroll-down" @click="scrollToWhoIAm">
       <p>scroll</p>
       <div class="scroll-down__arrow">
         <IconsIconArrow fill="black" direction="down" name="arrow-down" :width="30" :height="40"/>

@@ -60,14 +60,14 @@ const getImage = computed(() => {
 })
 
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     const lazyVideos = Array.from(document.querySelectorAll('video.lazyload')) as HTMLVideoElement[]
     
     if ('IntersectionObserver' in window) {
       const lazyVideoObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(video => {
           if (video.isIntersecting) {
-            for (let source of Array.from(video.target.children)) {
+            for (const source of Array.from(video.target.children)) {
               const videoSource = source as HTMLSourceElement
               if (videoSource.tagName === 'SOURCE' && videoSource.dataset.src) {
                 videoSource.src = videoSource.dataset.src
@@ -89,7 +89,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="video" v-if="videoMobile && videoDesktop">
+  <div v-if="videoMobile && videoDesktop" class="video">
     <video
       :class="lazyload ? 'lazyload hidden-mobile' : 'hidden-mobile'"
       autoplay
@@ -98,7 +98,7 @@ onMounted(() => {
       playsinline
       poster="/images/Homepage.svg"
     >
-      <source :data-src="videoDesktop" type="video/mp4" />
+      <source :data-src="videoDesktop" type="video/mp4" >
       Your browser does not support the video tag.
     </video>
     <!-- mobile video -->
@@ -110,7 +110,7 @@ onMounted(() => {
       playsinline
       poster="/images/Homepage.svg"
     >
-      <source :data-src="videoMobile" type="video/mp4" />
+      <source :data-src="videoMobile" type="video/mp4" >
       Your browser does not support the video tag.
     </video>
   </div>
@@ -128,14 +128,14 @@ onMounted(() => {
         srcset="/images/Homepage.svg"
         :data-srcset="`${imageMobile.sizes.medium}${svg ? '' : '.webp'}`"
         type="image/webp"
-      />
+      >
       <source
         media="(max-width: 576px)"
         :class="lazyload ? 'lazyload' : ''"
         :loading="lazyload ? 'lazy' : undefined"
         srcset="/images/Homepage.svg"
         :data-srcset="`${imageMobile.sizes.medium}`"
-      />
+      >
 
       <!-- Tablet: 577px to 1200px -->
       <source
@@ -145,14 +145,14 @@ onMounted(() => {
         srcset="/images/Homepage.svg"
         :data-srcset="`${image.sizes.large}${svg ? '' : '.webp'}`"
         type="image/webp"
-      />
+      >
       <source
         media="(min-width: 577px) and (max-width: 1200px)"
         :class="lazyload ? 'lazyload' : ''"
         :loading="lazyload ? 'lazy' : undefined"
         srcset="/images/Homepage.svg"
         :data-srcset="`${image.sizes.large}`"
-      />
+      >
 
       <!-- Desktop: 1201px to 1920px -->
       <source
@@ -162,14 +162,14 @@ onMounted(() => {
         srcset="/images/Homepage.svg"
         :data-srcset="getImage ? `${getImage}${svg ? '' : '.webp'}` : `${image.sizes.ultra}${svg ? '' : '.webp'}`"
         type="image/webp"
-      />
+      >
       <source
         media="(min-width: 1201px) and (max-width: 1920px)"
         :class="lazyload ? 'lazyload' : ''"
         :loading="lazyload ? 'lazy' : undefined"
         srcset="/images/Homepage.svg"
         :data-srcset="getImage ? `${getImage}` : `${image.sizes.ultra}`"
-      />
+      >
 
       <!-- 4k: min-width 1921px -->
       <source
@@ -179,14 +179,14 @@ onMounted(() => {
         srcset="/images/Homepage.svg"
         :data-srcset="getImage ? `${getImage}${svg ? '' : '.webp'}` : `${image.sizes['4k']}${svg ? '' : '.webp'}`"
         type="image/webp"
-      />
+      >
       <source
         media="(min-width: 1921px)"
         :class="lazyload ? 'lazyload' : ''"
         :loading="lazyload ? 'lazy' : undefined"
         srcset="/images/Homepage.svg"
         :data-srcset="getImage ? `${getImage}` : `${image.sizes['4k']}`"
-      />
+      >
 
       <!-- Fallback image -->
       <img
@@ -195,9 +195,9 @@ onMounted(() => {
         src="/images/Homepage.svg"
         :data-src="getImage ? getImage : image.sizes.ultra"
         :alt="image.alt || title"
-      />
+      >
     </picture>
-    <slot></slot>
+    <slot/>
   </div>
 </template>
 

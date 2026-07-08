@@ -64,7 +64,7 @@ const filteredProjects = computed(() => {
 })
 
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     animateHeader.value = true
     setTimeout(() => {
       animateWho.value = true
@@ -93,18 +93,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="home" v-if="acf">
-    <SectionsHomeHeroSection :acf="acf" :animateHeader="animateHeader" />
+  <main v-if="acf" class="home">
+    <SectionsHomeHeroSection :acf="acf" :animate-header="animateHeader" />
 
-    <SectionsHomeWhoIAm :acf="acf" :animateWho="animateWho" />
+    <SectionsHomeWhoIAm :acf="acf" :animate-who="animateWho" />
 
-    <section id="work" v-if="projects" class="projects">
-      <SectionsHomeTheWork :filteredProjects="filteredProjects" :acf="acf" :animateWork="animateWork" />
+    <section v-if="projects" id="work" class="projects">
+      <SectionsHomeTheWork :filtered-projects="filteredProjects" :acf="acf" :animate-work="animateWork" />
     </section>
 
-    <SectionsHomeTheProcess :acf="acf" :animateProcess="animateProcess" />
-    <SectionsHomeTheCapabilities :acf="acf" :animateCapab="animateCapab" />
-    <SectionsHomeTheTestimonials :acf="acf" :testimonials="testimonials" :animateTestimonials="animateTestimonials" />
+    <SectionsHomeTheProcess :acf="acf" :animate-process="animateProcess" />
+    <SectionsHomeTheCapabilities :acf="acf" :animate-capab="animateCapab" />
+    <SectionsHomeTheTestimonials :acf="acf" :testimonials="testimonials" :animate-testimonials="animateTestimonials" />
     <SectionsHomeTheAwards />
   </main>
 </template>

@@ -22,7 +22,7 @@ const contactPage = computed(() => data.value as any)
 const showForm = ref(false)
 
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     setTimeout(() => {
       showForm.value = true
     }, 1000)
@@ -33,20 +33,20 @@ onMounted(() => {
 <template>
   <div class="contact">
     <section class="section hero">
-      <div class="grid-wrapper" v-if="contactPage != null">
+      <div v-if="contactPage != null" class="grid-wrapper">
         <UILazyImage
-          class="image"
           v-if="contactPage.acf"
-          noBg
+          class="image"
+          no-bg
           :image="contactPage.acf.background"
           :title="contactPage.acf.title"
-          positionMobile="left"
+          position-mobile="left"
           :hover="false"
-          :imageMobile="contactPage.acf.background"
+          :image-mobile="contactPage.acf.background"
           home
         />
         <div class="container">
-          <h1 class="jumbo" v-if="contactPage.acf">
+          <h1 v-if="contactPage.acf" class="jumbo">
             {{ contactPage.acf.title }}
           </h1>
           <h3>
