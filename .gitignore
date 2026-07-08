@@ -1,36 +1,33 @@
-# dependencies
-node_modules/*
-node_modules
-dist
-build/*
-package-lock.json
-.htaccess
-.idea
-
-# logs
-npm-debug.log
-logs
-logs/*
-
-# Nuxt build
+# Nuxt dev/build outputs
+.output
+.data
 .nuxt
+.nitro
+.cache
+dist
+coverage
 
-# trash
+# Node dependencies
+node_modules
+package-lock.json
+
+# Logs
+logs
+*.log
+npm-debug.log
+
+# Misc
 .DS_Store
-Thumbs.db
-
-# Intellij idea
 .idea
-*iml
-
-npm_output.txt
-generate_pending
-
-# VSCode
 .vscode
+Thumbs.db
+*.iml
+.fleet
 
-# Generated files
-sw.*
+# Local env files
+.env
+.env.*
+!.env.example
 
 # Local Netlify folder
 .netlify

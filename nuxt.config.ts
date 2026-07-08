@@ -20,6 +20,7 @@ export default defineNuxtConfig({
         '@vue/devtools-core',
         '@vue/devtools-kit',
         'lazysizes',
+        'scrollama',
         'splitting',
         'swiper/modules',
         'swiper/vue'
@@ -30,6 +31,9 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/eslint'
   ],
+  eslint: {
+    checker: false
+  },
   postcss: {
     plugins: {
       'postcss-responsive-type': {}

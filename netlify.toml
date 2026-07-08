@@ -1,0 +1,11 @@
+[build]
+  command = "yarn generate"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24.13.0"
+
+[[redirects]]
+  from = "/*"
+  to = "/404"
+  status = 404
