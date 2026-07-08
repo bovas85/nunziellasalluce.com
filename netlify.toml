@@ -1,6 +1,6 @@
 [build]
   command = "yarn generate"
-  publish = ".output/public"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "24.13.0"
