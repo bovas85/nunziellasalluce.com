@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
 import { useAsyncData } from '#app'
 import { useHead } from '#imports'
 import Config from '@/assets/config'
+import { computed, onMounted, ref } from 'vue'
 
 useHead({
   title: 'Contact Me'
@@ -18,7 +18,7 @@ const { data } = await useAsyncData(
   }
 )
 
-const contactPage = computed(() => data.value as any)
+const contactPage = computed(() => data.value as unknown)
 const showForm = ref(false)
 
 onMounted(() => {
@@ -35,25 +35,16 @@ onMounted(() => {
     <section class="section hero">
       <div v-if="contactPage != null" class="grid-wrapper">
         <UILazyImage
-          v-if="contactPage.acf"
-          class="image"
-          no-bg
-          :image="contactPage.acf.background"
-          :title="contactPage.acf.title"
-          position-mobile="left"
-          :hover="false"
-          :image-mobile="contactPage.acf.background"
-          home
-        />
+v-if="contactPage.acf" class="image" no-bg :image="contactPage.acf.background"
+          :title="contactPage.acf.title" position-mobile="left" :hover="false"
+          :image-mobile="contactPage.acf.background" home />
         <div class="container">
           <h1 v-if="contactPage.acf" class="jumbo">
             {{ contactPage.acf.title }}
           </h1>
           <h3>
             Email:
-            <a href="mailto:hello@nunziellasalluce.com?subject=hello"
-              >hello@nunziellasalluce.com</a
-            >
+            <a href="mailto:hello@nunziellasalluce.com?subject=hello">hello@nunziellasalluce.com</a>
           </h3>
         </div>
 

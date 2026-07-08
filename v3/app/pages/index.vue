@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import { useAsyncData } from '#app'
 import Config from '@/assets/config'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
 // Fetch data using useAsyncData with caching to prevent back-navigation suspension
 const { data: homePage } = await useAsyncData(
-  'homePage', 
+  'homePage',
   () => $fetch(Config.wpDomain + Config.api.homePage),
   {
     getCachedData(key, nuxtApp) {
@@ -18,7 +18,7 @@ const { data: homePage } = await useAsyncData(
 )
 
 const { data: projects } = await useAsyncData(
-  'projects', 
+  'projects',
   () => $fetch(Config.wpDomain + Config.api.projects),
   {
     getCachedData(key, nuxtApp) {
@@ -35,27 +35,27 @@ const animateProcess = ref(false)
 const animateCapab = ref(false)
 const animateTestimonials = ref(false)
 
-const acf = computed(() => (homePage.value as any)?.acf)
+const acf = computed(() => (homePage.value as Record<string, unknown>)?.acf as Record<string, unknown> | undefined)
 const testimonials = computed(() => acf.value?.testimonials?.testimonials || [])
 
 const filteredProjects = computed(() => {
   if (!projects.value || !Array.isArray(projects.value)) return null
-  
+
   const order = acf.value?.case_studies?.order || []
   if (order.length > 0) {
     const orderMap = new Map()
     order.forEach((id: number, index: number) => {
       orderMap.set(id, index)
     })
-    
+
     const sorted = [...projects.value].sort((a, b) => {
       const indexA = orderMap.has(a.id) ? orderMap.get(a.id) : -1
       const indexB = orderMap.has(b.id) ? orderMap.get(b.id) : -1
       return indexA - indexB
     })
-    
+
     // remove drafts in production
-    if (process.env.NODE_ENV !== 'development') {
+    if (!import.meta.dev) {
       return sorted.filter(project => project.acf?.status === 'true')
     }
     return sorted
@@ -69,18 +69,18 @@ onMounted(() => {
     setTimeout(() => {
       animateWho.value = true
       // Also animate work shortly after for now since we haven't implemented full scroll triggers yet
-      setTimeout(() => { 
+      setTimeout(() => {
         animateWork.value = true
         animateProcess.value = true
         animateCapab.value = true
         animateTestimonials.value = true
       }, 200)
-      
+
       import('splitting').then(module => {
         module.default()
       })
     }, 150)
-    
+
     if (route.hash) {
       window.scrollTo(0, 0)
       setTimeout(() => {

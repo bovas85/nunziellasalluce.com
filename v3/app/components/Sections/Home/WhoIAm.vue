@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const props = defineProps<{
-  acf: any
+defineProps<{
+  acf: unknown
   animateWho: boolean
 }>()
 </script>
@@ -13,38 +13,21 @@ const props = defineProps<{
       </h1>
       <div class="wrapper">
         <UILazyImage
-          v-if="acf"
-          class="image"
-          :class="{ animated: animateWho }"
-          :image="acf.who_i_am.image"
-          :title="acf.who_i_am.title"
-          :hover="false"
-          :image-mobile="acf.who_i_am.image"
-          lazyload
-          home
-        />
+v-if="acf" class="image" :class="{ animated: animateWho }" :image="acf.who_i_am.image"
+          :title="acf.who_i_am.title" :hover="false" :image-mobile="acf.who_i_am.image" lazyload home />
         <div v-if="acf" class="text">
           <ClientOnly>
             <p
-              v-for="(item, index) in acf.who_i_am.text_group"
-              :key="index"
-              :class="{
-                animated: animateWho,
-                'stagger-it': index === 0,
-                'color-cycle': index === 1,
-                'pop-out-color': index === 2
-              }"
-              class="jumbo"
-              data-splitting
-            >
+v-for="(item, index) in acf.who_i_am.text_group" :key="index" :class="{
+              animated: animateWho,
+              'stagger-it': index === 0,
+              'color-cycle': index === 1,
+              'pop-out-color': index === 2
+            }" class="jumbo" data-splitting>
               {{ item.text }}
             </p>
           </ClientOnly>
-          <NuxtLink
-            to="/about"
-            :class="{ animated: animateWho }"
-            class="button button--sent button--is-white"
-          >
+          <NuxtLink to="/about" :class="{ animated: animateWho }" class="button button--sent button--is-white">
             About Me
           </NuxtLink>
         </div>

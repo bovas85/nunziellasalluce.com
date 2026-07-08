@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import { Navigation, Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps<{
-  data: any[]
+  data: unknown[]
   location?: string
 }>()
 
@@ -45,39 +45,17 @@ const swiperOptions = {
 
 <template>
   <div v-if="data != null && data.length > 0" class="carousel">
-    <div
-      class="swiper-container"
-      @mouseover="hovering = true"
-      @mouseleave="hovering = false"
-    >
+    <div class="swiper-container" @mouseover="hovering = true" @mouseleave="hovering = false">
       <Swiper v-bind="swiperOptions" class="app-carousel">
-        <SwiperSlide
-          v-for="item in data"
-          :key="item.id"
-          class="swiper-slide-item"
-        >
-          <div
-            v-if="item.acf.hero && item.acf.product"
-            class="slide-content"
-            @click="router.push(item.slug)"
-          >
+        <SwiperSlide v-for="item in data" :key="item.id" class="swiper-slide-item">
+          <div v-if="item.acf.hero && item.acf.product" class="slide-content" @click="router.push(item.slug)">
             <UILazyImage
-              class="image"
-              :hover="true"
-              :image="item.acf.hero.desktop_bg"
-              type="'case_study'"
-              :title="item.acf.hero.title"
-              :image-mobile="item.acf.hero.mobile_bg"
-              :link="item.slug"
-            >
+class="image" :hover="true" :image="item.acf.hero.desktop_bg" type="'case_study'"
+              :title="item.acf.hero.title" :image-mobile="item.acf.hero.mobile_bg" :link="item.slug">
               <div class="text-section">
                 <h3>{{ item.acf.hero.title }}</h3>
                 <h4 class="subtitle">{{ item.acf.category }}</h4>
-                <button
-                  role="navigation"
-                  aria-label="Show case study"
-                  class="subtitle subtitle--show"
-                >
+                <button role="navigation" aria-label="Show case study" class="subtitle subtitle--show">
                   Show Case Study
                 </button>
               </div>
@@ -85,7 +63,7 @@ const swiperOptions = {
           </div>
         </SwiperSlide>
       </Swiper>
-      
+
       <!-- slider arrows -->
       <div class="prev">Prev</div>
       <div class="next">Next</div>
@@ -103,7 +81,7 @@ const swiperOptions = {
   margin-right: auto;
   padding: 0;
   position: relative;
-  
+
   .prev,
   .next {
     display: none;
@@ -139,11 +117,9 @@ const swiperOptions = {
     }
 
     opacity: 1;
-    background: linear-gradient(
-      to left,
+    background: linear-gradient(to left,
       rgb(0 0 0 / 0%) 0%,
-      rgb(0 0 0 / 40%) 100%
-    );
+      rgb(0 0 0 / 40%) 100%);
     transition: opacity 0.3s ease-in-out;
   }
 
@@ -156,11 +132,9 @@ const swiperOptions = {
     }
 
     opacity: 1;
-    background: linear-gradient(
-      to right,
+    background: linear-gradient(to right,
       rgb(0 0 0 / 0%) 0%,
-      rgb(0 0 0 / 40%) 100%
-    );
+      rgb(0 0 0 / 40%) 100%);
     transition: opacity 0.3s ease-in-out;
   }
 }
@@ -184,7 +158,7 @@ const swiperOptions = {
     max-width: 80vw !important;
     height: 600px;
   }
-  
+
   .slide-content {
     height: 100%;
     width: 100%;
@@ -258,7 +232,7 @@ const swiperOptions = {
       }
     }
   }
-  
+
   :deep(img) {
     height: 300px;
 

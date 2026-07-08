@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { useWindowSize } from '@vueuse/core'
+import { computed, onMounted } from 'vue';
 
 const props = withDefaults(defineProps<{
   svg?: boolean
   lazyload?: boolean
-  image?: any
+  image?: unknown
   videoMobile?: string | boolean
   videoDesktop?: string | boolean
-  imageMobile?: any
+  imageMobile?: unknown
   title?: string
-  link?: any
+  link?: unknown
   noPlaceholder?: boolean
   type?: string
   home?: boolean
@@ -25,6 +24,10 @@ const props = withDefaults(defineProps<{
 }>(), {
   svg: false,
   lazyload: true,
+  image: undefined,
+  videoMobile: undefined,
+  videoDesktop: undefined,
+  imageMobile: undefined,
   title: '',
   link: false,
   type: '',
@@ -62,9 +65,9 @@ const getImage = computed(() => {
 onMounted(() => {
   if (import.meta.client) {
     const lazyVideos = Array.from(document.querySelectorAll('video.lazyload')) as HTMLVideoElement[]
-    
+
     if ('IntersectionObserver' in window) {
-      const lazyVideoObserver = new IntersectionObserver((entries, observer) => {
+      const lazyVideoObserver = new IntersectionObserver((entries, _observer) => {
         entries.forEach(video => {
           if (video.isIntersecting) {
             for (const source of Array.from(video.target.children)) {
@@ -73,7 +76,7 @@ onMounted(() => {
                 videoSource.src = videoSource.dataset.src
               }
             }
-            ;(video.target as HTMLVideoElement).load()
+            ; (video.target as HTMLVideoElement).load()
             video.target.classList.remove('lazyload')
             lazyVideoObserver.unobserve(video.target)
           }
@@ -91,113 +94,68 @@ onMounted(() => {
 <template>
   <div v-if="videoMobile && videoDesktop" class="video">
     <video
-      :class="lazyload ? 'lazyload hidden-mobile' : 'hidden-mobile'"
-      autoplay
-      muted
-      loop
-      playsinline
-      poster="/images/Homepage.svg"
-    >
-      <source :data-src="videoDesktop" type="video/mp4" >
+:class="lazyload ? 'lazyload hidden-mobile' : 'hidden-mobile'" autoplay muted loop playsinline
+      poster="/images/Homepage.svg">
+      <source :data-src="videoDesktop" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <!-- mobile video -->
     <video
-      :class="lazyload ? 'lazyload is-hidden-mobile-large' : 'is-hidden-mobile-large'"
-      autoplay
-      muted
-      loop
-      playsinline
-      poster="/images/Homepage.svg"
-    >
-      <source :data-src="videoMobile" type="video/mp4" >
+:class="lazyload ? 'lazyload is-hidden-mobile-large' : 'is-hidden-mobile-large'" autoplay muted loop
+      playsinline poster="/images/Homepage.svg">
+      <source :data-src="videoMobile" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
   <div
-    v-else-if="image?.url != null && imageMobile?.url != null"
-    class="lazy-image"
-    :class="[{ 'hover-disabled': !hover, contain: contain }, computedClass, { home: home }]"
-  >
+v-else-if="image?.url != null && imageMobile?.url != null" class="lazy-image"
+    :class="[{ 'hover-disabled': !hover, contain: contain }, computedClass, { home: home }]">
     <picture>
       <!-- Mobile: max-width 576px -->
       <source
-        media="(max-width: 576px)"
-        :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg"
-        :data-srcset="`${imageMobile.sizes.medium}${svg ? '' : '.webp'}`"
-        type="image/webp"
-      >
+media="(max-width: 576px)" :class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
+        srcset="/images/Homepage.svg" :data-srcset="`${imageMobile.sizes.medium}${svg ? '' : '.webp'}`"
+        type="image/webp">
       <source
-        media="(max-width: 576px)"
-        :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg"
-        :data-srcset="`${imageMobile.sizes.medium}`"
-      >
+media="(max-width: 576px)" :class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
+        srcset="/images/Homepage.svg" :data-srcset="`${imageMobile.sizes.medium}`">
 
       <!-- Tablet: 577px to 1200px -->
       <source
-        media="(min-width: 577px) and (max-width: 1200px)"
-        :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg"
-        :data-srcset="`${image.sizes.large}${svg ? '' : '.webp'}`"
-        type="image/webp"
-      >
+media="(min-width: 577px) and (max-width: 1200px)" :class="lazyload ? 'lazyload' : ''"
+        :loading="lazyload ? 'lazy' : undefined" srcset="/images/Homepage.svg"
+        :data-srcset="`${image.sizes.large}${svg ? '' : '.webp'}`" type="image/webp">
       <source
-        media="(min-width: 577px) and (max-width: 1200px)"
-        :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg"
-        :data-srcset="`${image.sizes.large}`"
-      >
+media="(min-width: 577px) and (max-width: 1200px)" :class="lazyload ? 'lazyload' : ''"
+        :loading="lazyload ? 'lazy' : undefined" srcset="/images/Homepage.svg" :data-srcset="`${image.sizes.large}`">
 
       <!-- Desktop: 1201px to 1920px -->
       <source
-        media="(min-width: 1201px) and (max-width: 1920px)"
-        :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg"
+media="(min-width: 1201px) and (max-width: 1920px)" :class="lazyload ? 'lazyload' : ''"
+        :loading="lazyload ? 'lazy' : undefined" srcset="/images/Homepage.svg"
         :data-srcset="getImage ? `${getImage}${svg ? '' : '.webp'}` : `${image.sizes.ultra}${svg ? '' : '.webp'}`"
-        type="image/webp"
-      >
+        type="image/webp">
       <source
-        media="(min-width: 1201px) and (max-width: 1920px)"
-        :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg"
-        :data-srcset="getImage ? `${getImage}` : `${image.sizes.ultra}`"
-      >
+media="(min-width: 1201px) and (max-width: 1920px)" :class="lazyload ? 'lazyload' : ''"
+        :loading="lazyload ? 'lazy' : undefined" srcset="/images/Homepage.svg"
+        :data-srcset="getImage ? `${getImage}` : `${image.sizes.ultra}`">
 
       <!-- 4k: min-width 1921px -->
       <source
-        media="(min-width: 1921px)"
-        :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
+media="(min-width: 1921px)" :class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
         srcset="/images/Homepage.svg"
         :data-srcset="getImage ? `${getImage}${svg ? '' : '.webp'}` : `${image.sizes['4k']}${svg ? '' : '.webp'}`"
-        type="image/webp"
-      >
+        type="image/webp">
       <source
-        media="(min-width: 1921px)"
-        :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg"
-        :data-srcset="getImage ? `${getImage}` : `${image.sizes['4k']}`"
-      >
+media="(min-width: 1921px)" :class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
+        srcset="/images/Homepage.svg" :data-srcset="getImage ? `${getImage}` : `${image.sizes['4k']}`">
 
       <!-- Fallback image -->
       <img
-        :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
-        src="/images/Homepage.svg"
-        :data-src="getImage ? getImage : image.sizes.ultra"
-        :alt="image.alt || title"
-      >
+:class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined" src="/images/Homepage.svg"
+        :data-src="getImage ? getImage : image.sizes.ultra" :alt="image.alt || title">
     </picture>
-    <slot/>
+    <slot />
   </div>
 </template>
 
@@ -205,7 +163,9 @@ onMounted(() => {
 @supports not (display: grid) {
   .progressive-image-wrapper {
     position: relative;
-    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    padding-top: 56.25%;
+
+    /* 16:9 Aspect Ratio */
     img,
     .progressive-image-main {
       background: transparent;

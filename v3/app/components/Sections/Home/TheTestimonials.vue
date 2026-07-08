@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const props = defineProps<{
-  acf: any
-  testimonials: any[]
+defineProps<{
+  acf: unknown
+  testimonials: unknown[]
   animateTestimonials: boolean
 }>()
 
@@ -20,43 +20,21 @@ const currentTestimonial = ref(0)
       <div class="wrapper" :class="{ animated: animateTestimonials }">
         <div class="testimonial-group">
           <UITheTestimonial
-            v-for="(testimonial, index) in testimonials"
-            v-show="currentTestimonial === index"
-            :key="`${testimonial.name}-${index}`"
-            :testimonial="testimonial"
-          />
+v-for="(testimonial, index) in testimonials" v-show="currentTestimonial === index"
+            :key="`${testimonial.name}-${index}`" :testimonial="testimonial" />
         </div>
 
         <div class="arrows">
           <div
-            class="arrow arrow--left"
-            :class="{ 'is-disabled': currentTestimonial === 0 }"
-            role="button"
-            aria-label="previous testimonial"
-            @click="currentTestimonial > 0 ? currentTestimonial-- : null"
-          >
-            <IconsIconArrow
-              fill="black"
-              direction="left"
-              name="arrow-left"
-              :width="30"
-              :height="40"
-            />
+class="arrow arrow--left" :class="{ 'is-disabled': currentTestimonial === 0 }" role="button"
+            aria-label="previous testimonial" @click="currentTestimonial > 0 ? currentTestimonial-- : null">
+            <IconsIconArrow fill="black" direction="left" name="arrow-left" :width="30" :height="40" />
           </div>
           <div
-            class="arrow arrow--right"
-            :class="{ 'is-disabled': currentTestimonial === testimonials.length - 1 }"
-            role="button"
-            aria-label="next testimonial"
-            @click="currentTestimonial < testimonials.length - 1 ? currentTestimonial++ : null"
-          >
-            <IconsIconArrow
-              fill="black"
-              direction="right"
-              name="arrow-right"
-              :width="30"
-              :height="40"
-            />
+class="arrow arrow--right" :class="{ 'is-disabled': currentTestimonial === testimonials.length - 1 }"
+            role="button" aria-label="next testimonial"
+            @click="currentTestimonial < testimonials.length - 1 ? currentTestimonial++ : null">
+            <IconsIconArrow fill="black" direction="right" name="arrow-right" :width="30" :height="40" />
           </div>
         </div>
       </div>

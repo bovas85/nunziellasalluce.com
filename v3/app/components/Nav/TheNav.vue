@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import { useMediaQuery, useWindowScroll } from '@vueuse/core'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const animating = ref(false)
@@ -57,51 +57,31 @@ watch(() => route.path, () => {
 <template>
   <div class="navigation-bar">
     <div
-      class="navigation"
-      :class="{
-        scrolled: menuScrolled,
-        done: (menuScrolled && menuScrolledDone) || route.path === '/about' || route.path === '/contact' || route.path === '/privacy-policy',
-        about: route.path === '/about',
-        contact: route.path === '/contact',
-        static: route.path === '/privacy-policy'
-      }"
-    >
+class="navigation" :class="{
+      scrolled: menuScrolled,
+      done: (menuScrolled && menuScrolledDone) || route.path === '/about' || route.path === '/contact' || route.path === '/privacy-policy',
+      about: route.path === '/about',
+      contact: route.path === '/contact',
+      static: route.path === '/privacy-policy'
+    }">
       <nav role="navigation" class="container is-flex navbar">
         <NuxtLink
-          to="/"
-          class="logo col--8-mobile col--4-tablet is-center"
-          @mouseover="animating = true"
-          @mouseleave="animating = false"
-        >
+to="/" class="logo col--8-mobile col--4-tablet is-center" @mouseover="animating = true"
+          @mouseleave="animating = false">
           <IconsTheLogoStatic
-            :width="90"
-            :height="46"
-            :mobile-width="50"
-            :mobile-height="31"
-            :animating="animating"
-            :fill="menuScrolled ? '#f4a261' : 'white'"
-          />
+:width="90" :height="46" :mobile-width="50" :mobile-height="31" :animating="animating"
+            :fill="menuScrolled ? '#f4a261' : 'white'" />
           <IconsTheLogo
-            :width="90"
-            :height="46"
-            :mobile-width="50"
-            :mobile-height="31"
-            :animating="animating"
-            :fill="menuScrolled ? '#f4a261' : 'white'"
-          />
+:width="90" :height="46" :mobile-width="50" :mobile-height="31" :animating="animating"
+            :fill="menuScrolled ? '#f4a261' : 'white'" />
         </NuxtLink>
 
-        <div
-          v-if="!isLargeScreen"
-          class="menu menu--mobile"
-          @click="toggleMenu"
-        >
+        <div v-if="!isLargeScreen" class="menu menu--mobile" @click="toggleMenu">
           <transition name="rotate" mode="out-in">
             <div v-if="!navOpen" key="closed" class="rotate">
               <IconsBurgerMenu
-                :fill="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'"
-                :stroke="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'"
-              />
+:fill="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'"
+                :stroke="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'" />
             </div>
             <div v-else key="open" class="rotate">
               <div :class="route.path === '/' && 'black'" class="close-icon">
@@ -112,19 +92,9 @@ watch(() => route.path, () => {
           </transition>
         </div>
 
-        <ul
-          v-else
-          class="menu menu--desktop"
-          :class="(route.path === '/' || route.path === '/contact') && 'black'"
-        >
-          <NuxtLink
-            to="/"
-            :class="route.path === '/' && route.hash !== '#work' && 'nuxt-link-active'"
-          >Home</NuxtLink>
-          <NuxtLink
-            :class="route.hash === '#work' && 'nuxt-link-active'"
-            to="/#work"
-          >Work</NuxtLink>
+        <ul v-else class="menu menu--desktop" :class="(route.path === '/' || route.path === '/contact') && 'black'">
+          <NuxtLink to="/" :class="route.path === '/' && route.hash !== '#work' && 'nuxt-link-active'">Home</NuxtLink>
+          <NuxtLink :class="route.hash === '#work' && 'nuxt-link-active'" to="/#work">Work</NuxtLink>
           <NuxtLink to="/about">About</NuxtLink>
           <NuxtLink to="/contact">Contact</NuxtLink>
         </ul>

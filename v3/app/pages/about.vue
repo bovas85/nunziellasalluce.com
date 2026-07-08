@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useAsyncData } from '#app'
 import { useHead } from '#imports'
 import Config from '@/assets/config'
+import { computed } from 'vue'
 
 useHead({
   title: 'About Me'
@@ -18,20 +18,14 @@ const { data } = await useAsyncData(
   }
 )
 
-const aboutPage = computed(() => (data.value as any)?.acf)
+const aboutPage = computed(() => (data.value as Record<string, unknown>)?.acf)
 </script>
 
 <template>
   <div v-if="aboutPage" class="about">
     <UILazyImage
-      class="image"
-      :image="aboutPage.about.desktop_image"
-      :hover="false"
-      position="right"
-      position-mobile="right"
-      :image-mobile="aboutPage.about.mobile_image"
-      home
-    />
+class="image" :image="aboutPage.about.desktop_image" :hover="false" position="right"
+      position-mobile="right" :image-mobile="aboutPage.about.mobile_image" home />
     <div v-if="aboutPage" class="container">
       <h1>{{ aboutPage.title }}</h1>
 

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useRoute } from 'vue-router'
-import { useAsyncData, useNuxtApp } from '#app'
+import { useAsyncData } from '#app'
 import { useHead } from '#imports'
-import { useWindowScroll } from '@vueuse/core'
 import Config from '@/assets/config'
+import { useWindowScroll } from '@vueuse/core'
 import scrollama from 'scrollama'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const { y } = useWindowScroll()
+const { y: _y } = useWindowScroll()
 const menuScrolled = useState('menuScrolled')
 
 // Fetch all projects (to get prev/next properly without Vuex state tracking)
@@ -24,7 +24,7 @@ const { data: projectsData } = await useAsyncData(
 
 const projects = computed(() => {
   if (!projectsData.value) return []
-  return (projectsData.value as any[]).filter(p => p.acf.status === 'true')
+  return (projectsData.value as Record<string, unknown>[]).filter(p => (p.acf as Record<string, unknown>).status === 'true')
 })
 
 const getIndex = computed(() => {
@@ -98,10 +98,15 @@ const animateChallenge = ref(false)
 const animateFinal = ref(false)
 const animateBottomImage = ref(false)
 
-let scroller: any
-let stepsObserver: any
+let scroller: unknown
 
-const handleStepEnter = (response: any) => {
+interface ScrollamaResponse {
+  element: HTMLElement
+  index: number
+  direction: string
+}
+
+const handleStepEnter = (response: ScrollamaResponse) => {
   if (response.element) {
     response.element.classList.add('animated')
   }
@@ -130,7 +135,7 @@ const handleStepEnter = (response: any) => {
   }
 }
 
-const showMenu = (response: any) => {
+const showMenu = (response: ScrollamaResponse) => {
   if (response.index >= 0 && response.direction === 'down' && !menuScrolled.value) {
     menuScrolled.value = true
   }
@@ -141,14 +146,13 @@ const handleScroll = () => {
   const step = document.querySelector('.step')
   if (step) {
     scroller = scrollama()
-    stepsObserver = scroller
-      .setup({
+      ; (scroller as { setup: (opts: unknown) => { onStepEnter: (fn: unknown) => { onStepExit: (fn: unknown) => unknown } } }).setup({
         step: '.step',
         offset: window.innerWidth > 577 ? 0.6 : 0.7,
         debug: false
       })
-      .onStepEnter(handleStepEnter)
-      .onStepExit(showMenu)
+        .onStepEnter(handleStepEnter)
+        .onStepExit(showMenu)
   } else {
     setTimeout(() => {
       handleScroll()
@@ -182,51 +186,30 @@ onBeforeUnmount(() => {
   <div v-if="project != null" class="case-study">
     <SectionsWorkHero :project="project" :animate-header="animateHeader" />
 
-    <SectionsWorkClientIntro
-      :project="project"
-      :animate-intro="animateIntro"
-    />
+    <SectionsWorkClientIntro :project="project" :animate-intro="animateIntro" />
 
     <SectionsWorkTheBrand :project="project" :animate-brand="animateBrand" />
 
-    <SectionsWorkTheChallenge
-      :project="project"
-      :animate-challenge="animateChallenge"
-    />
+    <SectionsWorkTheChallenge :project="project" :animate-challenge="animateChallenge" />
 
     <ClientOnly>
-      <SectionsWorkFinalProduct
-        :project="project"
-        :animate-final="animateFinal"
-      />
+      <SectionsWorkFinalProduct :project="project" :animate-final="animateFinal" />
     </ClientOnly>
 
-    <div
-      v-if="previousProject && nextProject"
-      class="work-navigation step"
-      :class="{ animated: animateBottomImage }"
-    >
+    <div v-if="previousProject && nextProject" class="work-navigation step" :class="{ animated: animateBottomImage }">
       <div class="container-fluid is-flex">
         <NuxtLink class="previous" :to="`/${previousProject.slug}`">
           <UILazyImage
-            v-if="previousProject.acf.hero != null"
-            class="image"
-            :hover="false"
-            :image="previousProject.acf.hero.desktop_bg"
-            :image-mobile="previousProject.acf.hero.mobile_bg"
-          >
+v-if="previousProject.acf.hero != null" class="image" :hover="false"
+            :image="previousProject.acf.hero.desktop_bg" :image-mobile="previousProject.acf.hero.mobile_bg">
             <span>{{ previousProject.acf.hero.title }}</span>
           </UILazyImage>
           <p>Previous Project</p>
         </NuxtLink>
         <NuxtLink class="next" :to="`/${nextProject.slug}`">
           <UILazyImage
-            v-if="nextProject.acf.hero != null"
-            class="image"
-            :hover="false"
-            :image="nextProject.acf.hero.desktop_bg"
-            :image-mobile="nextProject.acf.hero.mobile_bg"
-          >
+v-if="nextProject.acf.hero != null" class="image" :hover="false"
+            :image="nextProject.acf.hero.desktop_bg" :image-mobile="nextProject.acf.hero.mobile_bg">
             <span>{{ nextProject.acf.hero.title }}</span>
           </UILazyImage>
           <p>Next Project</p>
