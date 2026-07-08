@@ -1,5 +1,6 @@
 # dependencies
 node_modules/*
+node_modules
 dist
 build/*
 package-lock.json
@@ -30,7 +31,6 @@ generate_pending
 
 # Generated files
 sw.*
-
 
 # Local Netlify folder
 .netlify
