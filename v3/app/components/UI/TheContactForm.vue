@@ -115,9 +115,14 @@ const sendForm = async () => {
     sent.value = true
     disabled.value = true
     const formData = new FormData()
+    formData.append('_wpcf7', '78')
+    formData.append('_wpcf7_version', '5.9')
+    formData.append('_wpcf7_locale', 'en_GB')
+    formData.append('_wpcf7_unit_tag', 'wpcf7-f78-p235-o1')
     formData.append('your-name', form.value.yourName)
     formData.append('your-email', form.value.yourEmail)
     formData.append('your-message', form.value.yourMessage)
+    formData.append('acceptance-privacy', form.value.youAgree ? '1' : '')
     
     try {
       await $fetch(`${Config.wpDomain}${Config.api.postFormContact}`, {

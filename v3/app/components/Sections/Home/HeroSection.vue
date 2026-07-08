@@ -49,7 +49,7 @@ const scrollToProjects = () => {
       </div>
     </div>
     <div class="rotating-text" @click="scrollToProjects">
-      <img src="/images/stamp.png" alt="">
+      <IconsRotatingStamp />
     </div>
   </section>
 </template>
@@ -96,15 +96,15 @@ const scrollToProjects = () => {
       display: flex;
       bottom: $gap * 2.5;
       left: $gap;
-      width: 70px;
-      height: 70px;
+      width: 90px;
+      height: 90px;
 
       @include media(sm) {
         bottom: 80px;
         right: 60px;
         left: auto;
-        width: 100px;
-        height: 100px;
+        width: 140px;
+        height: 140px;
         transform-origin: center;
         animation: rotate 15s linear infinite;
       }

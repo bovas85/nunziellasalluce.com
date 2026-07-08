@@ -18,20 +18,20 @@ const currentTestimonial = ref(0)
 
     <ClientOnly>
       <div class="wrapper" :class="{ animated: animateTestimonials }">
-        <transition-group tag="div" name="fade" mode="out-in">
+        <div class="testimonial-group">
           <UITheTestimonial
             v-for="(testimonial, index) in testimonials"
             :key="`${testimonial.name}-${index}`"
             v-show="currentTestimonial === index"
             :testimonial="testimonial"
           />
-        </transition-group>
+        </div>
 
         <div class="arrows">
           <div
             class="arrow arrow--left"
-            :disabled="currentTestimonial === 0"
-            role="navigation"
+            :class="{ 'is-disabled': currentTestimonial === 0 }"
+            role="button"
             aria-label="previous testimonial"
             @click="currentTestimonial > 0 ? currentTestimonial-- : null"
           >
@@ -45,14 +45,10 @@ const currentTestimonial = ref(0)
           </div>
           <div
             class="arrow arrow--right"
-            :disabled="currentTestimonial === testimonials.length - 1"
-            role="navigation"
+            :class="{ 'is-disabled': currentTestimonial === testimonials.length - 1 }"
+            role="button"
             aria-label="next testimonial"
-            @click="
-              currentTestimonial < testimonials.length - 1
-                ? currentTestimonial++
-                : null
-            "
+            @click="currentTestimonial < testimonials.length - 1 ? currentTestimonial++ : null"
           >
             <IconsIconArrow
               fill="black"
@@ -121,7 +117,8 @@ const currentTestimonial = ref(0)
   }
   .arrow {
     position: absolute;
-    &[disabled] {
+    cursor: pointer;
+    &.is-disabled {
       opacity: 0.4;
       pointer-events: none;
     }

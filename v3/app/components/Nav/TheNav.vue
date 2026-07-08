@@ -96,7 +96,7 @@ watch(() => route.path, () => {
           @click="toggleMenu"
           class="menu menu--mobile"
         >
-          <transition-group name="rotate" mode="out-in">
+          <transition name="rotate" mode="out-in">
             <div class="rotate" key="closed" v-if="!navOpen">
               <IconsBurgerMenu
                 :fill="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'"
@@ -109,7 +109,7 @@ watch(() => route.path, () => {
                 <span class="close-icon--line inverted" />
               </div>
             </div>
-          </transition-group>
+          </transition>
         </div>
 
         <ul
@@ -133,7 +133,7 @@ watch(() => route.path, () => {
 
     <ClientOnly>
       <div v-if="!isLargeScreen" style="z-index: 9999" class="modal-container is-hidden-desktop">
-        <NavTheMenuMobile :menu-items="menuItems" />
+        <NavTheMenuMobile :menu-items="menuItems" :nav-open="navOpen" @close="navOpen = false" />
       </div>
     </ClientOnly>
   </div>

@@ -3,69 +3,72 @@ import { useRoute } from 'vue-router'
 
 defineProps<{
   menuItems: string[]
+  navOpen: boolean
 }>()
 
+const emit = defineEmits(['close'])
 const route = useRoute()
-const navOpen = useState('navOpen', () => false)
 
 const closeMenu = () => {
-  navOpen.value = false
+  emit('close')
 }
 </script>
 
 <template>
-  <div>
-    <div
-      class="overlay"
-      @click="closeMenu"
-      :class="{'is-visible': navOpen}"/>
-    <div 
-      class="right-nav"
-      :class="{'is-visible': navOpen}"
-    >
-      <div class="menu">
-        <template v-for="menu in menuItems" :key="menu === '' ? 'home' : menu">
-          <NuxtLink
-            v-if="menu !== 'work'"
-            :to="`/${menu}`"
-            @click="closeMenu"
-          >
-            {{ menu === '' ? 'Home' : menu }}
-          </NuxtLink>
-          <NuxtLink
-            v-else-if="route.path !== '/'"
-            to="/#work"
-            @click="closeMenu"
-          >
-            Work
-          </NuxtLink>
-          <a v-else href="#work" @click="closeMenu">
-            Work
-          </a>
-        </template>
-      </div>
-      <div class="bottom-section">
-        <p>email: <a href="mailto:hello@nunziellasalluce.com?Subject=Hello">hello@nunziellasalluce.com</a></p>
-        <div class="social-list">
-          <ul class="social-list">
-            <li class="social__icon">
-                <a href="https://dribbble.com/nunziella" aria-label='Go to dribbble' class="social social--dribbble" rel="noopener" target="_blank"></a>
-            </li>
-            <li class="social__icon">
-                <a href="https://www.instagram.com/lucettinas/" aria-label='Go to instagram' class="social social--instagram" rel="noopener" target="_blank"></a>
-            </li>
-            <li class="social__icon">
-                <a href="https://www.behance.net/nunziellasalluce/" aria-label='Go to behance' class="social social--behance" rel="noopener" target="_blank"></a>
-            </li>
-            <li class="social__icon">
-                <a class="social social--linkedin" aria-label='Go to linkedin' href="https://www.linkedin.com/in/nunziella-salluce"
-                    rel="noopener" target="_blank"></a>
-            </li>
-          </ul>
+  <Teleport to="body">
+    <div>
+      <div
+        class="overlay"
+        @click="closeMenu"
+        :class="{'is-visible': navOpen}"/>
+      <div 
+        class="right-nav"
+        :class="{'is-visible': navOpen}"
+      >
+        <div class="menu">
+          <template v-for="menu in menuItems" :key="menu === '' ? 'home' : menu">
+            <NuxtLink
+              v-if="menu !== 'work'"
+              :to="`/${menu}`"
+              @click="closeMenu"
+            >
+              {{ menu === '' ? 'Home' : menu }}
+            </NuxtLink>
+            <NuxtLink
+              v-else-if="route.path !== '/'"
+              to="/#work"
+              @click="closeMenu"
+            >
+              Work
+            </NuxtLink>
+            <a v-else href="#work" @click="closeMenu">
+              Work
+            </a>
+          </template>
+        </div>
+        <div class="bottom-section">
+          <p>email: <a href="mailto:hello@nunziellasalluce.com?Subject=Hello">hello@nunziellasalluce.com</a></p>
+          <div class="social-list">
+            <ul class="social-list">
+              <li class="social__icon">
+                  <a href="https://dribbble.com/nunziella" aria-label='Go to dribbble' class="social social--dribbble" rel="noopener" target="_blank"></a>
+              </li>
+              <li class="social__icon">
+                  <a href="https://www.instagram.com/lucettinas/" aria-label='Go to instagram' class="social social--instagram" rel="noopener" target="_blank"></a>
+              </li>
+              <li class="social__icon">
+                  <a href="https://www.behance.net/nunziellasalluce/" aria-label='Go to behance' class="social social--behance" rel="noopener" target="_blank"></a>
+              </li>
+              <li class="social__icon">
+                  <a class="social social--linkedin" aria-label='Go to linkedin' href="https://www.linkedin.com/in/nunziella-salluce"
+                      rel="noopener" target="_blank"></a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <style lang="scss" scoped>

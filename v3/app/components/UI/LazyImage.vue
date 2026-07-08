@@ -39,10 +39,17 @@ const props = withDefaults(defineProps<{
   hoverFixed: false
 })
 
-const { width: windowWidth } = useWindowSize()
+const isMobile = ref(false)
+
+onMounted(() => {
+  isMobile.value = window.innerWidth < 577
+  window.addEventListener('resize', () => {
+    isMobile.value = window.innerWidth < 577
+  }, { passive: true })
+})
 
 const computedClass = computed(() => {
-  return windowWidth.value < 577 ? props.positionMobile : props.position
+  return isMobile.value ? props.positionMobile : props.position
 })
 
 const getImage = computed(() => {
@@ -345,6 +352,7 @@ onMounted(() => {
     }
   }
   &.home {
+    overflow: hidden;
     background-size: cover;
     background-repeat: no-repeat;
     pointer-events: none;
@@ -377,51 +385,20 @@ onMounted(() => {
   img {
     transition: transform 0.6s ease-in-out;
   }
-  &.left {
-    img,
-    .progressive-image,
-    .progressive-image-wrapper {
-      .progressive-image-main {
-        object-position: left;
-      }
-    }
+  &.left img {
+    object-position: left;
   }
-  &.right {
-    img,
-    .progressive-image,
-    .progressive-image-wrapper {
-      .progressive-image-main {
-        object-position: right;
-      }
-    }
+  &.right img {
+    object-position: right;
   }
-  &.bottom {
-    img,
-    .progressive-image,
-    .progressive-image-wrapper {
-      .progressive-image-main {
-        object-position: bottom;
-      }
-    }
+  &.bottom img {
+    object-position: bottom;
   }
-  &.top {
-    img,
-    .progressive-image,
-    .progressive-image-wrapper {
-      .progressive-image-main {
-        object-position: top;
-      }
-    }
+  &.top img {
+    object-position: top;
   }
-  &.contain {
-    img,
-    .progressive-image,
-    .progressive-image-wrapper {
-      object-fit: contain;
-      .progressive-image-main {
-        object-fit: contain;
-      }
-    }
+  &.contain img {
+    object-fit: contain;
   }
 }
 .bg-image--second {

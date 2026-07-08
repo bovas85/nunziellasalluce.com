@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  app: {
+    pageTransition: { name: 'intro', mode: 'out-in' }
+  },
   css: ['~/assets/css/main.scss'],
   vite: {
     css: {
@@ -22,5 +25,13 @@ export default defineNuxtConfig({
   },
   modules: [
     '@vueuse/nuxt'
-  ]
+  ],
+  postcss: {
+    plugins: {
+      'postcss-responsive-type': {}
+    }
+  },
+  routeRules: {
+    '/wp-json/**': { proxy: 'https://nunziella.moustachedesign.xyz/wp-json/**' }
+  }
 })

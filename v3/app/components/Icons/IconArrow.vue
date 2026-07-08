@@ -1,6 +1,6 @@
 <template>
   <div :class="direction" class="svg">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" :width="width" :height="height">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" v-bind="{ 'width': width, 'height': height }">
       <path
         :style="{'color': fill}"
         :fill="fill"

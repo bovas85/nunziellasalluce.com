@@ -1,25 +1,28 @@
 <script setup lang="ts">
-import { useHead, clearError } from '#imports'
+import { useHead, useRequestEvent } from '#imports'
+import { useRouter } from 'vue-router'
+import { setResponseStatus } from 'h3'
 
-const props = defineProps({
-  error: Object
-})
+const router = useRouter()
 
 useHead({
-  title: props.error?.statusCode === 404 ? 'Page not Found' : 'An error occurred'
+  title: 'Page not Found'
 })
 
-const handleError = () => clearError({ redirect: '/' })
+if (process.server) {
+  const event = useRequestEvent()
+  if (event) {
+    setResponseStatus(event, 404)
+  }
+}
 </script>
 
 <template>
-  <NuxtLayout>
-    <div class="page-not-found">
-      <div class="container is-flex">
-        <button class="button button--sent" @click="handleError">HOME</button>
-      </div>
+  <div class="page-not-found">
+    <div class="container is-flex">
+      <button class="button button--sent" @click="router.push('/')">HOME</button>
     </div>
-  </NuxtLayout>
+  </div>
 </template>
 
 <style lang="scss" scoped>

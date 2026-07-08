@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" :width="width" :height="height">
+  <svg xmlns="http://www.w3.org/2000/svg" v-bind="{ 'width': width, 'height': height }">
     <g fill="none" fill-rule="evenodd">
       <path :stroke="stroke" stroke-linecap="square" stroke-width="2" d="M1 1h34M1 20h54"></path>
       <path

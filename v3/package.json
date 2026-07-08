@@ -24,6 +24,7 @@
     "node": "24.13.0"
   },
   "devDependencies": {
+    "postcss-responsive-type": "^1.0.0",
     "sass": "^1.101.0"
   }
 }

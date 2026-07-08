@@ -3,6 +3,7 @@
  * Copyright 2017-2018 Alessandro Giordo
  * Licensed under MIT
  */
+@import './fonts';
 @import 'bulma/sass/utilities/_all';
 
 // Breakpoints
@@ -19,9 +20,13 @@ $fullhd: 1392px !default;
 
 @import './variables';
 @import './grid_base';
-@import './fonts';
 @import './helpers';
 @import './animations';
+
+// Ensure loading indicator is always on top
+.nuxt-loading-indicator {
+  z-index: 99999 !important;
+}
 
 // Initial Styles + resets
 html,
