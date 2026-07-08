@@ -17,3 +17,4 @@ exclude_paths:
   - "v3/node_modules/**"
   - "v3/.nuxt/**"
   - "v3/.output/**"
+  - "**/*.md" # Markdown linting handled by GitHub Actions
