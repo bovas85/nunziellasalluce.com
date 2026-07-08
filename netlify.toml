@@ -4,6 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "24.13.0"
+  NETLIFY_PRERENDER_ENABLED = "false"
 
 [[redirects]]
   from = "/*"
