@@ -20,6 +20,7 @@ export default defineNuxtConfig({
         '@vue/devtools-core',
         '@vue/devtools-kit',
         'lazysizes',
+        'scrollama',
         'splitting',
         'swiper/modules',
         'swiper/vue'
