@@ -1,0 +1,35 @@
+name: Monthly Brevo API Keep-Alive
+
+on:
+  schedule:
+    # Runs on the 1st of every month at 9am UTC
+    - cron: '0 9 1 * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send test email via Brevo API
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            --request POST \
+            --url https://api.brevo.com/v3/smtp/email \
+            --header "accept: application/json" \
+            --header "api-key: ${{ secrets.BREVO_API_KEY }}" \
+            --header "content-type: application/json" \
+            --data '{
+              "sender": { "name": "Nunziella Site Monitor", "email": "hello@nunziellasalluce.com" },
+              "to": [{ "email": "hello@nunziellasalluce.com" }],
+              "subject": "Monthly keep-alive check ✅",
+              "htmlContent": "<p>Brevo API key is active and working.</p>"
+            }')
+          
+          echo "HTTP Status: $RESPONSE"
+          
+          if [ "$RESPONSE" != "201" ]; then
+            echo "❌ Brevo API call failed with status $RESPONSE"
+            exit 1
+          fi
+          
+          echo "✅ Brevo API key is active and email sent successfully"
