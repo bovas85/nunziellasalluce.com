@@ -1,19 +1,14 @@
-name: Lint
+name: CI
 
 on:
+  push:
+    branches: [main, master, chore/nuxt-3-migration, migration/promote-v3]
   pull_request:
-    branches: [master]
-    paths:
-      - "v3/**"
-      - ".github/workflows/lint.yml"
-
-defaults:
-  run:
-    working-directory: v3
+    branches: [main, master]
 
 jobs:
-  lint:
-    name: ESLint, Stylelint & Markdownlint
+  ci:
+    name: Lint, Test & Coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +19,7 @@ jobs:
         with:
           node-version: 24
           cache: yarn
-          cache-dependency-path: v3/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -40,3 +35,12 @@ jobs:
 
       - name: Run Markdownlint
         run: yarn lint:md
+
+      - name: Run Test Coverage
+        run: yarn test:coverage
+
+      - name: Run Codacy Coverage Reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage/lcov.info
