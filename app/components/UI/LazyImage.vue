@@ -44,12 +44,34 @@ const props = withDefaults(defineProps<{
 })
 
 const isMobile = ref(false)
+const isMounted = ref(false)
 
 onMounted(() => {
-  isMobile.value = window.innerWidth < 577
+  isMobile.value = window.innerWidth < 1024
   window.addEventListener('resize', () => {
-    isMobile.value = window.innerWidth < 577
+    isMobile.value = window.innerWidth < 1024
   }, { passive: true })
+  isMounted.value = true
+})
+
+const mobileSrc = computed(() => {
+  if (props.image?.url && props.image.url.toLowerCase().includes('bio-nunziella-salluce-design.jpg')) {
+    return 'https://nunziella.moustachedesign.xyz/wp-content/uploads/2019/05/Bio-Nunziella-Salluce-Design-mobile.jpg'
+  }
+  if (props.imageMobile && props.imageMobile.url && props.imageMobile.id !== props.image?.id) {
+    return props.imageMobile.url
+  }
+  return props.image?.sizes?.medium || props.image?.url || ''
+})
+
+const fallbackSrc = computed(() => {
+  if (isMobile.value) {
+    if (import.meta.client && window.innerWidth < 577) {
+      return mobileSrc.value
+    }
+    return props.image?.sizes?.large || props.image?.url || ''
+  }
+  return getImage.value ? getImage.value : (props.image?.sizes?.ultra || props.image?.url || '')
 })
 
 const computedClass = computed(() => {
@@ -109,52 +131,56 @@ onMounted(() => {
     </video>
   </div>
   <div
-v-else-if="image?.url != null && imageMobile?.url != null" class="lazy-image"
+v-else-if="image?.url != null" class="lazy-image"
     :class="[{ 'hover-disabled': !hover, contain: contain }, computedClass, { home: home }]">
     <picture>
       <!-- Mobile: max-width 576px -->
       <source
-media="(max-width: 576px)" :class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg" :data-srcset="`${imageMobile.sizes.medium}${svg ? '' : '.webp'}`"
+        v-if="!svg && (mobileSrc.toLowerCase().includes('-mobile') || (imageMobile && imageMobile.url && imageMobile.id !== image?.id))"
+        media="(max-width: 576px)" :class="(lazyload && isMounted) ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
+        srcset="/images/Homepage.svg" :data-srcset="`${mobileSrc}.webp`"
         type="image/webp">
       <source
-media="(max-width: 576px)" :class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg" :data-srcset="`${imageMobile.sizes.medium}`">
+        media="(max-width: 576px)" :class="(lazyload && isMounted) ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
+        srcset="/images/Homepage.svg" :data-srcset="mobileSrc">
 
-      <!-- Tablet: 577px to 1200px -->
+      <!-- Tablet: 577px to 1023px -->
       <source
-media="(min-width: 577px) and (max-width: 1200px)" :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined" srcset="/images/Homepage.svg"
-        :data-srcset="`${image.sizes.large}${svg ? '' : '.webp'}`" type="image/webp">
-      <source
-media="(min-width: 577px) and (max-width: 1200px)" :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined" srcset="/images/Homepage.svg" :data-srcset="`${image.sizes.large}`">
-
-      <!-- Desktop: 1201px to 1920px -->
-      <source
-media="(min-width: 1201px) and (max-width: 1920px)" :class="lazyload ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined" srcset="/images/Homepage.svg"
-        :data-srcset="getImage ? `${getImage}${svg ? '' : '.webp'}` : `${image.sizes.ultra}${svg ? '' : '.webp'}`"
+        v-if="!svg"
+        media="(min-width: 577px) and (max-width: 1023px)" :class="(lazyload && isMounted) ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
+        srcset="/images/Homepage.svg" :data-srcset="`${image?.sizes?.large || image?.url}.webp`"
         type="image/webp">
       <source
-media="(min-width: 1201px) and (max-width: 1920px)" :class="lazyload ? 'lazyload' : ''"
+        media="(min-width: 577px) and (max-width: 1023px)" :class="(lazyload && isMounted) ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
+        srcset="/images/Homepage.svg" :data-srcset="image?.sizes?.large || image?.url">
+
+      <!-- Desktop: 1024px to 1920px -->
+      <source
+        v-if="!svg"
+        media="(min-width: 1024px) and (max-width: 1920px)" :class="(lazyload && isMounted) ? 'lazyload' : ''"
         :loading="lazyload ? 'lazy' : undefined" srcset="/images/Homepage.svg"
-        :data-srcset="getImage ? `${getImage}` : `${image.sizes.ultra}`">
+        :data-srcset="getImage ? `${getImage}.webp` : `${image?.sizes?.ultra || image?.url}.webp`"
+        type="image/webp">
+      <source
+        media="(min-width: 1024px) and (max-width: 1920px)" :class="(lazyload && isMounted) ? 'lazyload' : ''"
+        :loading="lazyload ? 'lazy' : undefined" srcset="/images/Homepage.svg"
+        :data-srcset="getImage ? `${getImage}` : `${image?.sizes?.ultra || image?.url}`">
 
       <!-- 4k: min-width 1921px -->
       <source
-media="(min-width: 1921px)" :class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
+        v-if="!svg"
+        media="(min-width: 1921px)" :class="(lazyload && isMounted) ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
         srcset="/images/Homepage.svg"
-        :data-srcset="getImage ? `${getImage}${svg ? '' : '.webp'}` : `${image.sizes['4k']}${svg ? '' : '.webp'}`"
+        :data-srcset="getImage ? `${getImage}.webp` : `${image?.sizes?.['4k'] || image?.url}.webp`"
         type="image/webp">
       <source
-media="(min-width: 1921px)" :class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
-        srcset="/images/Homepage.svg" :data-srcset="getImage ? `${getImage}` : `${image.sizes['4k']}`">
+        media="(min-width: 1921px)" :class="(lazyload && isMounted) ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined"
+        srcset="/images/Homepage.svg" :data-srcset="getImage ? `${getImage}` : `${image?.sizes?.['4k'] || image?.url}`">
 
       <!-- Fallback image -->
       <img
-:class="lazyload ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined" src="/images/Homepage.svg"
-        :data-src="getImage ? getImage : image.sizes.ultra" :alt="image.alt || title">
+:class="(lazyload && isMounted) ? 'lazyload' : ''" :loading="lazyload ? 'lazy' : undefined" src="/images/Homepage.svg"
+        :data-src="fallbackSrc" :alt="image.alt || title">
     </picture>
     <slot />
   </div>
@@ -377,6 +403,14 @@ media="(min-width: 1921px)" :class="lazyload ? 'lazyload' : ''" :loading="lazylo
 
   &.right img {
     object-position: right;
+  }
+
+  &.center img {
+    object-position: center;
+  }
+
+  &.center-right img {
+    object-position: 70% center;
   }
 
   &.bottom img {

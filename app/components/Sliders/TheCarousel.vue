@@ -237,7 +237,7 @@ class="image" :hover="true" :image="item.acf.hero.desktop_bg" type="'case_study'
   :deep(img) {
     height: 300px;
 
-    @media (min-width: $tablet) {
+    @include media(sm) {
       height: 600px;
     }
 

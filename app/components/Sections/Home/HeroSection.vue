@@ -29,7 +29,7 @@ const scrollToProjects = () => {
   <section v-if="acf" class="section hero step">
     <UILazyImage
 class="image" :image="acf.hero.desktop_bg" :title="acf.hero.title" :hover="false"
-      position-mobile="left" :image-mobile="acf.hero.mobile_bg" lazyload svg home />
+      position-mobile="center-right" :image-mobile="acf.hero.mobile_bg" lazyload svg home />
     <div class="container is-flex-column" :class="{ 'animated': animateHeader }">
       <h1 class="jumbo">{{ acf.hero.title }}</h1>
       <h3>{{ acf.hero.description }}</h3>
@@ -86,6 +86,8 @@ class="image" :image="acf.hero.desktop_bg" :title="acf.hero.title" :hover="false
     left: $gap;
     width: 90px;
     height: 90px;
+    transform-origin: center;
+    animation: rotate 15s linear infinite;
 
     @include media(sm) {
       bottom: 80px;
@@ -93,8 +95,6 @@ class="image" :image="acf.hero.desktop_bg" :title="acf.hero.title" :hover="false
       left: auto;
       width: 140px;
       height: 140px;
-      transform-origin: center;
-      animation: rotate 15s linear infinite;
     }
 
     img {
