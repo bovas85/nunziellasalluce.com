@@ -45,11 +45,11 @@ const toggleMenu = () => {
 watch(navOpen, (newVal) => {
   if (import.meta.client) {
     if (newVal) {
-      document.body.style.overflow = "hidden"
-      document.documentElement.style.overflow = "hidden"
+      document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = "visible"
-      document.documentElement.style.overflow = "visible"
+      document.body.style.overflow = 'visible'
+      document.documentElement.style.overflow = 'visible'
     }
   }
 })
