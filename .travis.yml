@@ -8,4 +8,4 @@ script:
   - npm install
   - npm run generate
 branches:
-  only: master
+  only: main
