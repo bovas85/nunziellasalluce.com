@@ -10,6 +10,7 @@
     <div
       v-if="$route.path === '/'"
       id="awwwards"
+      class="is-hidden-touch"
       style="position: fixed; z-index: 999; transform: translateY(-50%); top: 20%; right: 0"
     >
       <a

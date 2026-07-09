@@ -41,6 +41,19 @@ const toggleMenu = () => {
   navOpen.value = !navOpen.value
 }
 
+// Lock body/html scroll when mobile menu is open
+watch(navOpen, (newVal) => {
+  if (import.meta.client) {
+    if (newVal) {
+      document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'visible'
+      document.documentElement.style.overflow = 'visible'
+    }
+  }
+})
+
 // Reset menu on route change
 watch(() => route.path, () => {
   navOpen.value = false
@@ -62,7 +75,8 @@ class="navigation" :class="{
       done: (menuScrolled && menuScrolledDone) || route.path === '/about' || route.path === '/contact' || route.path === '/privacy-policy',
       about: route.path === '/about',
       contact: route.path === '/contact',
-      static: route.path === '/privacy-policy'
+      static: route.path === '/privacy-policy',
+      'nav-open': navOpen
     }">
       <nav role="navigation" class="container is-flex navbar">
         <NuxtLink
@@ -70,21 +84,21 @@ to="/" class="logo col--8-mobile col--4-tablet is-center" @mouseover="animating 
           @mouseleave="animating = false">
           <IconsTheLogoStatic
 :width="90" :height="46" :mobile-width="50" :mobile-height="31" :animating="animating"
-            :fill="menuScrolled ? '#f4a261' : 'white'" />
+            :fill="navOpen ? '#f4a261' : (menuScrolled ? '#f4a261' : 'white')" />
           <IconsTheLogo
 :width="90" :height="46" :mobile-width="50" :mobile-height="31" :animating="animating"
-            :fill="menuScrolled ? '#f4a261' : 'white'" />
+            :fill="navOpen ? '#f4a261' : (menuScrolled ? '#f4a261' : 'white')" />
         </NuxtLink>
 
         <div v-if="!isLargeScreen" class="menu menu--mobile" @click="toggleMenu">
           <transition name="rotate" mode="out-in">
             <div v-if="!navOpen" key="closed" class="rotate">
               <IconsBurgerMenu
-:fill="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'"
+                :fill="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'"
                 :stroke="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'" />
             </div>
             <div v-else key="open" class="rotate">
-              <div :class="route.path === '/' && 'black'" class="close-icon">
+              <div :class="(route.path === '/' || navOpen) && 'black'" class="close-icon">
                 <span class="close-icon--line" />
                 <span class="close-icon--line inverted" />
               </div>
@@ -114,7 +128,7 @@ to="/" class="logo col--8-mobile col--4-tablet is-center" @mouseover="animating 
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 5;
+  z-index: 10000;
   height: 60px;
   background-color: transparent;
   box-shadow: unset;
@@ -137,9 +151,20 @@ to="/" class="logo col--8-mobile col--4-tablet is-center" @mouseover="animating 
     align-items: center;
 
     .logo {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 31px;
+      vertical-align: middle;
+
       &::before,
       &::after {
         display: none;
+      }
+
+      @include media(md) {
+        width: 90px;
+        height: 46px;
       }
     }
 
@@ -346,6 +371,11 @@ to="/" class="logo col--8-mobile col--4-tablet is-center" @mouseover="animating 
 
   &.static {
     background-color: $grey;
+  }
+
+  &.nav-open {
+    background-color: white !important;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%) !important;
   }
 
   i {
