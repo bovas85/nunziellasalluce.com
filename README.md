@@ -42,7 +42,5 @@ For detailed explanation on how things work with Nuxt, check out the
 
 ## Special Thanks
 
-[![BrowserStack logo](https://3fxtqy18kygf3on3bu39kh93-wpengine.netdna-ssl.com/wp-content/themes/browserstack/img/browserstack-logo.svg)](https://www.browserstack.com)
-
 Special thanks to [BrowserStack](https://www.browserstack.com) for
 letting me use their service to debug browser specific issues.
