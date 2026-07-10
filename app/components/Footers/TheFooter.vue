@@ -21,7 +21,7 @@
             <a
               href="https://moustachedesign.xyz?referrer=nunziella-salluce-design"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               >Moustache Design</a
             >
           </p>
@@ -35,7 +35,7 @@
               <a
                 href="https://dribbble.com/nunziella"
                 class="social social--dribbble"
-                rel="noopener"
+                rel="noopener noreferrer"
                 aria-label="Go to dribble"
                 target="_blank"
               />
@@ -44,7 +44,7 @@
               <a
                 href="https://www.instagram.com/lucettinas/"
                 class="social social--instagram"
-                rel="noopener"
+                rel="noopener noreferrer"
                 aria-label="Go to instagram"
                 target="_blank"
               />
@@ -53,7 +53,7 @@
               <a
                 href="https://www.behance.net/nunziellasalluce/"
                 class="social social--behance"
-                rel="noopener"
+                rel="noopener noreferrer"
                 aria-label="Go to behance"
                 target="_blank"
               />
@@ -62,7 +62,7 @@
               <a
                 class="social social--linkedin"
                 href="https://www.linkedin.com/in/nunziella-salluce"
-                rel="noopener"
+                rel="noopener noreferrer"
                 aria-label="Go to linkedin"
                 target="_blank"
               />
