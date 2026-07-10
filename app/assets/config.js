@@ -6,7 +6,7 @@ export default {
   appBgColor: "#00172c ",
   appIcon: "assets/app-icon.png",
   wpDomain:
-    process.env.NODE_ENV === "development"
+    import.meta.dev
       ? "/wp-json"
       : "https://nunziella.moustachedesign.xyz/wp-json",
   client: "https://nunziella.moustachedesign.xyz",
