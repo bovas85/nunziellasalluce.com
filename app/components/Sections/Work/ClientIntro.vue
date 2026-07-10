@@ -16,6 +16,7 @@
           class="animated-border"
           :href="project.intro.link"
           target="_blank"
+          rel="noopener noreferrer"
           >Launch Site</a
         >
         <h3>Deliverables</h3>

@@ -28,9 +28,9 @@ useHead({
           your browser. Data in Hotjar is removed in compliance with GDPR rules.
           For more information, please visit Hotjar's Privacy Policy here
           <a
+            rel="noopener noreferrer"
             href="https://www.hotjar.com/legal/policies/privacy"
             target="_blank"
-            rel="noopener noreferrer"
             >https://www.hotjar.com/legal/policies/privacy</a
           >
         </p>

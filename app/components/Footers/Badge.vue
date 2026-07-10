@@ -3,7 +3,7 @@
     id="cssda-badge"
     target="_blank"
     aria-label="Go to my entry for the css design awards website"
-    rel="noopener"
+    rel="noopener noreferrer"
     href="https://www.cssdesignawards.com/sites/nunziella-salluce-design/35044/"
   >
     <svg
