@@ -267,7 +267,10 @@ const sendForm = async () => {
         >
           <p>
             You agree to the
-            <NuxtLink to="/privacy-policy" target="_blank"
+            <NuxtLink
+              to="/privacy-policy"
+              target="_blank"
+              rel="noopener noreferrer"
               >Privacy Policy</NuxtLink
             >
           </p>
