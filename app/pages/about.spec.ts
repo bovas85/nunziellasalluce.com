@@ -56,4 +56,13 @@ describe("About Page", () => {
       "This is a mocked about section body text.",
     );
   });
+
+  it("contains a CV download link with secure attributes (noopener noreferrer)", async () => {
+    const wrapper = await mountSuspended(AboutPage);
+    const link = wrapper.find("a.link");
+    expect(link.exists()).toBe(true);
+    expect(link.attributes("target")).toBe("_blank");
+    expect(link.attributes("rel")).toBe("noopener noreferrer");
+    expect(link.attributes("href")).toBe("/NunziellaSalluce2026.pdf");
+  });
 });
