@@ -66,10 +66,15 @@ onMounted(() => {
           loader: {
             checkElems: () => void;
           };
+          init: () => void;
+          elements: NodeListOf<Element>;
         };
       };
       if (customWindow.lazySizes) {
+        // Force lazysizes to re-discover new elements after SPA navigation
         customWindow.lazySizes.loader.checkElems();
+        // Dispatch a lazyunveilread event to force re-evaluation
+        document.dispatchEvent(new Event("scroll"));
       }
     }
   });
@@ -140,6 +145,7 @@ onMounted(() => {
             }
           });
         },
+        { rootMargin: "800px 0px" },
       );
 
       lazyVideos.forEach((lazyVideo) => {
@@ -196,16 +202,12 @@ onMounted(() => {
             (imageMobile?.url && imageMobile?.id !== image?.id))
         "
         media="(max-width: 576px)"
-        :class="lazyload && isMounted ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
         :srcset="lazyload ? '/images/Homepage.svg' : `${mobileSrc}.webp`"
         :data-srcset="lazyload ? `${mobileSrc}.webp` : undefined"
         type="image/webp"
       />
       <source
         media="(max-width: 576px)"
-        :class="lazyload && isMounted ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
         :srcset="lazyload ? '/images/Homepage.svg' : mobileSrc"
         :data-srcset="lazyload ? mobileSrc : undefined"
       />
@@ -214,8 +216,6 @@ onMounted(() => {
       <source
         v-if="!svg"
         media="(min-width: 577px) and (max-width: 1023px)"
-        :class="lazyload && isMounted ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
         :srcset="
           lazyload
             ? '/images/Homepage.svg'
@@ -228,8 +228,6 @@ onMounted(() => {
       />
       <source
         media="(min-width: 577px) and (max-width: 1023px)"
-        :class="lazyload && isMounted ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
         :srcset="
           lazyload ? '/images/Homepage.svg' : image?.sizes?.large || image?.url
         "
@@ -240,8 +238,6 @@ onMounted(() => {
       <source
         v-if="!svg"
         media="(min-width: 1024px) and (max-width: 1920px)"
-        :class="lazyload && isMounted ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
         :srcset="
           lazyload
             ? '/images/Homepage.svg'
@@ -260,8 +256,6 @@ onMounted(() => {
       />
       <source
         media="(min-width: 1024px) and (max-width: 1920px)"
-        :class="lazyload && isMounted ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
         :srcset="
           lazyload
             ? '/images/Homepage.svg'
@@ -282,8 +276,6 @@ onMounted(() => {
       <source
         v-if="!svg"
         media="(min-width: 1921px)"
-        :class="lazyload && isMounted ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
         :srcset="
           lazyload
             ? '/images/Homepage.svg'
@@ -302,8 +294,6 @@ onMounted(() => {
       />
       <source
         media="(min-width: 1921px)"
-        :class="lazyload && isMounted ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
         :srcset="
           lazyload
             ? '/images/Homepage.svg'
@@ -323,7 +313,6 @@ onMounted(() => {
       <!-- Fallback image -->
       <img
         :class="lazyload && isMounted ? 'lazyload' : ''"
-        :loading="lazyload ? 'lazy' : undefined"
         :src="lazyload ? '/images/Homepage.svg' : fallbackSrc"
         :data-src="lazyload ? fallbackSrc : undefined"
         :alt="image.alt || title"

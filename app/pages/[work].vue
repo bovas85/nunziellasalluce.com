@@ -132,11 +132,18 @@ useHead(() => {
   }
 });
 
+const isMarketing = computed(
+  () => !!project.value?.newsletter || !!project.value?.rich_media,
+);
+
 const animateHeader = ref(false);
 const animateIntro = ref(false);
 const animateBrand = ref(false);
 const animateChallenge = ref(false);
 const animateFinal = ref(false);
+const animateEmail = ref(false);
+const animateRich = ref(false);
+const animateDigital = ref(false);
 const animateBottomImage = ref(false);
 
 let scroller: ScrollamaInstance | null = null;
@@ -154,13 +161,25 @@ const handleStepEnter = (response: ScrollamaResponse) => {
       animateIntro.value = true;
       break;
     case 2:
-      animateBrand.value = true;
+      if (isMarketing.value) {
+        animateEmail.value = true;
+      } else {
+        animateBrand.value = true;
+      }
       break;
     case 3:
-      animateChallenge.value = true;
+      if (isMarketing.value) {
+        animateDigital.value = true;
+      } else {
+        animateChallenge.value = true;
+      }
       break;
     case 4:
-      animateFinal.value = true;
+      if (isMarketing.value) {
+        animateRich.value = true;
+      } else {
+        animateFinal.value = true;
+      }
       break;
     case length:
       animateBottomImage.value = true;
@@ -228,19 +247,35 @@ onBeforeUnmount(() => {
 
     <SectionsWorkClientIntro :project="project" :animate-intro="animateIntro" />
 
-    <SectionsWorkTheBrand :project="project" :animate-brand="animateBrand" />
-
-    <SectionsWorkTheChallenge
-      :project="project"
-      :animate-challenge="animateChallenge"
-    />
-
-    <ClientOnly>
-      <SectionsWorkFinalProduct
+    <template v-if="isMarketing">
+      <SectionsWorkEmailNewsletter
         :project="project"
-        :animate-final="animateFinal"
+        :animate-email="animateEmail"
       />
-    </ClientOnly>
+
+      <SectionsWorkRichMedia :project="project" :animate-rich="animateRich" />
+
+      <SectionsWorkDigitalInfographics
+        :project="project"
+        :animate-digital="animateDigital"
+      />
+    </template>
+
+    <template v-else>
+      <SectionsWorkTheBrand :project="project" :animate-brand="animateBrand" />
+
+      <SectionsWorkTheChallenge
+        :project="project"
+        :animate-challenge="animateChallenge"
+      />
+
+      <ClientOnly>
+        <SectionsWorkFinalProduct
+          :project="project"
+          :animate-final="animateFinal"
+        />
+      </ClientOnly>
+    </template>
 
     <div
       v-if="previousProject && nextProject"
