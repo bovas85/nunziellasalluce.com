@@ -59,7 +59,7 @@ const closeMenu = () => {
                   href="https://dribbble.com/nunziella"
                   aria-label="Go to dribbble"
                   class="social social--dribbble"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   target="_blank"
                 />
               </li>
@@ -68,7 +68,7 @@ const closeMenu = () => {
                   href="https://www.instagram.com/lucettinas/"
                   aria-label="Go to instagram"
                   class="social social--instagram"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   target="_blank"
                 />
               </li>
@@ -77,7 +77,7 @@ const closeMenu = () => {
                   href="https://www.behance.net/nunziellasalluce/"
                   aria-label="Go to behance"
                   class="social social--behance"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   target="_blank"
                 />
               </li>
@@ -86,7 +86,7 @@ const closeMenu = () => {
                   class="social social--linkedin"
                   aria-label="Go to linkedin"
                   href="https://www.linkedin.com/in/nunziella-salluce"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   target="_blank"
                 />
               </li>
