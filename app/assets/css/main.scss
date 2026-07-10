@@ -3,8 +3,8 @@
  * Copyright 2017-2018 Alessandro Giordo
  * Licensed under MIT
  */
-@import './fonts';
-@import 'bulma/sass/utilities/_all';
+@import "./fonts";
+@import "bulma/sass/utilities/_all";
 
 // Breakpoints
 $mobile: 576px !default; // used for max-width only
@@ -18,12 +18,12 @@ $fullhd: 1392px !default;
 
 // @import '~bulma/sass/base/helpers';
 
-@import './variables';
-@import './grid_base';
-@import './helpers';
-@import './animations';
-@import './elements';
-@import './layout';
+@import "./variables";
+@import "./grid_base";
+@import "./helpers";
+@import "./animations";
+@import "./elements";
+@import "./layout";
 
 // Ensure loading indicator is always on top
 .nuxt-loading-indicator {

@@ -15,7 +15,7 @@ $link-hover: $primary;
 $border-radius: 100px;
 
 // Fonts //
-$family-primary: 'Source Sans Pro', helvetica, arial, sans-serif;
+$family-primary: "Source Sans Pro", helvetica, arial, sans-serif;
 
 // Font sizes //
 $font-size: 16px;
@@ -76,9 +76,9 @@ $rule: 1.4;
   /* autoprefixer: off */
   display: -webkit-box;
   -webkit-line-clamp: $numLines;
-  -moz-binding: url('/ellipsis.xml#ellipsis');
+  -moz-binding: url("/ellipsis.xml#ellipsis");
   -webkit-box-orient: vertical;
-  max-height: $numLines * $lineHeight + unquote('em');
+  max-height: $numLines * $lineHeight + unquote("em");
 }
 
 // wrap words if too long
@@ -106,7 +106,8 @@ $rule: 1.4;
 @mixin fadeInUp {
   transform: translateY(50px);
   opacity: 0;
-  transition: transform 0.5s cubic-bezier(0.15, 0.46, 0.21, 0.93),
+  transition:
+    transform 0.5s cubic-bezier(0.15, 0.46, 0.21, 0.93),
     opacity 0.5s ease-in-out;
 }
 
@@ -123,27 +124,19 @@ $rule: 1.4;
     @media only screen and (min-width: $fullhd) {
       @content;
     }
-  }
-
- @else if $bp == xl {
+  } @else if $bp == xl {
     @media only screen and (min-width: $widescreen) {
       @content;
     }
-  }
-
- @else if $bp == lg {
+  } @else if $bp == lg {
     @media only screen and (min-width: $desktop) {
       @content;
     }
-  }
-
- @else if $bp == md {
+  } @else if $bp == md {
     @media only screen and (min-width: $tablet) {
       @content;
     }
-  }
-
- @else if $bp == sm {
+  } @else if $bp == sm {
     @media only screen and (min-width: $mobile-large) {
       @content;
     }
@@ -156,7 +149,7 @@ $rule: 1.4;
   position: relative;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     border: $size solid transparent;
     z-index: -1;
@@ -166,23 +159,17 @@ $rule: 1.4;
       left: 100%;
       border-left-color: $color;
       transform: translate3d(0, -50%, 0);
-    }
-
- @else if $direction == left {
+    } @else if $direction == left {
       top: 50%;
       left: 0;
       border-right-color: $color;
       transform: translate3d(-100%, -50%, 0);
-    }
-
- @else if $direction == down {
+    } @else if $direction == down {
       top: 100%;
       left: 50%;
       border-top-color: $color;
       transform: translate3d(-50%, 0, 0);
-    }
-
- @else if $direction == up {
+    } @else if $direction == up {
       top: 0;
       left: 50%;
       border-bottom-color: $color;
@@ -203,33 +190,25 @@ $rule: 1.4;
     }
 
     font-range: 320px #{$tablet};
-  }
-
- @else if $heading == h1 {
+  } @else if $heading == h1 {
     font-size: 40px;
     font-size: responsive(
       round($font-size * $rule * 1.8) round($font-size * $rule * 3)
     );
     font-range: 320px #{$tablet};
-  }
-
- @else if $heading == h2 {
+  } @else if $heading == h2 {
     font-size: 30px;
     font-size: responsive(
       round($font-size * $rule * 1.4) round($font-size * $rule * 2)
     );
     font-range: 320px #{$tablet};
-  }
-
- @else if $heading == h3 {
+  } @else if $heading == h3 {
     font-size: 24px;
     font-size: responsive(
       round($font-size * $rule) round($font-size * $rule * $rule)
     );
     font-range: 320px #{$tablet};
-  }
-
- @else if $heading == h4 {
+  } @else if $heading == h4 {
     font-size: 22px;
     font-size: round($font-size * $rule);
   }

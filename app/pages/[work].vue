@@ -1,179 +1,244 @@
 <script setup lang="ts">
-import { useAsyncData } from '#app'
-import { useHead } from '#imports'
-import Config from '@/assets/config'
-import { useWindowScroll } from '@vueuse/core'
-import scrollama, { type ScrollamaInstance, type ScrollamaResponse } from 'scrollama'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import type { Project, ProjectACF } from '~/types/acf'
+import { useAsyncData } from "#app";
+import { useHead } from "#imports";
+import Config from "@/assets/config";
+import { useWindowScroll } from "@vueuse/core";
+import scrollama, {
+  type ScrollamaInstance,
+  type ScrollamaResponse,
+} from "scrollama";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import type { Project, ProjectACF } from "~/types/acf";
 
-const route = useRoute()
-const { y: _y } = useWindowScroll()
-const menuScrolled = useState('menuScrolled')
+defineOptions({ name: "WorkPage" });
+
+const route = useRoute();
+const { y: _y } = useWindowScroll();
+const menuScrolled = useState("menuScrolled");
 
 // Fetch all projects (to get prev/next properly without Vuex state tracking)
 const { data: projectsData } = await useAsyncData(
-  'projects',
+  "projects",
   () => $fetch(Config.wpDomain + Config.api.projects),
   {
     getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-    }
-  }
-)
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
+  },
+);
 
 const projects = computed(() => {
-  if (!projectsData.value) return []
-  return (projectsData.value as Project[]).filter(p => p.acf?.status === 'true')
-})
+  if (!projectsData.value) return [];
+  return (projectsData.value as Project[]).filter(
+    (p) => p.acf?.status === "true",
+  );
+});
 
 const getIndex = computed(() => {
-  if (!projects.value.length) return 0
-  return projects.value.findIndex(p => route.params.work === p.slug)
-})
+  if (!projects.value.length) return 0;
+  return projects.value.findIndex((p) => route.params.work === p.slug);
+});
 
 const projectTitle = computed(() => {
-  const proj = projects.value[getIndex.value]
-  return proj?.slug || ''
-})
+  const proj = projects.value[getIndex.value];
+  return proj?.slug || "";
+});
 
 const project = computed<ProjectACF | null>(() => {
-  const proj = projects.value[getIndex.value]
-  return proj?.acf || null
-})
+  const proj = projects.value[getIndex.value];
+  return proj?.acf || null;
+});
 
 const previousProject = computed<Project | null>(() => {
-  if (!projects.value.length) return null
+  if (!projects.value.length) return null;
   if (getIndex.value === 0) {
-    return projects.value[projects.value.length - 1]
+    return projects.value[projects.value.length - 1] || null;
   }
-  return projects.value[getIndex.value - 1]
-})
+  return projects.value[getIndex.value - 1] || null;
+});
 
 const nextProject = computed<Project | null>(() => {
-  if (!projects.value.length) return null
+  if (!projects.value.length) return null;
   if (getIndex.value === projects.value.length - 1) {
-    return projects.value[0]
+    return projects.value[0] || null;
   }
-  return projects.value[getIndex.value + 1]
-})
+  return projects.value[getIndex.value + 1] || null;
+});
 
 const capitalizeEveryWord = (str: string) => {
-  return str.replace(/\b\w/g, l => l.toUpperCase())
-}
+  return str.replace(/\b\w/g, (l) => l.toUpperCase());
+};
 
 if (!project.value && import.meta.server) {
-  const event = useRequestEvent()
+  const event = useRequestEvent();
   if (event) {
-    const { setResponseStatus } = await import('h3')
-    setResponseStatus(event, 404)
+    const { setResponseStatus } = await import("h3");
+    setResponseStatus(event, 404);
   }
 }
 
 useHead(() => {
-  if (project.value && projectTitle.value && project.value.seo?.facebook?.sizes && project.value.seo?.twitter?.sizes) {
+  if (
+    project.value &&
+    projectTitle.value &&
+    project.value.seo?.facebook?.sizes &&
+    project.value.seo?.twitter?.sizes
+  ) {
     return {
-      title: capitalizeEveryWord(projectTitle.value.replaceAll('-', ' ')),
+      title: capitalizeEveryWord(projectTitle.value.replaceAll("-", " ")),
       meta: [
-        { name: 'description', content: project.value.seo.description },
-        { name: 'keywords', content: project.value.keywords || `${projectTitle.value.replaceAll('-', ' ')}, ${projectTitle.value.replaceAll('-', ', ')}` },
-        { hid: 'og:title', property: 'og:title', content: capitalizeEveryWord(projectTitle.value.replaceAll('-', ' ')) },
-        { hid: 'og:description', property: 'og:description', content: project.value.seo.description },
-        { hid: 'og:image', property: 'og:image', content: project.value.seo.facebook.sizes.large },
-        { hid: 'twitter:title', name: 'twitter:title', content: capitalizeEveryWord(projectTitle.value.replaceAll('-', ' ')) },
-        { hid: 'twitter:description', name: 'twitter:description', content: project.value.seo.description },
-        { hid: 'twitter:image', name: 'twitter:image', content: project.value.seo.twitter.sizes.large }
-      ]
-    }
+        { name: "description", content: project.value.seo.description },
+        {
+          name: "keywords",
+          content:
+            project.value.keywords ||
+            `${projectTitle.value.replaceAll("-", " ")}, ${projectTitle.value.replaceAll("-", ", ")}`,
+        },
+        {
+          hid: "og:title",
+          property: "og:title",
+          content: capitalizeEveryWord(projectTitle.value.replaceAll("-", " ")),
+        },
+        {
+          hid: "og:description",
+          property: "og:description",
+          content: project.value.seo.description,
+        },
+        {
+          hid: "og:image",
+          property: "og:image",
+          content: project.value.seo.facebook.sizes.large,
+        },
+        {
+          hid: "twitter:title",
+          name: "twitter:title",
+          content: capitalizeEveryWord(projectTitle.value.replaceAll("-", " ")),
+        },
+        {
+          hid: "twitter:description",
+          name: "twitter:description",
+          content: project.value.seo.description,
+        },
+        {
+          hid: "twitter:image",
+          name: "twitter:image",
+          content: project.value.seo.twitter.sizes.large,
+        },
+      ],
+    };
   } else {
-    return { title: 'Case Study' }
+    return { title: "Case Study" };
   }
-})
+});
 
-const animateHeader = ref(false)
-const animateIntro = ref(false)
-const animateBrand = ref(false)
-const animateChallenge = ref(false)
-const animateFinal = ref(false)
-const animateBottomImage = ref(false)
+const isMarketing = computed(
+  () => !!project.value?.newsletter || !!project.value?.rich_media,
+);
 
-let scroller: ScrollamaInstance | null = null
+const animateHeader = ref(false);
+const animateIntro = ref(false);
+const animateBrand = ref(false);
+const animateChallenge = ref(false);
+const animateFinal = ref(false);
+const animateEmail = ref(false);
+const animateRich = ref(false);
+const animateDigital = ref(false);
+const animateBottomImage = ref(false);
+
+let scroller: ScrollamaInstance | null = null;
 
 const handleStepEnter = (response: ScrollamaResponse) => {
   if (response.element) {
-    response.element.classList.add('animated')
+    response.element.classList.add("animated");
   }
-  const length = document.querySelectorAll('.step').length - 2
+  const length = document.querySelectorAll(".step").length - 2;
   switch (response.index) {
     case 0:
-      menuScrolled.value = false
-      break
+      menuScrolled.value = false;
+      break;
     case 1:
-      animateIntro.value = true
-      break
+      animateIntro.value = true;
+      break;
     case 2:
-      animateBrand.value = true
-      break
+      if (isMarketing.value) {
+        animateEmail.value = true;
+      } else {
+        animateBrand.value = true;
+      }
+      break;
     case 3:
-      animateChallenge.value = true
-      break
+      if (isMarketing.value) {
+        animateDigital.value = true;
+      } else {
+        animateChallenge.value = true;
+      }
+      break;
     case 4:
-      animateFinal.value = true
-      break
+      if (isMarketing.value) {
+        animateRich.value = true;
+      } else {
+        animateFinal.value = true;
+      }
+      break;
     case length:
-      animateBottomImage.value = true
-      break
+      animateBottomImage.value = true;
+      break;
     default:
-      break
+      break;
   }
-}
+};
 
 const showMenu = (response: ScrollamaResponse) => {
-  if (response.index >= 0 && response.direction === 'down' && !menuScrolled.value) {
-    menuScrolled.value = true
+  if (
+    response.index >= 0 &&
+    response.direction === "down" &&
+    !menuScrolled.value
+  ) {
+    menuScrolled.value = true;
   }
-}
+};
 
 const handleScroll = () => {
-  if (!import.meta.client) return
-  const step = document.querySelector('.step')
+  if (!import.meta.client) return;
+  const step = document.querySelector(".step");
   if (step) {
-    scroller = scrollama()
-    scroller.setup({
-      step: '.step',
-      offset: window.innerWidth > 577 ? 0.6 : 0.7,
-      debug: false
-    })
+    scroller = scrollama();
+    scroller
+      .setup({
+        step: ".step",
+        offset: window.innerWidth > 577 ? 0.6 : 0.7,
+        debug: false,
+      })
       .onStepEnter(handleStepEnter)
-      .onStepExit(showMenu)
+      .onStepExit(showMenu);
   } else {
     setTimeout(() => {
-      handleScroll()
-    }, 600)
+      handleScroll();
+    }, 600);
   }
-}
+};
 
 const scrollamaResize = () => {
-  if (scroller) scroller.resize()
-}
+  if (scroller) scroller.resize();
+};
 
 onMounted(() => {
   if (import.meta.client) {
-    animateHeader.value = true
+    animateHeader.value = true;
     setTimeout(() => {
-      handleScroll()
-    }, 150)
-    window.addEventListener('resize', scrollamaResize, { passive: true })
+      handleScroll();
+    }, 150);
+    window.addEventListener("resize", scrollamaResize, { passive: true });
   }
-})
+});
 
 onBeforeUnmount(() => {
   if (scroller) {
-    scroller.destroy()
+    scroller.destroy();
   }
-  window.removeEventListener('resize', scrollamaResize)
-})
+  window.removeEventListener("resize", scrollamaResize);
+});
 </script>
 
 <template>
@@ -182,28 +247,62 @@ onBeforeUnmount(() => {
 
     <SectionsWorkClientIntro :project="project" :animate-intro="animateIntro" />
 
-    <SectionsWorkTheBrand :project="project" :animate-brand="animateBrand" />
+    <template v-if="isMarketing">
+      <SectionsWorkEmailNewsletter
+        :project="project"
+        :animate-email="animateEmail"
+      />
 
-    <SectionsWorkTheChallenge :project="project" :animate-challenge="animateChallenge" />
+      <SectionsWorkRichMedia :project="project" :animate-rich="animateRich" />
 
-    <ClientOnly>
-      <SectionsWorkFinalProduct :project="project" :animate-final="animateFinal" />
-    </ClientOnly>
+      <SectionsWorkDigitalInfographics
+        :project="project"
+        :animate-digital="animateDigital"
+      />
+    </template>
 
-    <div v-if="previousProject && nextProject" class="work-navigation step" :class="{ animated: animateBottomImage }">
+    <template v-else>
+      <SectionsWorkTheBrand :project="project" :animate-brand="animateBrand" />
+
+      <SectionsWorkTheChallenge
+        :project="project"
+        :animate-challenge="animateChallenge"
+      />
+
+      <ClientOnly>
+        <SectionsWorkFinalProduct
+          :project="project"
+          :animate-final="animateFinal"
+        />
+      </ClientOnly>
+    </template>
+
+    <div
+      v-if="previousProject && nextProject"
+      class="work-navigation step"
+      :class="{ animated: animateBottomImage }"
+    >
       <div class="container-fluid is-flex">
         <NuxtLink class="previous" :to="`/${previousProject.slug}`">
           <UILazyImage
-v-if="previousProject.acf?.hero" class="image" :hover="false"
-            :image="previousProject.acf.hero.desktop_bg" :image-mobile="previousProject.acf.hero.mobile_bg">
+            v-if="previousProject.acf?.hero"
+            class="image"
+            :hover="false"
+            :image="previousProject.acf.hero.desktop_bg"
+            :image-mobile="previousProject.acf.hero.mobile_bg"
+          >
             <span>{{ previousProject.acf.hero.title }}</span>
           </UILazyImage>
           <p>Previous Project</p>
         </NuxtLink>
         <NuxtLink class="next" :to="`/${nextProject.slug}`">
           <UILazyImage
-v-if="nextProject.acf?.hero" class="image" :hover="false"
-            :image="nextProject.acf.hero.desktop_bg" :image-mobile="nextProject.acf.hero.mobile_bg">
+            v-if="nextProject.acf?.hero"
+            class="image"
+            :hover="false"
+            :image="nextProject.acf.hero.desktop_bg"
+            :image-mobile="nextProject.acf.hero.mobile_bg"
+          >
             <span>{{ nextProject.acf.hero.title }}</span>
           </UILazyImage>
           <p>Next Project</p>

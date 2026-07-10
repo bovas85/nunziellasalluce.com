@@ -2,16 +2,22 @@
   <div class="app">
     <UICookieBox />
     <NavTheNav />
-    
+
     <slot />
-    
+
     <FootersTheFooter />
-    
+
     <div
       v-if="$route.path === '/'"
       id="awwwards"
       class="is-hidden-touch"
-      style="position: fixed; z-index: 999; transform: translateY(-50%); top: 20%; right: 0"
+      style="
+        position: fixed;
+        z-index: 999;
+        transform: translateY(-50%);
+        top: 80%;
+        right: 0;
+      "
     >
       <a
         href="https://www.awwwards.com/sites/nunziella-salluce-designer"

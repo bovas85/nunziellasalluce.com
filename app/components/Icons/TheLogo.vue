@@ -1,35 +1,38 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 
-withDefaults(defineProps<{
-  animating?: boolean
-  title?: string
-  width?: number | string
-  height?: number | string
-}>(), {
-  animating: false,
-  title: 'Logo',
-  width: 80,
-  height: 51
-})
+withDefaults(
+  defineProps<{
+    animating?: boolean;
+    title?: string;
+    width?: number | string;
+    height?: number | string;
+  }>(),
+  {
+    animating: false,
+    title: "Logo",
+    width: 80,
+    height: 51,
+  },
+);
 
-const length = ref(302)
+const length = ref(302);
 
 onMounted(() => {
   if (import.meta.client) {
     setTimeout(() => {
-      const path = document.querySelector('.path') as SVGPathElement
+      const path = document.querySelector(".path") as SVGPathElement;
       if (path) {
-        length.value = path.getTotalLength()
+        length.value = path.getTotalLength();
       }
-    }, 300)
+    }, 300);
   }
-})
+});
 </script>
 
 <template>
   <svg
-    :class="{ 'animating': animating }"
+    :class="{ animating: animating }"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 31"
     :width="width"

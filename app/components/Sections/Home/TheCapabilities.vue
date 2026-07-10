@@ -1,34 +1,43 @@
 <script setup lang="ts">
-import type { HomePageACF } from '~/types/acf';
+import type { HomePageACF } from "~/types/acf";
 
 defineProps<{
-  acf: HomePageACF
-  animateCapab: boolean
-}>()
+  acf: HomePageACF;
+  animateCapab: boolean;
+}>();
 </script>
 
 <template>
   <section v-if="acf" class="capabilities step">
     <div class="container">
-      <h1 :class="{ 'animated': animateCapab }">{{ acf.capabilities.title }}</h1>
-      <div :class="{ 'animated': animateCapab }" class="skill col--4-tablet">
+      <h1 :class="{ animated: animateCapab }">{{ acf.capabilities.title }}</h1>
+      <div :class="{ animated: animateCapab }" class="skill col--4-tablet">
         <img
-class="lazyload" :data-src="acf.capabilities.media_object.image.sizes.large"
-          :alt="acf.capabilities.media_object.image.alt">
+          class="lazyload"
+          :data-src="acf.capabilities.media_object.image.sizes.large"
+          :alt="acf.capabilities.media_object.image.alt"
+        />
         <h3>{{ acf.capabilities.media_object.title }}</h3>
         <p>{{ acf.capabilities.media_object.body }}</p>
       </div>
-      <div :class="{ 'animated': animateCapab }" class="skill col--4-tablet padded-top">
+      <div
+        :class="{ animated: animateCapab }"
+        class="skill col--4-tablet padded-top"
+      >
         <img
-class="lazyload" :data-src="acf.capabilities.media_object2.image.sizes.large"
-          :alt="acf.capabilities.media_object2.image.alt">
+          class="lazyload"
+          :data-src="acf.capabilities.media_object2.image.sizes.large"
+          :alt="acf.capabilities.media_object2.image.alt"
+        />
         <h3>{{ acf.capabilities.media_object2.title }}</h3>
         <p>{{ acf.capabilities.media_object2.body }}</p>
       </div>
-      <div :class="{ 'animated': animateCapab }" class="skill col--4-tablet">
+      <div :class="{ animated: animateCapab }" class="skill col--4-tablet">
         <img
-class="lazyload" :data-src="acf.capabilities.media_object3.image.sizes.large"
-          :alt="acf.capabilities.media_object3.image.alt">
+          class="lazyload"
+          :data-src="acf.capabilities.media_object3.image.sizes.large"
+          :alt="acf.capabilities.media_object3.image.alt"
+        />
         <h3>{{ acf.capabilities.media_object3.title }}</h3>
         <p>{{ acf.capabilities.media_object3.body }}</p>
       </div>

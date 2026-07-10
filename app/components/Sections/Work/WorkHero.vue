@@ -1,36 +1,52 @@
 <template>
   <section v-if="project.hero != null" class="section hero step">
     <UILazyImage
-class="image" :image="project.hero.desktop_bg" :title="project.hero.title" position-mobile="left"
-      :hover="false" :image-mobile="project.hero.mobile_bg" home />
-    <div class="container is-flex-column" :class="{ 'animated': animateHeader }">
-      <h1 class='jumbo'>{{ project.hero.title }}</h1>
+      class="image"
+      :image="project.hero.desktop_bg"
+      :title="project.hero.title"
+      position-mobile="left"
+      :hover="false"
+      :image-mobile="project.hero.mobile_bg"
+      :lazyload="false"
+      home
+    />
+    <div class="container is-flex-column" :class="{ animated: animateHeader }">
+      <h1 class="jumbo">{{ project.hero.title }}</h1>
       <h3 class="supertitle">Case Studies - {{ project.category }}</h3>
       <h3>{{ project.hero.description }}</h3>
     </div>
-    <div class="scroll-down" :class="{ 'animated': animateHeader }" @click="scrollTo('.client-intro')">
+    <div
+      class="scroll-down"
+      :class="{ animated: animateHeader }"
+      @click="scrollTo('.client-intro')"
+    >
       <p>scroll</p>
       <div class="scroll-down__arrow">
-        <IconsIconArrow :fill="'white'" name="arrow-down" :width="30" :height="40" />
+        <IconsIconArrow
+          :fill="'white'"
+          name="arrow-down"
+          :width="30"
+          :height="40"
+        />
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import type { ProjectACF } from '~/types/acf';
+import type { ProjectACF } from "~/types/acf";
 
 defineProps<{
-  project: ProjectACF
-  animateHeader: boolean
-}>()
+  project: ProjectACF;
+  animateHeader: boolean;
+}>();
 
 const scrollTo = (selector: string) => {
   if (import.meta.client) {
-    const el = document.querySelector(selector)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    const el = document.querySelector(selector);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -65,6 +81,9 @@ const scrollTo = (selector: string) => {
       animation-fill-mode: both;
       animation-duration: 60s;
       backface-visibility: hidden;
+      will-change: transform;
+      transform-origin: center center;
+      isolation: isolate;
     }
   }
 

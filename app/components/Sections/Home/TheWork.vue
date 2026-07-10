@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import type { HomePageACF, Project } from '~/types/acf';
+import type { HomePageACF, Project } from "~/types/acf";
 
 defineProps<{
-  filteredProjects: Project[]
-  acf: HomePageACF
-  animateWork: boolean
-}>()
+  filteredProjects: Project[];
+  acf: HomePageACF;
+  animateWork: boolean;
+}>();
 </script>
 
 <template>
   <section v-if="filteredProjects && acf" class="projects section step">
-    <div class="container" :class="{ 'animated': animateWork }">
+    <div class="container" :class="{ animated: animateWork }">
       <h1>{{ acf.case_studies.title }}</h1>
     </div>
-    <SlidersTheCarousel v-if="filteredProjects" :class="{ 'animated': animateWork }" :data="filteredProjects" />
+    <SlidersTheCarousel
+      v-if="filteredProjects"
+      :class="{ animated: animateWork }"
+      :data="filteredProjects"
+    />
   </section>
 </template>
 

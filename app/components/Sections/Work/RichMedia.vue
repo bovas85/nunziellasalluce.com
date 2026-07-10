@@ -1,13 +1,20 @@
 <template>
-  <section v-if="project != null && project.rich_media != null" class="rich-media step">
+  <section v-if="rich != null" class="rich-media step">
     <div class="container is-flex">
       <!-- <h1 class="title step">{{rich.title}}</h1> /** Title removed as clashing */ -->
       <div
-v-for="(item, index) in rich.the_content" :key="`${item.acf_fc_layout}-${index}`" class="content"
-        :class="{ 'hidden': !item.text && !item.image }">
+        v-for="(item, index) in rich.the_content"
+        :key="`${item.acf_fc_layout}-${index}`"
+        class="content"
+        :class="{ hidden: !item.text && !item.image }"
+      >
         <UILazyImage
-v-if="item && item.acf_fc_layout && item.acf_fc_layout === 'image'" class="image step"
-          :hover="false" :image="item.image" :image-mobile="item.image" />
+          v-if="item && item.acf_fc_layout && item.acf_fc_layout === 'image'"
+          class="image step"
+          :hover="false"
+          :image="item.image"
+          :image-mobile="item.image"
+        />
         <p v-else-if="item && item.text" class="text step">{{ item.text }}</p>
       </div>
     </div>
@@ -15,15 +22,15 @@ v-if="item && item.acf_fc_layout && item.acf_fc_layout === 'image'" class="image
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { ProjectACF } from '~/types/acf';
+import { computed } from "vue";
+import type { ProjectACF } from "~/types/acf";
 
 const props = defineProps<{
-  project: ProjectACF
-  animateRich: boolean
-}>()
+  project: ProjectACF;
+  animateRich: boolean;
+}>();
 
-const rich = computed(() => props.project.rich_media || null)
+const rich = computed(() => props.project.rich_media || null);
 </script>
 
 <style lang="scss" scoped>

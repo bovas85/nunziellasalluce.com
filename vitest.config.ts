@@ -1,18 +1,18 @@
-import { defineVitestConfig } from '@nuxt/test-utils/config'
+import { defineVitestConfig } from "@nuxt/test-utils/config";
 
 export default defineVitestConfig({
   test: {
-    environment: 'nuxt',
+    environment: "nuxt",
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'lcov'],
+      provider: "v8",
+      reporter: ["text", "lcov"],
       exclude: [
-        'nuxt.config.ts',
-        '**/*.d.ts',
-        '.nuxt/**',
-        '.output/**',
-        'archive/**'
-      ]
-    }
-  }
-})
+        "nuxt.config.ts",
+        "**/*.d.ts",
+        ".nuxt/**",
+        ".output/**",
+        "archive/**",
+      ],
+    },
+  },
+});

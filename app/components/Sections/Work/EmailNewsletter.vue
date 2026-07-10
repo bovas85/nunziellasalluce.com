@@ -1,32 +1,44 @@
 <template>
-  <section v-if="project != null && project.newsletter != null" class="email-newsletter step">
+  <section v-if="newsletter != null" class="email-newsletter step">
     <div class="container">
-      <h1 class="title" :class="{ 'animated': animateEmail }">{{ newsletter.title }}</h1>
+      <h1 class="title" :class="{ animated: animateEmail }">
+        {{ newsletter.title }}
+      </h1>
       <UILazyImage
-v-if="newsletter.image_right != null && newsletter.image_right.url" class="image image--right"
-        :class="{ 'animated': animateEmail }" :hover="false" :image="newsletter.image_right"
-        :image-mobile="newsletter.image_right" />
+        v-if="newsletter.image_right != null && newsletter.image_right.url"
+        class="image image--right"
+        :class="{ animated: animateEmail }"
+        :hover="false"
+        :image="newsletter.image_right"
+        :image-mobile="newsletter.image_right"
+      />
       <UILazyImage
-v-if="newsletter.image_left != null && newsletter.image_left.url" class="image image--left"
-        :class="{ 'animated': animateEmail }" :hover="false" :image="newsletter.image_left"
-        :image-mobile="newsletter.image_left" />
+        v-if="newsletter.image_left != null && newsletter.image_left.url"
+        class="image image--left"
+        :class="{ animated: animateEmail }"
+        :hover="false"
+        :image="newsletter.image_left"
+        :image-mobile="newsletter.image_left"
+      />
       <!-- title for next section is here to respect grid -->
-      <h1 class="title title--bottom" :class="{ 'animated': animateEmail }">Paid Ads</h1>
+      <h1 class="title title--bottom" :class="{ animated: animateEmail }">
+        Paid Ads
+      </h1>
       <!-- <h1 class="title title--bottom" :class="{'animated': animateEmail}">{{projects.infographics.title}}</h1> -->
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { ProjectACF } from '~/types/acf';
+import { computed } from "vue";
+import type { ProjectACF } from "~/types/acf";
 
 const props = defineProps<{
-  project: ProjectACF
-  animateEmail: boolean
-}>()
+  project: ProjectACF;
+  animateEmail: boolean;
+}>();
 
-const newsletter = computed(() => props.project.newsletter || null)
+const newsletter = computed(() => props.project.newsletter || null);
 </script>
 
 <style lang="scss" scoped>

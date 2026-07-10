@@ -1,8 +1,12 @@
 <template>
   <div :class="direction" class="svg">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" v-bind="{ 'width': width, 'height': height }">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 100"
+      v-bind="{ width: width, height: height }"
+    >
       <path
-        :style="{'color': fill}"
+        :style="{ color: fill }"
         :fill="fill"
         :stroke="fill"
         d="M50 92l16-29.1M50 92L34 62.9"
@@ -12,92 +16,81 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: "IconArrow",
-    props: {
-      fill: {
-        type: String,
-        default: "white"
-      },
-      width: {
-        type: Number,
-        default: 40
-      },
-      height: {
-        type: Number,
-        default: 40
-      },
-      direction: {
-        type: String,
-        validator: value => {
-          // The value must match one of these strings
-          return ["left", "right", "up", "down"].indexOf(value) !== -1;
-        },
-        default: "down"
-      },
-      name: {
-        type: String,
-        default: "arrow"
-      }
-    }
-  };
+<script setup lang="ts">
+defineOptions({ name: "IconArrow" });
+
+withDefaults(
+  defineProps<{
+    fill?: string;
+    width?: number;
+    height?: number;
+    direction?: "left" | "right" | "up" | "down";
+    name?: string;
+  }>(),
+  {
+    fill: "white",
+    width: 40,
+    height: 40,
+    direction: "down",
+    name: "arrow",
+  },
+);
 </script>
 
 <style scoped lang="scss">
-  path {
-    stroke-width: 3.9036;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+path {
+  stroke-width: 3.9036;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.svg {
+  position: relative;
+  display: inline-block;
+  text-align: right;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 12px;
+    display: block;
+    z-index: 100;
+    width: 2px;
+    right: 48%;
+    height: 30px;
+    margin-top: -1px;
+    color: currentcolor;
+    background-color: currentcolor;
+    transition: all 0.3s ease-in-out;
   }
 
-  .svg {
-    position: relative;
-    display: inline-block;
-    text-align: right;
-
+  &:hover {
     &::before {
-      content: "";
-      position: absolute;
-      bottom: 12px;
-      display: block;
-      z-index: 100;
-      width: 2px;
-      right: 48%;
-      height: 30px;
-      margin-top: -1px;
-      color: currentcolor;
-      background-color: currentcolor;
-      transition: all 0.3s ease-in-out;
-    }
-
-    &:hover {
-      &::before {
-        height: 40px;
-      }
+      height: 40px;
     }
   }
+}
 
-  .left,
-  .right,
-  .bottom,
-  .up {
-    transform-origin: center;
-  }
+.left,
+.right,
+.bottom,
+.up {
+  transform-origin: center;
+}
 
-  .left {
-    transform: rotate(90deg);
-  }
+.left {
+  transform: rotate(90deg);
+}
 
-  .right {
-    transform: rotate(-90deg);
-  }
+.right {
+  transform: rotate(-90deg);
+}
 
-  .down {
-    transform: rotate(0deg);
-  }
+.down {
+  transform: rotate(0deg);
+}
 
-  .up {
-    transform: rotate(180deg);
-  }
+.up {
+  transform: rotate(180deg);
+}
 </style>

@@ -1,32 +1,43 @@
 <script setup lang="ts">
-import { useAsyncData } from '#app'
-import { useHead } from '#imports'
-import Config from '@/assets/config'
-import { computed } from 'vue'
-import type { AboutPageACF } from '~/types/acf'
+import { useAsyncData } from "#app";
+import { useHead } from "#imports";
+import Config from "@/assets/config";
+import { computed } from "vue";
+import type { AboutPageACF } from "~/types/acf";
+
+defineOptions({ name: "AboutPage" });
 
 useHead({
-  title: 'About Me'
-})
+  title: "About Me",
+});
 
 const { data } = await useAsyncData(
-  'aboutPage',
+  "aboutPage",
   () => $fetch(Config.wpDomain + Config.api.aboutPage),
   {
     getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-    }
-  }
-)
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
+  },
+);
 
-const aboutPage = computed(() => (data.value as Record<string, unknown>)?.acf as AboutPageACF | undefined)
+const aboutPage = computed(
+  () =>
+    (data.value as Record<string, unknown>)?.acf as AboutPageACF | undefined,
+);
 </script>
 
 <template>
   <div v-if="aboutPage" class="about">
     <UILazyImage
-class="image" :image="aboutPage.about.desktop_image" :hover="false" position="right"
-      position-mobile="right" :image-mobile="aboutPage.about.mobile_image" home />
+      class="image"
+      :image="aboutPage.about.desktop_image"
+      :hover="false"
+      position="right"
+      position-mobile="right"
+      :image-mobile="aboutPage.about.mobile_image"
+      home
+    />
     <div v-if="aboutPage" class="container">
       <h1>{{ aboutPage.title }}</h1>
 
@@ -43,7 +54,9 @@ class="image" :image="aboutPage.about.desktop_image" :hover="false" position="ri
         {{ aboutPage.skills.body }}
       </p>
       <p>
-        <a class="link" target="_blank" href="/cv.pdf">Download my CV</a>
+        <a class="link" target="_blank" href="/NunziellaSalluce2026.pdf"
+          >Download my CV</a
+        >
       </p>
     </div>
   </div>

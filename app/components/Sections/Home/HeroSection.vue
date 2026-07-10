@@ -1,43 +1,57 @@
 <script setup lang="ts">
-import type { HomePageACF } from '~/types/acf';
+import type { HomePageACF } from "~/types/acf";
 
 defineProps<{
-  acf: HomePageACF
-  animateHeader: boolean
-}>()
+  acf: HomePageACF;
+  animateHeader: boolean;
+}>();
 
 const scrollToWhoIAm = () => {
   if (import.meta.client) {
-    const el = document.querySelector('.who-i-am')
+    const el = document.querySelector(".who-i-am");
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
+      el.scrollIntoView({ behavior: "smooth" });
     }
   }
-}
+};
 
 const scrollToProjects = () => {
   if (import.meta.client) {
-    const el = document.querySelector('.projects')
+    const el = document.querySelector(".projects");
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
+      el.scrollIntoView({ behavior: "smooth" });
     }
   }
-}
+};
 </script>
 
 <template>
   <section v-if="acf" class="section hero step">
     <UILazyImage
-class="image" :image="acf.hero.desktop_bg" :title="acf.hero.title" :hover="false"
-      position-mobile="center-right" :image-mobile="acf.hero.mobile_bg" lazyload svg home />
-    <div class="container is-flex-column" :class="{ 'animated': animateHeader }">
+      class="image"
+      :image="acf.hero.desktop_bg"
+      :title="acf.hero.title"
+      :hover="false"
+      position-mobile="center-right"
+      :image-mobile="acf.hero.mobile_bg"
+      :lazyload="false"
+      svg
+      home
+    />
+    <div class="container is-flex-column" :class="{ animated: animateHeader }">
       <h1 class="jumbo">{{ acf.hero.title }}</h1>
       <h3>{{ acf.hero.description }}</h3>
     </div>
     <div class="scroll-down" @click="scrollToWhoIAm">
       <p>scroll</p>
       <div class="scroll-down__arrow">
-        <IconsIconArrow fill="black" direction="down" name="arrow-down" :width="30" :height="40" />
+        <IconsIconArrow
+          fill="black"
+          direction="down"
+          name="arrow-down"
+          :width="30"
+          :height="40"
+        />
       </div>
     </div>
     <div class="rotating-text" @click="scrollToProjects">

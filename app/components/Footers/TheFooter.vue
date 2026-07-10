@@ -22,7 +22,8 @@
               href="https://moustachedesign.xyz?referrer=nunziella-salluce-design"
               target="_blank"
               rel="noopener"
-            >Moustache Design</a>
+              >Moustache Design</a
+            >
           </p>
         </div>
       </div>
@@ -78,75 +79,75 @@
 </script>
 
 <style lang="scss" scoped>
-  footer {
-    background-color: $grey;
-    color: white;
-    padding: $gap;
-    position: relative;
-    overflow: hidden;
+footer {
+  background-color: $grey;
+  color: white;
+  padding: $gap;
+  position: relative;
+  overflow: hidden;
 
-    .container {
-      align-items: space-between;
-      justify-content: flex-start;
-      flex-direction: column;
-
-      @include media(sm) {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
-    }
+  .container {
+    align-items: space-between;
+    justify-content: flex-start;
+    flex-direction: column;
 
     @include media(sm) {
-      padding: $gap 0;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
     }
+  }
 
-    img {
-      object-fit: contain;
-      width: 60px;
-      height: 60px;
-    }
+  @include media(sm) {
+    padding: $gap 0;
+  }
 
-    .links {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-around;
-      margin-top: calc($gap / 4);
+  img {
+    object-fit: contain;
+    width: 60px;
+    height: 60px;
+  }
 
-      a {
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.3s ease-in-out;
+  .links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+    margin-top: calc($gap / 4);
 
-        &:hover {
-          color: $primary;
-        }
-      }
+    a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease-in-out;
 
-      p {
-        line-height: 1.5;
-        margin-top: calc($gap / 2.5);
-
-        &.referral-link {
-          font-size: $font-size;
-        }
+      &:hover {
+        color: $primary;
       }
     }
 
-    .left-section {
-      flex-basis: 100%;
+    p {
+      line-height: 1.5;
+      margin-top: calc($gap / 2.5);
 
-      .nuxt-link,
-      .nuxt-link-exact,
-      .nuxt-link-exact-active {
-        max-width: 100px;
-      }
-
-      @include media(sm) {
-        flex-basis: unset;
+      &.referral-link {
+        font-size: $font-size;
       }
     }
   }
+
+  .left-section {
+    flex-basis: 100%;
+
+    .nuxt-link,
+    .nuxt-link-exact,
+    .nuxt-link-exact-active {
+      max-width: 100px;
+    }
+
+    @include media(sm) {
+      flex-basis: unset;
+    }
+  }
+}
 </style>

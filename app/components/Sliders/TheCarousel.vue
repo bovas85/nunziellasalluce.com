@@ -1,62 +1,97 @@
 <script setup lang="ts">
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import { Navigation, Pagination } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import type { Project } from '~/types/acf'
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { useRouter } from "vue-router";
+import type { Project } from "~/types/acf";
 
 const props = defineProps<{
-  data: Project[]
-  location?: string
-}>()
+  data: Project[];
+  location?: string;
+}>();
 
-const router = useRouter()
-const hovering = ref(false)
+const router = useRouter();
+
+const onSlideChange = () => {
+  if (typeof window !== "undefined") {
+    const customWindow = window as unknown as {
+      lazySizes?: {
+        loader: {
+          checkElems: () => void;
+        };
+      };
+    };
+    if (customWindow.lazySizes) {
+      customWindow.lazySizes.loader.checkElems();
+    }
+  }
+};
 
 const swiperOptions = {
   modules: [Navigation, Pagination],
   initialSlide: Math.floor((props.data.length - 1) / 2) || 1,
-  slidesPerView: 'auto' as const,
+  slidesPerView: "auto" as const,
   centeredSlides: true,
   spaceBetween: 32,
   breakpoints: {
     640: {
-      slidesPerView: 'auto' as const,
-      spaceBetween: 32
+      slidesPerView: "auto" as const,
+      spaceBetween: 32,
     },
     320: {
-      slidesPerView: 'auto' as const,
-      spaceBetween: 16
-    }
+      slidesPerView: "auto" as const,
+      spaceBetween: 16,
+    },
   },
   autoplay: false,
   loop: false,
   pagination: {
-    clickable: true
+    clickable: true,
   },
   navigation: {
-    nextEl: '.next',
-    prevEl: '.prev',
-  }
-}
+    nextEl: ".next",
+    prevEl: ".prev",
+  },
+};
 </script>
 
 <template>
   <div v-if="data != null && data.length > 0" class="carousel">
-    <div class="swiper-container" @mouseover="hovering = true" @mouseleave="hovering = false">
-      <Swiper v-bind="swiperOptions" class="app-carousel">
-        <SwiperSlide v-for="item in data" :key="item.id" class="swiper-slide-item">
-          <div v-if="item.acf.hero && item.acf.product" class="slide-content" @click="router.push(item.slug)">
+    <div class="swiper-container">
+      <Swiper
+        v-bind="swiperOptions"
+        class="app-carousel"
+        @slide-change="onSlideChange"
+      >
+        <SwiperSlide
+          v-for="item in data"
+          :key="item.id"
+          class="swiper-slide-item"
+        >
+          <div
+            v-if="item.acf.hero && item.acf.product"
+            class="slide-content"
+            @click="router.push(item.slug)"
+          >
             <UILazyImage
-class="image" :hover="true" :image="item.acf.hero.desktop_bg" type="'case_study'"
-              :title="item.acf.hero.title" :image-mobile="item.acf.hero.mobile_bg" :link="item.slug">
+              class="image"
+              :hover="true"
+              :image="item.acf.hero.desktop_bg"
+              type="'case_study'"
+              :title="item.acf.hero.title"
+              :image-mobile="item.acf.hero.mobile_bg"
+              :link="item.slug"
+            >
               <div class="text-section">
                 <h3>{{ item.acf.hero.title }}</h3>
                 <h4 class="subtitle">{{ item.acf.category }}</h4>
-                <button role="navigation" aria-label="Show case study" class="subtitle subtitle--show">
+                <button
+                  role="navigation"
+                  aria-label="Show case study"
+                  class="subtitle subtitle--show"
+                >
                   Show Case Study
                 </button>
               </div>
@@ -118,9 +153,11 @@ class="image" :hover="true" :image="item.acf.hero.desktop_bg" type="'case_study'
     }
 
     opacity: 1;
-    background: linear-gradient(to left,
+    background: linear-gradient(
+      to left,
       rgb(0 0 0 / 0%) 0%,
-      rgb(0 0 0 / 40%) 100%);
+      rgb(0 0 0 / 40%) 100%
+    );
     transition: opacity 0.3s ease-in-out;
   }
 
@@ -133,9 +170,11 @@ class="image" :hover="true" :image="item.acf.hero.desktop_bg" type="'case_study'
     }
 
     opacity: 1;
-    background: linear-gradient(to right,
+    background: linear-gradient(
+      to right,
       rgb(0 0 0 / 0%) 0%,
-      rgb(0 0 0 / 40%) 100%);
+      rgb(0 0 0 / 40%) 100%
+    );
     transition: opacity 0.3s ease-in-out;
   }
 }

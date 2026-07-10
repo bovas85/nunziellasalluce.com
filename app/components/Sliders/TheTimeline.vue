@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { useWindowSize } from '@vueuse/core'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import { Navigation, Pagination } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { computed, ref } from 'vue'
+import { useWindowSize } from "@vueuse/core";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { computed, ref } from "vue";
 
 defineProps<{
-  data: unknown[]
-}>()
+  data: unknown[];
+}>();
 
-const { width } = useWindowSize()
-const sliderPosition = ref(0)
+const { width } = useWindowSize();
+const sliderPosition = ref(0);
 
 const responsiveNumber = computed(() => {
   if (width.value < 480) {
-    return 1
+    return 1;
   } else if (width.value < 768) {
-    return 2
+    return 2;
   } else {
-    return 3
+    return 3;
   }
-})
+});
 
 const onSlideChange = (swiper: { activeIndex: number }) => {
-  sliderPosition.value = swiper.activeIndex
-}
+  sliderPosition.value = swiper.activeIndex;
+};
 
 const swiperOptions = {
   modules: [Navigation, Pagination],
@@ -34,14 +34,14 @@ const swiperOptions = {
   slidesPerView: 1,
   breakpoints: {
     480: {
-      slidesPerView: 2
+      slidesPerView: 2,
     },
     768: {
-      slidesPerView: 3
+      slidesPerView: 3,
     },
     1024: {
-      slidesPerView: 3
-    }
+      slidesPerView: 3,
+    },
   },
   centeredSlides: false,
   spaceBetween: 0,
@@ -50,19 +50,23 @@ const swiperOptions = {
   grabCursor: true,
   threshold: 60,
   pagination: {
-    clickable: true
+    clickable: true,
   },
   navigation: {
-    nextEl: '.next',
-    prevEl: '.prev',
-  }
-}
+    nextEl: ".next",
+    prevEl: ".prev",
+  },
+};
 </script>
 
 <template>
   <div v-if="data != null && data.length" class="carousel">
     <div class="swiper-container">
-      <Swiper v-bind="swiperOptions" class="app-carousel" @slide-change="onSlideChange">
+      <Swiper
+        v-bind="swiperOptions"
+        class="app-carousel"
+        @slide-change="onSlideChange"
+      >
         <SwiperSlide v-for="(item, index) in data" :key="index">
           <span class="circle" :style="{ background: item.background }">
             <h3>{{ item.title }}</h3>
@@ -74,10 +78,27 @@ const swiperOptions = {
 
     <!-- slider arrows -->
     <div class="prev" :class="{ 'is-disabled': sliderPosition === 0 }">
-      <IconsIconArrow direction="left" :fill="'black'" name="arrow-left" :width="30" :height="40" />
+      <IconsIconArrow
+        direction="left"
+        :fill="'black'"
+        name="arrow-left"
+        :width="30"
+        :height="40"
+      />
     </div>
-    <div class="next" :class="{ 'is-disabled': sliderPosition >= data.length - responsiveNumber }">
-      <IconsIconArrow direction="right" :fill="'black'" name="arrow-right" :width="30" :height="40" />
+    <div
+      class="next"
+      :class="{
+        'is-disabled': sliderPosition >= data.length - responsiveNumber,
+      }"
+    >
+      <IconsIconArrow
+        direction="right"
+        :fill="'black'"
+        name="arrow-right"
+        :width="30"
+        :height="40"
+      />
     </div>
   </div>
 </template>
@@ -120,10 +141,12 @@ const swiperOptions = {
 
   &:last-child {
     width: 1000px !important;
-    background: linear-gradient(to right,
-        rgb(255 255 255 / 0%) 0%,
-        rgb(255 255 255 / 100%) 15%,
-        rgb(255 255 255 / 100%) 100%);
+    background: linear-gradient(
+      to right,
+      rgb(255 255 255 / 0%) 0%,
+      rgb(255 255 255 / 100%) 15%,
+      rgb(255 255 255 / 100%) 100%
+    );
   }
 
   .lazy-image {

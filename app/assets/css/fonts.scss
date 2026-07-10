@@ -1,10 +1,10 @@
-@import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,900&display=optional';
+@import "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,900&display=optional";
 
 .social {
   display: inline-block;
   height: 24px;
   width: 24px;
-  background-image: url('/images/icons.svg');
+  background-image: url("/images/icons.svg");
   background-repeat: no-repeat;
 
   // mobile defaults to orange

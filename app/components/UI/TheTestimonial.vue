@@ -1,18 +1,27 @@
 <script setup lang="ts">
-import type { Testimonial } from '~/types/acf';
+import type { Testimonial } from "~/types/acf";
 
 defineProps<{
-  testimonial: Testimonial
-}>()
+  testimonial: Testimonial;
+}>();
 </script>
 
 <template>
   <div v-if="testimonial != null" class="testimonial">
     <img
-class="lazyload"
-      :data-src="testimonial.image ? testimonial.image.sizes.medium : 'https://placehold.it/200x200'"
-      :src="testimonial.image ? testimonial.image.sizes.thumbnail : 'https://placehold.it/200x200'"
-      :alt="testimonial.image.alt">
+      class="lazyload"
+      :data-src="
+        testimonial.image
+          ? testimonial.image.sizes.medium
+          : 'https://placehold.it/200x200'
+      "
+      :src="
+        testimonial.image
+          ? testimonial.image.sizes.thumbnail
+          : 'https://placehold.it/200x200'
+      "
+      :alt="testimonial.image.alt"
+    />
     <blockquote>
       {{ testimonial.body }}
       <p class="author">{{ testimonial.name }}</p>

@@ -1,39 +1,57 @@
 <template>
-  <section v-if="project != null && project.infographics != null" class="digital-infographics step">
+  <section v-if="infographics != null" class="digital-infographics step">
     <div class="container is-flex">
       <h1 class="title step">{{ infographics.title }}</h1>
 
       <UILazyImage
-v-if="infographics.video_top != null" class="image image--top2"
-        :class="{ 'animated': animateDigital }" :hover="false" :video-mobile="infographics.video_top"
-        :video-desktop="infographics.video_top" />
+        v-if="infographics.video_top != null"
+        class="image image--top2"
+        :class="{ animated: animateDigital }"
+        :hover="false"
+        :video-mobile="infographics.video_top"
+        :video-desktop="infographics.video_top"
+      />
       <UILazyImage
-v-if="infographics.video_bottom != null" class="image image--bottom2"
-        :class="{ 'animated': animateDigital }" :hover="false" :video-mobile="infographics.video_bottom"
-        :video-desktop="infographics.video_bottom" />
+        v-if="infographics.video_bottom != null"
+        class="image image--bottom2"
+        :class="{ animated: animateDigital }"
+        :hover="false"
+        :video-mobile="infographics.video_bottom"
+        :video-desktop="infographics.video_bottom"
+      />
 
       <UILazyImage
-v-if="infographics.image_top != null && infographics.image_top.url" class="image image--top"
-        :class="{ 'animated': animateDigital }" :hover="false" :image="infographics.image_top"
-        :image-mobile="infographics.image_top" />
+        v-if="infographics.image_top != null && infographics.image_top.url"
+        class="image image--top"
+        :class="{ animated: animateDigital }"
+        :hover="false"
+        :image="infographics.image_top"
+        :image-mobile="infographics.image_top"
+      />
       <UILazyImage
-v-if="infographics.image_bottom != null && infographics.image_bottom.url" class="image image--bottom"
-        :class="{ 'animated': animateDigital }" :hover="false" :image="infographics.image_bottom"
-        :image-mobile="infographics.image_bottom" />
+        v-if="
+          infographics.image_bottom != null && infographics.image_bottom.url
+        "
+        class="image image--bottom"
+        :class="{ animated: animateDigital }"
+        :hover="false"
+        :image="infographics.image_bottom"
+        :image-mobile="infographics.image_bottom"
+      />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { ProjectACF } from '~/types/acf';
+import { computed } from "vue";
+import type { ProjectACF } from "~/types/acf";
 
 const props = defineProps<{
-  project: ProjectACF
-  animateDigital: boolean
-}>()
+  project: ProjectACF;
+  animateDigital: boolean;
+}>();
 
-const infographics = computed(() => props.project.infographics || null)
+const infographics = computed(() => props.project.infographics || null);
 </script>
 
 <style lang="scss" scoped>
