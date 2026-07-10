@@ -54,7 +54,11 @@ const aboutPage = computed(
         {{ aboutPage.skills.body }}
       </p>
       <p>
-        <a class="link" target="_blank" rel="noopener noreferrer" href="/NunziellaSalluce2026.pdf"
+        <a
+          class="link"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="/NunziellaSalluce2026.pdf"
           >Download my CV</a
         >
       </p>
