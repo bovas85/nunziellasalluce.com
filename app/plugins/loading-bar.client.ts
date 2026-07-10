@@ -1,11 +1,11 @@
 export default defineNuxtPlugin(() => {
-  const router = useRouter()
+  const router = useRouter();
 
   router.beforeEach(() => {
-    useNuxtApp().callHook('page:loading:start')
-  })
+    useNuxtApp().callHook("page:loading:start");
+  });
 
   router.afterEach(() => {
-    useNuxtApp().callHook('page:loading:end')
-  })
-})
+    useNuxtApp().callHook("page:loading:end");
+  });
+});

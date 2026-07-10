@@ -1,0 +1,3 @@
+# Exclude archive files from semgrep/opengrep scans
+archive/
+archive/**

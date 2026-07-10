@@ -457,7 +457,7 @@ $t-delay: 300ms;
 .lazyload,
 .lazyloading {
   filter: blur(30px);
-  transition: filter .3s ease-in-out;
+  transition: filter 0.3s ease-in-out;
 }
 
 .lazyloaded {
@@ -465,7 +465,7 @@ $t-delay: 300ms;
 }
 
 img.lazyload:not([src]) {
-	visibility: hidden;
+  visibility: hidden;
 }
 
 /* purgecss end ignore */

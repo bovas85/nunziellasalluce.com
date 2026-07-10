@@ -8,33 +8,50 @@
         <h3>Client</h3>
         <p>{{ project.intro.client_name }}</p>
         <a
-v-if="
-          project.intro.link != null &&
-          project.intro.link !== '' &&
-          project.intro.link !== '#'
-        " class="animated-border" :href="project.intro.link" target="_blank">Launch Site</a>
+          v-if="
+            project.intro.link != null &&
+            project.intro.link !== '' &&
+            project.intro.link !== '#'
+          "
+          class="animated-border"
+          :href="project.intro.link"
+          target="_blank"
+          >Launch Site</a
+        >
         <h3>Deliverables</h3>
         <ul>
-          <li v-for="(deliverable, index) in project.intro.deliverables" :key="index">
+          <li
+            v-for="(deliverable, index) in project.intro.deliverables"
+            :key="index"
+          >
             {{ deliverable.item }}
           </li>
         </ul>
       </div>
 
-      <div v-if="project.intro.image != null" class="image-section" :class="{ animated: animateIntro }">
-        <UILazyImage class="image" :hover="false" :image="project.intro.image" :image-mobile="project.intro.image" />
+      <div
+        v-if="project.intro.image != null"
+        class="image-section"
+        :class="{ animated: animateIntro }"
+      >
+        <UILazyImage
+          class="image"
+          :hover="false"
+          :image="project.intro.image"
+          :image-mobile="project.intro.image"
+        />
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import type { ProjectACF } from '~/types/acf';
+import type { ProjectACF } from "~/types/acf";
 
 defineProps<{
-  project: ProjectACF
-  animateIntro: boolean
-}>()
+  project: ProjectACF;
+  animateIntro: boolean;
+}>();
 </script>
 
 <style lang="scss" scoped>

@@ -1,13 +1,30 @@
 <script setup lang="ts">
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/vue'
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import type { SliderItem } from "~/types/acf";
+defineOptions({ name: "ImageSlider" });
 
 defineProps<{
-  data: unknown[]
-}>()
+  data: SliderItem[];
+}>();
+
+const onSlideChange = () => {
+  if (typeof window !== "undefined") {
+    const customWindow = window as unknown as {
+      lazySizes?: {
+        loader: {
+          checkElems: () => void;
+        };
+      };
+    };
+    if (customWindow.lazySizes) {
+      customWindow.lazySizes.loader.checkElems();
+    }
+  }
+};
 
 const swiperOptions = {
   modules: [Navigation, Pagination, Autoplay],
@@ -18,29 +35,44 @@ const swiperOptions = {
   spaceBetween: 32,
   breakpoints: {
     800: {
-      slidesPerView: "auto" as const
+      slidesPerView: "auto" as const,
     },
     320: {
-      slidesPerView: "auto" as const
-    }
+      slidesPerView: "auto" as const,
+    },
   },
   autoplay: {
     delay: 3000,
-    disableOnInteraction: true
+    disableOnInteraction: true,
   },
   loop: false,
   pagination: {
-    clickable: true
-  }
-}
+    clickable: true,
+  },
+};
 </script>
 
 <template>
   <div v-if="data != null && data.length > 0" class="carousel">
     <div class="swiper-container">
-      <Swiper v-bind="swiperOptions" class="app-carousel">
-        <SwiperSlide v-for="item in data" :key="item.image.ID" class="swiper-slide-item">
-          <UILazyImage class="image" :hover="false" cover no-bg :image="item.image" :image-mobile="item.image" />
+      <Swiper
+        v-bind="swiperOptions"
+        class="app-carousel"
+        @slide-change="onSlideChange"
+      >
+        <SwiperSlide
+          v-for="item in data"
+          :key="item.image.ID"
+          class="swiper-slide-item"
+        >
+          <UILazyImage
+            class="image"
+            :hover="false"
+            cover
+            no-bg
+            :image="item.image"
+            :image-mobile="item.image"
+          />
         </SwiperSlide>
       </Swiper>
     </div>
@@ -93,9 +125,11 @@ const swiperOptions = {
     }
 
     opacity: 1;
-    background: linear-gradient(to left,
+    background: linear-gradient(
+      to left,
       rgb(0 0 0 / 0%) 0%,
-      rgb(0 0 0 / 40%) 100%);
+      rgb(0 0 0 / 40%) 100%
+    );
     transition: opacity 0.3s ease-in-out;
   }
 
@@ -108,9 +142,11 @@ const swiperOptions = {
     }
 
     opacity: 1;
-    background: linear-gradient(to right,
+    background: linear-gradient(
+      to right,
       rgb(0 0 0 / 0%) 0%,
-      rgb(0 0 0 / 40%) 100%);
+      rgb(0 0 0 / 40%) 100%
+    );
     transition: opacity 0.3s ease-in-out;
   }
 }

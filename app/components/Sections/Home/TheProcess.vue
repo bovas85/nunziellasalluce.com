@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import type { HomePageACF } from '~/types/acf';
+import type { HomePageACF } from "~/types/acf";
 
 defineProps<{
-  acf: HomePageACF
-  animateProcess: boolean
-}>()
+  acf: HomePageACF;
+  animateProcess: boolean;
+}>();
 </script>
 
 <template>
   <section v-if="acf" class="the-process step">
     <div class="container">
-      <h1 :class="{ 'animated': animateProcess }">{{ acf.the_process.title }}</h1>
+      <h1 :class="{ animated: animateProcess }">{{ acf.the_process.title }}</h1>
       <div class="container is-flex">
         <div class="image-grid">
-          <div :class="{ 'animated': animateProcess }">
+          <div :class="{ animated: animateProcess }">
             <p>Planning project scope</p>
           </div>
-          <div :class="{ 'animated': animateProcess }">
+          <div :class="{ animated: animateProcess }">
             <p>Design</p>
           </div>
-          <div :class="{ 'animated': animateProcess }">
+          <div :class="{ animated: animateProcess }">
             <p>Development</p>
           </div>
-          <div :class="{ 'animated': animateProcess }">
+          <div :class="{ animated: animateProcess }">
             <p>QA Testing</p>
           </div>
         </div>

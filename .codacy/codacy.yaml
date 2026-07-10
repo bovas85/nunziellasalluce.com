@@ -1,0 +1,35 @@
+engines:
+  eslint:
+    exclude_paths:
+      - node_modules/**
+      - dist/**
+      - .nuxt/**
+      - archive/**
+  opengrep:
+    exclude_paths:
+      - node_modules/**
+      - dist/**
+      - .nuxt/**
+      - archive/**
+  pmd:
+    exclude_paths:
+      - node_modules/**
+      - dist/**
+      - .nuxt/**
+      - archive/**
+  semgrep:
+    exclude_paths:
+      - node_modules/**
+      - dist/**
+      - .nuxt/**
+      - archive/**
+runtimes:
+  - java@17.0.10
+  - node@22.2.0
+  - python@3.11.11
+tools:
+  - eslint@8.57.0
+  - lizard@1.23.0
+  - opengrep@1.23.0
+  - pmd@6.55.0
+  - trivy@0.70.0

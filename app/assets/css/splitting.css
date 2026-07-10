@@ -1,9 +1,9 @@
 /* Recommended styles for Splitting */
 
-.splitting .word, .splitting .char {
+.splitting .word,
+.splitting .char {
   display: inline-block;
 }
-
 
 /* Psuedo-element chars */
 
@@ -11,14 +11,14 @@
   position: relative;
 }
 
-
 /**
  * Populate the psuedo elements with the character to allow for expanded effects
  * Set to `display: none` by default; just add `display: block` when you want
  * to use the psuedo elements
  */
 
-.splitting .char::before, .splitting .char::after {
+.splitting .char::before,
+.splitting .char::after {
   content: attr(data-char);
   position: absolute;
   top: 0;
@@ -27,7 +27,6 @@
   transition: inherit;
   user-select: none;
 }
-
 
 /* Expanded CSS Variables */
 
@@ -58,7 +57,9 @@
   --char-offset: calc(var(--char-index) - var(--char-center));
 
   /* Absolute distance from center, only positive */
-  --distance: calc( (var(--char-offset) * var(--char-offset)) / var(--char-center));
+  --distance: calc(
+    (var(--char-offset) * var(--char-offset)) / var(--char-center)
+  );
 
   /* Distance from center where -1 is the far left, 0 is center, 1 is far right */
   --distance-sine: calc(var(--char-offset) / var(--char-center));

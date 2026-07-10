@@ -1,22 +1,25 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  animating?: boolean
-  title?: string
-  width?: number | string
-  height?: number | string
-  static?: boolean
-}>(), {
-  animating: false,
-  title: 'Logo',
-  width: 80,
-  height: 51,
-  static: false
-})
+withDefaults(
+  defineProps<{
+    animating?: boolean;
+    title?: string;
+    width?: number | string;
+    height?: number | string;
+    static?: boolean;
+  }>(),
+  {
+    animating: false,
+    title: "Logo",
+    width: 80,
+    height: 51,
+    static: false,
+  },
+);
 </script>
 
 <template>
   <svg
-    :class="{ 'animating': animating, 'static': static }"
+    :class="{ animating: animating, static: static }"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 31"
     :width="width"

@@ -1,0 +1,8 @@
+.nuxt/
+.output/
+dist/
+node_modules/
+archive/
+yarn.lock
+package-lock.json
+public/Nunziella Salluce CV.pdf:Zone.Identifier

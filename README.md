@@ -35,6 +35,66 @@ $ npx netlify-cli deploy --dir=.output/public
 $ npx netlify-cli deploy --dir=.output/public --prod
 ```
 
+## Codacy Static Analysis
+
+The project integrates with Codacy for code quality, security, and
+coverage reporting.
+
+### AI Assistant Integration (MCP & Skills)
+
+You can integrate Codacy code quality and security reviews directly into your
+AI coding assistant (e.g., Cursor, VS Code, Windsurf, Claude Desktop, or
+Gemini). For installation and setup instructions tailored to your specific
+editor or AI model, refer to the
+[Codacy Skills repository](https://github.com/codacy/codacy-skills).
+
+### Local Analysis
+
+You can run static analysis locally using the Codacy Analysis CLI:
+
+```bash
+# Initialize local configuration
+$ npx @codacy/analysis-cli init
+
+# Run analysis and view issues
+$ npx @codacy/analysis-cli analyze
+```
+
+### Codacy Cloud Configuration Tuning
+
+To tune the Codacy Cloud configuration in-place from the command line:
+
+1. **Authenticate**: Make sure you have authenticated your local session
+   with your Codacy API token:
+
+   ```bash
+   npx @codacy/codacy-cloud-cli login --token <your-api-token>
+   ```
+
+2. **Export Remote Config**: Fetch the current Cloud configuration to a local
+   file:
+
+   ```bash
+   npx @codacy/analysis-cli init --remote gh bovas85 \
+     nunziellasalluce.com --config-file .codacy/remote.config.json
+   ```
+
+3. **Optimize Config**: Edit `.codacy/remote.config.json` to enable/disable
+   specific tools and patterns or tune parameters.
+4. **Import to Cloud**: Reconcile the modified local configuration back to
+   Codacy Cloud:
+
+   ```bash
+   npx @codacy/codacy-cloud-cli tools --import .codacy/remote.config.json
+   ```
+
+5. **Trigger Cloud Reanalysis**: Tell Codacy Cloud to reanalyze the
+   repository using the new configuration:
+
+   ```bash
+   npx @codacy/codacy-cloud-cli repo --reanalyze-and-wait
+   ```
+
 ## Nuxt Docs
 
 For detailed explanation on how things work with Nuxt, check out the

@@ -1,33 +1,65 @@
 <template>
   <section v-if="project.challenge != null" class="the-challenge step">
     <div class="container">
-      <div class="text-section" :class="{ 'animated': animateChallenge }">
+      <div class="text-section" :class="{ animated: animateChallenge }">
         <h1>{{ project.challenge.title }}</h1>
         <p>{{ project.challenge.body }}</p>
       </div>
       <div class="two-columns">
-        <div class="column column--left" :class="{ 'animated': animateChallenge }">
+        <div
+          class="column column--left"
+          :class="{ animated: animateChallenge }"
+        >
           <h3>Insights</h3>
           <ul>
-            <li v-for="(insight, index) in project.challenge.left_list.list_item" :key="index">{{ insight.item }}</li>
+            <li
+              v-for="(insight, index) in project.challenge.left_list.list_item"
+              :key="index"
+            >
+              {{ insight.item }}
+            </li>
           </ul>
         </div>
-        <div class="column column--right" :class="{ 'animated': animateChallenge }">
+        <div
+          class="column column--right"
+          :class="{ animated: animateChallenge }"
+        >
           <h3>Action</h3>
           <ul>
-            <li v-for="(action, index) in project.challenge.right_list.list_item" :key="index">{{ action.item }}</li>
+            <li
+              v-for="(action, index) in project.challenge.right_list.list_item"
+              :key="index"
+            >
+              {{ action.item }}
+            </li>
           </ul>
         </div>
       </div>
-      <div v-if="project.challenge.flexible_content.length" class="flexible-content container-fluid">
-        <div v-for="(content, index) in project.challenge.flexible_content" :key="index" :class="content.acf_fc_layout">
+      <div
+        v-if="project.challenge.flexible_content.length"
+        class="flexible-content container-fluid"
+      >
+        <div
+          v-for="(content, index) in project.challenge.flexible_content"
+          :key="index"
+          :class="content.acf_fc_layout"
+        >
           <UILazyImage
-v-if="content.acf_fc_layout === 'image'" class="image" :hover="false" :image="content.image"
-            :image-mobile="content.image" />
+            v-if="content.acf_fc_layout === 'image'"
+            class="image"
+            :hover="false"
+            :image="content.image"
+            :image-mobile="content.image"
+          />
           <p v-else-if="content.acf_fc_layout === 'text'">{{ content.text }}</p>
           <UILazyImage
-v-else class="double_image" :hover="false" position="right" :image="content.double_image"
-            :image-mobile="content.double_image" />
+            v-else
+            class="double_image"
+            :hover="false"
+            position="right"
+            :image="content.double_image"
+            :image-mobile="content.double_image"
+          />
         </div>
       </div>
     </div>
@@ -35,12 +67,12 @@ v-else class="double_image" :hover="false" position="right" :image="content.doub
 </template>
 
 <script setup lang="ts">
-import type { ProjectACF } from '~/types/acf';
+import type { ProjectACF } from "~/types/acf";
 
 defineProps<{
-  project: ProjectACF
-  animateChallenge: boolean
-}>()
+  project: ProjectACF;
+  animateChallenge: boolean;
+}>();
 </script>
 
 <style lang="scss" scoped>

@@ -1,0 +1,8 @@
+---
+engines:
+  biome:
+    exclude_paths:
+      - "app/components/UI/TheContactForm.spec.ts"
+  markdownlint:
+    exclude_paths:
+      - ".github/instructions/**"

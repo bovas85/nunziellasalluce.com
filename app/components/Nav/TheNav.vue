@@ -1,104 +1,146 @@
 <script setup lang="ts">
-import { useMediaQuery, useWindowScroll } from '@vueuse/core'
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useMediaQuery, useWindowScroll } from "@vueuse/core";
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
-const route = useRoute()
-const animating = ref(false)
+const route = useRoute();
+const animating = ref(false);
 
 // State replacements for Vuex
-const menuScrolled = useState('menuScrolled', () => false)
-const menuScrolledDone = useState('menuScrolledDone', () => false)
-const navOpen = useState('navOpen', () => false)
+const menuScrolled = useState("menuScrolled", () => false);
+const menuScrolledDone = useState("menuScrolledDone", () => false);
+const navOpen = useState("navOpen", () => false);
 
-const isLargeScreen = useMediaQuery('(min-width: 1024px)')
-const { y } = useWindowScroll()
+const isLargeScreen = useMediaQuery("(min-width: 1024px)");
+const { y } = useWindowScroll();
 
-let scrollTimeout1: NodeJS.Timeout
-let scrollTimeout2: NodeJS.Timeout
+let scrollTimeout1: NodeJS.Timeout;
+let scrollTimeout2: NodeJS.Timeout;
 
 watch(y, (newY) => {
   // If we scroll past 150px, trigger the sticky menu animations
   if (newY > 150) {
     if (!menuScrolled.value) {
-      clearTimeout(scrollTimeout1)
-      clearTimeout(scrollTimeout2)
-      scrollTimeout1 = setTimeout(() => { menuScrolled.value = true }, 150)
-      scrollTimeout2 = setTimeout(() => { menuScrolledDone.value = true }, 400)
+      clearTimeout(scrollTimeout1);
+      clearTimeout(scrollTimeout2);
+      scrollTimeout1 = setTimeout(() => {
+        menuScrolled.value = true;
+      }, 150);
+      scrollTimeout2 = setTimeout(() => {
+        menuScrolledDone.value = true;
+      }, 400);
     }
   } else {
     // Reset when at the top
-    clearTimeout(scrollTimeout1)
-    clearTimeout(scrollTimeout2)
-    menuScrolled.value = false
-    menuScrolledDone.value = false
+    clearTimeout(scrollTimeout1);
+    clearTimeout(scrollTimeout2);
+    menuScrolled.value = false;
+    menuScrolledDone.value = false;
   }
-})
+});
 
-const menuItems = ["", "work", "about", "contact"]
+const menuItems = ["", "work", "about", "contact"];
 
 const toggleMenu = () => {
-  navOpen.value = !navOpen.value
-}
+  navOpen.value = !navOpen.value;
+};
 
 // Lock body/html scroll when mobile menu is open
 watch(navOpen, (newVal) => {
   if (import.meta.client) {
     if (newVal) {
-      document.body.style.overflow = 'hidden'
-      document.documentElement.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'visible'
-      document.documentElement.style.overflow = 'visible'
+      document.body.style.overflow = "visible";
+      document.documentElement.style.overflow = "visible";
     }
   }
-})
+});
 
 // Reset menu on route change
-watch(() => route.path, () => {
-  navOpen.value = false
-  menuScrolled.value = false
-  menuScrolledDone.value = false
-  if (import.meta.client) {
-    document.body.style.overflow = "visible"
-    document.documentElement.style.overflow = "visible"
-    document.body.style.position = "static"
-  }
-})
+watch(
+  () => route.path,
+  () => {
+    navOpen.value = false;
+    menuScrolled.value = false;
+    menuScrolledDone.value = false;
+    if (import.meta.client) {
+      document.body.style.overflow = "visible";
+      document.documentElement.style.overflow = "visible";
+      document.body.style.position = "static";
+    }
+  },
+);
 </script>
 
 <template>
   <div class="navigation-bar">
     <div
-class="navigation" :class="{
-      scrolled: menuScrolled,
-      done: (menuScrolled && menuScrolledDone) || route.path === '/about' || route.path === '/contact' || route.path === '/privacy-policy',
-      about: route.path === '/about',
-      contact: route.path === '/contact',
-      static: route.path === '/privacy-policy',
-      'nav-open': navOpen
-    }">
+      class="navigation"
+      :class="{
+        scrolled: menuScrolled,
+        done:
+          (menuScrolled && menuScrolledDone) ||
+          route.path === '/about' ||
+          route.path === '/contact' ||
+          route.path === '/privacy-policy',
+        about: route.path === '/about',
+        contact: route.path === '/contact',
+        static: route.path === '/privacy-policy',
+        'nav-open': navOpen,
+      }"
+    >
       <nav role="navigation" class="container is-flex navbar">
         <NuxtLink
-to="/" class="logo col--8-mobile col--4-tablet is-center" @mouseover="animating = true"
-          @mouseleave="animating = false">
+          to="/"
+          class="logo col--8-mobile col--4-tablet is-center"
+          @mouseover="animating = true"
+          @mouseleave="animating = false"
+        >
           <IconsTheLogoStatic
-:width="90" :height="46" :mobile-width="50" :mobile-height="31" :animating="animating"
-            :fill="navOpen ? '#f4a261' : (menuScrolled ? '#f4a261' : 'white')" />
+            :width="90"
+            :height="46"
+            :mobile-width="50"
+            :mobile-height="31"
+            :animating="animating"
+            :fill="navOpen ? '#f4a261' : menuScrolled ? '#f4a261' : 'white'"
+          />
           <IconsTheLogo
-:width="90" :height="46" :mobile-width="50" :mobile-height="31" :animating="animating"
-            :fill="navOpen ? '#f4a261' : (menuScrolled ? '#f4a261' : 'white')" />
+            :width="90"
+            :height="46"
+            :mobile-width="50"
+            :mobile-height="31"
+            :animating="animating"
+            :fill="navOpen ? '#f4a261' : menuScrolled ? '#f4a261' : 'white'"
+          />
         </NuxtLink>
 
-        <div v-if="!isLargeScreen" class="menu menu--mobile" @click="toggleMenu">
+        <div
+          v-if="!isLargeScreen"
+          class="menu menu--mobile"
+          @click="toggleMenu"
+        >
           <transition name="rotate" mode="out-in">
             <div v-if="!navOpen" key="closed" class="rotate">
               <IconsBurgerMenu
-                :fill="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'"
-                :stroke="(route.path === '/' && 'black') || menuScrolled ? 'black' : 'white'" />
+                :fill="
+                  (route.path === '/' && 'black') || menuScrolled
+                    ? 'black'
+                    : 'white'
+                "
+                :stroke="
+                  (route.path === '/' && 'black') || menuScrolled
+                    ? 'black'
+                    : 'white'
+                "
+              />
             </div>
             <div v-else key="open" class="rotate">
-              <div :class="(route.path === '/' || navOpen) && 'black'" class="close-icon">
+              <div
+                :class="(route.path === '/' || navOpen) && 'black'"
+                class="close-icon"
+              >
                 <span class="close-icon--line" />
                 <span class="close-icon--line inverted" />
               </div>
@@ -106,9 +148,23 @@ to="/" class="logo col--8-mobile col--4-tablet is-center" @mouseover="animating 
           </transition>
         </div>
 
-        <ul v-else class="menu menu--desktop" :class="(route.path === '/' || route.path === '/contact') && 'black'">
-          <NuxtLink to="/" :class="route.path === '/' && route.hash !== '#work' && 'nuxt-link-active'">Home</NuxtLink>
-          <NuxtLink :class="route.hash === '#work' && 'nuxt-link-active'" to="/#work">Work</NuxtLink>
+        <ul
+          v-else
+          class="menu menu--desktop"
+          :class="(route.path === '/' || route.path === '/contact') && 'black'"
+        >
+          <NuxtLink
+            to="/"
+            :class="
+              route.path === '/' && route.hash !== '#work' && 'nuxt-link-active'
+            "
+            >Home</NuxtLink
+          >
+          <NuxtLink
+            :class="route.hash === '#work' && 'nuxt-link-active'"
+            to="/#work"
+            >Work</NuxtLink
+          >
           <NuxtLink to="/about">About</NuxtLink>
           <NuxtLink to="/contact">Contact</NuxtLink>
         </ul>
@@ -116,8 +172,16 @@ to="/" class="logo col--8-mobile col--4-tablet is-center" @mouseover="animating 
     </div>
 
     <ClientOnly>
-      <div v-if="!isLargeScreen" style="z-index: 9999" class="modal-container is-hidden-desktop">
-        <NavTheMenuMobile :menu-items="menuItems" :nav-open="navOpen" @close="navOpen = false" />
+      <div
+        v-if="!isLargeScreen"
+        style="z-index: 9999"
+        class="modal-container is-hidden-desktop"
+      >
+        <NavTheMenuMobile
+          :menu-items="menuItems"
+          :nav-open="navOpen"
+          @close="navOpen = false"
+        />
       </div>
     </ClientOnly>
   </div>

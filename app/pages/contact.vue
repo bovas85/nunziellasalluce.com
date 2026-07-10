@@ -1,33 +1,38 @@
 <script setup lang="ts">
-import { useAsyncData } from '#app'
-import { useHead } from '#imports'
-import Config from '@/assets/config'
-import { computed, onMounted, ref } from 'vue'
+import { useAsyncData } from "#app";
+import { useHead } from "#imports";
+import Config from "@/assets/config";
+import { computed, onMounted, ref } from "vue";
+import type { ContactPageACF } from "~/types/acf";
+
+defineOptions({ name: "ContactPage" });
 
 useHead({
-  title: 'Contact Me'
-})
+  title: "Contact Me",
+});
 
 const { data } = await useAsyncData(
-  'contactPage',
+  "contactPage",
   () => $fetch(Config.wpDomain + Config.api.contactPage),
   {
     getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-    }
-  }
-)
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
+  },
+);
 
-const contactPage = computed(() => data.value as unknown)
-const showForm = ref(false)
+const contactPage = computed(
+  () => data.value as { acf?: ContactPageACF } | undefined,
+);
+const showForm = ref(false);
 
 onMounted(() => {
   if (import.meta.client) {
     setTimeout(() => {
-      showForm.value = true
-    }, 1000)
+      showForm.value = true;
+    }, 1000);
   }
-})
+});
 </script>
 
 <template>
@@ -35,16 +40,25 @@ onMounted(() => {
     <section class="section hero">
       <div v-if="contactPage != null" class="grid-wrapper">
         <UILazyImage
-v-if="contactPage.acf" class="image" no-bg :image="contactPage.acf.background"
-          :title="contactPage.acf.title" position-mobile="left" :hover="false"
-          :image-mobile="contactPage.acf.background" home />
+          v-if="contactPage.acf"
+          class="image"
+          no-bg
+          :image="contactPage.acf.background"
+          :title="contactPage.acf.title"
+          position-mobile="left"
+          :hover="false"
+          :image-mobile="contactPage.acf.background"
+          home
+        />
         <div class="container">
           <h1 v-if="contactPage.acf" class="jumbo">
             {{ contactPage.acf.title }}
           </h1>
           <h3>
             Email:
-            <a href="mailto:hello@nunziellasalluce.com?subject=hello">hello@nunziellasalluce.com</a>
+            <a href="mailto:hello@nunziellasalluce.com?subject=hello"
+              >hello@nunziellasalluce.com</a
+            >
           </h3>
         </div>
 

@@ -317,7 +317,7 @@
   filter: blur(15px);
   transform: scale(1.05);
   opacity: 1;
-  transition: all .3s ease 1s;
+  transition: all 0.3s ease 1s;
 
   &.animate-out {
     opacity: 0;

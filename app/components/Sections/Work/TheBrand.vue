@@ -1,22 +1,22 @@
 <template>
   <section v-if="project.brand != null" class="the-brand step">
     <div class="container">
-      <h1 :class="{ 'animated': animateBrand }">{{ project.brand.title }}</h1>
+      <h1 :class="{ animated: animateBrand }">{{ project.brand.title }}</h1>
     </div>
 
-    <div class="timeline" :class="{ 'animated': animateBrand }">
+    <div class="timeline" :class="{ animated: animateBrand }">
       <SlidersTheTimeline :data="project.brand.items" />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import type { ProjectACF } from '~/types/acf';
+import type { ProjectACF } from "~/types/acf";
 
 defineProps<{
-  project: ProjectACF
-  animateBrand: boolean
-}>()
+  project: ProjectACF;
+  animateBrand: boolean;
+}>();
 </script>
 
 <style lang="scss" scoped>

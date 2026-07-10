@@ -1,0 +1,72 @@
+{
+  "summary": {
+    "languageCount": 8,
+    "fileCount": 80,
+    "enabledPatterns": { "before": 968, "after": 1941 },
+    "enabledTools": { "before": 8, "after": 10 },
+    "issues": { "before": 102, "after": 5 },
+    "issuesByCategory": {
+      "Security": { "before": 30, "after": 5 },
+      "ErrorProne": { "before": 42, "after": 0 },
+      "CodeStyle": { "before": 16, "after": 0 },
+      "BestPractice": { "before": 10, "after": 0 },
+      "Compatibility": { "before": 2, "after": 0 },
+      "Complexity": { "before": 2, "after": 0 }
+    },
+    "issuesBySeverity": {
+      "Critical": { "before": 2, "after": 2 },
+      "High": { "before": 79, "after": 3 },
+      "Medium": { "before": 5, "after": 0 },
+      "Minor": { "before": 16, "after": 0 }
+    }
+  },
+  "toolChanges": [
+    {
+      "toolName": "Biome",
+      "action": "disabled",
+      "reason": "ESLint 9 and Prettier are used for local linting and formatting; Biome is redundant and produced 69 style/correctness warnings.",
+      "patternsAffected": 240
+    },
+    {
+      "toolName": "Jackson Linter",
+      "action": "enabled",
+      "reason": "Enabled to scan JSON configuration files for syntax and key duplication errors.",
+      "patternsAffected": 2
+    },
+    {
+      "toolName": "Checkov",
+      "action": "enabled",
+      "reason": "Enabled to analyze GitHub Action workflows and infra-as-code configurations for security issues.",
+      "patternsAffected": 763
+    },
+    {
+      "toolName": "PMD 7",
+      "action": "enabled",
+      "reason": "Enabled to detect code smell and duplicate code issues.",
+      "patternsAffected": 3
+    }
+  ],
+  "patternChanges": [
+    {
+      "patternId": "Semgrep_json.npm.security.package-dependencies-check.package-dependencies-check",
+      "toolName": "Semgrep",
+      "action": "disabled",
+      "reason": "Noisy security pattern flagging caret (^) version ranges in package.json dependencies.",
+      "deltaIssues": -23,
+      "parameters": []
+    }
+  ],
+  "recommendedPathsToIgnore": [
+    {
+      "path": "public/sw.js",
+      "reason": "Legacy service worker file containing non-literal RegExp and console.error warnings. The file is already deleted in the workspace and will be resolved on Codacy once the branch is merged."
+    }
+  ],
+  "keyImprovements": [
+    "Redundant Biome tool disabled, cutting 69 low-value formatting and unused variables issues.",
+    "Noisy package-dependencies-check Semgrep pattern disabled, resolving 23 false-positive warnings in package.json.",
+    "High-signal security tools (Checkov, PMD 7) enabled to ensure workflow and dependency security.",
+    "Tuned pattern list to decrease total issues from 102 to 5 (all 5 remaining issues reside in the legacy public/sw.js file which is already deleted on the local branch)."
+  ],
+  "conflicts": []
+}

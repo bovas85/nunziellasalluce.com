@@ -6,32 +6,46 @@
         <p>{{ project.product.body }}</p>
       </div>
 
-      <div v-for="(content, index) in project.product.the_content" :key="index" class="image-section step">
+      <div
+        v-for="(content, index) in project.product.the_content"
+        :key="index"
+        class="image-section step"
+      >
         <p>{{ content.text }}</p>
         <UILazyImage
-v-if="content.image != null" class="image" :hover="false" :image="content.image"
-          :image-mobile="content.image" />
+          v-if="content.image != null"
+          class="image"
+          :hover="false"
+          :image="content.image"
+          :image-mobile="content.image"
+        />
         <UILazyImage
-v-if="content.videoMobile != null && content.videoDesktop != null" class="image" :hover="false"
-          :video-mobile="content.videoMobile" :video-desktop="content.videoDesktop" />
+          v-if="content.videoMobile != null && content.videoDesktop != null"
+          class="image"
+          :hover="false"
+          :video-mobile="content.videoMobile"
+          :video-desktop="content.videoDesktop"
+        />
       </div>
     </div>
     <SlidersSlider
-v-if="project.product.slider && project.product.slider.length" class="slider"
-      :data="project.product.slider" />
+      v-if="project.product.slider && project.product.slider.length"
+      class="slider"
+      :data="project.product.slider"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { ProjectACF } from '~/types/acf';
+import { ref } from "vue";
+import type { ProjectACF } from "~/types/acf";
 
 defineProps<{
-  project: ProjectACF
-  animateFinal: boolean
-}>()
+  project: ProjectACF;
+  animateFinal: boolean;
+}>();
 
-const _currentSlide = ref(0)
+const _currentSlide = ref(0);
 </script>
 
 <style lang="scss" scoped>
