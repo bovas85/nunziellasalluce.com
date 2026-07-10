@@ -27,12 +27,7 @@ useHead({
           website. You can opt-out of this using the "Do not track" option in
           your browser. Data in Hotjar is removed in compliance with GDPR rules.
           For more information, please visit Hotjar's Privacy Policy here
-          <a
-            rel="noopener noreferrer"
-            href="https://www.hotjar.com/legal/policies/privacy"
-            target="_blank"
-            >https://www.hotjar.com/legal/policies/privacy</a
-          >
+          <a href="https://www.hotjar.com/legal/policies/privacy" target="_blank" rel="noopener noreferrer">https://www.hotjar.com/legal/policies/privacy</a>
         </p>
 
         <h2>Where do I send your data</h2>
