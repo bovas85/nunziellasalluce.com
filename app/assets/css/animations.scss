@@ -456,12 +456,13 @@ $t-delay: 300ms;
 
 .lazyload,
 .lazyloading {
-  filter: blur(30px);
-  transition: filter 0.3s ease-in-out;
+  filter: blur(8px);
+  transition: filter 0.2s ease-out;
 }
 
 .lazyloaded {
   filter: blur(0);
+  transition: filter 0.2s ease-out;
 }
 
 img.lazyload:not([src]) {

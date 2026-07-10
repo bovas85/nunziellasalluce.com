@@ -314,10 +314,10 @@
 .blurry {
   object-fit: cover;
   object-position: center;
-  filter: blur(15px);
+  filter: blur(8px);
   transform: scale(1.05);
   opacity: 1;
-  transition: all 0.3s ease 1s;
+  transition: all 0.2s ease-out;
 
   &.animate-out {
     opacity: 0;
