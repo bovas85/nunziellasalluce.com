@@ -125,12 +125,16 @@ watch(
             <div v-if="!navOpen" key="closed" class="rotate">
               <IconsBurgerMenu
                 :fill="
-                  (route.path === '/' && 'black') || menuScrolled
+                  ((route.path === '/' || route.path === '/privacy-policy') &&
+                    'black') ||
+                  menuScrolled
                     ? 'black'
                     : 'white'
                 "
                 :stroke="
-                  (route.path === '/' && 'black') || menuScrolled
+                  ((route.path === '/' || route.path === '/privacy-policy') &&
+                    'black') ||
+                  menuScrolled
                     ? 'black'
                     : 'white'
                 "
@@ -151,7 +155,12 @@ watch(
         <ul
           v-else
           class="menu menu--desktop"
-          :class="(route.path === '/' || route.path === '/contact') && 'black'"
+          :class="
+            (route.path === '/' ||
+              route.path === '/contact' ||
+              route.path === '/privacy-policy') &&
+            'black'
+          "
         >
           <NuxtLink
             to="/"
@@ -416,7 +425,7 @@ watch(
   &.scrolled.done {
     @include media(lg) {
       position: fixed;
-      background-color: $lightgrey;
+      background-color: white;
       transition: all 0.6s ease-in-out;
       transform: translateY(0);
     }
@@ -434,7 +443,7 @@ watch(
   }
 
   &.static {
-    background-color: $grey;
+    background-color: transparent;
   }
 
   &.nav-open {
