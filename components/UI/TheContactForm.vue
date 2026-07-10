@@ -91,7 +91,6 @@
         error: false,
         sendError: false,
         sent: false,
-        saved: false,
         notSent: true,
         showSaveConfirmation: false
       }
@@ -121,8 +120,9 @@
             this.disabled = false
           }
         } catch (e) {
-          // ignore parsing errors to prevent crash
+          console.log('Error parsing saved form data', e)
         }
+        return
       }
     },
     beforeDestroy () {
