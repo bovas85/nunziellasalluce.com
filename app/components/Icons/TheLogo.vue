@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 
 withDefaults(
   defineProps<{
@@ -18,14 +18,13 @@ withDefaults(
 
 const length = ref(302);
 
-onMounted(() => {
+onMounted(async () => {
   if (import.meta.client) {
-    setTimeout(() => {
-      const path = document.querySelector(".path") as SVGPathElement;
-      if (path) {
-        length.value = path.getTotalLength();
-      }
-    }, 300);
+    await nextTick();
+    const path = document.querySelector(".path") as SVGPathElement;
+    if (path) {
+      length.value = path.getTotalLength();
+    }
   }
 });
 </script>

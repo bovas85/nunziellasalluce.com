@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { useAsyncData } from "#app";
 import Config from "@/assets/config";
-import { computed, onMounted, ref } from "vue";
+import scrollama, {
+  type ScrollamaInstance,
+  type ScrollamaResponse,
+} from "scrollama";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import type { HomePageACF, Project } from "~/types/acf";
 
@@ -72,31 +76,83 @@ const filteredProjects = computed(() => {
   return null;
 });
 
-onMounted(() => {
-  if (import.meta.client) {
-    animateHeader.value = true;
-    setTimeout(() => {
-      animateWho.value = true;
-      // Also animate work shortly after for now since we haven't implemented full scroll triggers yet
-      setTimeout(() => {
-        animateWork.value = true;
-        animateProcess.value = true;
-        animateCapab.value = true;
-        animateTestimonials.value = true;
-      }, 200);
+// Map of step index → animate ref setter
+// Indices correspond to the order of .step elements in the DOM:
+// 0: HeroSection (skip – already animated on mount)
+// 1: WhoIAm
+// 2: TheWork (projects)
+// 3: TheProcess
+// 4: TheCapabilities
+// 5: TheTestimonials
+// 6: TheAwards
+const stepAnimations: Record<number, () => void> = {
+  1: () => {
+    animateWho.value = true;
+  },
+  2: () => {
+    animateWork.value = true;
+  },
+  3: () => {
+    animateProcess.value = true;
+  },
+  4: () => {
+    animateCapab.value = true;
+  },
+  5: () => {
+    animateTestimonials.value = true;
+  },
+};
 
-      import("splitting").then((module) => {
-        module.default();
-      });
-    }, 150);
+let homeScroller: ScrollamaInstance | null = null;
+
+const handleHomeStepEnter = (response: ScrollamaResponse) => {
+  const animate = stepAnimations[response.index];
+  if (animate) animate();
+};
+
+const scrollamaHomeResize = () => {
+  if (homeScroller) homeScroller.resize();
+};
+
+onMounted(async () => {
+  if (import.meta.client) {
+    // Hero is above the fold – animate immediately
+    animateHeader.value = true;
+
+    // Wait for DOM to settle before initialising scrollama and splitting
+    await nextTick();
+
+    import("splitting").then((module) => {
+      module.default();
+    });
+
+    homeScroller = scrollama();
+    homeScroller
+      .setup({
+        step: ".home .step",
+        offset: window.innerWidth > 577 ? 0.6 : 0.7,
+        debug: false,
+      })
+      .onStepEnter(handleHomeStepEnter);
+
+    window.addEventListener("resize", scrollamaHomeResize, { passive: true });
 
     if (route.hash) {
       window.scrollTo(0, 0);
-      setTimeout(() => {
-        const el = document.querySelector(route.hash);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 600);
+      await nextTick();
+      const el = document.querySelector(route.hash);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     }
+  }
+});
+
+onBeforeUnmount(() => {
+  if (homeScroller) {
+    homeScroller.destroy();
+    homeScroller = null;
+  }
+  if (import.meta.client) {
+    window.removeEventListener("resize", scrollamaHomeResize);
   }
 });
 </script>

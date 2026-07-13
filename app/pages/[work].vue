@@ -7,7 +7,7 @@ import scrollama, {
   type ScrollamaInstance,
   type ScrollamaResponse,
 } from "scrollama";
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import type { Project, ProjectACF } from "~/types/acf";
 
@@ -212,10 +212,6 @@ const handleScroll = () => {
       })
       .onStepEnter(handleStepEnter)
       .onStepExit(showMenu);
-  } else {
-    setTimeout(() => {
-      handleScroll();
-    }, 600);
   }
 };
 
@@ -223,12 +219,12 @@ const scrollamaResize = () => {
   if (scroller) scroller.resize();
 };
 
-onMounted(() => {
+onMounted(async () => {
   if (import.meta.client) {
     animateHeader.value = true;
-    setTimeout(() => {
-      handleScroll();
-    }, 150);
+    // Wait for the DOM to be fully rendered before initialising scrollama
+    await nextTick();
+    handleScroll();
     window.addEventListener("resize", scrollamaResize, { passive: true });
   }
 });
