@@ -140,12 +140,8 @@ section {
             @include size(h2);
           }
 
-          @include media(xl) {
-            @include size(h1);
-          }
-
           @include media(xxl) {
-            @include size(jumbo);
+            @include size(h1);
           }
 
           @include media(md) {
