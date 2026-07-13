@@ -126,4 +126,10 @@ describe("TheContactForm", () => {
       "/wp-json/contact-form-7/v1/contact-forms/78/feedback",
     );
   });
+
+  it("handles invalid stored data gracefully without crashing", () => {
+    localStorage.setItem("contactFormData", "invalid data {");
+    const wrapper = mount(TheContactForm, mountOptions);
+    expect(wrapper.exists()).toBe(true);
+  });
 });
