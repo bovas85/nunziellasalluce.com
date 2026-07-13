@@ -130,12 +130,10 @@ onMounted(() => {
         (entries, _observer) => {
           entries.forEach((video) => {
             if (video.isIntersecting) {
-              for (const source of Array.from(video.target.children)) {
-                const videoSource = source as HTMLSourceElement;
-                if (
-                  videoSource.tagName === "SOURCE" &&
-                  videoSource.dataset.src
-                ) {
+              const sources = (video.target as HTMLVideoElement).querySelectorAll("source");
+              for (let i = 0, len = sources.length; i < len; i++) {
+                const videoSource = sources[i] as HTMLSourceElement;
+                if (videoSource.dataset.src) {
                   videoSource.src = videoSource.dataset.src;
                 }
               }
