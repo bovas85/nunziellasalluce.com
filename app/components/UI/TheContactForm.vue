@@ -108,8 +108,7 @@ const submitFormAPI = async () => {
     });
     disabled.value = false;
     sending.value = false;
-  } catch (err) {
-    console.log("contact send error", err);
+  } catch {
     disabled.value = false;
     sending.value = false;
     sendError.value = true;
