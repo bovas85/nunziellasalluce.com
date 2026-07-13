@@ -102,8 +102,6 @@ describe("Work Page", () => {
     mockRoute.params.work = "project-one";
   });
 
-  // Added test coverage for WorkPage
-
   it("fetches and renders project data correctly", async () => {
     const wrapper = await mountSuspended(WorkPage);
 

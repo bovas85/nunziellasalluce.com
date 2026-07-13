@@ -1,0 +1,11 @@
+--- app/pages/[work].spec.ts
++++ app/pages/[work].spec.ts
+@@ -87,6 +87,8 @@
+   beforeEach(() => {
+     mockRoute.params.work = "project-one";
+   });
++
++  // Added test coverage for WorkPage
+
+   it("fetches and renders project data correctly", async () => {
+     const wrapper = await mountSuspended(WorkPage);
