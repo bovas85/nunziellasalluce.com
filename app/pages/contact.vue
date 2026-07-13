@@ -2,7 +2,8 @@
 import { useAsyncData } from "#app";
 import { useHead } from "#imports";
 import Config from "@/assets/config";
-import { computed, onMounted, ref } from "vue";
+import scrollama, { type ScrollamaInstance } from "scrollama";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import type { ContactPageACF } from "~/types/acf";
 
 defineOptions({ name: "ContactPage" });
@@ -25,12 +26,35 @@ const contactPage = computed(
   () => data.value as { acf?: ContactPageACF } | undefined,
 );
 const showForm = ref(false);
+let contactScroller: ScrollamaInstance | null = null;
 
-onMounted(() => {
+onMounted(async () => {
   if (import.meta.client) {
-    setTimeout(() => {
+    await nextTick();
+
+    const formEl = document.querySelector(".contact-form--wrapper");
+    if (formEl) {
+      contactScroller = scrollama();
+      contactScroller
+        .setup({
+          step: ".contact-form--wrapper",
+          offset: 0.8,
+          debug: false,
+        })
+        .onStepEnter(() => {
+          showForm.value = true;
+        });
+    } else {
+      // Fallback: show form immediately if element not found
       showForm.value = true;
-    }, 1000);
+    }
+  }
+});
+
+onBeforeUnmount(() => {
+  if (contactScroller) {
+    contactScroller.destroy();
+    contactScroller = null;
   }
 });
 </script>
