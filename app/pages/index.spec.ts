@@ -7,14 +7,14 @@ vi.mock("#app", async (importOriginal) => {
   const actual = await importOriginal<typeof import("#app")>();
   return {
     ...actual,
-    useAsyncData: vi.fn().mockImplementation(async (key: string, fetcher: () => Promise<any>) => {
+    useAsyncData: vi.fn().mockImplementation(async (key: string, fetcher: () => Promise<unknown>) => {
       // Execute the fetcher to verify we actually cover the `$fetch` logic inside `useAsyncData`.
       // We wrap it in a try/catch since $fetch is not globally mocked, and we don't want it to
       // crash the test making an actual HTTP request to an unknown domain.
       // The goal here is just to execute the callback to satisfy coverage for the fetch logic in index.vue.
       try {
         await fetcher();
-      } catch (e) {
+      } catch {
         // intentionally ignore error from unmocked $fetch
       }
 
