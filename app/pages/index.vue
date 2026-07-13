@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { useAsyncData } from "#app";
 import Config from "@/assets/config";
-import { computed, onMounted, ref } from "vue";
+import scrollama, {
+  type ScrollamaInstance,
+  type ScrollamaResponse,
+} from "scrollama";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import type { HomePageACF, Project } from "~/types/acf";
 
@@ -46,6 +50,47 @@ const testimonials = computed(
   () => acf.value?.testimonials?.testimonials || [],
 );
 
+let scroller: ScrollamaInstance | null = null;
+let scrollTimeout: NodeJS.Timeout | null = null;
+
+const handleStepEnter = (response: ScrollamaResponse) => {
+  const el = response.element;
+  if (el.classList.contains("who-i-am")) {
+    animateWho.value = true;
+  } else if (el.classList.contains("projects")) {
+    animateWork.value = true;
+  } else if (el.classList.contains("the-process")) {
+    animateProcess.value = true;
+  } else if (el.classList.contains("capabilities")) {
+    animateCapab.value = true;
+  } else if (el.classList.contains("testimonials")) {
+    animateTestimonials.value = true;
+  }
+};
+
+const handleScroll = () => {
+  if (!import.meta.client) return;
+  const step = document.querySelector(".step");
+  if (step) {
+    scroller = scrollama();
+    scroller
+      .setup({
+        step: ".step",
+        offset: window.innerWidth > 577 ? 0.6 : 0.7,
+        debug: false,
+      })
+      .onStepEnter(handleStepEnter);
+  } else {
+    scrollTimeout = setTimeout(() => {
+      handleScroll();
+    }, 600);
+  }
+};
+
+const scrollamaResize = () => {
+  if (scroller) scroller.resize();
+};
+
 const filteredProjects = computed(() => {
   if (!projects.value || !Array.isArray(projects.value)) return null;
 
@@ -76,19 +121,15 @@ onMounted(() => {
   if (import.meta.client) {
     animateHeader.value = true;
     setTimeout(() => {
-      animateWho.value = true;
-      // Also animate work shortly after for now since we haven't implemented full scroll triggers yet
-      setTimeout(() => {
-        animateWork.value = true;
-        animateProcess.value = true;
-        animateCapab.value = true;
-        animateTestimonials.value = true;
-      }, 200);
+      handleScroll();
 
       import("splitting").then((module) => {
         module.default();
       });
     }, 150);
+
+    window.removeEventListener("resize", scrollamaResize);
+    window.addEventListener("resize", scrollamaResize, { passive: true });
 
     if (route.hash) {
       window.scrollTo(0, 0);
@@ -98,6 +139,16 @@ onMounted(() => {
       }, 600);
     }
   }
+});
+
+onBeforeUnmount(() => {
+  if (scrollTimeout) {
+    clearTimeout(scrollTimeout);
+  }
+  if (scroller) {
+    scroller.destroy();
+  }
+  window.removeEventListener("resize", scrollamaResize);
 });
 </script>
 
