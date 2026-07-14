@@ -3,6 +3,7 @@ import { defineVitestConfig } from "@nuxt/test-utils/config";
 export default defineVitestConfig({
   test: {
     environment: "nuxt",
+    testTimeout: 10000,
     coverage: {
       provider: "v8",
       reporter: ["text", "lcov"],
