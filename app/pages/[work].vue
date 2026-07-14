@@ -85,20 +85,24 @@ useHead(() => {
     project.value.seo?.facebook?.sizes &&
     project.value.seo?.twitter?.sizes
   ) {
+    const formattedTitle = projectTitle.value.replaceAll("-", " ");
+    const capitalizedTitle = capitalizeEveryWord(formattedTitle);
+    const commaFormattedTitle = projectTitle.value.replaceAll("-", ", ");
+
     return {
-      title: capitalizeEveryWord(projectTitle.value.replaceAll("-", " ")),
+      title: capitalizedTitle,
       meta: [
         { name: "description", content: project.value.seo.description },
         {
           name: "keywords",
           content:
             project.value.keywords ||
-            `${projectTitle.value.replaceAll("-", " ")}, ${projectTitle.value.replaceAll("-", ", ")}`,
+            `${formattedTitle}, ${commaFormattedTitle}`,
         },
         {
           hid: "og:title",
           property: "og:title",
-          content: capitalizeEveryWord(projectTitle.value.replaceAll("-", " ")),
+          content: capitalizedTitle,
         },
         {
           hid: "og:description",
@@ -113,7 +117,7 @@ useHead(() => {
         {
           hid: "twitter:title",
           name: "twitter:title",
-          content: capitalizeEveryWord(projectTitle.value.replaceAll("-", " ")),
+          content: capitalizedTitle,
         },
         {
           hid: "twitter:description",
