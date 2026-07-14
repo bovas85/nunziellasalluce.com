@@ -19,7 +19,7 @@ describe("TheChallenge Component", () => {
     flexible_content: []
   };
 
-  const createMockProject = (challengeData: any = mockBaseChallenge): ProjectACF => {
+  const createMockProject = (challengeData: unknown = mockBaseChallenge): ProjectACF => {
     return {
       challenge: challengeData
     } as unknown as ProjectACF;
