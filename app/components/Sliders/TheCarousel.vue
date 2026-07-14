@@ -200,7 +200,7 @@ const swiperOptions = {
   }
 
   @include media(lg) {
-    height: 780px;
+    height: 500px;
   }
 
   .slide-content {
@@ -285,7 +285,7 @@ const swiperOptions = {
     }
 
     @include media(lg) {
-      height: 780px;
+      height: 500px;
     }
 
     width: 100%;
