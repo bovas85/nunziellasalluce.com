@@ -1,8 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
 import TheTestimonial from "./TheTestimonial.vue";
-import type { Testimonial } from "~/types/acf";
-import type { WPImage } from "~/types/acf";
+import type { Testimonial, WPImage } from "~/types/acf";
 
 describe("TheTestimonial", () => {
   const mockImage = {
