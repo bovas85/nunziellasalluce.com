@@ -49,6 +49,9 @@ const props = withDefaults(
 const isMobile = ref(false);
 const isMounted = ref(false);
 
+const videoDesktopRef = ref<HTMLVideoElement | null>(null);
+const videoMobileRef = ref<HTMLVideoElement | null>(null);
+
 onMounted(() => {
   isMobile.value = window.innerWidth < 1024;
   window.addEventListener(
@@ -121,11 +124,13 @@ const getImage = computed(() => {
 
 onMounted(() => {
   if (import.meta.client) {
-    const lazyVideos = Array.from(
-      document.querySelectorAll("video.lazyload"),
-    ) as HTMLVideoElement[];
+    const lazyVideos: HTMLVideoElement[] = [];
+    if (props.lazyload) {
+      if (videoDesktopRef.value) lazyVideos.push(videoDesktopRef.value);
+      if (videoMobileRef.value) lazyVideos.push(videoMobileRef.value);
+    }
 
-    if ("IntersectionObserver" in globalThis) {
+    if (lazyVideos.length > 0 && "IntersectionObserver" in globalThis) {
       const lazyVideoObserver = new IntersectionObserver(
         (entries, _observer) => {
           entries.forEach((video) => {
@@ -157,6 +162,7 @@ onMounted(() => {
 <template>
   <div v-if="videoMobile && videoDesktop" class="video">
     <video
+      ref="videoDesktopRef"
       :class="lazyload ? 'lazyload hidden-mobile' : 'hidden-mobile'"
       autoplay
       muted
@@ -169,6 +175,7 @@ onMounted(() => {
     </video>
     <!-- mobile video -->
     <video
+      ref="videoMobileRef"
       :class="
         lazyload ? 'lazyload is-hidden-mobile-large' : 'is-hidden-mobile-large'
       "
