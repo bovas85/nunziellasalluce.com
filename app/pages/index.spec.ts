@@ -218,6 +218,36 @@ describe("Index Page", () => {
     ).toBe("static-val");
   });
 
+  it("getCachedData reads from payload first, falls back to static (projects)", async () => {
+    const { useAsyncData } = await import("#app");
+    const spy = vi.mocked(useAsyncData);
+    spy.mockClear();
+
+    await mountSuspended(IndexPage);
+
+    const projectsCall = spy.mock.calls.find(([k]) => k === "projects") as [
+      string,
+      () => Promise<unknown>,
+      { getCachedData: (key: string, app: unknown) => unknown },
+    ];
+
+    const [, , options] = projectsCall;
+
+    expect(
+      options.getCachedData("projects", {
+        payload: { data: { projects: "payload-val" } },
+        static: { data: {} },
+      }),
+    ).toBe("payload-val");
+
+    expect(
+      options.getCachedData("projects", {
+        payload: { data: {} },
+        static: { data: { projects: "static-val" } },
+      }),
+    ).toBe("static-val");
+  });
+
   it("fires step animation for WhoIAm (index 1) via scrollama onStepEnter", async () => {
     await mountSuspended(IndexPage);
     expect(capturedOnStepEnter).not.toBeNull();
