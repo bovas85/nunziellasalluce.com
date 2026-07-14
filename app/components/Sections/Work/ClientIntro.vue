@@ -8,13 +8,9 @@
         <h3>Client</h3>
         <p>{{ project.intro.client_name }}</p>
         <a
-          v-if="
-            project.intro.link != null &&
-            project.intro.link !== '' &&
-            project.intro.link !== '#'
-          "
+          v-if="safeLink"
           class="animated-border"
-          :href="project.intro.link"
+          :href="safeLink"
           target="_blank"
           rel="noopener noreferrer"
           >Launch Site</a
@@ -47,12 +43,28 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import type { ProjectACF } from "~/types/acf";
 
-defineProps<{
+const props = defineProps<{
   project: ProjectACF;
   animateIntro: boolean;
 }>();
+
+const safeLink = computed(() => {
+  const link = props.project.intro?.link;
+  if (!link || link === "#") return null;
+
+  try {
+    const parsed = new URL(link, "http://localhost");
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      return link;
+    }
+  } catch {
+    // Return null if parsing fails
+  }
+  return null;
+});
 </script>
 
 <style lang="scss" scoped>
