@@ -50,28 +50,34 @@ const testimonials = computed(
   () => acf.value?.testimonials?.testimonials || [],
 );
 
+const orderMap = computed(() => {
+  const map = new Map<number, number>();
+  const order = acf.value?.case_studies?.order || [];
+  order.forEach((id: number, index: number) => {
+    map.set(id, index);
+  });
+  return map;
+});
+
 const filteredProjects = computed(() => {
   if (!projects.value || !Array.isArray(projects.value)) return null;
 
   const projectsList = projects.value as Project[];
   const order = acf.value?.case_studies?.order || [];
   if (order.length > 0) {
-    const orderMap = new Map();
-    order.forEach((id: number, index: number) => {
-      orderMap.set(id, index);
-    });
-
-    const sorted = [...projectsList].sort((a, b) => {
-      const indexA = orderMap.has(a.id) ? orderMap.get(a.id) : -1;
-      const indexB = orderMap.has(b.id) ? orderMap.get(b.id) : -1;
-      return indexA - indexB;
-    });
+    let listToProcess = [...projectsList];
 
     // remove drafts in production
     if (!import.meta.dev) {
-      return sorted.filter((project) => project.acf?.status === "true");
+      listToProcess = listToProcess.filter((project) => project.acf?.status === "true");
     }
-    return sorted;
+
+    const map = orderMap.value;
+    return listToProcess.sort((a, b) => {
+      const indexA = map.get(a.id) ?? -1;
+      const indexB = map.get(b.id) ?? -1;
+      return indexA - indexB;
+    });
   }
   return null;
 });
