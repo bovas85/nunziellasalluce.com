@@ -5,10 +5,9 @@ export default {
   appThemeColor: "#ffffff ",
   appBgColor: "#00172c ",
   appIcon: "assets/app-icon.png",
-  wpDomain:
-    import.meta.dev
-      ? "/wp-json"
-      : "https://nunziella.moustachedesign.xyz/wp-json",
+  wpDomain: import.meta.dev
+    ? "/wp-json"
+    : "https://nunziella.moustachedesign.xyz/wp-json",
   client: "https://nunziella.moustachedesign.xyz",
   url: "https://nunziellasalluce.netlify.com",
   loadDbName: "starter_wp",
