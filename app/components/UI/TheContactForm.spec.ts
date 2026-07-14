@@ -127,6 +127,31 @@ describe("TheContactForm", () => {
     );
   });
 
+  it("handles API failure during submission", async () => {
+    mockFetch.mockRejectedValueOnce(new Error("API Error"));
+    const wrapper = mount(TheContactForm, mountOptions);
+
+    await wrapper.find('input[id="name"]').setValue("Jane Doe");
+    await wrapper.find('input[id="email"]').setValue("jane@example.com");
+    await wrapper.find("textarea").setValue("Hello online");
+    await wrapper.find('input[id="check1"]').setValue(true);
+
+    const submitBtn = wrapper.find("button.button--contact");
+    await submitBtn.trigger("click");
+
+    await vi.runAllTimersAsync();
+
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+
+    // Check if error message is displayed
+    const errorMsg = wrapper.findAll('.send-error').find(el => el.text().includes('error sending the form'));
+    expect(errorMsg?.isVisible()).toBe(true);
+
+    // Also check if 'sending' and 'disabled' state was reset
+    expect(submitBtn.classes()).not.toContain("is-disabled");
+    expect(submitBtn.attributes("disabled")).toBeUndefined();
+  });
+
   it("handles invalid stored data gracefully without crashing", () => {
     localStorage.setItem("contactFormData", "invalid data {");
     const wrapper = mount(TheContactForm, mountOptions);
