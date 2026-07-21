@@ -1,9 +1,8 @@
 <template>
   <a
     id="cssda-badge"
-    target="_blank"
+    target="_blank" rel="noopener noreferrer"
     aria-label="Go to my entry for the css design awards website"
-    rel="noopener noreferrer"
     href="https://www.cssdesignawards.com/sites/nunziella-salluce-design/35044/"
   >
     <svg
