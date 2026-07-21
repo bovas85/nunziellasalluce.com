@@ -116,67 +116,14 @@ watch(
           />
         </NuxtLink>
 
-        <div
+        <NavTheNavMobileToggle
           v-if="!isLargeScreen"
-          class="menu menu--mobile"
-          @click="toggleMenu"
-        >
-          <transition name="rotate" mode="out-in">
-            <div v-if="!navOpen" key="closed" class="rotate">
-              <IconsBurgerMenu
-                :fill="
-                  ((route.path === '/' || route.path === '/privacy-policy') &&
-                    'black') ||
-                  menuScrolled
-                    ? 'black'
-                    : 'white'
-                "
-                :stroke="
-                  ((route.path === '/' || route.path === '/privacy-policy') &&
-                    'black') ||
-                  menuScrolled
-                    ? 'black'
-                    : 'white'
-                "
-              />
-            </div>
-            <div v-else key="open" class="rotate">
-              <div
-                :class="(route.path === '/' || navOpen) && 'black'"
-                class="close-icon"
-              >
-                <span class="close-icon--line" />
-                <span class="close-icon--line inverted" />
-              </div>
-            </div>
-          </transition>
-        </div>
+          :nav-open="navOpen"
+          :menu-scrolled="menuScrolled"
+          @toggle="toggleMenu"
+        />
 
-        <ul
-          v-else
-          class="menu menu--desktop"
-          :class="
-            (route.path === '/' ||
-              route.path === '/contact' ||
-              route.path === '/privacy-policy') &&
-            'black'
-          "
-        >
-          <NuxtLink
-            to="/"
-            :class="
-              route.path === '/' && route.hash !== '#work' && 'nuxt-link-active'
-            "
-            >Home</NuxtLink
-          >
-          <NuxtLink
-            :class="route.hash === '#work' && 'nuxt-link-active'"
-            to="/#work"
-            >Work</NuxtLink
-          >
-          <NuxtLink to="/about">About</NuxtLink>
-          <NuxtLink to="/contact">Contact</NuxtLink>
-        </ul>
+        <NavTheNavDesktop v-else />
       </nav>
     </div>
 
@@ -248,143 +195,6 @@ watch(
       stroke: $primary;
     }
 
-    .menu {
-      cursor: pointer;
-
-      .rotate {
-        cursor: pointer;
-      }
-
-      &--mobile {
-        display: block;
-        position: relative;
-      }
-
-      &--desktop {
-        display: flex;
-        justify-content: space-around;
-
-        a {
-          cursor: pointer;
-          font-size: $font-size + 4px;
-          text-transform: capitalize;
-          font-weight: 400;
-          color: white;
-          transition: color 0.3s ease-in-out;
-
-          &.nuxt-link-active {
-            color: $primary;
-          }
-
-          &:not(:last-child) {
-            margin-right: $gap;
-          }
-
-          position: relative;
-          padding: calc($gap / 3) 0;
-
-          &:hover {
-            color: #fff;
-            text-decoration: none;
-          }
-
-          &::before,
-          &::after {
-            content: "";
-            position: absolute;
-            width: 0%;
-            height: 2px;
-            bottom: -2px;
-            background: #fff;
-          }
-
-          &::before {
-            left: 0;
-          }
-
-          &::after {
-            right: 0;
-            background: #fff;
-            transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
-          }
-
-          &:hover::before {
-            background: #fff;
-            width: 100%;
-            transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
-          }
-
-          &:hover::after {
-            background: transparent;
-            width: 100%;
-            transition: 0s;
-          }
-
-          &.nuxt-link-active {
-            color: $primary;
-
-            &::before,
-            &::after {
-              background: $primary;
-            }
-
-            &::after {
-              right: 0;
-              background: $primary;
-            }
-
-            &:hover {
-              &::before {
-                background: $primary;
-              }
-
-              &::after {
-                background: transparent;
-                width: 100%;
-                transition: 0s;
-              }
-            }
-          }
-        }
-
-        &.black {
-          a:not(.nuxt-link-active) {
-            color: black;
-
-            &:hover {
-              color: black;
-              text-decoration: none;
-            }
-
-            &::before,
-            &::after {
-              content: "";
-              position: absolute;
-              width: 0%;
-              height: 2px;
-              bottom: -2px;
-              background: black;
-            }
-
-            &::before {
-              left: 0;
-            }
-
-            &::after {
-              right: 0;
-              background: black;
-              transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
-            }
-
-            &:hover::before {
-              background: black;
-              width: 100%;
-              transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
-            }
-          }
-        }
-      }
-    }
   }
 
   &.scrolled {
@@ -392,7 +202,7 @@ watch(
       transform: translateY(-100%);
     }
 
-    .navbar a {
+    .navbar :deep(a) {
       color: $secondary;
 
       &::before,
@@ -413,10 +223,10 @@ watch(
       }
     }
 
-    .close-icon {
+    :deep(.close-icon) {
       cursor: pointer;
 
-      &--line {
+      .close-icon--line {
         background: black;
       }
     }
@@ -437,7 +247,7 @@ watch(
   &.scrolled.done.about {
     background-color: transparent;
 
-    .navbar a {
+    .navbar :deep(a) {
       color: white;
     }
   }
@@ -462,35 +272,4 @@ watch(
   }
 }
 
-.close-icon {
-  cursor: pointer;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &--line {
-    position: absolute;
-    top: 50%;
-    cursor: pointer;
-    display: block;
-    margin-bottom: 3px;
-    background: white;
-    border-radius: 2px;
-    opacity: 1;
-    height: 2px;
-    width: 15px;
-    transform: rotate(45deg);
-
-    &.inverted {
-      transform: rotate(-45deg);
-    }
-  }
-
-  &.black .close-icon--line {
-    background: black;
-  }
-}
 </style>
