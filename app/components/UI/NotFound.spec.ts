@@ -1,21 +1,21 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach, type Mock } from "vitest";
 import { mountSuspended, mockNuxtImport } from "@nuxt/test-utils/runtime";
 import NotFound from "./NotFound.vue";
 import { useRouter } from "vue-router";
 import { setResponseStatus } from "h3";
 
 vi.mock("vue-router", async (importOriginal) => {
-  const actual = await importOriginal();
+  const actual = await importOriginal<typeof import("vue-router")>();
   return {
-    ...actual as any,
+    ...actual,
     useRouter: vi.fn(),
   };
 });
 
 vi.mock("h3", async (importOriginal) => {
-  const actual = await importOriginal();
+  const actual = await importOriginal<typeof import("h3")>();
   return {
-    ...actual as any,
+    ...actual,
     setResponseStatus: vi.fn(),
   };
 });
@@ -32,7 +32,7 @@ describe("NotFound", () => {
 
   it("renders correctly", async () => {
     const pushMock = vi.fn();
-    (useRouter as any).mockReturnValue({ push: pushMock });
+    (useRouter as Mock).mockReturnValue({ push: pushMock });
 
     const wrapper = await mountSuspended(NotFound);
 
@@ -42,7 +42,7 @@ describe("NotFound", () => {
 
   it("navigates to home when button is clicked", async () => {
     const pushMock = vi.fn();
-    (useRouter as any).mockReturnValue({ push: pushMock });
+    (useRouter as Mock).mockReturnValue({ push: pushMock });
 
     const wrapper = await mountSuspended(NotFound);
 
@@ -54,7 +54,7 @@ describe("NotFound", () => {
 
   it("does not set response status on client environment", async () => {
     const pushMock = vi.fn();
-    (useRouter as any).mockReturnValue({ push: pushMock });
+    (useRouter as Mock).mockReturnValue({ push: pushMock });
 
     // In a browser/client test environment, import.meta.server is typically false or undefined
     // We expect the setup to run without issues and setResponseStatus should not be called
