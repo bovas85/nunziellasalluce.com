@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, nextTick } from "vue";
 import type { WPImage } from "~/types/acf";
+import { useImageSources } from "~/composables/useImageSources";
+import { useLazyVideo } from "~/composables/useLazyVideo";
 
 const props = withDefaults(
   defineProps<{
@@ -80,78 +82,13 @@ onMounted(() => {
   });
 });
 
-const mobileSrc = computed(() => {
-  if (
-    props.image?.url &&
-    props.image.url.toLowerCase().includes("bio-nunziella-salluce-design.jpg")
-  ) {
-    return "https://nunziella.moustachedesign.xyz/wp-content/uploads/2019/05/Bio-Nunziella-Salluce-Design-mobile.jpg";
-  }
-  if (props.imageMobile?.url && props.imageMobile?.id !== props.image?.id) {
-    return props.imageMobile.url;
-  }
-  return props.image?.sizes?.medium || props.image?.url || "";
-});
-
-const getMobileFallback = () => {
-  if (import.meta.client && window.innerWidth < 577) {
-    return mobileSrc.value;
-  }
-  return props.image?.sizes?.large || props.image?.url || "";
-};
-
-const getDesktopFallback = () => {
-  return getImage.value || props.image?.sizes?.ultra || props.image?.url || "";
-};
-
-const fallbackSrc = computed(() => {
-  return isMobile.value ? getMobileFallback() : getDesktopFallback();
-});
+const { mobileSrc, getImage, fallbackSrc } = useImageSources(props, isMobile);
 
 const computedClass = computed(() => {
   return isMobile.value ? props.positionMobile : props.position;
 });
 
-const getImage = computed(() => {
-  if (props.isThumb && props.image?.sizes?.small) {
-    return props.image.sizes.small;
-  }
-  return false;
-});
-
-onMounted(() => {
-  if (import.meta.client) {
-    const lazyVideos = Array.from(
-      document.querySelectorAll("video.lazyload"),
-    ) as HTMLVideoElement[];
-
-    if ("IntersectionObserver" in globalThis) {
-      const lazyVideoObserver = new IntersectionObserver(
-        (entries, _observer) => {
-          entries.forEach((video) => {
-            if (video.isIntersecting) {
-              const sources = (video.target as HTMLVideoElement).querySelectorAll("source");
-              for (let i = 0, len = sources.length; i < len; i++) {
-                const videoSource = sources[i] as HTMLSourceElement;
-                if (videoSource.dataset.src) {
-                  videoSource.src = videoSource.dataset.src;
-                }
-              }
-              (video.target as HTMLVideoElement).load();
-              video.target.classList.remove("lazyload");
-              lazyVideoObserver.unobserve(video.target);
-            }
-          });
-        },
-        { rootMargin: "800px 0px" },
-      );
-
-      lazyVideos.forEach((lazyVideo) => {
-        lazyVideoObserver.observe(lazyVideo);
-      });
-    }
-  }
-});
+useLazyVideo();
 </script>
 
 <template>
