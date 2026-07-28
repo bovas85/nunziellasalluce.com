@@ -6,6 +6,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { useRouter } from "vue-router";
 import type { Project } from "~/types/acf";
+import { triggerLazySizes } from "~/utils/lazysizes";
 
 const props = defineProps<{
   data: Project[];
@@ -15,18 +16,7 @@ const props = defineProps<{
 const router = useRouter();
 
 const onSlideChange = () => {
-  if (typeof window !== "undefined") {
-    const customWindow = window as unknown as {
-      lazySizes?: {
-        loader: {
-          checkElems: () => void;
-        };
-      };
-    };
-    if (customWindow.lazySizes) {
-      customWindow.lazySizes.loader.checkElems();
-    }
-  }
+  triggerLazySizes();
 };
 
 const swiperOptions = {
