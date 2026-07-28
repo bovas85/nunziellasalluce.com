@@ -168,11 +168,16 @@ describe("[work].vue — data fetch", () => {
 
     await mountSuspended(WorkPage);
 
-    const [, fetcher] = spy.mock.calls[0] as [string, () => Promise<unknown>];
+    const call = spy.mock.calls.find(([k]) => k === "projects") as
+      [string, () => Promise<unknown>] | undefined;
+    expect(call).toBeDefined();
+    const [, fetcher] = call!;
     await fetcher();
 
     const Config = (await import("@/assets/config")).default;
-    expect(fetchSpy).toHaveBeenCalledWith(Config.wpDomain + Config.api.projects);
+    expect(fetchSpy).toHaveBeenCalledWith(
+      Config.wpDomain + Config.api.projects,
+    );
 
     vi.unstubAllGlobals();
   });
@@ -184,11 +189,15 @@ describe("[work].vue — data fetch", () => {
 
     await mountSuspended(WorkPage);
 
-    const [, , options] = spy.mock.calls[0] as [
-      string,
-      () => Promise<unknown>,
-      { getCachedData: (key: string, app: unknown) => unknown },
-    ];
+    const call = spy.mock.calls.find(([k]) => k === "projects") as
+      | [
+          string,
+          () => Promise<unknown>,
+          { getCachedData: (key: string, app: unknown) => unknown },
+        ]
+      | undefined;
+    expect(call).toBeDefined();
+    const [, , options] = call!;
 
     const payloadApp = {
       payload: { data: { projects: "payload-value" } },

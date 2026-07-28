@@ -181,8 +181,7 @@ describe("Index Page", () => {
     const spy = vi.mocked(useAsyncData);
     spy.mockClear();
 
-    const originalFetch = globalThis.$fetch;
-    globalThis.$fetch = vi.fn().mockResolvedValue({});
+    vi.stubGlobal("$fetch", vi.fn().mockResolvedValue({}));
 
     await mountSuspended(IndexPage);
 
@@ -193,10 +192,10 @@ describe("Index Page", () => {
     // The component defines useAsyncData with keys "homePage" and "projects"
     // and calls fetcher inside our mock. Let's verify our mocked $fetch was called.
     expect(globalThis.$fetch).toHaveBeenCalledWith(
-      expect.stringContaining("casestudies")
+      expect.stringContaining("casestudies"),
     );
 
-    globalThis.$fetch = originalFetch;
+    vi.unstubAllGlobals();
   });
 
   it("getCachedData reads from payload first, falls back to static (homePage)", async () => {

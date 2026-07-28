@@ -125,9 +125,10 @@ describe("TheMenuMobile", () => {
     const workLink = links.find((l) => l.text() === "Work");
 
     expect(workLink).toBeDefined();
-    expect(workLink?.attributes("href")).toBe("#work");
+    expect(workLink!.exists()).toBe(true);
+    expect(workLink!.attributes("href")).toBe("#work");
 
-    await workLink?.trigger("click");
+    await workLink!.trigger("click");
     expect(wrapper.emitted("close")).toBeTruthy();
   });
 

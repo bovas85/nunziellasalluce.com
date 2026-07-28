@@ -144,8 +144,11 @@ describe("TheContactForm", () => {
     expect(mockFetch).toHaveBeenCalledTimes(1);
 
     // Check if error message is displayed
-    const errorMsg = wrapper.findAll('.send-error').find(el => el.text().includes('error sending the form'));
-    expect(errorMsg?.isVisible()).toBe(true);
+    const errorMsg = wrapper
+      .findAll(".send-error")
+      .find((el) => el.text().includes("error sending the form"));
+    expect(errorMsg).toBeDefined();
+    expect(errorMsg!.isVisible()).toBe(true);
 
     // Also check if 'sending' and 'disabled' state was reset
     expect(submitBtn.classes()).not.toContain("is-disabled");
