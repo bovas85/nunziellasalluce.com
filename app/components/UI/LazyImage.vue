@@ -85,7 +85,7 @@ const mobileSrc = computed(() => {
     props.image?.url &&
     props.image.url.toLowerCase().includes("bio-nunziella-salluce-design.jpg")
   ) {
-    return "https://nunziella.moustachedesign.xyz/wp-content/uploads/2019/05/Bio-Nunziella-Salluce-Design-mobile.jpg";
+    return "https://nunziella.moustachedesign.fyi/wp-content/uploads/2019/05/Bio-Nunziella-Salluce-Design-mobile.jpg";
   }
   if (props.imageMobile?.url && props.imageMobile?.id !== props.image?.id) {
     return props.imageMobile.url;
@@ -130,7 +130,9 @@ onMounted(() => {
         (entries, _observer) => {
           entries.forEach((video) => {
             if (video.isIntersecting) {
-              const sources = (video.target as HTMLVideoElement).querySelectorAll("source");
+              const sources = (
+                video.target as HTMLVideoElement
+              ).querySelectorAll("source");
               for (let i = 0, len = sources.length; i < len; i++) {
                 const videoSource = sources[i] as HTMLSourceElement;
                 if (videoSource.dataset.src) {

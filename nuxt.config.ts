@@ -47,7 +47,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/wp-json/**": {
-      proxy: "https://nunziella.moustachedesign.xyz/wp-json/**",
+      proxy: "https://nunziella.moustachedesign.fyi/wp-json/**",
     },
   },
   hooks: {
@@ -56,7 +56,7 @@ export default defineNuxtConfig({
       // Fetch all published case studies from WP and add their slugs as prerender routes
       try {
         const res = await fetch(
-          "https://nunziella.moustachedesign.xyz/wp-json/wp/v2/casestudies?per_page=100",
+          "https://nunziella.moustachedesign.fyi/wp-json/wp/v2/casestudies?per_page=100",
         );
         const projects = (await res.json()) as Array<{
           slug: string;
