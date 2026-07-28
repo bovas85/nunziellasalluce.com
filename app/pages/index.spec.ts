@@ -181,11 +181,22 @@ describe("Index Page", () => {
     const spy = vi.mocked(useAsyncData);
     spy.mockClear();
 
+    const originalFetch = globalThis.$fetch;
+    globalThis.$fetch = vi.fn().mockResolvedValue({});
+
     await mountSuspended(IndexPage);
 
     const keys = spy.mock.calls.map(([k]) => k);
     expect(keys).toContain("homePage");
     expect(keys).toContain("projects");
+
+    // The component defines useAsyncData with keys "homePage" and "projects"
+    // and calls fetcher inside our mock. Let's verify our mocked $fetch was called.
+    expect(globalThis.$fetch).toHaveBeenCalledWith(
+      expect.stringContaining("casestudies")
+    );
+
+    globalThis.$fetch = originalFetch;
   });
 
   it("getCachedData reads from payload first, falls back to static (homePage)", async () => {
@@ -214,6 +225,36 @@ describe("Index Page", () => {
       options.getCachedData("homePage", {
         payload: { data: {} },
         static: { data: { homePage: "static-val" } },
+      }),
+    ).toBe("static-val");
+  });
+
+  it("getCachedData reads from payload first, falls back to static (projects)", async () => {
+    const { useAsyncData } = await import("#app");
+    const spy = vi.mocked(useAsyncData);
+    spy.mockClear();
+
+    await mountSuspended(IndexPage);
+
+    const projectsCall = spy.mock.calls.find(([k]) => k === "projects") as [
+      string,
+      () => Promise<unknown>,
+      { getCachedData: (key: string, app: unknown) => unknown },
+    ];
+
+    const [, , options] = projectsCall;
+
+    expect(
+      options.getCachedData("projects", {
+        payload: { data: { projects: "payload-val" } },
+        static: { data: {} },
+      }),
+    ).toBe("payload-val");
+
+    expect(
+      options.getCachedData("projects", {
+        payload: { data: {} },
+        static: { data: { projects: "static-val" } },
       }),
     ).toBe("static-val");
   });
