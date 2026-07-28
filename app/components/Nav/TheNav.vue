@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMediaQuery, useWindowScroll } from "@vueuse/core";
+import { useMediaQuery, useWindowScroll, watchThrottled } from "@vueuse/core";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
@@ -14,30 +14,34 @@ const navOpen = useState("navOpen", () => false);
 const isLargeScreen = useMediaQuery("(min-width: 1024px)");
 const { y } = useWindowScroll();
 
-let scrollTimeout1: NodeJS.Timeout;
-let scrollTimeout2: NodeJS.Timeout;
+let scrollTimeout1: ReturnType<typeof setTimeout>;
+let scrollTimeout2: ReturnType<typeof setTimeout>;
 
-watch(y, (newY) => {
-  // If we scroll past 150px, trigger the sticky menu animations
-  if (newY > 150) {
-    if (!menuScrolled.value) {
+watchThrottled(
+  y,
+  (newY) => {
+    // If we scroll past 150px, trigger the sticky menu animations
+    if (newY > 150) {
+      if (!menuScrolled.value) {
+        clearTimeout(scrollTimeout1);
+        clearTimeout(scrollTimeout2);
+        scrollTimeout1 = setTimeout(() => {
+          menuScrolled.value = true;
+        }, 150);
+        scrollTimeout2 = setTimeout(() => {
+          menuScrolledDone.value = true;
+        }, 400);
+      }
+    } else {
+      // Reset when at the top
       clearTimeout(scrollTimeout1);
       clearTimeout(scrollTimeout2);
-      scrollTimeout1 = setTimeout(() => {
-        menuScrolled.value = true;
-      }, 150);
-      scrollTimeout2 = setTimeout(() => {
-        menuScrolledDone.value = true;
-      }, 400);
+      menuScrolled.value = false;
+      menuScrolledDone.value = false;
     }
-  } else {
-    // Reset when at the top
-    clearTimeout(scrollTimeout1);
-    clearTimeout(scrollTimeout2);
-    menuScrolled.value = false;
-    menuScrolledDone.value = false;
-  }
-});
+  },
+  { throttle: 50 },
+);
 
 const menuItems = ["", "work", "about", "contact"];
 
@@ -194,7 +198,6 @@ watch(
       object-fit: contain;
       stroke: $primary;
     }
-
   }
 
   &.scrolled {
@@ -271,5 +274,4 @@ watch(
     }
   }
 }
-
 </style>

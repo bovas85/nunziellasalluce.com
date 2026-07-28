@@ -5,6 +5,7 @@ import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import type { SliderItem } from "~/types/acf";
+import { triggerLazySizes } from "~/utils/lazysizes";
 defineOptions({ name: "ImageSlider" });
 
 defineProps<{
@@ -12,18 +13,7 @@ defineProps<{
 }>();
 
 const onSlideChange = () => {
-  if (typeof window !== "undefined") {
-    const customWindow = window as unknown as {
-      lazySizes?: {
-        loader: {
-          checkElems: () => void;
-        };
-      };
-    };
-    if (customWindow.lazySizes) {
-      customWindow.lazySizes.loader.checkElems();
-    }
-  }
+  triggerLazySizes();
 };
 
 const swiperOptions = {

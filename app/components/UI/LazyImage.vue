@@ -51,6 +51,9 @@ const props = withDefaults(
 const isMobile = ref(false);
 const isMounted = ref(false);
 
+const videoDesktopRef = ref<HTMLVideoElement | null>(null);
+const videoMobileRef = ref<HTMLVideoElement | null>(null);
+
 onMounted(() => {
   isMobile.value = window.innerWidth < 1024;
   window.addEventListener(
@@ -88,12 +91,13 @@ const computedClass = computed(() => {
   return isMobile.value ? props.positionMobile : props.position;
 });
 
-useLazyVideo();
+useLazyVideo(props.lazyload ? [videoDesktopRef, videoMobileRef] : undefined);
 </script>
 
 <template>
   <div v-if="videoMobile && videoDesktop" class="video">
     <video
+      ref="videoDesktopRef"
       :class="lazyload ? 'lazyload hidden-mobile' : 'hidden-mobile'"
       autoplay
       muted
@@ -106,6 +110,7 @@ useLazyVideo();
     </video>
     <!-- mobile video -->
     <video
+      ref="videoMobileRef"
       :class="
         lazyload ? 'lazyload is-hidden-mobile-large' : 'is-hidden-mobile-large'
       "
