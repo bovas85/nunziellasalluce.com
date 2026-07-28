@@ -19,7 +19,7 @@
           <p class="referral-link">
             Coded with 👨 by
             <a
-              href="https://moustachedesign.fyi?referrer=nunziella-salluce-design"
+              href="https://moustachedesign.xyz?referrer=nunziella-salluce-design"
               target="_blank"
               rel="noopener noreferrer"
               >Moustache Design</a

@@ -69,10 +69,10 @@ describe("LazyImage", () => {
   it("forces Bio-Nunziella-Salluce-Design-mobile.jpg for the bio photo", () => {
     const bioImage = {
       id: 256,
-      url: "https://nunziella.moustachedesign.fyi/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design.jpg",
+      url: "https://nunziella.moustachedesign.xyz/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design.jpg",
       sizes: {
         medium:
-          "https://nunziella.moustachedesign.fyi/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design-1024x647.jpg",
+          "https://nunziella.moustachedesign.xyz/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design-1024x647.jpg",
       },
     } as unknown as WPImage;
     const wrapper = mount(LazyImage, {
@@ -87,7 +87,7 @@ describe("LazyImage", () => {
         s.attributes("media") === "(max-width: 576px)" && !s.attributes("type"),
     );
     expect(mobileSource?.attributes("data-srcset")).toBe(
-      "https://nunziella.moustachedesign.fyi/wp-content/uploads/2019/05/Bio-Nunziella-Salluce-Design-mobile.jpg",
+      "https://nunziella.moustachedesign.xyz/wp-content/uploads/2019/05/Bio-Nunziella-Salluce-Design-mobile.jpg",
     );
   });
 
