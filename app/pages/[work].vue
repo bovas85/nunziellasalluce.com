@@ -146,13 +146,13 @@ const animateRich = ref(false);
 const animateDigital = ref(false);
 const animateBottomImage = ref(false);
 
+let stepLength = 0;
 let scroller: ScrollamaInstance | null = null;
 
 const handleStepEnter = (response: ScrollamaResponse) => {
   if (response.element) {
     response.element.classList.add("animated");
   }
-  const length = document.querySelectorAll(".step").length - 2;
   switch (response.index) {
     case 0:
       menuScrolled.value = false;
@@ -181,7 +181,7 @@ const handleStepEnter = (response: ScrollamaResponse) => {
         animateFinal.value = true;
       }
       break;
-    case length:
+    case stepLength:
       animateBottomImage.value = true;
       break;
     default:
@@ -203,6 +203,7 @@ const handleScroll = () => {
   if (!import.meta.client) return;
   const step = document.querySelector(".step");
   if (step) {
+    stepLength = document.querySelectorAll(".step").length - 2;
     scroller = scrollama();
     scroller
       .setup({
