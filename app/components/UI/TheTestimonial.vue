@@ -20,7 +20,7 @@ defineProps<{
           ? testimonial.image.sizes.thumbnail
           : 'https://placehold.it/200x200'
       "
-      :alt="testimonial.image.alt"
+      :alt="testimonial.image?.alt"
     />
     <blockquote>
       {{ testimonial.body }}
