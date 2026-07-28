@@ -158,6 +158,25 @@ describe("[work].vue — data fetch", () => {
     );
   });
 
+  it("fetcher calls $fetch with the correct projects endpoint", async () => {
+    const { useAsyncData } = await import("#app");
+    const spy = vi.mocked(useAsyncData);
+    spy.mockClear();
+
+    const fetchSpy = vi.fn().mockResolvedValue([]);
+    vi.stubGlobal("$fetch", fetchSpy);
+
+    await mountSuspended(WorkPage);
+
+    const [, fetcher] = spy.mock.calls[0] as [string, () => Promise<unknown>];
+    await fetcher();
+
+    const Config = (await import("@/assets/config")).default;
+    expect(fetchSpy).toHaveBeenCalledWith(Config.wpDomain + Config.api.projects);
+
+    vi.unstubAllGlobals();
+  });
+
   it("getCachedData reads from nuxtApp.payload.data first, falls back to nuxtApp.static.data", async () => {
     const { useAsyncData } = await import("#app");
     const spy = vi.mocked(useAsyncData);
