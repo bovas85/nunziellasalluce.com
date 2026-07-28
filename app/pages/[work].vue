@@ -203,7 +203,6 @@ const handleScroll = () => {
   if (!import.meta.client) return;
   const step = document.querySelector(".step");
   if (step) {
-    stepLength = document.querySelectorAll(".step").length - 2;
     scroller = scrollama();
     scroller
       .setup({
@@ -225,6 +224,8 @@ onMounted(async () => {
     animateHeader.value = true;
     // Wait for the DOM to be fully rendered before initialising scrollama
     await nextTick();
+    // Cache .step count once after the DOM is ready (avoids repeated queries on scroll)
+    stepLength = document.querySelectorAll(".step").length - 2;
     handleScroll();
     window.addEventListener("resize", scrollamaResize, { passive: true });
   }

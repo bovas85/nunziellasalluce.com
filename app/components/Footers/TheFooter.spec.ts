@@ -1,8 +1,8 @@
-import { describe, it, expect } from "vitest";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import TheFooter from "./TheFooter.vue";
-import FootersBadge from "./Badge.vue";
+import { describe, expect, it } from "vitest";
 import IconsTheLogoStatic from "../Icons/TheLogoStatic.vue";
+import FootersBadge from "./Badge.vue";
+import TheFooter from "./TheFooter.vue";
 
 describe("TheFooter", () => {
   it("renders the footer correctly", async () => {
@@ -28,7 +28,9 @@ describe("TheFooter", () => {
     expect(wrapper.html()).toContain('href="/privacy-policy"');
 
     // Check referral link
-    const referralLink = wrapper.find('a[href="https://moustachedesign.xyz?referrer=nunziella-salluce-design"]');
+    const referralLink = wrapper.find(
+      'a[href="https://moustachedesign.fyi?referrer=nunziella-salluce-design"]',
+    );
     expect(referralLink.exists()).toBe(true);
     expect(referralLink.text()).toBe("Moustache Design");
   });
