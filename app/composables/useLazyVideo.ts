@@ -4,9 +4,10 @@ import type { Ref } from "vue";
 /**
  * Sets up an IntersectionObserver to lazily load videos.
  *
- * @param refs - Optional template refs for the specific video elements to observe.
+ * @param refs - Template refs for the specific video elements to observe.
  *               When provided, only those elements are observed (scoped, no global DOM scan).
- *               When omitted, falls back to querying all `video.lazyload` in the document.
+ *               @deprecated Omitting `refs` triggers a global `document.querySelectorAll` scan
+ *               and should be avoided. Always pass the component's video refs explicitly.
  */
 export function useLazyVideo(refs?: Ref<HTMLVideoElement | null>[]) {
   let lazyVideoObserver: IntersectionObserver | null = null;
@@ -18,7 +19,8 @@ export function useLazyVideo(refs?: Ref<HTMLVideoElement | null>[]) {
       ? refs
           .map((r) => r.value)
           .filter((v): v is HTMLVideoElement => v !== null)
-      : Array.from(document.querySelectorAll("video.lazyload"));
+      : // @deprecated fallback — avoid this path; pass refs instead
+        Array.from(document.querySelectorAll("video.lazyload"));
 
     if (lazyVideos.length === 0) return;
 

@@ -63,16 +63,17 @@ const filteredProjects = computed(() => {
   if (!projects.value || !Array.isArray(projects.value)) return null;
 
   const projectsList = projects.value as Project[];
-  const order = acf.value?.case_studies?.order || [];
-  if (order.length > 0) {
+  const map = orderMap.value;
+  if (map.size > 0) {
     let listToProcess = [...projectsList];
 
     // remove drafts in production
     if (!import.meta.dev) {
-      listToProcess = listToProcess.filter((project) => project.acf?.status === "true");
+      listToProcess = listToProcess.filter(
+        (project) => project.acf?.status === "true",
+      );
     }
 
-    const map = orderMap.value;
     return listToProcess.sort((a, b) => {
       const indexA = map.get(a.id) ?? -1;
       const indexB = map.get(b.id) ?? -1;

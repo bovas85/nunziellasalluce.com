@@ -14,8 +14,8 @@ const navOpen = useState("navOpen", () => false);
 const isLargeScreen = useMediaQuery("(min-width: 1024px)");
 const { y } = useWindowScroll();
 
-let scrollTimeout1: NodeJS.Timeout;
-let scrollTimeout2: NodeJS.Timeout;
+let scrollTimeout1: ReturnType<typeof setTimeout>;
+let scrollTimeout2: ReturnType<typeof setTimeout>;
 
 watchThrottled(
   y,
@@ -198,7 +198,6 @@ watch(
       object-fit: contain;
       stroke: $primary;
     }
-
   }
 
   &.scrolled {
@@ -275,5 +274,4 @@ watch(
     }
   }
 }
-
 </style>
