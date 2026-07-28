@@ -10,14 +10,14 @@ interface ImageSourceProps {
 
 export function useImageSources(
   props: ImageSourceProps,
-  isMobile: Ref<boolean>
+  isMobile: Ref<boolean>,
 ) {
   const mobileSrc = computed(() => {
     if (
       props.image?.url &&
       props.image.url.toLowerCase().includes("bio-nunziella-salluce-design.jpg")
     ) {
-      return "https://nunziella.moustachedesign.xyz/wp-content/uploads/2019/05/Bio-Nunziella-Salluce-Design-mobile.jpg";
+      return "https://nunziella.moustachedesign.fyi/wp-content/uploads/2019/05/Bio-Nunziella-Salluce-Design-mobile.jpg";
     }
     if (props.imageMobile?.url && props.imageMobile?.id !== props.image?.id) {
       return props.imageMobile.url;
