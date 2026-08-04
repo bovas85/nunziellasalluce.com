@@ -46,17 +46,17 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    "/wp-json/wp/v2/pages/18/**": {
-      proxy: "https://nunziella.moustachedesign.fyi/wp-json/wp/v2/pages/18/**",
+    "/wp-json/wp/v2/pages/18/": {
+      proxy: "https://nunziella.moustachedesign.fyi/wp-json/wp/v2/pages/18/",
     },
-    "/wp-json/wp/v2/pages/383/**": {
-      proxy: "https://nunziella.moustachedesign.fyi/wp-json/wp/v2/pages/383/**",
+    "/wp-json/wp/v2/pages/383/": {
+      proxy: "https://nunziella.moustachedesign.fyi/wp-json/wp/v2/pages/383/",
     },
-    "/wp-json/wp/v2/pages/235/**": {
-      proxy: "https://nunziella.moustachedesign.fyi/wp-json/wp/v2/pages/235/**",
+    "/wp-json/wp/v2/pages/235/": {
+      proxy: "https://nunziella.moustachedesign.fyi/wp-json/wp/v2/pages/235/",
     },
-    "/wp-json/wp/v2/pages/310/**": {
-      proxy: "https://nunziella.moustachedesign.fyi/wp-json/wp/v2/pages/310/**",
+    "/wp-json/wp/v2/pages/310/": {
+      proxy: "https://nunziella.moustachedesign.fyi/wp-json/wp/v2/pages/310/",
     },
     "/wp-json/wp/v2/casestudies/**": {
       proxy:
