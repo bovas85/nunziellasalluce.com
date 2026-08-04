@@ -33,8 +33,16 @@ onMounted(() => {
   if (storedData.value) {
     saved.value = true;
     try {
-      form.value = JSON.parse(storedData.value);
-      disabled.value = false;
+      const parsedData = JSON.parse(storedData.value);
+      if (parsedData && typeof parsedData === "object") {
+        form.value = {
+          yourName: typeof parsedData.yourName === "string" ? parsedData.yourName : "",
+          yourEmail: typeof parsedData.yourEmail === "string" ? parsedData.yourEmail : "",
+          yourMessage: typeof parsedData.yourMessage === "string" ? parsedData.yourMessage : "",
+          youAgree: typeof parsedData.youAgree === "boolean" ? parsedData.youAgree : false,
+        };
+        disabled.value = false;
+      }
     } catch {
       // Invalid stored data, ignore
     }
