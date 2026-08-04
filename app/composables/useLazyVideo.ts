@@ -19,8 +19,7 @@ export function useLazyVideo(refs?: Ref<HTMLVideoElement | null>[]) {
       ? refs
           .map((r) => r.value)
           .filter((v): v is HTMLVideoElement => v !== null)
-      : // @deprecated fallback — avoid this path; pass refs instead
-        Array.from(document.querySelectorAll("video.lazyload"));
+      : [];
 
     if (lazyVideos.length === 0) return;
 
