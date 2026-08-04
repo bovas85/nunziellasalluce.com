@@ -8,7 +8,7 @@ describe('useLazyVideo', () => {
   let unobserveMock: ReturnType<typeof vi.fn>;
   let disconnectMock: ReturnType<typeof vi.fn>;
   let intersectionCallback: IntersectionObserverCallback;
-  let originalIntersectionObserver: any;
+  let originalIntersectionObserver: unknown;
 
   beforeEach(() => {
     observeMock = vi.fn();
@@ -29,7 +29,7 @@ describe('useLazyVideo', () => {
       unobserve = unobserveMock;
       disconnect = disconnectMock;
       takeRecords = vi.fn();
-    } as any;
+    } as unknown as typeof IntersectionObserver;
 
     // Mock HTMLVideoElement.load
     HTMLVideoElement.prototype.load = vi.fn();
@@ -153,7 +153,7 @@ describe('useLazyVideo', () => {
   });
 
   it('does nothing if IntersectionObserver is missing', async () => {
-    delete (globalThis as any).IntersectionObserver;
+    delete (globalThis as unknown as typeof IntersectionObserver).IntersectionObserver;
 
     const TestComponent = defineComponent({
       template: `
