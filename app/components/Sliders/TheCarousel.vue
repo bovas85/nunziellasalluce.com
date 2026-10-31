@@ -78,7 +78,7 @@ const swiperOptions = {
                 <h3>{{ item.acf.hero.title }}</h3>
                 <h4 class="subtitle">{{ item.acf.category }}</h4>
                 <button
-                  role="navigation"
+                  type="button"
                   aria-label="Show case study"
                   class="subtitle subtitle--show"
                 >
@@ -91,8 +91,12 @@ const swiperOptions = {
       </Swiper>
 
       <!-- slider arrows -->
-      <div class="prev">Prev</div>
-      <div class="next">Next</div>
+      <button type="button" class="prev" aria-label="Previous slide">
+        Prev
+      </button>
+      <button type="button" class="next" aria-label="Next slide">
+        Next
+      </button>
     </div>
   </div>
 </template>
@@ -114,6 +118,10 @@ const swiperOptions = {
     position: absolute;
     cursor: pointer;
     background-image: unset;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    line-height: inherit;
     top: 0;
     right: unset;
     font-size: responsive(18px, 22px);

@@ -29,10 +29,11 @@ const currentTestimonial = ref(0);
         </div>
 
         <div class="arrows">
-          <div
+          <button
+            type="button"
             class="arrow arrow--left"
             :class="{ 'is-disabled': currentTestimonial === 0 }"
-            role="button"
+            :disabled="currentTestimonial === 0"
             aria-label="previous testimonial"
             @click="currentTestimonial > 0 ? currentTestimonial-- : null"
           >
@@ -43,13 +44,14 @@ const currentTestimonial = ref(0);
               :width="30"
               :height="40"
             />
-          </div>
-          <div
+          </button>
+          <button
+            type="button"
             class="arrow arrow--right"
             :class="{
               'is-disabled': currentTestimonial === testimonials.length - 1,
             }"
-            role="button"
+            :disabled="currentTestimonial === testimonials.length - 1"
             aria-label="next testimonial"
             @click="
               currentTestimonial < testimonials.length - 1
@@ -64,7 +66,7 @@ const currentTestimonial = ref(0);
               :width="30"
               :height="40"
             />
-          </div>
+          </button>
         </div>
       </div>
     </ClientOnly>
@@ -129,6 +131,10 @@ const currentTestimonial = ref(0);
   .arrow {
     position: absolute;
     cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    line-height: 0;
 
     &.is-disabled {
       opacity: 0.4;

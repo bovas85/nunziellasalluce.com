@@ -1,24 +1,30 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useLocalStorage } from "@vueuse/core";
 
 const cookieAccepted = useLocalStorage("NuniCookie", false);
 const hide = ref(true);
 const show = ref(false);
+let timer: ReturnType<typeof setTimeout> | undefined;
 
 onMounted(() => {
   if (cookieAccepted.value) {
     hide.value = true;
     show.value = false;
   } else {
-    setTimeout(() => {
+    timer = setTimeout(() => {
       hide.value = false;
       show.value = true;
     }, 4000);
   }
 });
 
+onBeforeUnmount(() => {
+  clearTimeout(timer);
+});
+
 const setCookie = () => {
+  clearTimeout(timer);
   hide.value = true;
   show.value = false;
   cookieAccepted.value = true;
@@ -31,7 +37,9 @@ const setCookie = () => {
       <p>
         This site uses cookies.
         <NuxtLink to="/privacy-policy">Find out more.</NuxtLink>
-        <span class="privacy-link" @click="setCookie">OK, Close</span>
+        <button type="button" class="privacy-link" @click="setCookie">
+          OK, Close
+        </button>
       </p>
     </div>
   </div>
@@ -79,6 +87,8 @@ const setCookie = () => {
     margin-top: calc($gap / 2);
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    font-family: inherit;
+    font-size: 16px;
 
     @include media(md) {
       margin-top: 0;

@@ -14,20 +14,28 @@ const route = useRoute();
       'black'
     "
   >
-    <NuxtLink
-      to="/"
-      :class="
-        route.path === '/' && route.hash !== '#work' && 'nuxt-link-active'
-      "
-      >Home</NuxtLink
-    >
-    <NuxtLink
-      :class="route.hash === '#work' && 'nuxt-link-active'"
-      to="/#work"
-      >Work</NuxtLink
-    >
-    <NuxtLink to="/about">About</NuxtLink>
-    <NuxtLink to="/contact">Contact</NuxtLink>
+    <li>
+      <NuxtLink
+        to="/"
+        :class="
+          route.path === '/' && route.hash !== '#work' && 'nuxt-link-active'
+        "
+        >Home</NuxtLink
+      >
+    </li>
+    <li>
+      <NuxtLink
+        :class="route.hash === '#work' && 'nuxt-link-active'"
+        to="/#work"
+        >Work</NuxtLink
+      >
+    </li>
+    <li>
+      <NuxtLink to="/about">About</NuxtLink>
+    </li>
+    <li>
+      <NuxtLink to="/contact">Contact</NuxtLink>
+    </li>
   </ul>
 </template>
 
@@ -35,6 +43,17 @@ const route = useRoute();
 .menu--desktop {
   display: flex;
   justify-content: space-around;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+
+    &:not(:last-child) {
+      margin-right: $gap;
+    }
+  }
 
   a {
     cursor: pointer;
