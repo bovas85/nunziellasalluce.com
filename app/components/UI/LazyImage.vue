@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, nextTick } from "vue";
+import { useMediaQuery } from "@vueuse/core";
 import type { WPImage } from "~/types/acf";
 import { useImageSources } from "~/composables/useImageSources";
 import { useLazyVideo } from "~/composables/useLazyVideo";
@@ -48,21 +49,13 @@ const props = withDefaults(
   },
 );
 
-const isMobile = ref(false);
+const isMobile = useMediaQuery("(max-width: 1023px)");
 const isMounted = ref(false);
 
 const videoDesktopRef = ref<HTMLVideoElement | null>(null);
 const videoMobileRef = ref<HTMLVideoElement | null>(null);
 
 onMounted(() => {
-  isMobile.value = window.innerWidth < 1024;
-  window.addEventListener(
-    "resize",
-    () => {
-      isMobile.value = window.innerWidth < 1024;
-    },
-    { passive: true },
-  );
   isMounted.value = true;
   nextTick(() => {
     if (typeof window !== "undefined") {
@@ -136,11 +129,7 @@ useLazyVideo(props.lazyload ? [videoDesktopRef, videoMobileRef] : undefined);
     <picture>
       <!-- Mobile: max-width 576px -->
       <source
-        v-if="
-          !svg &&
-          (mobileSrc.toLowerCase().includes('-mobile') ||
-            (imageMobile?.url && imageMobile?.id !== image?.id))
-        "
+        v-if="!svg"
         media="(max-width: 576px)"
         :srcset="lazyload ? '/images/Homepage.svg' : `${mobileSrc}.webp`"
         :data-srcset="lazyload ? `${mobileSrc}.webp` : undefined"

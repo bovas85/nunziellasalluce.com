@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   app: {
     pageTransition: { name: "intro", mode: "out-in" },
     head: {
+      htmlAttrs: { lang: "en" },
       link: [{ rel: "icon", type: "image/png", href: "/icon.png" }],
     },
   },

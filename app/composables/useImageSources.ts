@@ -23,7 +23,13 @@ export function useImageSources(
     if (props.imageMobile?.url && props.imageMobile?.id !== props.image?.id) {
       return props.imageMobile.url;
     }
-    return props.image?.sizes?.medium || props.image?.url || "";
+    return (
+      props.image?.sizes?.large ||
+      props.image?.sizes?.medium_large ||
+      props.image?.sizes?.medium ||
+      props.image?.url ||
+      ""
+    );
   });
 
   const getMobileFallback = () => {

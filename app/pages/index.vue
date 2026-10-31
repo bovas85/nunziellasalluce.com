@@ -14,25 +14,26 @@ defineOptions({ name: "IndexPage" });
 const route = useRoute();
 
 // Fetch data using useAsyncData with caching to prevent back-navigation suspension
-const { data: homePage } = await useAsyncData(
-  "homePage",
-  () => $fetch(Config.wpDomain + Config.api.homePage),
-  {
-    getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+const [{ data: homePage }, { data: projects }] = await Promise.all([
+  useAsyncData(
+    "homePage",
+    () => $fetch(Config.wpDomain + Config.api.homePage),
+    {
+      getCachedData(key, nuxtApp) {
+        return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+      },
     },
-  },
-);
-
-const { data: projects } = await useAsyncData(
-  "projects",
-  () => $fetch(Config.wpDomain + Config.api.projects),
-  {
-    getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+  ),
+  useAsyncData(
+    "projects",
+    () => $fetch(Config.wpDomain + Config.api.projects),
+    {
+      getCachedData(key, nuxtApp) {
+        return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+      },
     },
-  },
-);
+  ),
+]);
 
 // State for animations
 const animateHeader = ref(false);
@@ -147,8 +148,14 @@ onMounted(async () => {
     if (route.hash) {
       window.scrollTo(0, 0);
       await nextTick();
-      const el = document.querySelector(route.hash);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      try {
+        const id = route.hash.replace(/^#/, "");
+        const el =
+          document.getElementById(id) || document.querySelector(route.hash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      } catch {
+        // Ignore invalid CSS selector in hash
+      }
     }
   }
 });

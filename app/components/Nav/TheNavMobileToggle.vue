@@ -14,7 +14,13 @@ const route = useRoute();
 </script>
 
 <template>
-  <div class="menu menu--mobile" @click="emit('toggle')">
+  <button
+    type="button"
+    class="menu menu--mobile"
+    :aria-expanded="navOpen"
+    aria-label="Toggle navigation menu"
+    @click="emit('toggle')"
+  >
     <transition name="rotate" mode="out-in">
       <div v-if="!navOpen" key="closed" class="rotate">
         <IconsBurgerMenu
@@ -44,7 +50,7 @@ const route = useRoute();
         </div>
       </div>
     </transition>
-  </div>
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -52,6 +58,12 @@ const route = useRoute();
   display: block;
   position: relative;
   cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
 
   .rotate {
     cursor: pointer;

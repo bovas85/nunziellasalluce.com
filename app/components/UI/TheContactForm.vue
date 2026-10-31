@@ -27,14 +27,35 @@ const sendError = ref(false);
 const sent = ref(false);
 const showSaveConfirmation = ref(false);
 
+let saveTimeout: ReturnType<typeof setTimeout> | undefined;
+let sendingTimeout: ReturnType<typeof setTimeout> | undefined;
+
 const storedData = useLocalStorage("contactFormData", null as string | null);
 
 onMounted(() => {
   if (storedData.value) {
     saved.value = true;
     try {
-      form.value = JSON.parse(storedData.value);
-      disabled.value = false;
+      const parsedData = JSON.parse(storedData.value);
+      if (parsedData && typeof parsedData === "object") {
+        form.value = {
+          yourName:
+            typeof parsedData.yourName === "string" ? parsedData.yourName : "",
+          yourEmail:
+            typeof parsedData.yourEmail === "string"
+              ? parsedData.yourEmail
+              : "",
+          yourMessage:
+            typeof parsedData.yourMessage === "string"
+              ? parsedData.yourMessage
+              : "",
+          youAgree:
+            typeof parsedData.youAgree === "boolean"
+              ? parsedData.youAgree
+              : false,
+        };
+        disabled.value = false;
+      }
     } catch {
       // Invalid stored data, ignore
     }
@@ -42,6 +63,8 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  clearTimeout(saveTimeout);
+  clearTimeout(sendingTimeout);
   resetForm();
 });
 
@@ -85,7 +108,8 @@ const saveOfflineForm = () => {
   };
   storedData.value = JSON.stringify(formStorage);
   showSaveConfirmation.value = true;
-  setTimeout(() => {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
     showSaveConfirmation.value = false;
   }, 2000);
 };
@@ -132,8 +156,9 @@ const sendForm = async () => {
   error.value = false;
 
   if (vNameInvalid.value) {
-    form.value.yourEmail = "";
-    setTimeout(() => {
+    error.value = true;
+    clearTimeout(sendingTimeout);
+    sendingTimeout = setTimeout(() => {
       sending.value = false;
     }, 5000);
     return false;
@@ -141,7 +166,8 @@ const sendForm = async () => {
 
   if (vFormInvalid.value) {
     error.value = true;
-    setTimeout(() => {
+    clearTimeout(sendingTimeout);
+    sendingTimeout = setTimeout(() => {
       sending.value = false;
     }, 5000);
   } else {
@@ -250,6 +276,7 @@ const sendForm = async () => {
           class="is-hidden-mobile-large"
           rows="1"
           placeholder="Write your message here ..."
+          aria-label="Message"
           name="message_mobile"
         />
       </div>

@@ -49,7 +49,7 @@ describe("LazyImage", () => {
     expect(mobileSource?.attributes("data-srcset")).toBe(customMobileImage.url);
   });
 
-  it("falls back to medium desktop size when no custom mobile image is provided", () => {
+  it("falls back to large desktop size for mobile when no custom mobile image is provided", () => {
     const wrapper = mount(LazyImage, {
       props: {
         image: defaultImage,
@@ -62,7 +62,16 @@ describe("LazyImage", () => {
         s.attributes("media") === "(max-width: 576px)" && !s.attributes("type"),
     );
     expect(mobileSource?.attributes("data-srcset")).toBe(
-      defaultImage.sizes.medium,
+      defaultImage.sizes.large,
+    );
+
+    const mobileWebpSource = sources.find(
+      (s) =>
+        s.attributes("media") === "(max-width: 576px)" &&
+        s.attributes("type") === "image/webp",
+    );
+    expect(mobileWebpSource?.attributes("data-srcset")).toBe(
+      `${defaultImage.sizes.large}.webp`,
     );
   });
 
