@@ -129,11 +129,7 @@ useLazyVideo(props.lazyload ? [videoDesktopRef, videoMobileRef] : undefined);
     <picture>
       <!-- Mobile: max-width 576px -->
       <source
-        v-if="
-          !svg &&
-          (mobileSrc.toLowerCase().includes('-mobile') ||
-            (imageMobile?.url && imageMobile?.id !== image?.id))
-        "
+        v-if="!svg"
         media="(max-width: 576px)"
         :srcset="lazyload ? '/images/Homepage.svg' : `${mobileSrc}.webp`"
         :data-srcset="lazyload ? `${mobileSrc}.webp` : undefined"
