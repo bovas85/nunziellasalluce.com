@@ -1,6 +1,9 @@
 import { defineVitestConfig } from "@nuxt/test-utils/config";
 
 export default defineVitestConfig({
+  resolve: {
+    alias: { buffer: "node:buffer" },
+  },
   test: {
     environment: "nuxt",
     setupFiles: ["./test-setup.ts"],
