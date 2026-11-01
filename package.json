@@ -82,5 +82,15 @@
     "typescript-eslint": "8.63.0",
     "vitest": "4.1.10",
     "vue-tsc": "3.3.7"
+  },
+  "resolutions": {
+    "js-yaml": "^5.2.2",
+    "smol-toml": "^1.7.1",
+    "markdown-it": "^14.3.2",
+    "happy-dom": "^21.0.4",
+    "brace-expansion": "^5.0.12",
+    "postcss": "^8.5.18",
+    "devalue": "^5.9.3",
+    "seroval": "^1.6.2"
   }
 }
