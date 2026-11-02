@@ -34,7 +34,7 @@
     "vue-router": "5.1.0"
   },
   "volta": {
-    "node": "24.13.0"
+    "node": "24.15.0"
   },
   "lint-staged": {
     "*.{js,ts}": [
