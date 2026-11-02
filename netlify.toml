@@ -3,7 +3,8 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "24.13.0"
+  NODE_VERSION = "24"
+  YARN_FLAGS = "--production=false --ignore-engines"
 
 [[redirects]]
   from = "/*"
