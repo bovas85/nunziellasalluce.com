@@ -4485,19 +4485,6 @@ happy-dom@20.10.6:
     whatwg-mimetype "^3.0.0"
     ws "^8.21.0"
 
-happy-dom@^21.0.4:
-  version "21.0.4"
-  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-21.0.4.tgz#3b9e4b23a6ef5f94f6db242857a99742dd14f943"
-  integrity sha512-tFm+GaLBgo6o0awHnvHaNoraVo27qJ+2tZEtZ+cIa08hXbeitrxAJajLI05hsUy/2/YTKcUjQYzHe5mCcraLBw==
-  dependencies:
-    "@types/node" ">=20.0.0"
-    "@types/whatwg-mimetype" "^3.0.2"
-    "@types/ws" "^8.18.1"
-    buffer-image-size "^0.6.4"
-    entities "^7.0.1"
-    whatwg-mimetype "^3.0.0"
-    ws "^8.21.0"
-
 has-flag@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-4.0.0.tgz#944771fd9c81c81265c4d6941860da06bb59479b"
