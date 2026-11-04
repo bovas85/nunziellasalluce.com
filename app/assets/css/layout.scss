@@ -1,7 +1,13 @@
 html,
 body {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-x: hidden;
+
   @media (max-width: $mobile) {
-    height: 100%;
+    min-height: 100%;
   }
 }
 

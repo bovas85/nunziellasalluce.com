@@ -18,6 +18,8 @@ withDefaults(
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
+    style="overflow: hidden"
+    viewBox="0 0 36 21"
     v-bind="{ width: width, height: height }"
   >
     <g fill="none" fill-rule="evenodd">
@@ -25,7 +27,7 @@ withDefaults(
         :stroke="stroke"
         stroke-linecap="square"
         stroke-width="2"
-        d="M1 1h34M1 20h54"
+        d="M1 1h34M1 20h34"
       />
       <path
         :fill="fill"

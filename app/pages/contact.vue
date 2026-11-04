@@ -96,6 +96,12 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .contact {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-x: hidden;
+
   section {
     margin: $gap * 1.5 $gap;
 
@@ -106,7 +112,9 @@ onBeforeUnmount(() => {
     &.hero {
       background: white;
       margin: 0;
-      height: 100%;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -115,15 +123,23 @@ onBeforeUnmount(() => {
       padding: 0;
 
       @include media(md) {
+        height: 100%;
         margin: $gap * 3 0;
         padding-top: 90px;
       }
 
       .grid-wrapper {
-        min-height: 100vh;
+        position: relative;
         width: 100%;
-        grid-template-rows: repeat(12, auto);
-        grid-template-columns: 1fr;
+        min-height: auto;
+        display: block;
+
+        @include media(md) {
+          display: grid;
+          min-height: 100vh;
+          grid-template-rows: repeat(12, auto);
+          grid-template-columns: 1fr;
+        }
 
         @include media(xxl) {
           min-height: 70vh;
@@ -134,20 +150,40 @@ onBeforeUnmount(() => {
         display: flex;
         width: 100%;
         flex-direction: column;
-        grid-column: 1 / -1;
-        grid-row: 4 / 5;
+        position: relative;
+        z-index: 1;
         padding: $gap;
+        min-height: 270px;
+        justify-content: center;
 
         @include media(sm) {
           padding: 0;
         }
+
+        @include media(md) {
+          grid-column: 1 / -1;
+          grid-row: 4 / 5;
+          height: 100%;
+          min-height: auto;
+        }
       }
 
       .image {
-        grid-column: 1 / 2;
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
+        height: 350px;
         z-index: 0;
-        grid-row: 1 / 11;
+        pointer-events: none;
+
+        @include media(md) {
+          position: static;
+          height: 100%;
+          grid-column: 1 / 2;
+          grid-row: 1 / 11;
+          pointer-events: auto;
+        }
 
         @include media(xxl) {
           grid-row: 1 / 11;
@@ -180,13 +216,18 @@ onBeforeUnmount(() => {
       }
 
       .contact-form--wrapper {
-        grid-column: 1 / 2;
+        position: relative;
         z-index: 1;
-        grid-row: 8 / -1;
-        padding-top: 50px;
-        padding: 0;
+        width: 100%;
         max-width: 100%;
+        padding: 0;
         overflow: hidden;
+
+        @include media(md) {
+          grid-column: 1 / 2;
+          grid-row: 8 / -1;
+          align-self: start;
+        }
 
         @include media(lg) {
           margin: 0;
@@ -202,11 +243,6 @@ onBeforeUnmount(() => {
 
       @include media(md) {
         margin: 0 auto $gap * 3;
-      }
-
-      .container {
-        height: 100%;
-        justify-content: center;
       }
 
       a {
