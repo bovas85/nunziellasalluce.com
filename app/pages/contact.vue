@@ -120,10 +120,14 @@ onBeforeUnmount(() => {
       }
 
       .grid-wrapper {
-        min-height: 100vh;
+        min-height: auto;
         width: 100%;
         grid-template-rows: repeat(12, auto);
         grid-template-columns: 1fr;
+
+        @include media(md) {
+          min-height: 100vh;
+        }
 
         @include media(xxl) {
           min-height: 70vh;
@@ -183,7 +187,7 @@ onBeforeUnmount(() => {
         grid-column: 1 / 2;
         z-index: 1;
         grid-row: 8 / -1;
-        padding-top: 50px;
+        align-self: start;
         padding: 0;
         max-width: 100%;
         overflow: hidden;

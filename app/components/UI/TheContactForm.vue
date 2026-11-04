@@ -387,16 +387,13 @@ p {
 }
 
 .sent {
+  display: none;
   opacity: 0;
-  position: fixed;
-  display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
-  max-height: 0%;
-  transition: all 0.3s ease-in-out;
   min-height: 200px;
-  z-index: -1;
+  transition: opacity 0.3s ease-in-out;
 
   @include media(md) {
     min-height: 445px;
@@ -408,9 +405,8 @@ p {
   }
 
   &.is-visible {
-    position: relative;
+    display: flex;
     opacity: 1;
-    max-height: 100%;
     z-index: 1;
   }
 

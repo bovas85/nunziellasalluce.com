@@ -1,7 +1,7 @@
 html,
 body {
   @media (max-width: $mobile) {
-    height: 100%;
+    min-height: 100%;
   }
 }
 

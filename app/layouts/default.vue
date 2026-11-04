@@ -37,9 +37,20 @@
   </div>
 </template>
 
-<style>
+<style lang="scss">
 body {
   overflow: initial;
   margin: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  footer {
+    margin-top: auto;
+  }
 }
 </style>
