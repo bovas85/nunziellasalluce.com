@@ -1,5 +1,8 @@
 html,
 body {
+  overflow-x: hidden;
+  max-width: 100%;
+
   @media (max-width: $mobile) {
     min-height: 100%;
   }

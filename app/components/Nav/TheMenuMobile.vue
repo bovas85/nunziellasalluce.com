@@ -16,7 +16,7 @@ const closeMenu = () => {
 
 <template>
   <Teleport to="body">
-    <div>
+    <div style="display: contents">
       <div
         class="overlay"
         :class="{ 'is-visible': navOpen }"
@@ -106,12 +106,16 @@ const closeMenu = () => {
   bottom: 0;
   width: 80px;
   opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
   z-index: -2;
   cursor: pointer;
   transition: all 0.6s ease-in-out;
 
   &.is-visible {
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
     z-index: 9000;
   }
 }
@@ -129,11 +133,15 @@ const closeMenu = () => {
   height: calc(100% - 60px);
   height: calc(100vh - 60px);
   opacity: 1;
+  visibility: hidden;
+  pointer-events: none;
   z-index: 9999;
   padding: 0 15px;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 50%);
   transform: translateX(102%);
-  transition: transform 0.6s ease-in-out;
+  transition:
+    transform 0.6s ease-in-out,
+    visibility 0.6s ease-in-out;
 
   @include media(sm) {
     top: 90px;
@@ -143,6 +151,8 @@ const closeMenu = () => {
 
   &.is-visible {
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
     transform: translateX(0);
   }
 

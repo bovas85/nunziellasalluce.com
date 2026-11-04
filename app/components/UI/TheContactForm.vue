@@ -600,12 +600,13 @@ form {
   }
 
   .honeypot {
+    display: none;
     visibility: hidden;
     height: 0;
     font-size: 0;
     width: 0;
+    opacity: 0;
     position: absolute;
-    text-indent: 9999px;
   }
 
   span {

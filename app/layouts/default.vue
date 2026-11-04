@@ -39,7 +39,7 @@
 
 <style lang="scss">
 body {
-  overflow: initial;
+  overflow-x: hidden;
   margin: 0;
 }
 
