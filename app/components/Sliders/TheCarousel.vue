@@ -116,20 +116,19 @@ const swiperOptions = {
               :title="item.acf.hero.title"
               :image-mobile="item.acf.hero.mobile_bg"
               :link="item.slug"
-            >
-              <div class="text-section">
-                <h3>{{ item.acf.hero.title }}</h3>
-                <h4 class="subtitle">{{ item.acf.category }}</h4>
-                <button
-                  type="button"
-                  aria-label="Show case study"
-                  class="subtitle subtitle--show"
-                  @click.stop="goToProject(item.slug)"
-                >
-                  Show Case Study
-                </button>
-              </div>
-            </UILazyImage>
+            />
+            <div class="text-section">
+              <h3>{{ item.acf.hero.title }}</h3>
+              <h4 class="subtitle">{{ item.acf.category }}</h4>
+              <button
+                type="button"
+                aria-label="Show case study"
+                class="subtitle subtitle--show"
+                @click.stop="goToProject(item.slug)"
+              >
+                Show Case Study
+              </button>
+            </div>
           </div>
         </SwiperSlide>
       </Swiper>
@@ -270,6 +269,7 @@ const swiperOptions = {
   .slide-content {
     height: 100%;
     width: 100%;
+    position: relative;
   }
 
   .lazy-image {
@@ -287,12 +287,20 @@ const swiperOptions = {
     flex-direction: column;
     text-align: center;
     opacity: 1;
-    z-index: 9999;
+    z-index: 10;
+    width: 90%;
+
+    h3 {
+      color: white;
+      margin: 0;
+    }
 
     .subtitle {
+      color: white;
       opacity: 1;
       transform: translateY(0);
       text-transform: uppercase;
+      margin-top: 8px;
 
       @include media(lg) {
         opacity: 0;
@@ -308,7 +316,12 @@ const swiperOptions = {
         color: white;
         cursor: pointer;
         margin: 0 auto;
-        margin-top: 50px;
+        margin-top: 24px;
+
+        @include media(sm) {
+          margin-top: 50px;
+        }
+
         display: flex;
         align-items: center;
         line-height: 1;
