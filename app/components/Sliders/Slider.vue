@@ -51,8 +51,8 @@ const swiperOptions = {
         @slide-change="onSlideChange"
       >
         <SwiperSlide
-          v-for="item in data"
-          :key="item.image.ID"
+          v-for="(item, index) in data"
+          :key="item.image?.ID || item.image?.id || index"
           class="swiper-slide-item"
         >
           <UILazyImage
@@ -164,10 +164,12 @@ const swiperOptions = {
   box-shadow: 0 1px 5px 0 $grey;
   height: 600px;
   position: relative;
+  width: 80vw !important;
+  max-width: 80vw !important;
 
-  @media (max-width: $tablet) {
-    width: 80vw !important;
-    max-width: 80vw !important;
+  @include media(lg) {
+    width: 70vw !important;
+    max-width: 70vw !important;
   }
 
   @include media(sm) {

@@ -4,8 +4,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { computed, ref } from "vue";
+import { computed, nextTick, ref } from "vue";
 
 defineProps<{
   data: unknown[];
@@ -13,6 +14,9 @@ defineProps<{
 
 const { width } = useWindowSize();
 const sliderPosition = ref(0);
+const swiperInstance = ref<SwiperType | null>(null);
+const prevBtn = ref<HTMLElement | null>(null);
+const nextBtn = ref<HTMLElement | null>(null);
 
 const responsiveNumber = computed(() => {
   if (width.value < 480) {
@@ -24,8 +28,32 @@ const responsiveNumber = computed(() => {
   }
 });
 
-const onSlideChange = (swiper: { activeIndex: number }) => {
+const onSwiper = (swiper: SwiperType) => {
+  swiperInstance.value = swiper;
   sliderPosition.value = swiper.activeIndex;
+  nextTick(() => {
+    if (
+      swiper.params?.navigation &&
+      typeof swiper.params.navigation === "object"
+    ) {
+      swiper.params.navigation.prevEl = prevBtn.value;
+      swiper.params.navigation.nextEl = nextBtn.value;
+      swiper.navigation?.init();
+      swiper.navigation?.update();
+    }
+  });
+};
+
+const onSlideChange = (swiper: SwiperType) => {
+  sliderPosition.value = swiper.activeIndex;
+};
+
+const slidePrev = () => {
+  swiperInstance.value?.slidePrev();
+};
+
+const slideNext = () => {
+  swiperInstance.value?.slideNext();
 };
 
 const swiperOptions = {
@@ -65,6 +93,7 @@ const swiperOptions = {
       <Swiper
         v-bind="swiperOptions"
         class="app-carousel"
+        @swiper="onSwiper"
         @slide-change="onSlideChange"
       >
         <SwiperSlide v-for="(item, index) in data" :key="index">
@@ -77,7 +106,17 @@ const swiperOptions = {
     </div>
 
     <!-- slider arrows -->
-    <div class="prev" :class="{ 'is-disabled': sliderPosition === 0 }">
+    <div
+      ref="prevBtn"
+      role="button"
+      tabindex="0"
+      class="prev"
+      :class="{ 'is-disabled': sliderPosition === 0 }"
+      aria-label="Previous slide"
+      @click="slidePrev"
+      @keydown.enter="slidePrev"
+      @keydown.space.prevent="slidePrev"
+    >
       <IconsIconArrow
         direction="left"
         :fill="'black'"
@@ -87,10 +126,17 @@ const swiperOptions = {
       />
     </div>
     <div
+      ref="nextBtn"
+      role="button"
+      tabindex="0"
       class="next"
       :class="{
         'is-disabled': sliderPosition >= data.length - responsiveNumber,
       }"
+      aria-label="Next slide"
+      @click="slideNext"
+      @keydown.enter="slideNext"
+      @keydown.space.prevent="slideNext"
     >
       <IconsIconArrow
         direction="right"

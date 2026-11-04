@@ -3,7 +3,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
+import { nextTick, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Project } from "~/types/acf";
 import { triggerLazySizes } from "~/utils/lazysizes";
@@ -14,9 +16,49 @@ const props = defineProps<{
 }>();
 
 const router = useRouter();
+const swiperInstance = ref<SwiperType | null>(null);
+const prevBtn = ref<HTMLButtonElement | null>(null);
+const nextBtn = ref<HTMLButtonElement | null>(null);
+const isBeginning = ref(false);
+const isEnd = ref(false);
 
-const onSlideChange = () => {
+const updateNavState = (swiper: SwiperType) => {
+  isBeginning.value = swiper.isBeginning;
+  isEnd.value = swiper.isEnd;
+};
+
+const onSwiper = (swiper: SwiperType) => {
+  swiperInstance.value = swiper;
+  updateNavState(swiper);
+  nextTick(() => {
+    if (
+      swiper.params?.navigation &&
+      typeof swiper.params.navigation === "object"
+    ) {
+      swiper.params.navigation.prevEl = prevBtn.value;
+      swiper.params.navigation.nextEl = nextBtn.value;
+      swiper.navigation?.init();
+      swiper.navigation?.update();
+    }
+  });
+};
+
+const onSlideChange = (swiper: SwiperType) => {
   triggerLazySizes();
+  updateNavState(swiper);
+};
+
+const slidePrev = () => {
+  swiperInstance.value?.slidePrev();
+};
+
+const slideNext = () => {
+  swiperInstance.value?.slideNext();
+};
+
+const goToProject = (slug: string) => {
+  const path = slug.startsWith("/") ? slug : `/${slug}`;
+  router.push(path);
 };
 
 const swiperOptions = {
@@ -53,6 +95,7 @@ const swiperOptions = {
       <Swiper
         v-bind="swiperOptions"
         class="app-carousel"
+        @swiper="onSwiper"
         @slide-change="onSlideChange"
       >
         <SwiperSlide
@@ -63,13 +106,13 @@ const swiperOptions = {
           <div
             v-if="item.acf.hero && item.acf.product"
             class="slide-content"
-            @click="router.push(item.slug)"
+            @click="goToProject(item.slug)"
           >
             <UILazyImage
               class="image"
               :hover="true"
               :image="item.acf.hero.desktop_bg"
-              type="'case_study'"
+              type="case_study"
               :title="item.acf.hero.title"
               :image-mobile="item.acf.hero.mobile_bg"
               :link="item.slug"
@@ -81,6 +124,7 @@ const swiperOptions = {
                   type="button"
                   aria-label="Show case study"
                   class="subtitle subtitle--show"
+                  @click.stop="goToProject(item.slug)"
                 >
                   Show Case Study
                 </button>
@@ -91,10 +135,26 @@ const swiperOptions = {
       </Swiper>
 
       <!-- slider arrows -->
-      <button type="button" class="prev" aria-label="Previous slide">
+      <button
+        ref="prevBtn"
+        type="button"
+        class="prev"
+        :class="{ 'is-disabled': isBeginning }"
+        :disabled="isBeginning"
+        aria-label="Previous slide"
+        @click="slidePrev"
+      >
         Prev
       </button>
-      <button type="button" class="next" aria-label="Next slide">
+      <button
+        ref="nextBtn"
+        type="button"
+        class="next"
+        :class="{ 'is-disabled': isEnd }"
+        :disabled="isEnd"
+        aria-label="Next slide"
+        @click="slideNext"
+      >
         Next
       </button>
     </div>
@@ -140,6 +200,12 @@ const swiperOptions = {
 
     @include media(xl) {
       width: 10vw;
+    }
+
+    &.is-disabled,
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
     }
   }
 
@@ -211,6 +277,7 @@ const swiperOptions = {
   }
 
   .text-section {
+    pointer-events: auto;
     position: absolute;
     top: 50%;
     left: 50%;
