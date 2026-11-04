@@ -16,7 +16,11 @@ const closeMenu = () => {
 
 <template>
   <Teleport to="body">
-    <div style="display: contents">
+    <div
+      class="mobile-menu-portal"
+      :class="{ 'is-open': navOpen }"
+      :style="{ display: navOpen ? 'block' : 'none' }"
+    >
       <div
         class="overlay"
         :class="{ 'is-visible': navOpen }"
@@ -99,6 +103,18 @@ const closeMenu = () => {
 </template>
 
 <style lang="scss" scoped>
+.mobile-menu-portal {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 9999;
+  pointer-events: none;
+
+  &.is-open {
+    pointer-events: auto;
+  }
+}
+
 .overlay {
   position: fixed;
   top: 0;

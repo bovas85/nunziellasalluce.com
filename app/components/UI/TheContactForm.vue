@@ -507,10 +507,17 @@ form {
   }
 
   input[type="checkbox"] {
-    visibility: visible !important;
+    visibility: hidden !important;
     position: absolute;
     opacity: 0;
+    width: 0 !important;
     height: 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    pointer-events: none;
 
     &:focus {
       ~ label::before {

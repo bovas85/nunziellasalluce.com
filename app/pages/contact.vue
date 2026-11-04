@@ -96,6 +96,12 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .contact {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-x: hidden;
+
   section {
     margin: $gap * 1.5 $gap;
 
@@ -106,6 +112,9 @@ onBeforeUnmount(() => {
     &.hero {
       background: white;
       margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
