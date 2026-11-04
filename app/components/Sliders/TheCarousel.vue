@@ -247,7 +247,7 @@ const swiperOptions = {
   position: static;
 }
 
-.swiper-slide-item {
+:deep(.swiper-slide-item) {
   cursor: pointer;
   overflow: hidden;
   box-shadow: 0 1px 5px 0 $grey;
@@ -355,7 +355,7 @@ const swiperOptions = {
     }
   }
 
-  :deep(img) {
+  img {
     height: 300px;
 
     @include media(sm) {
