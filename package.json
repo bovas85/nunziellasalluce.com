@@ -26,7 +26,7 @@
     "@vueuse/nuxt": "14.3.0",
     "bulma": "0.9.4",
     "lazysizes": "5.3.2",
-    "nuxt": "4.5.1",
+    "nuxt": "4.6.4",
     "scrollama": "3.2.0",
     "splitting": "1.1.0",
     "swiper": "14.0.2",
@@ -92,7 +92,7 @@
     "postcss": "^8.5.18",
     "devalue": "^5.9.3",
     "seroval": "^1.6.2",
-    "nuxt": "^4.5.1",
+    "nuxt": "^4.6.4",
     "vite": "8.3.5",
     "@vue/server-renderer": "^3.5.42"
   }
