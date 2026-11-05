@@ -126,7 +126,9 @@ const submitFormAPI = async () => {
   formData.append("acceptance-privacy", form.value.youAgree ? "1" : "");
 
   try {
-    await $fetch(`${Config.wpDomain}${Config.api.postFormContact}`, {
+    const fetchCall =
+      (typeof globalThis !== "undefined" && globalThis.$fetch) || $fetch;
+    await fetchCall(`${Config.wpDomain}${Config.api.postFormContact}`, {
       method: "POST",
       body: formData,
     });

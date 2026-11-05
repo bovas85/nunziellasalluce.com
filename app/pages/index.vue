@@ -14,10 +14,12 @@ defineOptions({ name: "IndexPage" });
 const route = useRoute();
 
 // Fetch data using useAsyncData with caching to prevent back-navigation suspension
+const fetchFn =
+  (typeof globalThis !== "undefined" && globalThis.$fetch) || $fetch;
 const [{ data: homePage }, { data: projects }] = await Promise.all([
   useAsyncData(
     "homePage",
-    () => $fetch(Config.wpDomain + Config.api.homePage),
+    () => fetchFn(Config.wpDomain + Config.api.homePage),
     {
       getCachedData(key, nuxtApp) {
         return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
@@ -26,7 +28,7 @@ const [{ data: homePage }, { data: projects }] = await Promise.all([
   ),
   useAsyncData(
     "projects",
-    () => $fetch(Config.wpDomain + Config.api.projects),
+    () => fetchFn(Config.wpDomain + Config.api.projects),
     {
       getCachedData(key, nuxtApp) {
         return nuxtApp.payload.data[key] || nuxtApp.static.data[key];

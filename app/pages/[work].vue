@@ -18,9 +18,11 @@ const { y: _y } = useWindowScroll();
 const menuScrolled = useState("menuScrolled");
 
 // Fetch all projects (to get prev/next properly without Vuex state tracking)
+const fetchFn =
+  (typeof globalThis !== "undefined" && globalThis.$fetch) || $fetch;
 const { data: projectsData } = await useAsyncData(
   "projects",
-  () => $fetch(Config.wpDomain + Config.api.projects),
+  () => fetchFn(Config.wpDomain + Config.api.projects),
   {
     getCachedData(key, nuxtApp) {
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
