@@ -67,6 +67,36 @@ async function fetchHealth(targetUrl) {
   }
 }
 
+
+async function sendDiscordNotification(data, success) {
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  if (!webhookUrl) return;
+
+  const embed = {
+    title: success ? '✅ Production Deploy Verified' : '⚠️ Production Health Check Warning',
+    color: success ? 0x22c55e : 0xef4444,
+    fields: [
+      { name: 'URL', value: data.url || 'https://nunziellasalluce.com', inline: true },
+      { name: 'Status', value: String(data.status), inline: true },
+      { name: 'Commit SHA', value: `[${data.commitSha.slice(0, 7)}](${data.commit?.url || "https://github.com/bovas85/nunziellasalluce.com"})`, inline: true },
+      { name: 'Commit Message', value: data.commit?.message || 'N/A' },
+      { name: 'Deployed At', value: data.deploy?.deployedAt || new Date().toISOString(), inline: true },
+    ],
+    timestamp: new Date().toISOString(),
+  };
+
+  try {
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ embeds: [embed] }),
+    });
+    console.log('[Deploy Health] Sent deployment status notification to Discord.');
+  } catch (err) {
+    console.warn(`[Deploy Health] Could not dispatch Discord webhook: ${err.message}`);
+  }
+}
+
 async function main() {
   const opts = parseArgs();
   console.log(`[Deploy Health] Verifying production health: ${opts.url}`);
@@ -87,6 +117,7 @@ async function main() {
       if (opts.expectedSha === 'any' || liveSha === opts.expectedSha) {
         console.log(`[Deploy Health] Exact commit match verified: ${liveSha}`);
         printEvidence(opts.url, result.data, true);
+        await sendDiscordNotification({ ...result.data, url: opts.url }, true);
         process.exit(0);
       }
 
@@ -95,6 +126,7 @@ async function main() {
         if (gitIsAncestor(opts.expectedSha, liveSha)) {
           console.log(`[Deploy Health] Live build ${liveSha} is ahead of target ${opts.expectedSha} (clean progression).`);
           printEvidence(opts.url, result.data, true);
+        await sendDiscordNotification({ ...result.data, url: opts.url }, true);
           process.exit(0);
         }
       }
@@ -109,6 +141,7 @@ async function main() {
   console.error(`[Deploy Health Error] Timeout after ${opts.timeoutSeconds}s waiting for ${opts.expectedSha} to land live.`);
   if (lastResult?.data) {
     printEvidence(opts.url, lastResult.data, false);
+    await sendDiscordNotification({ ...lastResult.data, url: opts.url }, false);
   }
   process.exit(1);
 }
