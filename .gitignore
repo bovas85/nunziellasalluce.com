@@ -32,6 +32,9 @@ Thumbs.db
 # Local Netlify folder
 .netlify
 
+# Alchemy runtime cache & local state
+.alchemy
+
 
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md
