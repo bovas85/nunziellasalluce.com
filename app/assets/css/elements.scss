@@ -10,13 +10,33 @@
     cursor: pointer;
     min-width: 110px;
     height: auto;
-    padding: 5px 20px;
+    padding: 8px 24px;
     transition: all 0.3s ease-in-out;
+    color: $secondary;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     &:focus,
     &:hover,
     &:active {
       box-shadow: 0 0 0 2px $secondary;
+    }
+  }
+
+  &--contact {
+    &.is-disabled,
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: 0 0 0 1px #99a1a7;
+      color: #99a1a7;
     }
   }
 
