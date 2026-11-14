@@ -19,7 +19,7 @@ export default Alchemy.Stack(
   "nunziellasalluce",
   {
     providers: Cloudflare.providers(),
-    state: Cloudflare.state(),
+    state: Alchemy.localState(),
   },
   Effect.gen(function* () {
     const site = yield* Website;
