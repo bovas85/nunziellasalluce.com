@@ -55,6 +55,7 @@
   }
 }
 
+/* stylelint-disable selector-class-pattern */
 .button--contact {
   &:disabled,
   &.is-disabled {
@@ -64,3 +65,4 @@
     color: $subtitle;
   }
 }
+/* stylelint-enable selector-class-pattern */
