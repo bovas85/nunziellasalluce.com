@@ -1,8 +1,9 @@
-name: Deploy Cloudflare Test (Alchemy)
+name: Deploy Cloudflare (Alchemy)
 
 on:
   push:
     branches:
+      - main
       - explore/alchemy-effect
   pull_request:
     branches:
