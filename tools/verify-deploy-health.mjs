@@ -9,8 +9,15 @@
  * structured evidence for PR reviews and autonomous agent verification.
  */
 
-import { execSync } from 'node:child_process';
+import { execSync } from "node:child_process";
 
+if (!process.env.DISCORD_WEBHOOK_URL && typeof process.loadEnvFile === "function") {
+  try {
+    process.loadEnvFile(".env");
+  } catch {
+    // Ignore missing .env file in CI environments
+  }
+}
 function parseArgs() {
   const args = process.argv.slice(2);
   const options = {
@@ -72,26 +79,32 @@ async function sendDiscordNotification(data, success) {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
   if (!webhookUrl) return;
 
+  const shaText = data.commitSha ? data.commitSha.slice(0, 7) : "unknown";
+  const commitUrl = data.commit?.url || "https://github.com/bovas85/nunziellasalluce.com";
+
   const embed = {
-    title: success ? '✅ Production Deploy Verified' : '⚠️ Production Health Check Warning',
+    title: success ? "✅ Production Deploy Verified" : "⚠️ Production Health Check Warning",
     color: success ? 0x22c55e : 0xef4444,
     fields: [
-      { name: 'URL', value: data.url || 'https://nunziellasalluce.com', inline: true },
-      { name: 'Status', value: String(data.status), inline: true },
-      { name: 'Commit SHA', value: `[${data.commitSha.slice(0, 7)}](${data.commit?.url || "https://github.com/bovas85/nunziellasalluce.com"})`, inline: true },
-      { name: 'Commit Message', value: data.commit?.message || 'N/A' },
-      { name: 'Deployed At', value: data.deploy?.deployedAt || new Date().toISOString(), inline: true },
+      { name: "URL", value: data.url || "https://nunziellasalluce.com", inline: true },
+      { name: "Status", value: String(data.status), inline: true },
+      { name: "Commit SHA", value: `[${shaText}](${commitUrl})`, inline: true },
+      { name: "Commit Message", value: data.commit?.message || "N/A" },
+      { name: "Deployed At", value: data.deploy?.deployedAt || new Date().toISOString(), inline: true },
     ],
     timestamp: new Date().toISOString(),
   };
 
   try {
     await fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ embeds: [embed] }),
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: "Nunziella Deploy Guard",
+        embeds: [embed],
+      }),
     });
-    console.log('[Deploy Health] Sent deployment status notification to Discord.');
+    console.log("[Deploy Health] Sent deployment status notification to Discord.");
   } catch (err) {
     console.warn(`[Deploy Health] Could not dispatch Discord webhook: ${err.message}`);
   }
@@ -139,10 +152,15 @@ async function main() {
   }
 
   console.error(`[Deploy Health Error] Timeout after ${opts.timeoutSeconds}s waiting for ${opts.expectedSha} to land live.`);
-  if (lastResult?.data) {
-    printEvidence(opts.url, lastResult.data, false);
-    await sendDiscordNotification({ ...lastResult.data, url: opts.url }, false);
-  }
+  const failureData = lastResult?.data || {
+    url: opts.url,
+    status: "unhealthy",
+    commitSha: opts.expectedSha,
+    commit: { message: `Probe error or timeout: ${lastResult?.error || "HTTP error"}` },
+    deploy: { environment: "production", deployedAt: new Date().toISOString() },
+  };
+  printEvidence(opts.url, failureData, false);
+  await sendDiscordNotification({ ...failureData, url: opts.url }, false);
   process.exit(1);
 }
 

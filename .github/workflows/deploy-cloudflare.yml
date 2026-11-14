@@ -44,12 +44,20 @@ jobs:
         run: |
           OUTPUT=$(yarn alchemy deploy --yes --no-input)
           echo "$OUTPUT"
+          DEPLOY_URL=$(echo "$OUTPUT" | grep -o "https://[^']*workers\.dev" | head -n 1)
+          echo "deploy_url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
       - name: Verify production deployment health
         if: github.ref == 'refs/heads/main'
-        run: node tools/verify-deploy-health.mjs --url "https://nunziellasalluce.com" --expected-sha "${{ github.sha }}"
+        run: |
+          TARGET_URL="${{ steps.deploy.outputs.deploy_url }}"
+          if [ -z "$TARGET_URL" ]; then
+            TARGET_URL="https://nunziellasalluce.com"
+          fi
+          echo "Verifying health against: $TARGET_URL"
+          node tools/verify-deploy-health.mjs --url "$TARGET_URL" --expected-sha "${{ github.sha }}"
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
