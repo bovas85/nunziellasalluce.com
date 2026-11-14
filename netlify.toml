@@ -6,6 +6,12 @@
   NODE_VERSION = "24"
   YARN_FLAGS = "--production=false --ignore-engines"
 
+# Deprecation: Production deployment has migrated to Cloudflare Workers via Alchemy.
+# Auto-publishing to Netlify production is ignored to prevent conflict with Cloudflare.
+# To instantly revert back to Netlify in an emergency, remove the `ignore` line below.
+[context.production]
+  ignore = "exit 0"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

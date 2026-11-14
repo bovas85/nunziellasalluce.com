@@ -61,10 +61,14 @@
     ]
   },
   "devDependencies": {
+    "@alchemy.run/cloudflare": "^2.0.0-beta.87",
+    "@alchemy.run/frontend-frameworks": "^2.0.0-beta.87",
     "@nuxt/eslint": "1.16.0",
     "@nuxt/test-utils": "4.0.3",
     "@vitest/coverage-v8": "4.1.10",
     "@vue/test-utils": "2.4.11",
+    "alchemy": "^2.0.0-beta.87",
+    "effect": "^4.1.4",
     "eslint": "10.6.0",
     "happy-dom": "21.0.4",
     "husky": "9.1.7",

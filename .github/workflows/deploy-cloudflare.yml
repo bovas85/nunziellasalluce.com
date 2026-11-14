@@ -1,0 +1,49 @@
+name: Deploy Cloudflare (Alchemy)
+
+on:
+  push:
+    branches:
+      - main
+      - explore/alchemy-effect
+  pull_request:
+    branches:
+      - explore/alchemy-effect
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  deploy-cloudflare:
+    name: Deploy to Cloudflare
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --ignore-engines
+
+      - name: Verify Cloudflare environment
+        run: yarn alchemy provider check-env
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Deploy Nuxt stack to Cloudflare via Alchemy
+        id: deploy
+        run: |
+          OUTPUT=$(yarn alchemy deploy --yes --no-input)
+          echo "$OUTPUT"
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
