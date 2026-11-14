@@ -97,7 +97,14 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: true,
       failOnError: false,
-      routes: ["/", "/about", "/contact", "/privacy-policy"],
+      routes: [
+        "/",
+        "/about",
+        "/contact",
+        "/privacy-policy",
+        "/health",
+        "/health.json",
+      ],
     },
   },
 });
