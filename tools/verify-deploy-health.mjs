@@ -10,24 +10,14 @@
  */
 
 import { execSync } from "node:child_process";
-import fs from "node:fs";
-import path from "node:path";
 
-import { fileURLToPath } from "node:url";
-
-if (!process.env.DISCORD_WEBHOOK_URL) {
+if (!process.env.DISCORD_WEBHOOK_URL && typeof process.loadEnvFile === "function") {
   try {
-    const scriptDir = path.dirname(fileURLToPath(import.meta.url));
-    const envFile = path.resolve(scriptDir, "..", ".env");
-    if (fs.existsSync(envFile)) {
-      const match = fs.readFileSync(envFile, "utf8").match(/DISCORD_WEBHOOK_URL=["']?([^"'\n\r]+)/);
-      if (match) process.env.DISCORD_WEBHOOK_URL = match[1];
-    }
+    process.loadEnvFile(".env");
   } catch {
-    // Ignore missing .env in CI environments
+    // Ignore missing .env file in CI environments
   }
 }
-
 function parseArgs() {
   const args = process.argv.slice(2);
   const options = {
