@@ -1,0 +1,25 @@
+name: Issue Triage & Reversibility Assessment
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  triage:
+    name: Assess Reversibility & Autonomy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Evaluate Issue & Apply Kent S03 Reversibility Doors
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const triage = require('./.github/scripts/issue-triage.cjs');
+            await triage({ github, context, core });
