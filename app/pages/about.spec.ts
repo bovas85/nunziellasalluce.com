@@ -75,23 +75,33 @@ describe("About Page", () => {
     expect(link.attributes("href")).toBe("/NunziellaSalluce2026.pdf");
   });
 
-  it("renders live scrollable CV preview iframe by default", async () => {
+  it("renders live scrollable CV preview image and container by default", async () => {
     mockRuntimeConfig.public.enableCvLivePreview = true;
     const wrapper = await mountSuspended(AboutPage);
-    const frame = wrapper.find("iframe.cv-preview__frame");
-    expect(frame.exists()).toBe(true);
-    expect(frame.attributes("src")).toBe(
-      "/NunziellaSalluce2026.pdf#toolbar=0&navpanes=0",
+    const container = wrapper.find(".cv-preview__container");
+    expect(container.exists()).toBe(true);
+    expect(container.attributes("role")).toBe("region");
+    expect(container.attributes("aria-label")).toBe("Curriculum Vitae Preview");
+
+    const img = wrapper.find("img.cv-preview__image");
+    expect(img.exists()).toBe(true);
+    expect(img.attributes("src")).toBe("/NunziellaSalluce2026-preview.png");
+    expect(img.attributes("alt")).toBe("Curriculum Vitae of Nunziella Salluce");
+    expect(img.attributes("loading")).toBe("lazy");
+
+    const source = container.find("source");
+    expect(source.exists()).toBe(true);
+    expect(source.attributes("srcset")).toBe(
+      "/NunziellaSalluce2026-preview.webp",
     );
-    expect(frame.attributes("title")).toBe("Curriculum Vitae Live Preview");
-    expect(frame.attributes("loading")).toBe("lazy");
+    expect(source.attributes("type")).toBe("image/webp");
   });
 
   it("hides live CV preview when enableCvLivePreview is false", async () => {
     mockRuntimeConfig.public.enableCvLivePreview = false;
     const wrapper = await mountSuspended(AboutPage);
-    const frame = wrapper.find("iframe.cv-preview__frame");
-    expect(frame.exists()).toBe(false);
+    const container = wrapper.find(".cv-preview__container");
+    expect(container.exists()).toBe(false);
     const link = wrapper.find("a.link");
     expect(link.exists()).toBe(true);
     expect(link.attributes("href")).toBe("/NunziellaSalluce2026.pdf");

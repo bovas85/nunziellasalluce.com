@@ -60,24 +60,26 @@ const aboutPage = computed(
       </p>
       <div v-if="enableCvLivePreview" class="cv-preview">
         <h3 class="cv-preview__title">Curriculum Vitae</h3>
-        <div class="cv-preview__container">
-          <iframe
-            src="/NunziellaSalluce2026.pdf#toolbar=0&navpanes=0"
-            title="Curriculum Vitae Live Preview"
-            class="cv-preview__frame"
-            loading="lazy"
-          >
-            <p>
-              Your browser does not support embedded PDF previews.
-              <a
-                class="link"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="/NunziellaSalluce2026.pdf"
-                >Download my CV</a
-              >.
-            </p>
-          </iframe>
+        <div
+          class="cv-preview__container"
+          tabindex="0"
+          role="region"
+          aria-label="Curriculum Vitae Preview"
+        >
+          <picture>
+            <source
+              srcset="/NunziellaSalluce2026-preview.webp"
+              type="image/webp"
+            />
+            <img
+              src="/NunziellaSalluce2026-preview.png"
+              alt="Curriculum Vitae of Nunziella Salluce"
+              class="cv-preview__image"
+              loading="lazy"
+              width="780"
+              height="1864"
+            />
+          </picture>
         </div>
       </div>
       <p>
@@ -172,7 +174,7 @@ const aboutPage = computed(
       height: 480px;
       background-color: #fff;
       border-radius: 8px;
-      overflow: hidden;
+      overflow: hidden auto;
       box-shadow: 0 4px 16px rgb(0 0 0 / 20%);
       -webkit-overflow-scrolling: touch;
 
@@ -181,10 +183,9 @@ const aboutPage = computed(
       }
     }
 
-    &__frame {
+    &__image {
       width: 100%;
-      height: 100%;
-      border: none;
+      height: auto;
       display: block;
     }
   }
