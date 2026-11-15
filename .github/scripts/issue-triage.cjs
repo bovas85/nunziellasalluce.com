@@ -4,7 +4,7 @@ module.exports = async function triageIssue({ github, context, core }) {
   const body = issue.body || '';
   const fullText = `${title}\n${body}`.toLowerCase();
 
-  // 1. Reversibility & Door Type (Kent C. Dodds S03 Framework)
+  // 1. Reversibility & Door Type (Door Framework)
   const oneWayIndicators = [
     'drop table',
     'drop column',
@@ -32,7 +32,7 @@ module.exports = async function triageIssue({ github, context, core }) {
     : 'Double Entry / Easily Reversible';
 
   // 2. Feature Flaggability Verification
-  // Kent's Rule: Feature flags turn One-Way Doors into Two-Way Doors.
+  // Feature flags turn One-Way Doors into Two-Way Doors.
   const isFlaggable = true;
   const cleanTitleWords = title
     .replace(/^(feat|fix|perf|refactor|chore|test)(\([^)]+\))?:\s*/i, '')
@@ -93,7 +93,7 @@ module.exports = async function triageIssue({ github, context, core }) {
   }
 
   // 5. Post Structured Triage Comment
-  const commentBody = `### 🧭 Automated Issue Triage & Reversibility Rating (Kent C. Dodds S03 Framework)
+  const commentBody = `### 🧭 Automated Issue Triage & Reversibility Assessment
 
 #### 1. Autonomy & Complexity Rating: \`${autonomyLabel}\`
 • **Assessment:** ${autonomyRationale}  
@@ -101,7 +101,7 @@ module.exports = async function triageIssue({ github, context, core }) {
 
 #### 2. Reversibility & Door Type: \`${doorLabel}\` (${doorTypeDesc})
 • **Door Analysis:** ${isOneWayDoor ? `This change involves potential one-way door characteristics (${matchedOneWay.join(', ')}). High blast-radius or irreversible state change.` : `This change is a two-way door. It can be rolled back cleanly via git revert or disabling the feature flag without data destruction.`}  
-• **Kent's Rule:** In S03, Kent highlights that two-way doors are safe for rapid iteration and agent execution, whereas one-way doors must stop for explicit human sign-off.
+• **Reversibility Principle:** Two-way doors are safe for rapid iteration and agent execution, whereas one-way doors must pause for explicit human sign-off.
 
 #### 3. Feature Flaggability: Verified (\`${isFlaggable ? 'YES' : 'NO'}\`)
 • **Recommended Flag:** \`${flagName}\`  
@@ -120,7 +120,7 @@ export default defineNuxtConfig({
 
 ---
 
-### 📋 Proposed 5-Point Agreement Protocol Draft (AGENTS.md / ADR 0004)
+### 📋 Proposed 5-Point Agreement Protocol
 1. **Scope:** ${title}
 2. **Desired Outcome:** Implement and verify specified changes without regressions.
 3. **Boundaries / Invariants:**
