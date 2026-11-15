@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAsyncData } from "#app";
+import { useAsyncData, useRuntimeConfig } from "#app";
 import { useHead } from "#imports";
 import Config from "@/assets/config";
 import { computed } from "vue";
@@ -10,6 +10,11 @@ defineOptions({ name: "AboutPage" });
 useHead({
   title: "About Me",
 });
+
+const config = useRuntimeConfig();
+const enableCvLivePreview = computed(
+  () => config.public?.enableCvLivePreview !== false,
+);
 
 const { data } = await useAsyncData(
   "aboutPage",
@@ -53,6 +58,28 @@ const aboutPage = computed(
       <p>
         {{ aboutPage.skills.body }}
       </p>
+      <div v-if="enableCvLivePreview" class="cv-preview">
+        <h3 class="cv-preview__title">Curriculum Vitae</h3>
+        <div class="cv-preview__container">
+          <iframe
+            src="/NunziellaSalluce2026.pdf#toolbar=0&navpanes=0"
+            title="Curriculum Vitae Live Preview"
+            class="cv-preview__frame"
+            loading="lazy"
+          >
+            <p>
+              Your browser does not support embedded PDF previews.
+              <a
+                class="link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="/NunziellaSalluce2026.pdf"
+                >Download my CV</a
+              >.
+            </p>
+          </iframe>
+        </div>
+      </div>
       <p>
         <a
           class="link"
@@ -126,6 +153,39 @@ const aboutPage = computed(
 
     @include media(md) {
       margin-bottom: 0;
+    }
+  }
+
+  .cv-preview {
+    margin-top: $gap;
+    margin-bottom: $gap;
+    max-width: 568px;
+
+    &__title {
+      color: white;
+      margin-bottom: $gap * 0.5;
+    }
+
+    &__container {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgb(0 0 0 / 20%);
+      -webkit-overflow-scrolling: touch;
+
+      @include media(md) {
+        height: 560px;
+      }
+    }
+
+    &__frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
     }
   }
 }

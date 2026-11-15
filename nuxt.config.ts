@@ -107,4 +107,9 @@ export default defineNuxtConfig({
       ],
     },
   },
+  runtimeConfig: {
+    public: {
+      enableCvLivePreview: process.env.ENABLE_CV_LIVE_PREVIEW !== "false",
+    },
+  },
 });
