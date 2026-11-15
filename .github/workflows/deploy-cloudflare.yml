@@ -7,6 +7,7 @@ on:
       - explore/alchemy-effect
   pull_request:
     branches:
+      - main
       - explore/alchemy-effect
   workflow_dispatch:
 
@@ -49,6 +50,37 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Comment Preview URL on PR
+        if: github.event_name == 'pull_request' && steps.deploy.outputs.deploy_url != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployUrl = '${{ steps.deploy.outputs.deploy_url }}';
+            const body = `### 🚀 Cloudflare Deploy Preview\n\nPreview URL: ${deployUrl}\nCommit: \`${{ github.event.pull_request.head.sha }}\`\n\n_Deployed automatically via Alchemy for human review._`;
+            
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(c => c.body.includes('Cloudflare Deploy Preview'));
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
 
       - name: Verify production deployment health
         if: github.ref == 'refs/heads/main'
