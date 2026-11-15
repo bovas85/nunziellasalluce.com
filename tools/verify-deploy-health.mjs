@@ -3,7 +3,7 @@
 /**
  * verify-deploy-health.mjs
  *
- * Post-merge production health check verification (inspired by Kent's deploy guard).
+ * Post-merge production health check verification.
  * Queries the /health endpoint on production / deploy preview, verifies that the
  * deployed commit matches or is an ancestor of the target commit, and outputs
  * structured evidence for PR reviews and autonomous agent verification.
