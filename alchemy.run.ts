@@ -2,6 +2,7 @@ import * as Alchemy from "alchemy";
 import * as Cloudflare from "@alchemy.run/cloudflare";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 
 // 1. Declare Cloudflare Resources (e.g. KV namespace for contact submissions)
 export const SubmissionsKV = Cloudflare.KV.Namespace("ContactSubmissions");
@@ -11,7 +12,7 @@ export const Website = Cloudflare.Website.Nuxt("NunziellaSalluceSite", {
   env: {
     SUBMISSIONS: SubmissionsKV,
     CASE_STUDY_PASSWORD: Config.Redacted("CASE_STUDY_PASSWORD").pipe(
-      Config.withDefault(Effect.Redacted.make("")),
+      Config.withDefault(Redacted.make("")),
     ),
   },
 });

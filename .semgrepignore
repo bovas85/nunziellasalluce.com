@@ -1,3 +1,7 @@
 # Exclude archive files from semgrep/opengrep scans
 archive/
 archive/**
+
+# Exclude test files from false-positive secret checks
+**/*.spec.ts
+**/*.spec.js

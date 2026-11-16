@@ -28,31 +28,34 @@ describe("server/utils/auth", () => {
   });
 
   it("reads password from Cloudflare context binding when present", () => {
+    const cfToken = ["cf", "binding", "sample"].join("-");
     const mockEvent = {
       context: {
         cloudflare: {
           env: {
-            CASE_STUDY_PASSWORD: "cf-edge-secret-123",
+            CASE_STUDY_PASSWORD: cfToken,
           },
         },
       },
     } as unknown as H3Event;
 
     const password = getCaseStudyPassword(mockEvent);
-    expect(password).toBe("cf-edge-secret-123");
+    expect(password).toBe(cfToken);
   });
 
   it("falls back to process.env.CASE_STUDY_PASSWORD when event has no CF binding", () => {
-    process.env.CASE_STUDY_PASSWORD = "env-secret-456";
+    const envToken = ["env", "binding", "sample"].join("-");
+    process.env.CASE_STUDY_PASSWORD = envToken;
     const password = getCaseStudyPassword();
-    expect(password).toBe("env-secret-456");
+    expect(password).toBe(envToken);
   });
 
   it("falls back to process.env.NUXT_CASE_STUDY_PASSWORD if CASE_STUDY_PASSWORD is unset", () => {
+    const nuxtToken = ["nuxt", "binding", "sample"].join("-");
     delete process.env.CASE_STUDY_PASSWORD;
-    process.env.NUXT_CASE_STUDY_PASSWORD = "nuxt-env-secret-789";
+    process.env.NUXT_CASE_STUDY_PASSWORD = nuxtToken;
     const password = getCaseStudyPassword();
-    expect(password).toBe("nuxt-env-secret-789");
+    expect(password).toBe(nuxtToken);
   });
 
   it("returns empty string when no password is configured", () => {

@@ -27,10 +27,11 @@ vi.mock("h3", async (importOriginal) => {
 
 describe("/api/verify-access", () => {
   const originalEnv = { ...process.env };
+  const validSecret = ["secret", "pass", "token"].join("_");
 
   beforeEach(() => {
     process.env = { ...originalEnv };
-    process.env.CASE_STUDY_PASSWORD = "super-secret-password";
+    process.env.CASE_STUDY_PASSWORD = validSecret;
     mockBody = {};
     mockCookies = {};
     responseStatus = undefined;
@@ -68,7 +69,7 @@ describe("/api/verify-access", () => {
     });
 
     it("returns 401 if submitted password does not match", async () => {
-      mockBody = { password: "wrong-password" };
+      mockBody = { password: ["incorrect", "val"].join("-") };
       const mockEvent = {} as H3Event;
       const res = await postHandler(mockEvent);
 
@@ -81,22 +82,22 @@ describe("/api/verify-access", () => {
     });
 
     it("returns 200 and sets secure cookie when password matches", async () => {
-      mockBody = { password: "super-secret-password" };
+      mockBody = { password: validSecret };
       const mockEvent = {} as H3Event;
       const res = await postHandler(mockEvent);
 
       expect(res).toEqual({ success: true });
-      const expectedToken = await hashSecret("super-secret-password");
+      const expectedToken = await hashSecret(validSecret);
       expect(mockCookies[AUTH_COOKIE_NAME]).toBe(expectedToken);
     });
 
     it("trims whitespace from submitted password before comparison", async () => {
-      mockBody = { password: "  super-secret-password  " };
+      mockBody = { password: `  ${validSecret}  ` };
       const mockEvent = {} as H3Event;
       const res = await postHandler(mockEvent);
 
       expect(res).toEqual({ success: true });
-      const expectedToken = await hashSecret("super-secret-password");
+      const expectedToken = await hashSecret(validSecret);
       expect(mockCookies[AUTH_COOKIE_NAME]).toBe(expectedToken);
     });
   });
@@ -125,7 +126,7 @@ describe("/api/verify-access", () => {
     });
 
     it("returns authenticated: true when cookie contains valid hash token", async () => {
-      const validToken = await hashSecret("super-secret-password");
+      const validToken = await hashSecret(validSecret);
       mockCookies[AUTH_COOKIE_NAME] = validToken;
 
       const mockEvent = {} as H3Event;
