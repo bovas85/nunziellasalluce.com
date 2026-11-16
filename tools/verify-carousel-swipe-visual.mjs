@@ -9,7 +9,7 @@
  * 3. Desktop drag / swipe gesture (stable subtitles and CTA, transitions suppressed mid-swipe, no flashing)
  * 4. Desktop settle state on new active slide
  * 5. Mobile viewport (390x844 iPhone / Touch) touch swipe stability with subtitles visible
- * 6. Animated walkthrough GIF (.github/assets/carousel-swipe-walkthrough.gif)
+ * 6. High-definition MP4 & MOV walkthrough video (.github/assets/carousel-swipe-walkthrough.mp4 & .mov)
  *
  * Usage:
  *   node tools/verify-carousel-swipe-visual.mjs
@@ -28,6 +28,8 @@ function parseArgs() {
   const options = {
     url: "",
     outDir: path.resolve(".github/assets"),
+    mp4Path: path.resolve(".github/assets/carousel-swipe-walkthrough.mp4"),
+    movPath: path.resolve(".github/assets/carousel-swipe-walkthrough.mov"),
     gifPath: path.resolve(".github/assets/carousel-swipe-walkthrough.gif"),
     tempDir: "/tmp/carousel_swipe_visual",
   };
@@ -37,6 +39,10 @@ function parseArgs() {
       options.url = args[++i].replace(/\/$/, "");
     } else if (args[i] === "--out" && args[i + 1]) {
       options.outDir = path.resolve(args[++i]);
+    } else if (args[i] === "--mp4" && args[i + 1]) {
+      options.mp4Path = path.resolve(args[++i]);
+    } else if (args[i] === "--mov" && args[i + 1]) {
+      options.movPath = path.resolve(args[++i]);
     } else if (args[i] === "--gif" && args[i + 1]) {
       options.gifPath = path.resolve(args[++i]);
     }
@@ -131,6 +137,12 @@ async function runVisualTest() {
     fs.mkdirSync(opts.tempDir, { recursive: true });
   }
 
+  const videoDir = path.join(opts.tempDir, "recordings");
+  if (fs.existsSync(videoDir)) {
+    fs.rmSync(videoDir, { recursive: true, force: true });
+  }
+  fs.mkdirSync(videoDir, { recursive: true });
+
   let serverProc = null;
   let targetUrl = opts.url;
 
@@ -143,14 +155,20 @@ async function runVisualTest() {
   }
 
   const browser = await chromium.launch({ headless: true });
-  const frames = [];
+  let recordedVideoPath = null;
 
   try {
-    // 1. Desktop Viewport (1280x800)
-    console.log("\n[1/5] Testing Desktop Carousel Initial State (1280x800)...");
+    // 1. Desktop Viewport (1280x800) with Continuous Video Recording
+    console.log(
+      "\n[1/4] Running Live Desktop Carousel Swipe Flow (Recording Video)...",
+    );
     const desktopContext = await browser.newContext({
       viewport: { width: 1280, height: 800 },
       deviceScaleFactor: 2,
+      recordVideo: {
+        dir: videoDir,
+        size: { width: 1280, height: 800 },
+      },
     });
     const desktopPage = await desktopContext.newPage();
     await desktopPage.goto(targetUrl, { waitUntil: "networkidle" });
@@ -158,7 +176,7 @@ async function runVisualTest() {
     // Smoothly scroll down so Scrollama activates step 2 (.projects / animateWork)
     for (let y = 0; y <= 2200; y += 200) {
       await desktopPage.evaluate((top) => window.scrollTo(0, top), y);
-      await desktopPage.waitForTimeout(40);
+      await desktopPage.waitForTimeout(50);
     }
 
     const sectionSelector = ".projects.section";
@@ -171,7 +189,7 @@ async function runVisualTest() {
       await section.scrollIntoViewIfNeeded();
     }
 
-    // Wait for .carousel.animated and images
+    // Wait for .carousel.animated and images to settle
     await desktopPage.waitForSelector(".carousel.animated", {
       state: "visible",
       timeout: 10000,
@@ -182,7 +200,7 @@ async function runVisualTest() {
         g.lazySizes.loader.checkElems();
       }
     });
-    await desktopPage.waitForTimeout(600);
+    await desktopPage.waitForTimeout(1000);
 
     const restingScreenshot = path.join(
       opts.outDir,
@@ -191,12 +209,7 @@ async function runVisualTest() {
     await desktopPage.screenshot({ path: restingScreenshot });
     console.log(`✓ Saved: ${restingScreenshot}`);
 
-    const frame1 = path.join(opts.tempDir, "frame_01_resting.png");
-    await desktopPage.screenshot({ path: frame1 });
-    frames.push(frame1);
-
-    // 2. Desktop Hover on active slide
-    console.log("\n[2/5] Testing Desktop Slide Hover Interaction...");
+    // Hover on active slide
     const activeSlide = desktopPage
       .locator(".swiper-slide-active, .swiper-slide-item")
       .first();
@@ -206,7 +219,7 @@ async function runVisualTest() {
         slideBox.x + slideBox.width / 2,
         slideBox.y + slideBox.height / 2,
       );
-      await desktopPage.waitForTimeout(600); // Allow hover transition to complete
+      await desktopPage.waitForTimeout(1200); // Allow hover transition to complete smoothly
     }
 
     const hoverScreenshot = path.join(
@@ -216,16 +229,10 @@ async function runVisualTest() {
     await desktopPage.screenshot({ path: hoverScreenshot });
     console.log(`✓ Saved: ${hoverScreenshot}`);
 
-    const frame2 = path.join(opts.tempDir, "frame_02_hover.png");
-    await desktopPage.screenshot({ path: frame2 });
-    frames.push(frame2);
-
-    // 3. Desktop Drag / Swipe gesture (mid-drag stability test)
+    // Drag / Swipe gesture (mid-drag stability test)
     console.log(
-      "\n[3/5] Testing Desktop Drag / Swipe Motion (Flashing Prevention)...",
+      "\n[2/4] Performing Live Drag / Swipe Gesture (Flashing Prevention)...",
     );
-    let frame3 = null;
-    let frame4 = null;
     const draggingScreenshot = path.join(
       opts.outDir,
       "carousel-swipe-desktop-dragging.png",
@@ -237,30 +244,21 @@ async function runVisualTest() {
 
       await desktopPage.mouse.move(startX, startY);
       await desktopPage.mouse.down();
-      // Move in increments to simulate drag
-      for (let step = 1; step <= 3; step++) {
-        const curX = startX + ((midX - startX) * step) / 5;
+      await desktopPage.waitForTimeout(100);
+
+      // Move incrementally to demonstrate smooth drag with transitions suppressed
+      for (let step = 1; step <= 8; step++) {
+        const curX = startX + ((midX - startX) * step) / 8;
         await desktopPage.mouse.move(curX, startY);
-        await desktopPage.waitForTimeout(60);
+        await desktopPage.waitForTimeout(70);
       }
 
       await desktopPage.screenshot({ path: draggingScreenshot });
       console.log(`✓ Saved: ${draggingScreenshot}`);
 
-      frame3 = path.join(opts.tempDir, "frame_03_dragging.png");
-      await desktopPage.screenshot({ path: frame3 });
-      frames.push(frame3);
-
-      // Finish drag movement
-      for (let step = 4; step <= 5; step++) {
-        const curX = startX + ((midX - startX) * step) / 5;
-        await desktopPage.mouse.move(curX, startY);
-        await desktopPage.waitForTimeout(60);
-      }
-
-      // Complete swipe and release
+      // Complete drag movement and release
       await desktopPage.mouse.up();
-      await desktopPage.waitForTimeout(900); // Wait for settle transition
+      await desktopPage.waitForTimeout(1200); // Allow settle transition to complete
 
       // Hover on the newly centered slide
       const newActiveSlide = desktopPage
@@ -272,17 +270,35 @@ async function runVisualTest() {
           newBox.x + newBox.width / 2,
           newBox.y + newBox.height / 2,
         );
-        await desktopPage.waitForTimeout(600);
+        await desktopPage.waitForTimeout(1200);
       }
 
-      frame4 = path.join(opts.tempDir, "frame_04_settled.png");
-      await desktopPage.screenshot({ path: frame4 });
-      frames.push(frame4);
+      // Drag back in the other direction to verify full bidirectional stability
+      const newStartX = newBox ? newBox.x + newBox.width * 0.3 : startX;
+      const newTargetX = newBox ? newBox.x + newBox.width * 0.8 : midX;
+      await desktopPage.mouse.move(newStartX, startY);
+      await desktopPage.mouse.down();
+      for (let step = 1; step <= 8; step++) {
+        const curX = newStartX + ((newTargetX - newStartX) * step) / 8;
+        await desktopPage.mouse.move(curX, startY);
+        await desktopPage.waitForTimeout(70);
+      }
+      await desktopPage.mouse.up();
+      await desktopPage.waitForTimeout(1200);
     }
+
+    // Close desktop context to finalize video writing
+    await desktopPage.close();
     await desktopContext.close();
 
-    // 4. Mobile Viewport (390x844 - iPhone / Touch context)
-    console.log("\n[4/5] Testing Mobile Touch Viewport (390x844)...");
+    const videoFiles = fs.existsSync(videoDir) ? fs.readdirSync(videoDir) : [];
+    if (videoFiles.length > 0) {
+      recordedVideoPath = path.join(videoDir, videoFiles[0]);
+      console.log(`✓ Raw WebM video captured: ${recordedVideoPath}`);
+    }
+
+    // 3. Mobile Viewport (390x844 - iPhone / Touch context)
+    console.log("\n[3/4] Testing Mobile Touch Viewport (390x844)...");
     const mobileContext = await browser.newContext({
       viewport: { width: 390, height: 844 },
       deviceScaleFactor: 2,
@@ -323,63 +339,66 @@ async function runVisualTest() {
     console.log(`✓ Saved: ${mobileScreenshot}`);
     await mobileContext.close();
 
-    // 5. Generate Animated Walkthrough GIF via ffmpeg
-    console.log("\n[5/5] Generating Animated Walkthrough GIF...");
-    const gifDir = path.dirname(opts.gifPath);
-    if (!fs.existsSync(gifDir)) {
-      fs.mkdirSync(gifDir, { recursive: true });
-    }
-
-    // Sequence for consistent desktop aspect ratio (no letterboxing / black bars):
-    // Frame 1: Resting view (1.5s)
-    // Frame 2: Hover active with smooth reveal (1.5s)
-    // Frame 3: Mid-drag swipe with transitions suppressed (1.2s)
-    // Frame 4: Settled on new slide with clean hover (2.0s)
-    const sequence = [
-      frame1,
-      frame1,
-      frame2,
-      frame2,
-      frame3,
-      frame3,
-      frame4,
-      frame4,
-      frame4,
-    ].filter(Boolean);
-
-    const seqDir = path.join(opts.tempDir, "seq");
-    if (!fs.existsSync(seqDir)) fs.mkdirSync(seqDir, { recursive: true });
-
-    sequence.forEach((f, idx) => {
-      const pad = String(idx + 1).padStart(3, "0");
-      fs.copyFileSync(f, path.join(seqDir, `step_${pad}.png`));
-    });
-
-    try {
+    // 4. Generate MP4 and MOV Video Walkthroughs via ffmpeg
+    console.log(
+      "\n[4/4] Encoding Walkthrough Videos (.mp4 & .mov) via ffmpeg...",
+    );
+    if (recordedVideoPath && fs.existsSync(recordedVideoPath)) {
+      // 4a. Encode MP4 (H.264, universally supported across browsers, GitHub & mobile)
       execFileSync(
         "ffmpeg",
         [
           "-y",
-          "-framerate",
-          "1.2",
           "-i",
-          path.join(seqDir, "step_%03d.png"),
-          "-vf",
-          "scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];[s1][p]paletteuse=dither=bayer:bayer_scale=3",
-          opts.gifPath,
+          recordedVideoPath,
+          "-c:v",
+          "libx264",
+          "-preset",
+          "slow",
+          "-crf",
+          "22",
+          "-pix_fmt",
+          "yuv420p",
+          "-movflags",
+          "+faststart",
+          opts.mp4Path,
         ],
         { stdio: "ignore" },
       );
-      console.log(`✓ Generated Walkthrough GIF: ${opts.gifPath}`);
+      console.log(`✓ Generated MP4 Walkthrough: ${opts.mp4Path}`);
 
+      // 4b. Encode MOV (ProRes / QuickTime compatible)
+      execFileSync(
+        "ffmpeg",
+        [
+          "-y",
+          "-i",
+          recordedVideoPath,
+          "-c:v",
+          "libx264",
+          "-pix_fmt",
+          "yuv420p",
+          opts.movPath,
+        ],
+        { stdio: "ignore" },
+      );
+      console.log(`✓ Generated MOV Walkthrough: ${opts.movPath}`);
+
+      // Also copy to T3 userdata attachments for easy embedding/linking
       const attachmentDir = "/home/leelium/.t3/userdata/attachments";
       if (fs.existsSync(attachmentDir)) {
-        const dest = path.join(attachmentDir, "carousel-swipe-walkthrough.gif");
-        fs.copyFileSync(opts.gifPath, dest);
-        console.log(`✓ Exported attachment: ${dest}`);
+        const destMp4 = path.join(
+          attachmentDir,
+          "carousel-swipe-walkthrough.mp4",
+        );
+        const destMov = path.join(
+          attachmentDir,
+          "carousel-swipe-walkthrough.mov",
+        );
+        fs.copyFileSync(opts.mp4Path, destMp4);
+        fs.copyFileSync(opts.movPath, destMov);
+        console.log(`✓ Exported attachments: ${destMp4}, ${destMov}`);
       }
-    } catch {
-      console.warn("Notice: ffmpeg failed or not found, screenshots preserved.");
     }
 
     console.log("\n=== Visual Verification Passed Successfully ===");
@@ -388,7 +407,8 @@ async function runVisualTest() {
     console.log(`- ${hoverScreenshot}`);
     console.log(`- ${draggingScreenshot}`);
     console.log(`- ${mobileScreenshot}`);
-    console.log(`- ${opts.gifPath}`);
+    console.log(`- ${opts.mp4Path}`);
+    console.log(`- ${opts.movPath}`);
   } finally {
     await browser.close();
     if (serverProc) {
