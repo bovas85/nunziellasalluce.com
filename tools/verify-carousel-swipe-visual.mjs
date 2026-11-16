@@ -30,7 +30,6 @@ function parseArgs() {
     outDir: path.resolve(".github/assets"),
     mp4Path: path.resolve(".github/assets/carousel-swipe-walkthrough.mp4"),
     movPath: path.resolve(".github/assets/carousel-swipe-walkthrough.mov"),
-    gifPath: path.resolve(".github/assets/carousel-swipe-walkthrough.gif"),
     tempDir: "/tmp/carousel_swipe_visual",
   };
 
@@ -43,8 +42,6 @@ function parseArgs() {
       options.mp4Path = path.resolve(args[++i]);
     } else if (args[i] === "--mov" && args[i + 1]) {
       options.movPath = path.resolve(args[++i]);
-    } else if (args[i] === "--gif" && args[i + 1]) {
-      options.gifPath = path.resolve(args[++i]);
     }
   }
   return options;
@@ -327,13 +324,20 @@ async function runVisualTest() {
       state: "visible",
       timeout: 10000,
     });
-    await mobilePage.evaluate(() => {
-      const g = window;
-      if (g.lazySizes && g.lazySizes.loader) {
-        g.lazySizes.loader.checkElems();
-      }
-    });
     await mobilePage.waitForTimeout(600);
+
+    const mobileSwipeBox = await mobilePage
+      .locator(".app-carousel")
+      .boundingBox();
+    if (!mobileSwipeBox) {
+      throw new Error("Mobile carousel bounding box not found");
+    }
+
+    const initialSlideTitle = await mobilePage.evaluate(
+      () =>
+        document.querySelector(".swiper-slide-active h3")?.textContent?.trim() ||
+        "",
+    );
 
     const mobileScreenshot = path.join(
       opts.outDir,
@@ -341,6 +345,105 @@ async function runVisualTest() {
     );
     await mobilePage.screenshot({ path: mobileScreenshot });
     console.log(`✓ Saved: ${mobileScreenshot}`);
+
+    // Perform genuine touch swipe via CDP to test settle stability on mobile
+    const cdp = await mobileContext.newCDPSession(mobilePage);
+    const touchY = Math.round(mobileSwipeBox.y + mobileSwipeBox.height / 2);
+    const touchStartX = Math.round(
+      mobileSwipeBox.x + mobileSwipeBox.width * 0.8,
+    );
+    const touchEndX = Math.round(mobileSwipeBox.x + mobileSwipeBox.width * 0.2);
+
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x: touchStartX, y: touchY, id: 1 }],
+    });
+    for (let step = 1; step <= 12; step++) {
+      const x = Math.round(
+        touchStartX + ((touchEndX - touchStartX) * step) / 12,
+      );
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x, y: touchY, id: 1 }],
+      });
+      await mobilePage.waitForTimeout(16);
+    }
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+
+    // Verify stability across the post-swipe settle window (0ms -> 600ms)
+    for (const waitMs of [0, 100, 250, 600]) {
+      if (waitMs > 0) await mobilePage.waitForTimeout(waitMs);
+      const state = await mobilePage.evaluate(() => {
+        const activeSlide = document.querySelector(".swiper-slide-active");
+        const sub = activeSlide?.querySelector(".subtitle:not(.subtitle--show)");
+        const btn = activeSlide?.querySelector(".subtitle--show");
+        const imgs = Array.from(
+          document.querySelectorAll(".swiper-slide-item img"),
+        );
+        return {
+          url: window.location.pathname,
+          activeTitle: activeSlide?.querySelector("h3")?.textContent?.trim(),
+          subOpacity: sub ? window.getComputedStyle(sub).opacity : null,
+          subTransition: sub
+            ? window.getComputedStyle(sub).transitionDuration
+            : null,
+          btnOpacity: btn ? window.getComputedStyle(btn).opacity : null,
+          btnTransition: btn
+            ? window.getComputedStyle(btn).transitionDuration
+            : null,
+          imgIssues: imgs
+            .map((img) => ({
+              src: img.getAttribute("src") || "",
+              className: img.className,
+              transform: window.getComputedStyle(img).transform,
+            }))
+            .filter(
+              (info) =>
+                info.src.includes("Homepage.svg") ||
+                info.className.includes("lazyload"),
+            ),
+        };
+      });
+
+      if (state.url !== "/") {
+        throw new Error(
+          `Mobile swipe inadvertently navigated to ${state.url}`,
+        );
+      }
+      if (state.subOpacity !== "1" || state.btnOpacity !== "1") {
+        throw new Error(
+          `Mobile subtitle/CTA flashed at +${waitMs}ms: subOpacity=${state.subOpacity}, btnOpacity=${state.btnOpacity}`,
+        );
+      }
+      if (state.subTransition !== "0s" || state.btnTransition !== "0s") {
+        throw new Error(
+          `Unexpected mobile transition duration at +${waitMs}ms: sub=${state.subTransition}, btn=${state.btnTransition}`,
+        );
+      }
+      if (state.imgIssues.length > 0) {
+        throw new Error(
+          `Carousel images still using lazy placeholders at +${waitMs}ms: ${JSON.stringify(state.imgIssues)}`,
+        );
+      }
+    }
+
+    const settledSlideTitle = await mobilePage.evaluate(
+      () =>
+        document.querySelector(".swiper-slide-active h3")?.textContent?.trim() ||
+        "",
+    );
+    if (!settledSlideTitle || settledSlideTitle === initialSlideTitle) {
+      throw new Error(
+        `Mobile touch swipe did not advance slide (stayed on "${initialSlideTitle}")`,
+      );
+    }
+    console.log(
+      `✓ Verified mobile touch swipe & settle stability ("${initialSlideTitle}" -> "${settledSlideTitle}")`,
+    );
+
     await mobileContext.close();
 
     // 4. Generate MP4 and MOV Video Walkthroughs via ffmpeg

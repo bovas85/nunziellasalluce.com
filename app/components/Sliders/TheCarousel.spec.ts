@@ -70,6 +70,8 @@ describe("TheCarousel", () => {
           template: '<div class="swiper-slide-stub"><slot /></div>',
         },
         UILazyImage: {
+          name: "UILazyImage",
+          props: ["hover", "lazyload"],
           template: '<div class="lazy-image-stub"><slot /></div>',
         },
       },
@@ -160,18 +162,26 @@ describe("TheCarousel", () => {
   });
 
   describe("enableCarouselSwipeFix feature flag", () => {
-    it("applies has-swipe-fix class when enableCarouselSwipeFix is true", () => {
+    it("applies has-swipe-fix and disables lazyload/hover on cards when enabled", () => {
       mockRuntimeConfig.public.enableCarouselSwipeFix = true;
       const wrapper = mount(TheCarousel, mountOptions);
       const container = wrapper.find(".swiper-container");
       expect(container.classes()).toContain("has-swipe-fix");
+
+      const lazyImage = wrapper.findComponent({ name: "UILazyImage" });
+      expect(lazyImage.props("hover")).toBe(false);
+      expect(lazyImage.props("lazyload")).toBe(false);
     });
 
-    it("omits has-swipe-fix and is-swiping classes when enableCarouselSwipeFix is false", async () => {
+    it("omits has-swipe-fix, keeps lazyload/hover enabled, and skips is-swiping when disabled", async () => {
       mockRuntimeConfig.public.enableCarouselSwipeFix = false;
       const wrapper = mount(TheCarousel, mountOptions);
       const container = wrapper.find(".swiper-container");
       expect(container.classes()).not.toContain("has-swipe-fix");
+
+      const lazyImage = wrapper.findComponent({ name: "UILazyImage" });
+      expect(lazyImage.props("hover")).toBe(true);
+      expect(lazyImage.props("lazyload")).toBe(true);
 
       const swiper = wrapper.findComponent(Swiper);
       await swiper.vm.$emit("sliderMove");

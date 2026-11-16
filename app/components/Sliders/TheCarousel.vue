@@ -151,8 +151,8 @@ const swiperOptions = {
           >
             <UILazyImage
               class="image"
-              :hover="false"
-              :lazyload="false"
+              :hover="!enableCarouselSwipeFix"
+              :lazyload="!enableCarouselSwipeFix"
               :image="item.acf.hero.desktop_bg"
               type="case_study"
               :title="item.acf.hero.title"
@@ -320,21 +320,6 @@ const swiperOptions = {
           }
         }
       }
-
-      @media only screen and (width >= 1008px) and (hover: hover) and (pointer: fine) {
-        .text-section .subtitle {
-          opacity: 0;
-          transform: translateY(500%);
-          transition: all 0.4s ease-in-out;
-        }
-
-        &:hover {
-          .text-section .subtitle {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      }
     }
 
     &.is-swiping {
@@ -354,15 +339,6 @@ const swiperOptions = {
               transform: translateY(500%) !important;
               transition: none !important;
             }
-          }
-        }
-
-        @media (hover: none), (pointer: coarse), (width <= 1007px) {
-          .text-section .subtitle,
-          .text-section .subtitle--show {
-            opacity: 1 !important;
-            transform: none !important;
-            transition: none !important;
           }
         }
       }
