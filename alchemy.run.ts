@@ -14,7 +14,7 @@ export const Website = Cloudflare.Website.Nuxt("NunziellaSalluceSite", {
     CASE_STUDY_PASSWORD: Config.Redacted("CASE_STUDY_PASSWORD").pipe(
       Config.withDefault(Redacted.make("")),
     ),
-    PROTECTED_CASE_STUDIES: Config.string("PROTECTED_CASE_STUDIES").pipe(
+    PROTECTED_CASE_STUDIES: Config.String("PROTECTED_CASE_STUDIES").pipe(
       Config.withDefault("fd-surgery"),
     ),
   },
