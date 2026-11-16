@@ -35,6 +35,8 @@ Thumbs.db
 # Alchemy runtime cache & local state
 .alchemy
 
+# Worktrees
+.worktree*
 
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md

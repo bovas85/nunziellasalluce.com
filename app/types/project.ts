@@ -101,6 +101,10 @@ export interface ProjectACF {
   infographics?: ProjectInfographics;
   newsletter?: ProjectNewsletter;
   status?: string;
+  protected?: boolean | string;
+  is_protected?: boolean | string;
+  password_protected?: boolean | string;
+  requires_password?: boolean | string;
   keywords?: string;
   seo?: {
     description: string;
@@ -127,6 +131,11 @@ export interface Project {
   title: {
     rendered: string;
   };
+  content?: {
+    rendered?: string;
+    protected?: boolean;
+  };
+  protected?: boolean;
   keywords?: string;
   acf?: ProjectACF;
   [key: string]: unknown;
