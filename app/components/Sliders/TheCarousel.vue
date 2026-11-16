@@ -293,26 +293,44 @@ const swiperOptions = {
           }
 
           @media (hover: none), (pointer: coarse) {
-            opacity: 1;
-            transform: translateY(0);
-            transition: none;
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+          }
+        }
+
+        @media (hover: none), (pointer: coarse) {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+
+        &--show {
+          @media (hover: none), (pointer: coarse) {
+            transition: none !important;
+            box-shadow: 0 0 0 1px white !important;
+            font-weight: 300 !important;
           }
         }
       }
 
-      &:hover {
-        .text-section .subtitle {
-          @include media(lg) {
-            @media (hover: hover) and (pointer: fine) {
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          .text-section .subtitle {
+            @include media(lg) {
               opacity: 1;
               transform: translateY(0);
             }
+          }
+        }
+      }
 
-            @media (hover: none), (pointer: coarse) {
-              opacity: 1;
-              transform: translateY(0);
-              transition: none;
-            }
+      @media (hover: none), (pointer: coarse) {
+        &:hover {
+          .text-section .subtitle {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
           }
         }
       }
@@ -328,15 +346,24 @@ const swiperOptions = {
           transition: none !important;
         }
 
-        &:hover {
-          .text-section .subtitle {
-            @include media(lg) {
-              @media (hover: hover) and (pointer: fine) {
+        @media (hover: hover) and (pointer: fine) {
+          &:hover {
+            .text-section .subtitle {
+              @include media(lg) {
                 opacity: 0 !important;
                 transform: translateY(500%) !important;
                 transition: none !important;
               }
             }
+          }
+        }
+
+        @media (hover: none), (pointer: coarse) {
+          .text-section .subtitle,
+          .text-section .subtitle--show {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
           }
         }
       }
@@ -405,9 +432,11 @@ const swiperOptions = {
       margin-top: 8px;
 
       @include media(lg) {
-        opacity: 0;
-        transform: translateY(500%);
-        transition: all 0.4s ease-in-out;
+        @media (hover: hover) and (pointer: fine) {
+          opacity: 0;
+          transform: translateY(500%);
+          transition: all 0.4s ease-in-out;
+        }
       }
 
       &--show {
@@ -430,7 +459,6 @@ const swiperOptions = {
         justify-content: center;
         height: 50px;
         font-weight: 300;
-        transition: all 0.4s ease-in-out;
         width: 150px;
         font-size: 13px;
 
@@ -439,20 +467,26 @@ const swiperOptions = {
           font-size: $font-size;
         }
 
-        &:hover {
-          border: none;
-          font-weight: 600;
-          box-shadow: 0 0 0 2px white;
+        @media (hover: hover) and (pointer: fine) {
+          transition: all 0.4s ease-in-out;
+
+          &:hover {
+            border: none;
+            font-weight: 600;
+            box-shadow: 0 0 0 2px white;
+          }
         }
       }
     }
   }
 
-  &:hover {
-    .text-section .subtitle {
-      @include media(lg) {
-        opacity: 1;
-        transform: translateY(0);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      .text-section .subtitle {
+        @include media(lg) {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
     }
   }
