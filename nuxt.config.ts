@@ -110,6 +110,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       enableCvLivePreview: process.env.ENABLE_CV_LIVE_PREVIEW !== "false",
+      enableNormalizeContactFormButton:
+        process.env.ENABLE_NORMALIZE_CONTACT_FORM_BUTTON !== "false",
     },
   },
 });
