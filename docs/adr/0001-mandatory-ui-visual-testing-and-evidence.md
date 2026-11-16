@@ -1,112 +1,149 @@
-# ADR 0001: Mandatory Visual Testing and Media Evidence for UI Pull Requests
+# ADR 0001: Mandatory Visual Testing and Media Evidence for User Interface Changes
 
 - **Status:** Accepted
 - **Date:** 2026-11-16
-- **Deciders:** Alessandro Giordo (@bovas85), Antigravity (T3 Code)
-- **Consulted:** Repository Maintainers
+- **Deciders:** Engineering & Product Leadership, Repository Maintainers
+- **Scope:** Universal across all repositories containing user-facing UI,
+  web applications, design systems, and frontend components.
 
 ## Context and Problem Statement
 
-Pull requests in `nunziellasalluce.com` that introduce or modify user-facing UI
-components (e.g. password gates, buttons, navigation menus, previews, and
-responsive layouts) frequently pass static linting and unit test coverage, yet
-lack immediate visual proof of how the feature behaves in practice.
+Pull requests across frontend codebases, web applications, and component
+libraries frequently introduce or modify user-facing interfaces (e.g.,
+authentication gates, forms, navigation systems, interactive widgets, modal
+dialogs, and responsive layouts). While automated unit tests, component specs,
+and static analysis successfully verify business logic and DOM structure, they
+fail to verify the actual visual experience, motion, and layout rendered to a
+human user.
 
-Without reproducible visual tests and captured visual media (animated
-walkthrough GIFs, MP4 videos, or multi-viewport screenshots), reviewers cannot
-quickly evaluate UI conformance, responsive adaptations, or dynamic state
-transitions (such as error alerts, hover feedback, and loading states). This
-causes unnecessary review round-trips, delays merge decisions, and increases the
-risk of visual regressions on mobile devices (such as Safari iOS WebKit
-quirks).
+Relying solely on code diffs and unit tests for UI changes creates significant
+operational problems:
+
+1. **Blind Reviews:** Reviewers cannot assess visual appeal, typography,
+   color contrast, visual alignment, or responsive adaptations directly from
+   source code changes.
+2. **Review Delays:** Reviewers must either pull and build branches locally,
+   wait for staging deployments, or merge without verifying the visual outcome,
+   causing round-trips and delays.
+3. **Undetected Visual & Responsive Regressions:** Breakages on specific device
+   viewports (especially mobile Safari and touch devices), subtle layout shifts,
+   and broken animation states often slip into production unnoticed.
+4. **Lack of Interaction Proof:** A static snapshot or code assertion cannot
+   demonstrate that a multi-step user flow (e.g., loading states, validation
+   errors, transition animations, and success views) actually works in motion.
 
 ## Decision Drivers
 
-- **Review Velocity:** Maintainers and reviewers must be able to inspect feature
-  appearance and user interaction flow directly within the PR on any device.
-- **Reproducibility:** Anyone checking out a branch or reviewing a PR must be
-  able to run a deterministic local command (e.g. `yarn test:visual`) to
-  reproduce the visual verification without requiring a live CMS or database.
-- **Responsive Guarantee:** All UI features must visually verify both desktop
-  and mobile viewports (e.g., iPhone 390x844).
-- **Audit Trail:** Media artifacts committed under `.github/assets/` document the
-  evolution of design tokens and UI components over time.
+- **Universal Review Transparency:** Reviewers and maintainers must see the
+  exact visual outcome and interaction flow directly inside the pull request
+  description on any device.
+- **Deterministic Local Reproducibility:** Anyone checking out a branch must
+  be able to execute a single, reproducible local command to run the visual
+  verification flow without manual browser juggling or external dependencies.
+- **Mandatory Multi-Viewport Verification:** Every UI component or layout
+  change must be visually validated on both desktop and mobile viewports.
+- **Evidence in Motion:** Dynamic interactions, state transitions, loading
+  indicators, and validation states must be demonstrated in motion via
+  animated walkthrough recordings or video.
+- **Repository Hygiene:** Media assets must adhere to strict optimization
+  standards so that repository clone times and disk footprints remain lean.
 
 ## Considered Options
 
-1. **Unit and Snapshot Tests Only (Status Quo):** Test DOM structure with
-   Vitest and Happy DOM, relying on manual manual verification on live deploy
-   previews.
+1. **Code Diffs & Unit Tests Only (Status Quo):** Rely entirely on Vitest,
+   Jest, or React/Vue Testing Library with Happy DOM/JSDOM, leaving visual
+   inspection to ad-hoc manual verification on staging or deploy previews.
 2. **Mandatory Visual Testing and Media Evidence (Chosen):** Require an
-   automated visual test script (via Playwright) and committed visual media
-   artifacts for any PR that introduces or touches user-facing UI.
+   automated, reproducible visual test harness (e.g., Playwright or Puppeteer)
+   and committed, optimized media evidence for every pull request that touches
+   user-facing UI.
 
 ## Decision Outcome
 
 Chosen Option: **Option 2 — Mandatory Visual Testing and Media Evidence**.
 
-Any pull request that introduces, refactors, or modifies user-facing UI,
-styles, or layouts MUST adhere to the following protocol:
+Across all repositories, any pull request that introduces, refactors, or
+modifies user-facing UI, styles, templates, or layouts MUST comply with the
+following four-part standard:
 
 ### 1. Automated Reproducible Visual Test
 
-Every UI PR must provide an executable visual test runner (e.g., located under
-`tools/verify-*-visual.mjs` or integrated into `yarn test:visual`) that uses
-Playwright (or headless Chromium) to exercise the component or flow:
+Every repository containing UI must maintain an executable visual test runner
+(typically registered in package scripts as `test:visual`, e.g.,
+`npm run test:visual` or `yarn test:visual`, or implemented via a standalone
+script in `tools/` or `tests/visual/`):
 
-- Must support standalone local mock execution so reviewers can run it offline
-  without external API/CMS dependencies.
-- Must accept an optional `--url <DEPLOY_PREVIEW_URL>` flag to allow
-  verifying live staging or Cloudflare deploy previews.
+- **Local Execution:** The test must be executable locally without requiring
+  remote staging servers or production databases.
+- **Staging/Preview Support:** The runner should accept an optional `--url`
+  parameter to enable execution against live deploy previews or staging URLs.
+- **Automation Engine:** Use an automated headless browser runner (such as
+  Playwright) that exercises the real browser rendering engine.
 
-### 2. Multi-Viewport & Dynamic State Coverage
+### 2. Multi-Viewport & State Coverage
 
-Visual tests must exercise and capture:
+The visual verification suite must exercise and record all critical viewports
+and interactive states:
 
-- **Desktop Viewport:** Standard 1280x800 desktop perspective.
-- **Mobile Viewport:** Standard mobile device perspective (390x844 mobile
-  Safari / iPhone).
-- **State Progression:** All interactive states, including initial/default,
-  focus/hover, validation error/alert, loading/verifying, and success/unlocked
-  states.
+- **Desktop Viewport:** Standard desktop canvas (e.g., 1280x800).
+- **Mobile Viewport:** Standard mobile device perspective (e.g., 390x844
+  mobile Safari / touch viewport) to guarantee responsive layout integrity.
+- **Dynamic Interaction States:**
+  - Initial / default state.
+  - Interactive feedback (focus, active, and hover states).
+  - Validation error feedback and alert banners.
+  - Loading, submitting, or pending states.
+  - Final success or unlocked transition.
 
-### 3. Media Artifacts Committed to Repository
+### 3. Media Evidence Artifacts
 
-The visual test must generate and save media under `.github/assets/`:
+The visual verification run must produce standardized, committed media files
+stored in the repository's asset directory (e.g., `.github/assets/`):
 
-- **Static State Screenshots:** High-resolution PNGs illustrating distinct
-  states (e.g., `*-locked.png`, `*-error.png`, `*-mobile.png`).
-- **Dynamic Walkthrough:** An animated looping GIF (preferred, < 1MB) or MP4
-  video capturing the end-to-end user interaction sequence.
+- **Animated Walkthrough (Preferred):** An animated looping GIF or video
+  demonstrating the complete user flow in motion from initial state through
+  interaction to completion.
+- **Static Keyframe Screenshots:** High-resolution PNGs capturing distinct
+  states (desktop default, mobile viewport, error/alert state, and success
+  view).
 
-### 4. PR Description & Documentation Requirements
+### 4. Pull Request Submission Protocol
 
-Every UI pull request must include:
+Every pull request modifying UI must include the following in its description:
 
-- The embedded animated walkthrough GIF or video in the PR description.
-- A summary table displaying side-by-side desktop and mobile screenshots.
-- The exact local command for reviewers to reproduce the visual test locally:
+1. **Embedded Animated Walkthrough:** The animated GIF or video displayed
+   prominently at the top of the PR description.
+2. **Screenshot Gallery:** A clear comparison or multi-viewport gallery
+   showing desktop and mobile renderings.
+3. **Reproduction Command:** The exact local command reviewers can execute
+   to reproduce the test locally:
 
-  ```bash
-  yarn test:visual
-  ```
+   ```bash
+   npm run test:visual
+   ```
 
 ## Media Optimization Standards
 
-To avoid repository bloat:
+To ensure repository efficiency and prevent bloat, all visual media assets
+must adhere to strict optimization guidelines:
 
-- **Dimensions:** Scale walkthrough GIFs to a maximum width of 800px.
-- **Palette Optimization:** Use `ffmpeg` with two-pass palette generation
-  (`palettegen` / `paletteuse`) and Lanczos scaling to preserve crisp typography
-  without color banding.
-- **File Size Target:** Animated GIFs must remain under 1MB whenever possible.
+- **Dimensions:** Walkthrough GIFs must be scaled to a maximum width of 800px.
+- **Color Palette:** GIFs generated with tools such as `ffmpeg` must utilize
+  two-pass palette generation (`palettegen` / `paletteuse`) with dithering to
+  achieve crisp typography and graphics without color banding.
+- **File Size Ceiling:** Animated walkthrough GIFs must remain under 1MB. For
+  longer or higher-fidelity flows exceeding 1MB, an MP4/WebM video or an
+  externally hosted asset must be used instead.
+- **Format Selection:**
+  - **PNG:** For static state screenshots.
+  - **GIF (Optimized):** For standard UI interactions and PR embeds (< 1MB).
+  - **MP4 / WebM:** For extended recordings or complex media flows.
 
-## Related PRs & Precedents
+## Scope and Applicability
 
-- **PR #240:** Embedded live CV live preview with walkthrough GIF
-  (`.github/assets/cv-preview-walkthrough.gif`).
-- **PR #243:** Normalized contact form button styling with before/after
-  screenshots (`.github/assets/contact-form-button-*.png`).
-- **PR #244:** Case study password gate with automated runner
-  (`tools/verify-password-gate-visual.mjs`) and walkthrough GIF
-  (`.github/assets/case-study-password-gate-walkthrough.gif`).
+- **Applies to:** Any pull request modifying client-side templates, styles
+  (CSS/SCSS/Tailwind), visual component libraries, forms, layouts, themes, or
+  visual workflows across all repositories.
+- **Exempt from:** Pure backend services, headless APIs without frontends,
+  data migrations, internal CLI tools without GUI output, and documentation-only
+  changes.
