@@ -85,6 +85,10 @@ const isProtected = computed(() => {
   const currentProj = projects.value[getIndex.value];
   if (!currentProj) return false;
 
+  if (route?.query?.preview_gate === "1" || route?.query?.protected === "1") {
+    return true;
+  }
+
   const protectedSlugs = (runtimeConfig.public?.protectedCaseStudies || "")
     .split(",")
     .map((s: string) => s.trim().toLowerCase())
