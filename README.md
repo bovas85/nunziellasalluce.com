@@ -113,7 +113,7 @@ edge password gate powered by Cloudflare Secrets rather than WordPress ACF:
 - **Local development:** Add `CASE_STUDY_PASSWORD="your-password"` to your `.env`
   file (or pass `CASE_STUDY_PASSWORD=... yarn dev`).
 - **Protected case study slugs:** Configured via the `PROTECTED_CASE_STUDIES`
-  environment variable (comma-separated slugs, defaults to `"fd-surgery"`).
+  environment variable (comma-separated slugs, e.g. `PROTECTED_CASE_STUDIES="private"`).
 - **Testing on any project:** Append `?preview_gate=1` to any project URL to
   preview the gate UI on that route.
 

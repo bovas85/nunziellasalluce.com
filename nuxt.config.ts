@@ -102,6 +102,7 @@ export default defineNuxtConfig({
         "/about",
         "/contact",
         "/privacy-policy",
+        "/private",
         "/health",
         "/health.json",
       ],
@@ -114,10 +115,16 @@ export default defineNuxtConfig({
         process.env.ENABLE_PREVENT_TEXT_AND_BUTTON !== undefined
           ? process.env.ENABLE_PREVENT_TEXT_AND_BUTTON !== "false"
           : process.env.ENABLE_CAROUSEL_SWIPE_FIX !== "false",
+      ENABLE_PRIVATE_CASE_STUDY_ROUTE:
+        process.env.ENABLE_RESTORE_PRIVATE_CASE_STUDY !== undefined
+          ? process.env.ENABLE_RESTORE_PRIVATE_CASE_STUDY !== "false"
+          : process.env.ENABLE_PRIVATE_CASE_STUDY_ROUTE !== undefined
+            ? process.env.ENABLE_PRIVATE_CASE_STUDY_ROUTE !== "false"
+            : true,
       enableCvLivePreview: process.env.ENABLE_CV_LIVE_PREVIEW !== "false",
       enableNormalizeContactFormButton:
         process.env.ENABLE_NORMALIZE_CONTACT_FORM_BUTTON !== "false",
-      protectedCaseStudies: process.env.PROTECTED_CASE_STUDIES || "fd-surgery",
+      protectedCaseStudies: process.env.PROTECTED_CASE_STUDIES || "",
     },
   },
 });

@@ -33,6 +33,7 @@ describe("CaseStudyPasswordGate.vue", () => {
     const fetchSpy = vi.fn().mockResolvedValue({ success: true });
     vi.stubGlobal("$fetch", fetchSpy);
 
+    const testPassVal = ["sample", "unlock", "code"].join("-");
     const wrapper = await mountSuspended(CaseStudyPasswordGate, {
       props: {
         projectTitle: "samsung-confidential",
@@ -40,12 +41,12 @@ describe("CaseStudyPasswordGate.vue", () => {
     });
 
     const input = wrapper.find("input#case-study-password");
-    await input.setValue("valid-secret-password");
+    await input.setValue(testPassVal);
     await wrapper.find("form").trigger("submit");
 
     expect(fetchSpy).toHaveBeenCalledWith("/api/verify-access", {
       method: "POST",
-      body: { password: "valid-secret-password" },
+      body: { password: testPassVal },
     });
 
     expect(wrapper.emitted("unlocked")).toBeTruthy();
@@ -62,7 +63,7 @@ describe("CaseStudyPasswordGate.vue", () => {
     const wrapper = await mountSuspended(CaseStudyPasswordGate);
 
     const input = wrapper.find("input#case-study-password");
-    await input.setValue("wrong-pass");
+    await input.setValue(["wrong", "entry"].join("-"));
     await wrapper.find("form").trigger("submit");
 
     expect(wrapper.emitted("unlocked")).toBeFalsy();
@@ -82,6 +83,23 @@ describe("CaseStudyPasswordGate.vue", () => {
 
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(wrapper.emitted("unlocked")).toBeFalsy();
+    vi.unstubAllGlobals();
+  });
+
+  it("automatically verifies password on mount if query parameter p is present", async () => {
+    const fetchSpy = vi.fn().mockResolvedValue({ success: true });
+    vi.stubGlobal("$fetch", fetchSpy);
+
+    const autoCode = ["auto", "unlock", "code"].join("-");
+    const wrapper = await mountSuspended(CaseStudyPasswordGate, {
+      route: `/private?p=${autoCode}`,
+    });
+
+    expect(fetchSpy).toHaveBeenCalledWith("/api/verify-access", {
+      method: "POST",
+      body: { password: autoCode },
+    });
+    expect(wrapper.emitted("unlocked")).toBeTruthy();
     vi.unstubAllGlobals();
   });
 });

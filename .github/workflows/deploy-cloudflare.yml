@@ -35,7 +35,15 @@ jobs:
         run: yarn install --ignore-engines
 
       - name: Verify Cloudflare environment
-        run: yarn alchemy provider check-env
+        id: check-env
+        run: |
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Cloudflare credentials not available (e.g. Dependabot PR or missing secrets); skipping Cloudflare deploy preview."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            yarn alchemy provider check-env
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -43,6 +51,7 @@ jobs:
 
       - name: Deploy Nuxt stack to Cloudflare via Alchemy
         id: deploy
+        if: steps.check-env.outputs.skip != 'true'
         run: |
           OUTPUT=$(yarn alchemy deploy --yes --no-input)
           echo "$OUTPUT"
@@ -52,7 +61,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CASE_STUDY_PASSWORD: ${{ secrets.CASE_STUDY_PASSWORD }}
-          PROTECTED_CASE_STUDIES: ${{ vars.PROTECTED_CASE_STUDIES || 'fd-surgery' }}
+          PROTECTED_CASE_STUDIES: ${{ vars.PROTECTED_CASE_STUDIES || '' }}
 
       - name: Comment Preview URL on PR
         if: github.event_name == 'pull_request' && steps.deploy.outputs.deploy_url != ''
