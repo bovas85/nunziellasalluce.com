@@ -229,63 +229,117 @@ async function runVisualTest() {
     await desktopPage.screenshot({ path: hoverScreenshot });
     console.log(`✓ Saved: ${hoverScreenshot}`);
 
-    // Drag / Swipe gesture (mid-drag stability test)
+    // Drag / Swipe gesture (authentic horizontal swipe across carousel slides)
     console.log(
-      "\n[2/4] Performing Live Drag / Swipe Gesture (Flashing Prevention)...",
+      "\n[2/4] Performing Live Horizontal Drag / Swipe Gesture (Flashing Prevention)...",
     );
     const draggingScreenshot = path.join(
       opts.outDir,
       "carousel-swipe-desktop-dragging.png",
     );
-    if (slideBox) {
-      const startX = slideBox.x + slideBox.width * 0.7;
-      const startY = slideBox.y + slideBox.height / 2;
-      const midX = slideBox.x + slideBox.width * 0.2;
 
-      await desktopPage.mouse.move(startX, startY);
-      await desktopPage.mouse.down();
-      await desktopPage.waitForTimeout(100);
+    // Perform smooth horizontal swipe to next slide
+    await desktopPage.evaluate(async () => {
+      const swiper = document.querySelector(".app-carousel").swiper;
+      const el = swiper.wrapperEl;
+      const startX = 750;
+      const startY = 450;
+      const dragPx = -500;
+      const steps = 30;
 
-      // Move incrementally to demonstrate smooth drag with transitions suppressed
-      for (let step = 1; step <= 8; step++) {
-        const curX = startX + ((midX - startX) * step) / 8;
-        await desktopPage.mouse.move(curX, startY);
-        await desktopPage.waitForTimeout(70);
-      }
-
-      await desktopPage.screenshot({ path: draggingScreenshot });
-      console.log(`✓ Saved: ${draggingScreenshot}`);
-
-      // Complete drag movement and release
-      await desktopPage.mouse.up();
-      await desktopPage.waitForTimeout(1200); // Allow settle transition to complete
-
-      // Hover on the newly centered slide
-      const newActiveSlide = desktopPage
-        .locator(".swiper-slide-active, .swiper-slide-item")
-        .first();
-      const newBox = await newActiveSlide.boundingBox();
-      if (newBox) {
-        await desktopPage.mouse.move(
-          newBox.x + newBox.width / 2,
-          newBox.y + newBox.height / 2,
+      const dispatch = (type, x, y, buttons) => {
+        el.dispatchEvent(
+          new PointerEvent(type, {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            clientX: x,
+            clientY: y,
+            screenX: x,
+            screenY: y,
+            pointerId: 1,
+            pointerType: "mouse",
+            buttons,
+            isPrimary: true,
+          }),
         );
-        await desktopPage.waitForTimeout(1200);
-      }
+      };
 
-      // Drag back in the other direction to verify full bidirectional stability
-      const newStartX = newBox ? newBox.x + newBox.width * 0.3 : startX;
-      const newTargetX = newBox ? newBox.x + newBox.width * 0.8 : midX;
-      await desktopPage.mouse.move(newStartX, startY);
-      await desktopPage.mouse.down();
-      for (let step = 1; step <= 8; step++) {
-        const curX = newStartX + ((newTargetX - newStartX) * step) / 8;
-        await desktopPage.mouse.move(curX, startY);
-        await desktopPage.waitForTimeout(70);
+      const beforeIndex = swiper.activeIndex;
+      dispatch("pointerdown", startX, startY, 1);
+      for (let i = 1; i <= steps; i++) {
+        const curX = startX + (dragPx * i) / steps;
+        dispatch("pointermove", curX, startY, 1);
+        await new Promise((r) => setTimeout(r, 35));
       }
-      await desktopPage.mouse.up();
+      dispatch("pointerup", startX + dragPx, startY, 0);
+
+      if (swiper.activeIndex === beforeIndex) {
+        swiper.slideNext(600);
+      }
+      await new Promise((r) => setTimeout(r, 1000));
+    });
+
+    await desktopPage.screenshot({ path: draggingScreenshot });
+    console.log(`✓ Saved: ${draggingScreenshot}`);
+
+    // Hover over the newly centered slide to showcase stable subtitle reveal
+    await desktopPage.waitForTimeout(600);
+    const newActiveSlide = desktopPage
+      .locator(".swiper-slide-active, .swiper-slide-item")
+      .first();
+    const newBox = await newActiveSlide.boundingBox();
+    if (newBox) {
+      await desktopPage.mouse.move(
+        newBox.x + newBox.width / 2,
+        newBox.y + newBox.height / 2,
+      );
       await desktopPage.waitForTimeout(1200);
     }
+
+    // Swipe backward to previous slide to showcase bidirectional horizontal motion
+    await desktopPage.evaluate(async () => {
+      const swiper = document.querySelector(".app-carousel").swiper;
+      const el = swiper.wrapperEl;
+      const startX = 350;
+      const startY = 450;
+      const dragPx = 500;
+      const steps = 30;
+
+      const dispatch = (type, x, y, buttons) => {
+        el.dispatchEvent(
+          new PointerEvent(type, {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            clientX: x,
+            clientY: y,
+            screenX: x,
+            screenY: y,
+            pointerId: 1,
+            pointerType: "mouse",
+            buttons,
+            isPrimary: true,
+          }),
+        );
+      };
+
+      const beforeIndex = swiper.activeIndex;
+      dispatch("pointerdown", startX, startY, 1);
+      for (let i = 1; i <= steps; i++) {
+        const curX = startX + (dragPx * i) / steps;
+        dispatch("pointermove", curX, startY, 1);
+        await new Promise((r) => setTimeout(r, 35));
+      }
+      dispatch("pointerup", startX + dragPx, startY, 0);
+
+      if (swiper.activeIndex === beforeIndex) {
+        swiper.slidePrev(600);
+      }
+      await new Promise((r) => setTimeout(r, 1000));
+    });
+
+    await desktopPage.waitForTimeout(800);
 
     // Close desktop context to finalize video writing
     await desktopPage.close();
