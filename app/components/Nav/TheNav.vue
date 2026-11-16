@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMediaQuery, useWindowScroll, watchThrottled } from "@vueuse/core";
+import { useWindowScroll, watchThrottled } from "@vueuse/core";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
@@ -11,7 +11,6 @@ const menuScrolled = useState("menuScrolled", () => false);
 const menuScrolledDone = useState("menuScrolledDone", () => false);
 const navOpen = useState("navOpen", () => false);
 
-const isLargeScreen = useMediaQuery("(min-width: 1024px)");
 const { y } = useWindowScroll();
 
 let scrollTimeout1: ReturnType<typeof setTimeout>;
@@ -121,22 +120,18 @@ watch(
         </NuxtLink>
 
         <NavTheNavMobileToggle
-          v-if="!isLargeScreen"
+          class="nav-mobile-toggle"
           :nav-open="navOpen"
           :menu-scrolled="menuScrolled"
           @toggle="toggleMenu"
         />
 
-        <NavTheNavDesktop v-else />
+        <NavTheNavDesktop class="nav-desktop" />
       </nav>
     </div>
 
     <ClientOnly>
-      <div
-        v-if="!isLargeScreen"
-        style="z-index: 9999"
-        class="modal-container is-hidden-desktop"
-      >
+      <div style="z-index: 9999" class="modal-container is-hidden-desktop">
         <NavTheMenuMobile
           :menu-items="menuItems"
           :nav-open="navOpen"
@@ -173,6 +168,20 @@ watch(
     height: 100%;
     justify-content: space-between;
     align-items: center;
+
+    .nav-mobile-toggle {
+      @include media(lg) {
+        display: none !important;
+      }
+    }
+
+    .nav-desktop {
+      display: none !important;
+
+      @include media(lg) {
+        display: block !important;
+      }
+    }
 
     .logo {
       position: relative;

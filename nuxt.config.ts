@@ -97,7 +97,21 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: true,
       failOnError: false,
-      routes: ["/", "/about", "/contact", "/privacy-policy"],
+      routes: [
+        "/",
+        "/about",
+        "/contact",
+        "/privacy-policy",
+        "/health",
+        "/health.json",
+      ],
+    },
+  },
+  runtimeConfig: {
+    public: {
+      enableCvLivePreview: process.env.ENABLE_CV_LIVE_PREVIEW !== "false",
+      enableNormalizeContactFormButton:
+        process.env.ENABLE_NORMALIZE_CONTACT_FORM_BUTTON !== "false",
     },
   },
 });

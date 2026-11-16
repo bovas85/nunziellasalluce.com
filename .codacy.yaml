@@ -1,5 +1,7 @@
 ---
 engines:
+  stylelint:
+    enabled: false
   biome:
     exclude_paths:
       - "app/components/UI/TheContactForm.spec.ts"

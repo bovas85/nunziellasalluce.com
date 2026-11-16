@@ -5,6 +5,20 @@ import TheContactForm from "./TheContactForm.vue";
 
 const mockIsOnline = ref(true);
 
+const mockRuntimeConfig = {
+  public: {
+    enableNormalizeContactFormButton: true,
+  },
+};
+
+vi.mock("#app", async (importOriginal) => {
+  const original = await importOriginal<typeof import("#app")>();
+  return {
+    ...original,
+    useRuntimeConfig: vi.fn(() => mockRuntimeConfig),
+  };
+});
+
 vi.mock("@vueuse/core", async (importOriginal) => {
   const original = await importOriginal<typeof import("@vueuse/core")>();
   return {
@@ -28,6 +42,7 @@ describe("TheContactForm", () => {
   const mockFetch = vi.fn();
 
   beforeEach(() => {
+    mockRuntimeConfig.public.enableNormalizeContactFormButton = true;
     mockIsOnline.value = true;
     localStorage.clear();
     vi.useFakeTimers();
@@ -159,5 +174,19 @@ describe("TheContactForm", () => {
     localStorage.setItem("contactFormData", "invalid data {");
     const wrapper = mount(TheContactForm, mountOptions);
     expect(wrapper.exists()).toBe(true);
+  });
+
+  it("applies is-normalized class to submit button when enableNormalizeContactFormButton is true", () => {
+    mockRuntimeConfig.public.enableNormalizeContactFormButton = true;
+    const wrapper = mount(TheContactForm, mountOptions);
+    const submitBtn = wrapper.find("button.button--contact");
+    expect(submitBtn.classes()).toContain("is-normalized");
+  });
+
+  it("omits is-normalized class from submit button when enableNormalizeContactFormButton is false", () => {
+    mockRuntimeConfig.public.enableNormalizeContactFormButton = false;
+    const wrapper = mount(TheContactForm, mountOptions);
+    const submitBtn = wrapper.find("button.button--contact");
+    expect(submitBtn.classes()).not.toContain("is-normalized");
   });
 });
