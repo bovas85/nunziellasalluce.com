@@ -34,9 +34,34 @@ const updateNavState = (swiper: SwiperType) => {
   isEnd.value = swiper.isEnd;
 };
 
+const onSliderMove = () => {
+  if (enableCarouselSwipeFix.value) {
+    isSwiping.value = true;
+  }
+};
+
+const onTouchEnd = (swiper?: SwiperType) => {
+  const activeSwiper = swiper || swiperInstance.value;
+  if (enableCarouselSwipeFix.value && !activeSwiper?.animating) {
+    isSwiping.value = false;
+  }
+};
+
+const onTransitionEnd = () => {
+  if (enableCarouselSwipeFix.value) {
+    isSwiping.value = false;
+  }
+};
+
 const onSwiper = (swiper: SwiperType) => {
   swiperInstance.value = swiper;
   updateNavState(swiper);
+  if (enableCarouselSwipeFix.value && typeof swiper?.on === "function") {
+    swiper.on("sliderMove", onSliderMove);
+    swiper.on("touchEnd", onTouchEnd);
+    swiper.on("transitionEnd", onTransitionEnd);
+    swiper.on("slideChangeTransitionEnd", onTransitionEnd);
+  }
   nextTick(() => {
     if (
       swiper.params?.navigation &&
@@ -53,24 +78,6 @@ const onSwiper = (swiper: SwiperType) => {
 const onSlideChange = (swiper: SwiperType) => {
   triggerLazySizes();
   updateNavState(swiper);
-};
-
-const onSliderMove = () => {
-  if (enableCarouselSwipeFix.value) {
-    isSwiping.value = true;
-  }
-};
-
-const onTouchEnd = (swiper?: SwiperType) => {
-  if (enableCarouselSwipeFix.value && !swiper?.animating) {
-    isSwiping.value = false;
-  }
-};
-
-const onTransitionEnd = () => {
-  if (enableCarouselSwipeFix.value) {
-    isSwiping.value = false;
-  }
 };
 
 const slidePrev = () => {

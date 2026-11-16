@@ -223,5 +223,45 @@ describe("TheCarousel", () => {
       await swiper.vm.$emit("touchEnd", { animating: false });
       expect(container.classes()).not.toContain("is-swiping");
     });
+
+    it("registers swiper.on event listeners directly on swiper instance", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const handlers: Record<string, (...args: unknown[]) => void> = {};
+      const mockSwiper = {
+        on: vi.fn((event: string, handler: (...args: unknown[]) => void) => {
+          handlers[event] = handler;
+        }),
+        isBeginning: false,
+        isEnd: false,
+        animating: false,
+      };
+
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      const swiper = wrapper.findComponent(Swiper);
+
+      await swiper.vm.$emit("swiper", mockSwiper);
+
+      expect(mockSwiper.on).toHaveBeenCalledWith(
+        "sliderMove",
+        expect.any(Function),
+      );
+      expect(mockSwiper.on).toHaveBeenCalledWith(
+        "touchEnd",
+        expect.any(Function),
+      );
+      expect(mockSwiper.on).toHaveBeenCalledWith(
+        "transitionEnd",
+        expect.any(Function),
+      );
+
+      handlers.sliderMove();
+      await wrapper.vm.$nextTick();
+      expect(container.classes()).toContain("is-swiping");
+
+      handlers.transitionEnd();
+      await wrapper.vm.$nextTick();
+      expect(container.classes()).not.toContain("is-swiping");
+    });
   });
 });
