@@ -95,6 +95,28 @@ To tune the Codacy Cloud configuration in-place from the command line:
    npx @codacy/codacy-cloud-cli repo --reanalyze-and-wait
    ```
 
+## Protected Case Studies (Password Management)
+
+Confidential client case studies (such as `/fd-surgery`) are protected by an
+edge password gate powered by Cloudflare Secrets rather than WordPress ACF:
+
+- **Where the password lives:** Stored as a GitHub repository secret named
+  `CASE_STUDY_PASSWORD` ([Settings → Secrets and variables → Actions](https://github.com/bovas85/nunziellasalluce.com/settings/secrets/actions)).
+- **Updating / Rotating the password:**
+  - Via Web: Edit `CASE_STUDY_PASSWORD` in GitHub Actions secrets.
+  - Via CLI:
+
+    ```bash
+    gh secret set CASE_STUDY_PASSWORD --repo bovas85/nunziellasalluce.com
+    ```
+
+- **Local development:** Add `CASE_STUDY_PASSWORD="your-password"` to your `.env`
+  file (or pass `CASE_STUDY_PASSWORD=... yarn dev`).
+- **Protected case study slugs:** Configured via the `PROTECTED_CASE_STUDIES`
+  environment variable (comma-separated slugs, defaults to `"fd-surgery"`).
+- **Testing on any project:** Append `?preview_gate=1` to any project URL to
+  preview the gate UI on that route.
+
 ## Nuxt Docs
 
 For detailed explanation on how things work with Nuxt, check out the
