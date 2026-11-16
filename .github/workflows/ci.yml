@@ -51,4 +51,8 @@ jobs:
           CODACY_USERNAME: bovas85
           CODACY_PROJECT_NAME: nunziellasalluce.com
         run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/lcov.info
+          if [ -n "$CODACY_API_TOKEN" ]; then
+            bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/lcov.info
+          else
+            echo "CODACY_API_TOKEN not set; skipping Codacy coverage report"
+          fi
