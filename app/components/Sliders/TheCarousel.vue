@@ -384,6 +384,8 @@ const swiperOptions = {
   position: relative;
   width: 65vw !important;
   max-width: 65vw !important;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 
   @include media(sm) {
     width: 80vw !important;
@@ -399,6 +401,8 @@ const swiperOptions = {
     height: 100%;
     width: 100%;
     position: relative;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
   }
 
   .lazy-image {
@@ -410,7 +414,9 @@ const swiperOptions = {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
     color: white;
     display: flex;
     flex-direction: column;
@@ -506,16 +512,20 @@ const swiperOptions = {
     object-fit: cover;
     object-position: center;
     backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
     z-index: 0;
     cursor: pointer;
-    will-change: transform;
     box-shadow: 0 0 5px 1px white;
     border: 0 solid transparent;
-    transition: transform 0.3s ease-in-out;
 
-    &:hover {
-      z-index: 1;
-      transform: scale(1.05);
+    @media (hover: hover) and (pointer: fine) {
+      will-change: transform;
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        z-index: 1;
+        transform: scale(1.05);
+      }
     }
   }
 
@@ -527,7 +537,8 @@ const swiperOptions = {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate3d(-50%, -50%, 0);
+      backface-visibility: hidden;
       color: white;
       font-size: 24px;
     }
