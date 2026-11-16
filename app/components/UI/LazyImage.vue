@@ -388,13 +388,15 @@ useLazyVideo(props.lazyload ? [videoDesktopRef, videoMobileRef] : undefined);
     }
   }
 
-  &:hover {
-    .text-container {
-      opacity: 1;
-    }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      .text-container {
+        opacity: 1;
+      }
 
-    img {
-      transform: scale(1.05);
+      img {
+        transform: scale(1.05);
+      }
     }
   }
 
@@ -461,8 +463,10 @@ useLazyVideo(props.lazyload ? [videoDesktopRef, videoMobileRef] : undefined);
     }
   }
 
-  img {
-    transition: transform 0.6s ease-in-out;
+  @media (hover: hover) and (pointer: fine) {
+    img {
+      transition: transform 0.6s ease-in-out;
+    }
   }
 
   &.left img {

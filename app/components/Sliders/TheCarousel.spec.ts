@@ -16,6 +16,20 @@ vi.mock("vue-router", async (importOriginal) => {
   };
 });
 
+const mockRuntimeConfig = {
+  public: {
+    enableCarouselSwipeFix: true,
+  },
+};
+
+vi.mock("#app", async (importOriginal) => {
+  const original = await importOriginal<typeof import("#app")>();
+  return {
+    ...original,
+    useRuntimeConfig: vi.fn(() => mockRuntimeConfig),
+  };
+});
+
 describe("TheCarousel", () => {
   const mockImage = {
     id: 1,
@@ -56,6 +70,8 @@ describe("TheCarousel", () => {
           template: '<div class="swiper-slide-stub"><slot /></div>',
         },
         UILazyImage: {
+          name: "UILazyImage",
+          props: ["hover", "lazyload"],
           template: '<div class="lazy-image-stub"><slot /></div>',
         },
       },
@@ -64,6 +80,7 @@ describe("TheCarousel", () => {
 
   beforeEach(() => {
     vi.restoreAllMocks();
+    mockRuntimeConfig.public.enableCarouselSwipeFix = true;
   });
 
   it("renders the Swiper and SwiperSlide elements", () => {
@@ -142,5 +159,119 @@ describe("TheCarousel", () => {
     expect(button.exists()).toBe(true);
     await button.trigger("click");
     expect(mockPush).toHaveBeenCalledWith("/project-1");
+  });
+
+  describe("enableCarouselSwipeFix feature flag", () => {
+    it("applies has-swipe-fix and disables lazyload/hover on cards when enabled", () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      expect(container.classes()).toContain("has-swipe-fix");
+
+      const lazyImage = wrapper.findComponent({ name: "UILazyImage" });
+      expect(lazyImage.props("hover")).toBe(false);
+      expect(lazyImage.props("lazyload")).toBe(false);
+    });
+
+    it("omits has-swipe-fix, keeps lazyload/hover enabled, and skips is-swiping when disabled", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = false;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      expect(container.classes()).not.toContain("has-swipe-fix");
+
+      const lazyImage = wrapper.findComponent({ name: "UILazyImage" });
+      expect(lazyImage.props("hover")).toBe(true);
+      expect(lazyImage.props("lazyload")).toBe(true);
+
+      const swiper = wrapper.findComponent(Swiper);
+      await swiper.vm.$emit("sliderMove");
+      expect(container.classes()).not.toContain("is-swiping");
+    });
+
+    it("toggles is-swiping class during sliderMove and transitionEnd when enabled", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      const swiper = wrapper.findComponent(Swiper);
+
+      expect(container.classes()).not.toContain("is-swiping");
+
+      await swiper.vm.$emit("sliderMove");
+      expect(container.classes()).toContain("is-swiping");
+
+      await swiper.vm.$emit("transitionEnd");
+      expect(container.classes()).not.toContain("is-swiping");
+    });
+
+    it("keeps is-swiping on touchEnd when swiper is animating, and removes on transitionEnd", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      const swiper = wrapper.findComponent(Swiper);
+
+      await swiper.vm.$emit("sliderMove");
+      expect(container.classes()).toContain("is-swiping");
+
+      // swiper animating is true
+      await swiper.vm.$emit("touchEnd", { animating: true });
+      expect(container.classes()).toContain("is-swiping");
+
+      await swiper.vm.$emit("transitionEnd");
+      expect(container.classes()).not.toContain("is-swiping");
+    });
+
+    it("clears is-swiping on touchEnd immediately if swiper is not animating", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      const swiper = wrapper.findComponent(Swiper);
+
+      await swiper.vm.$emit("sliderMove");
+      expect(container.classes()).toContain("is-swiping");
+
+      // swiper animating is false
+      await swiper.vm.$emit("touchEnd", { animating: false });
+      expect(container.classes()).not.toContain("is-swiping");
+    });
+
+    it("registers swiper.on event listeners directly on swiper instance", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const handlers: Record<string, (...args: unknown[]) => void> = {};
+      const mockSwiper = {
+        on: vi.fn((event: string, handler: (...args: unknown[]) => void) => {
+          handlers[event] = handler;
+        }),
+        isBeginning: false,
+        isEnd: false,
+        animating: false,
+      };
+
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      const swiper = wrapper.findComponent(Swiper);
+
+      await swiper.vm.$emit("swiper", mockSwiper);
+
+      expect(mockSwiper.on).toHaveBeenCalledWith(
+        "sliderMove",
+        expect.any(Function),
+      );
+      expect(mockSwiper.on).toHaveBeenCalledWith(
+        "touchEnd",
+        expect.any(Function),
+      );
+      expect(mockSwiper.on).toHaveBeenCalledWith(
+        "transitionEnd",
+        expect.any(Function),
+      );
+
+      handlers.sliderMove();
+      await wrapper.vm.$nextTick();
+      expect(container.classes()).toContain("is-swiping");
+
+      handlers.transitionEnd();
+      await wrapper.vm.$nextTick();
+      expect(container.classes()).not.toContain("is-swiping");
+    });
   });
 });

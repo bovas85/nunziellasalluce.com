@@ -111,6 +111,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     caseStudyPassword: process.env.CASE_STUDY_PASSWORD || "",
     public: {
+      enableCarouselSwipeFix:
+        process.env.ENABLE_PREVENT_TEXT_AND_BUTTON !== undefined
+          ? process.env.ENABLE_PREVENT_TEXT_AND_BUTTON !== "false"
+          : process.env.ENABLE_CAROUSEL_SWIPE_FIX !== "false",
       ENABLE_PRIVATE_CASE_STUDY_ROUTE:
         process.env.ENABLE_RESTORE_PRIVATE_CASE_STUDY !== undefined
           ? process.env.ENABLE_RESTORE_PRIVATE_CASE_STUDY !== "false"

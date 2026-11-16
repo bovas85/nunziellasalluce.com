@@ -5,7 +5,8 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { nextTick, ref } from "vue";
+import { useRuntimeConfig } from "#app";
+import { computed, nextTick, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Project } from "~/types/acf";
 import { triggerLazySizes } from "~/utils/lazysizes";
@@ -15,21 +16,52 @@ const props = defineProps<{
   location?: string;
 }>();
 
+const config = useRuntimeConfig();
+const enableCarouselSwipeFix = computed(
+  () => config?.public?.enableCarouselSwipeFix !== false,
+);
+
 const router = useRouter();
 const swiperInstance = ref<SwiperType | null>(null);
 const prevBtn = ref<HTMLButtonElement | null>(null);
 const nextBtn = ref<HTMLButtonElement | null>(null);
 const isBeginning = ref(false);
 const isEnd = ref(false);
+const isSwiping = ref(false);
 
 const updateNavState = (swiper: SwiperType) => {
   isBeginning.value = swiper.isBeginning;
   isEnd.value = swiper.isEnd;
 };
 
+const onSliderMove = () => {
+  if (enableCarouselSwipeFix.value) {
+    isSwiping.value = true;
+  }
+};
+
+const onTouchEnd = (swiper?: SwiperType) => {
+  const activeSwiper = swiper || swiperInstance.value;
+  if (enableCarouselSwipeFix.value && !activeSwiper?.animating) {
+    isSwiping.value = false;
+  }
+};
+
+const onTransitionEnd = () => {
+  if (enableCarouselSwipeFix.value) {
+    isSwiping.value = false;
+  }
+};
+
 const onSwiper = (swiper: SwiperType) => {
   swiperInstance.value = swiper;
   updateNavState(swiper);
+  if (enableCarouselSwipeFix.value && typeof swiper?.on === "function") {
+    swiper.on("sliderMove", onSliderMove);
+    swiper.on("touchEnd", onTouchEnd);
+    swiper.on("transitionEnd", onTransitionEnd);
+    swiper.on("slideChangeTransitionEnd", onTransitionEnd);
+  }
   nextTick(() => {
     if (
       swiper.params?.navigation &&
@@ -91,12 +123,21 @@ const swiperOptions = {
 
 <template>
   <div v-if="data != null && data.length > 0" class="carousel">
-    <div class="swiper-container">
+    <div
+      class="swiper-container"
+      :class="{
+        'has-swipe-fix': enableCarouselSwipeFix,
+        'is-swiping': enableCarouselSwipeFix && isSwiping,
+      }"
+    >
       <Swiper
         v-bind="swiperOptions"
         class="app-carousel"
         @swiper="onSwiper"
         @slide-change="onSlideChange"
+        @slider-move="onSliderMove"
+        @touch-end="onTouchEnd"
+        @transition-end="onTransitionEnd"
       >
         <SwiperSlide
           v-for="item in data"
@@ -110,7 +151,8 @@ const swiperOptions = {
           >
             <UILazyImage
               class="image"
-              :hover="true"
+              :hover="!enableCarouselSwipeFix"
+              :lazyload="!enableCarouselSwipeFix"
               :image="item.acf.hero.desktop_bg"
               type="case_study"
               :title="item.acf.hero.title"
@@ -240,6 +282,68 @@ const swiperOptions = {
     );
     transition: opacity 0.3s ease-in-out;
   }
+
+  &.has-swipe-fix {
+    :deep(.swiper-slide-item) {
+      @media (hover: none), (pointer: coarse), (width <= 1007px) {
+        .text-section {
+          .subtitle {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+
+            &--show {
+              opacity: 1 !important;
+              transform: none !important;
+              transition: none !important;
+              box-shadow: 0 0 0 1px white !important;
+              font-weight: 300 !important;
+            }
+          }
+        }
+
+        &:hover {
+          .text-section .subtitle {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+          }
+        }
+
+        img {
+          transform: none !important;
+          transition: none !important;
+
+          &:hover {
+            transform: none !important;
+            z-index: 0 !important;
+          }
+        }
+      }
+    }
+
+    &.is-swiping {
+      :deep(.swiper-slide-item) {
+        @media only screen and (width >= 1008px) and (hover: hover) and (pointer: fine) {
+          pointer-events: none !important;
+
+          .text-section .subtitle,
+          .text-section .subtitle--show,
+          img {
+            transition: none !important;
+          }
+
+          &:hover {
+            .text-section .subtitle {
+              opacity: 0 !important;
+              transform: translateY(500%) !important;
+              transition: none !important;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .app-carousel {
@@ -255,6 +359,8 @@ const swiperOptions = {
   position: relative;
   width: 65vw !important;
   max-width: 65vw !important;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 
   @include media(sm) {
     width: 80vw !important;
@@ -270,6 +376,8 @@ const swiperOptions = {
     height: 100%;
     width: 100%;
     position: relative;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
   }
 
   .lazy-image {
@@ -281,7 +389,9 @@ const swiperOptions = {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
     color: white;
     display: flex;
     flex-direction: column;
@@ -303,9 +413,11 @@ const swiperOptions = {
       margin-top: 8px;
 
       @include media(lg) {
-        opacity: 0;
-        transform: translateY(500%);
-        transition: all 0.4s ease-in-out;
+        @media (hover: hover) and (pointer: fine) {
+          opacity: 0;
+          transform: translateY(500%);
+          transition: all 0.4s ease-in-out;
+        }
       }
 
       &--show {
@@ -328,7 +440,6 @@ const swiperOptions = {
         justify-content: center;
         height: 50px;
         font-weight: 300;
-        transition: all 0.4s ease-in-out;
         width: 150px;
         font-size: 13px;
 
@@ -337,20 +448,26 @@ const swiperOptions = {
           font-size: $font-size;
         }
 
-        &:hover {
-          border: none;
-          font-weight: 600;
-          box-shadow: 0 0 0 2px white;
+        @media (hover: hover) and (pointer: fine) {
+          transition: all 0.4s ease-in-out;
+
+          &:hover {
+            border: none;
+            font-weight: 600;
+            box-shadow: 0 0 0 2px white;
+          }
         }
       }
     }
   }
 
-  &:hover {
-    .text-section .subtitle {
-      @include media(lg) {
-        opacity: 1;
-        transform: translateY(0);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      .text-section .subtitle {
+        @include media(lg) {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
     }
   }
@@ -370,16 +487,20 @@ const swiperOptions = {
     object-fit: cover;
     object-position: center;
     backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
     z-index: 0;
     cursor: pointer;
-    will-change: transform;
     box-shadow: 0 0 5px 1px white;
     border: 0 solid transparent;
-    transition: transform 0.3s ease-in-out;
 
-    &:hover {
-      z-index: 1;
-      transform: scale(1.05);
+    @media (hover: hover) and (pointer: fine) {
+      will-change: transform;
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        z-index: 1;
+        transform: scale(1.05);
+      }
     }
   }
 
@@ -391,7 +512,8 @@ const swiperOptions = {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate3d(-50%, -50%, 0);
+      backface-visibility: hidden;
       color: white;
       font-size: 24px;
     }
