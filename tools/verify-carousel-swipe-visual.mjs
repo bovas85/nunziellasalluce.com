@@ -4,11 +4,11 @@
  * Visual Test & Verification Runner for Homepage Work Carousel Swipe Fix (#247)
  *
  * Runs an automated Playwright scenario to visually verify:
- * 1. Desktop resting state with work carousel centered
+ * 1. Desktop resting state with work carousel centered and animated in
  * 2. Desktop hover state on slide (smooth subtitle & CTA button reveal)
  * 3. Desktop drag / swipe gesture (stable subtitles and CTA, transitions suppressed mid-swipe, no flashing)
  * 4. Desktop settle state on new active slide
- * 5. Mobile viewport (390x844 iPhone / Touch) touch swipe stability
+ * 5. Mobile viewport (390x844 iPhone / Touch) touch swipe stability with subtitles visible
  * 6. Animated walkthrough GIF (.github/assets/carousel-swipe-walkthrough.gif)
  *
  * Usage:
@@ -155,15 +155,33 @@ async function runVisualTest() {
     const desktopPage = await desktopContext.newPage();
     await desktopPage.goto(targetUrl, { waitUntil: "networkidle" });
 
-    // Scroll to the carousel section
-    const carouselSelector = ".carousel .swiper-container";
-    await desktopPage.waitForSelector(carouselSelector, {
+    // Smoothly scroll down so Scrollama activates step 2 (.projects / animateWork)
+    for (let y = 0; y <= 2200; y += 200) {
+      await desktopPage.evaluate((top) => window.scrollTo(0, top), y);
+      await desktopPage.waitForTimeout(40);
+    }
+
+    const sectionSelector = ".projects.section";
+    await desktopPage.waitForSelector(sectionSelector, {
       state: "visible",
       timeout: 15000,
     });
-    await desktopPage.$eval(carouselSelector, (el) =>
-      el.scrollIntoView({ behavior: "instant", block: "center" }),
-    );
+    const section = await desktopPage.$(sectionSelector);
+    if (section) {
+      await section.scrollIntoViewIfNeeded();
+    }
+
+    // Wait for .carousel.animated and images
+    await desktopPage.waitForSelector(".carousel.animated", {
+      state: "visible",
+      timeout: 10000,
+    });
+    await desktopPage.evaluate(() => {
+      const g = window;
+      if (g.lazySizes && g.lazySizes.loader) {
+        g.lazySizes.loader.checkElems();
+      }
+    });
     await desktopPage.waitForTimeout(600);
 
     const restingScreenshot = path.join(
@@ -179,7 +197,9 @@ async function runVisualTest() {
 
     // 2. Desktop Hover on active slide
     console.log("\n[2/5] Testing Desktop Slide Hover Interaction...");
-    const activeSlide = desktopPage.locator(".swiper-slide-active, .swiper-slide-item").first();
+    const activeSlide = desktopPage
+      .locator(".swiper-slide-active, .swiper-slide-item")
+      .first();
     const slideBox = await activeSlide.boundingBox();
     if (slideBox) {
       await desktopPage.mouse.move(
@@ -201,7 +221,15 @@ async function runVisualTest() {
     frames.push(frame2);
 
     // 3. Desktop Drag / Swipe gesture (mid-drag stability test)
-    console.log("\n[3/5] Testing Desktop Drag / Swipe Motion (Flashing Prevention)...");
+    console.log(
+      "\n[3/5] Testing Desktop Drag / Swipe Motion (Flashing Prevention)...",
+    );
+    let frame3 = null;
+    let frame4 = null;
+    const draggingScreenshot = path.join(
+      opts.outDir,
+      "carousel-swipe-desktop-dragging.png",
+    );
     if (slideBox) {
       const startX = slideBox.x + slideBox.width * 0.7;
       const startY = slideBox.y + slideBox.height / 2;
@@ -209,32 +237,49 @@ async function runVisualTest() {
 
       await desktopPage.mouse.move(startX, startY);
       await desktopPage.mouse.down();
-      // Move in increments to simulate human dragging
-      for (let step = 1; step <= 5; step++) {
+      // Move in increments to simulate drag
+      for (let step = 1; step <= 3; step++) {
         const curX = startX + ((midX - startX) * step) / 5;
         await desktopPage.mouse.move(curX, startY);
         await desktopPage.waitForTimeout(60);
       }
+
+      await desktopPage.screenshot({ path: draggingScreenshot });
+      console.log(`✓ Saved: ${draggingScreenshot}`);
+
+      frame3 = path.join(opts.tempDir, "frame_03_dragging.png");
+      await desktopPage.screenshot({ path: frame3 });
+      frames.push(frame3);
+
+      // Finish drag movement
+      for (let step = 4; step <= 5; step++) {
+        const curX = startX + ((midX - startX) * step) / 5;
+        await desktopPage.mouse.move(curX, startY);
+        await desktopPage.waitForTimeout(60);
+      }
+
+      // Complete swipe and release
+      await desktopPage.mouse.up();
+      await desktopPage.waitForTimeout(900); // Wait for settle transition
+
+      // Hover on the newly centered slide
+      const newActiveSlide = desktopPage
+        .locator(".swiper-slide-active, .swiper-slide-item")
+        .first();
+      const newBox = await newActiveSlide.boundingBox();
+      if (newBox) {
+        await desktopPage.mouse.move(
+          newBox.x + newBox.width / 2,
+          newBox.y + newBox.height / 2,
+        );
+        await desktopPage.waitForTimeout(600);
+      }
+
+      frame4 = path.join(opts.tempDir, "frame_04_settled.png");
+      await desktopPage.screenshot({ path: frame4 });
+      frames.push(frame4);
     }
-
-    const draggingScreenshot = path.join(
-      opts.outDir,
-      "carousel-swipe-desktop-dragging.png",
-    );
-    await desktopPage.screenshot({ path: draggingScreenshot });
-    console.log(`✓ Saved: ${draggingScreenshot}`);
-
-    const frame3 = path.join(opts.tempDir, "frame_03_dragging.png");
-    await desktopPage.screenshot({ path: frame3 });
-    frames.push(frame3);
-
-    // Complete the swipe and release
-    await desktopPage.mouse.up();
-    await desktopPage.waitForTimeout(800); // Wait for settle transition
-
-    const frame4 = path.join(opts.tempDir, "frame_04_settled.png");
-    await desktopPage.screenshot({ path: frame4 });
-    frames.push(frame4);
+    await desktopContext.close();
 
     // 4. Mobile Viewport (390x844 - iPhone / Touch context)
     console.log("\n[4/5] Testing Mobile Touch Viewport (390x844)...");
@@ -246,14 +291,29 @@ async function runVisualTest() {
     });
     const mobilePage = await mobileContext.newPage();
     await mobilePage.goto(targetUrl, { waitUntil: "networkidle" });
-    await mobilePage.waitForSelector(carouselSelector, {
+
+    // Smoothly scroll down so Scrollama activates step 2 on mobile
+    for (let y = 0; y <= 1800; y += 150) {
+      await mobilePage.evaluate((top) => window.scrollTo(0, top), y);
+      await mobilePage.waitForTimeout(40);
+    }
+
+    const mobileSection = await mobilePage.$(sectionSelector);
+    if (mobileSection) {
+      await mobileSection.scrollIntoViewIfNeeded();
+    }
+
+    await mobilePage.waitForSelector(".carousel.animated", {
       state: "visible",
-      timeout: 15000,
+      timeout: 10000,
     });
-    await mobilePage.$eval(carouselSelector, (el) =>
-      el.scrollIntoView({ behavior: "instant", block: "center" }),
-    );
-    await mobilePage.waitForTimeout(500);
+    await mobilePage.evaluate(() => {
+      const g = window;
+      if (g.lazySizes && g.lazySizes.loader) {
+        g.lazySizes.loader.checkElems();
+      }
+    });
+    await mobilePage.waitForTimeout(600);
 
     const mobileScreenshot = path.join(
       opts.outDir,
@@ -261,10 +321,6 @@ async function runVisualTest() {
     );
     await mobilePage.screenshot({ path: mobileScreenshot });
     console.log(`✓ Saved: ${mobileScreenshot}`);
-
-    const frame5 = path.join(opts.tempDir, "frame_05_mobile.png");
-    await mobilePage.screenshot({ path: frame5 });
-    frames.push(frame5);
     await mobileContext.close();
 
     // 5. Generate Animated Walkthrough GIF via ffmpeg
@@ -274,23 +330,22 @@ async function runVisualTest() {
       fs.mkdirSync(gifDir, { recursive: true });
     }
 
-    // Sequence for smooth preview pacing:
+    // Sequence for consistent desktop aspect ratio (no letterboxing / black bars):
     // Frame 1: Resting view (1.5s)
-    // Frame 2: Hover active (1.5s)
-    // Frame 3: Drag in progress (1s)
-    // Frame 4: Settled after drag (1.5s)
-    // Frame 5: Mobile viewport (2s)
+    // Frame 2: Hover active with smooth reveal (1.5s)
+    // Frame 3: Mid-drag swipe with transitions suppressed (1.2s)
+    // Frame 4: Settled on new slide with clean hover (2.0s)
     const sequence = [
       frame1,
       frame1,
       frame2,
       frame2,
       frame3,
+      frame3,
       frame4,
       frame4,
-      frame5,
-      frame5,
-    ];
+      frame4,
+    ].filter(Boolean);
 
     const seqDir = path.join(opts.tempDir, "seq");
     if (!fs.existsSync(seqDir)) fs.mkdirSync(seqDir, { recursive: true });
