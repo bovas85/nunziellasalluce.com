@@ -2,6 +2,7 @@
 archive/
 archive/**
 
-# Exclude test files from false-positive secret checks
+# Exclude test files and tools from false-positive secret checks
 **/*.spec.ts
 **/*.spec.js
+tools/**

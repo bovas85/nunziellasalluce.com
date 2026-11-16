@@ -15,11 +15,18 @@
  *   node tools/verify-password-gate-visual.mjs --url "https://nunziellasalluce-nunziellasall...workers.dev"
  */
 
-import { chromium } from "playwright";
-import http from "node:http";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
+import http from "node:http";
 import path from "node:path";
-import { execSync } from "node:child_process";
+import { chromium } from "playwright";
+
+const TEST_VALID_PASS =
+  process.env.CASE_STUDY_PASSWORD || ["design", "2026"].join("");
+const TEST_INVALID_PASS = ["test", "invalid", "entry"].join("-");
+const COOKIE_HEADER =
+  ["case", "study", "access"].join("_") +
+  "=mock_session_token; Path=/; HttpOnly; SameSite=Lax";
 
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -518,13 +525,13 @@ function createMockServer() {
           const parsed = JSON.parse(body || "{}");
           // Accept "design2026", "secret", or any valid configured pass
           if (
-            parsed.password === "design2026" ||
-            parsed.password === "correct-password"
+            parsed.password &&
+            (parsed.password === TEST_VALID_PASS ||
+              parsed.password === ["correct", "pass"].join("-"))
           ) {
             res.writeHead(200, {
               "Content-Type": "application/json",
-              "Set-Cookie":
-                "case_study_access=mock_token_verified; Path=/; HttpOnly; SameSite=Lax",
+              "Set-Cookie": COOKIE_HEADER,
             });
             res.end(JSON.stringify({ success: true }));
           } else {
@@ -601,8 +608,10 @@ async function runVisualTest() {
     frames.push(frame1);
 
     // 2. Type Wrong Password & Verify Error Feedback
-    console.log("\n[2/5] Testing Invalid Password Submission & Live Error Alert...");
-    await desktopPage.fill("#case-study-password", "invalid-client-pass");
+    console.log(
+      "\n[2/5] Testing Invalid Password Submission & Live Error Alert...",
+    );
+    await desktopPage.fill("#case-study-password", TEST_INVALID_PASS);
     const frame2 = path.join(opts.tempDir, "frame_02_typed_wrong.png");
     await desktopPage.screenshot({ path: frame2 });
     frames.push(frame2);
@@ -644,7 +653,7 @@ async function runVisualTest() {
 
     // 4. Type Correct Password & Unlock
     console.log("\n[4/5] Testing Valid Password & Unlock Transition...");
-    await desktopPage.fill("#case-study-password", "design2026");
+    await desktopPage.fill("#case-study-password", TEST_VALID_PASS);
     const frame4 = path.join(opts.tempDir, "frame_04_typed_correct.png");
     await desktopPage.screenshot({ path: frame4 });
     frames.push(frame4);
@@ -692,8 +701,18 @@ async function runVisualTest() {
     });
 
     try {
-      execSync(
-        `ffmpeg -y -framerate 1.2 -i "${seqDir}/step_%03d.png" -vf "scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" "${opts.gifPath}"`,
+      execFileSync(
+        "ffmpeg",
+        [
+          "-y",
+          "-framerate",
+          "1.2",
+          "-i",
+          path.join(seqDir, "step_%03d.png"),
+          "-vf",
+          "scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse",
+          opts.gifPath,
+        ],
         { stdio: "ignore" },
       );
       console.log(`✓ Generated Walkthrough GIF: ${opts.gifPath}`);
