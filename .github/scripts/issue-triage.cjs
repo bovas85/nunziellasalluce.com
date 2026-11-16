@@ -4,7 +4,7 @@ module.exports = async function triageIssue({ github, context, core }) {
   const body = issue.body || '';
   const fullText = `${title}\n${body}`.toLowerCase();
 
-  // 1. Reversibility & Door Type (Door Framework)
+  // 1. Reversibility & Door Type (Kent C. Dodds S03 Framework)
   const oneWayIndicators = [
     'drop table',
     'drop column',
@@ -31,8 +31,102 @@ module.exports = async function triageIssue({ github, context, core }) {
     ? 'Single Entry / Major Irreversible Change'
     : 'Double Entry / Easily Reversible';
 
-  // 2. Feature Flaggability Verification
-  // Feature flags turn One-Way Doors into Two-Way Doors.
+  // 2. Complexity Level Categorisation (Feasibility Matrix)
+  const hardIndicators = [
+    'architecture',
+    'major refactor',
+    'refactor entire',
+    'redesign auth',
+    'multi-tenant',
+    'distributed',
+    'concurrency',
+    'deadlock',
+    'high load',
+    'complex state',
+    'breaking change',
+    'cross-cutting',
+    'deep overhaul',
+    'security audit required',
+    'rfc',
+    'proposal',
+    'needs human',
+    'decision needed',
+    'pricing',
+    'billing',
+    'legal'
+  ];
+  const matchedHard = hardIndicators.filter(kw => fullText.includes(kw));
+
+  const easyIndicators = [
+    'style',
+    'css',
+    'color',
+    'typography',
+    'font',
+    'spacing',
+    'padding',
+    'margin',
+    'button',
+    'text',
+    'typo',
+    'copy',
+    'icon',
+    'tooltip',
+    'alt text',
+    'aria',
+    'cleanup',
+    'lint',
+    'prettier',
+    'format'
+  ];
+  const matchedEasy = easyIndicators.filter(kw => fullText.includes(kw));
+  const isEasyPrefix = /^(fix\((style|css|copy|typo)\)|chore\((deps|lint|format)\)|docs:)/i.test(title);
+
+  let complexityLevel;
+  let complexityRationale;
+
+  if (matchedHard.length > 0 || isOneWayDoor) {
+    complexityLevel = 'hard';
+    complexityRationale = isOneWayDoor
+      ? `High complexity driven by one-way door characteristics (${matchedOneWay.join(', ')}).`
+      : `High complexity / cross-cutting indicators detected (${matchedHard.join(', ')}).`;
+  } else if (matchedEasy.length > 0 || isEasyPrefix) {
+    complexityLevel = 'easy';
+    complexityRationale = 'Low cognitive load: isolated UI, styling, copy, or self-contained defect fix.';
+  } else {
+    complexityLevel = 'moderate';
+    complexityRationale = 'Moderate complexity: contained multi-file component logic, route, or endpoint integration.';
+  }
+
+  const complexityLabel = `complexity:${complexityLevel}`;
+
+  // 3. Autonomy Rating & Auto-Pickup Determination (Kent S03 Feasibility Matrix)
+  // Kent's Rule: Any Two-Way Door of Easy or Moderate complexity (excluding Hard) is auto picked up.
+  let autonomyLabel;
+  let autonomyRationale;
+  let isAutoPickupEligible;
+
+  if (isOneWayDoor) {
+    autonomyLabel = 'needs-human';
+    autonomyRationale = `One-way door detected (${matchedOneWay.join(', ')}). Irreversible architectural or state changes require explicit human consultation.`;
+    isAutoPickupEligible = false;
+  } else if (complexityLevel === 'hard') {
+    autonomyLabel = 'needs-human';
+    autonomyRationale = `Two-way door but hard complexity level (${matchedHard.join(', ')}). Requires human architecture review and decomposition before pickup.`;
+    isAutoPickupEligible = false;
+  } else if (body.trim().length < 40 && !title.toLowerCase().startsWith('fix')) {
+    autonomyLabel = 'needs-human';
+    autonomyRationale = `Issue specification is brief (${body.trim().length} chars). Requires clearer acceptance criteria before agent pickup.`;
+    isAutoPickupEligible = false;
+  } else {
+    // Two-way door with easy or moderate complexity -> auto-pickup eligible
+    autonomyLabel = 'agent-ready';
+    autonomyRationale = `Two-way door with ${complexityLevel} complexity. Well-bounded blast radius and verifiable via automated Vitest/Playwright suites and Cloudflare preview.`;
+    isAutoPickupEligible = true;
+  }
+
+  // 4. Feature Flaggability Verification
+  // Kent's Rule: Feature flags turn One-Way Doors into Two-Way Doors.
   const isFlaggable = true;
   const cleanTitleWords = title
     .replace(/^(feat|fix|perf|refactor|chore|test)(\([^)]+\))?:\s*/i, '')
@@ -46,45 +140,37 @@ module.exports = async function triageIssue({ github, context, core }) {
   const flagName = `enable${cleanTitleWords || 'Feature'}`;
   const envVarName = `ENABLE_${cleanTitleWords.replace(/([A-Z])/g, '_$1').toUpperCase().replace(/^_/, '') || 'FEATURE'}`;
 
-  // 3. Autonomy & Complexity Rating (ADR 0002)
-  const needsHumanKeywords = [
-    'rfc',
-    'proposal',
-    'needs human',
-    'decision needed',
-    'architecture review',
-    'pricing',
-    'billing',
-    'legal',
-    'security audit required',
-    'design exploration'
+  // 5. Ensure Labels Exist & Apply to Issue
+  const labelDefinitions = [
+    { name: 'agent-ready', color: '0e8a16', description: 'Defined requirements, deterministic verification, autonomous execution' },
+    { name: 'needs-human', color: 'fbca04', description: 'Requires human architectural, financial, or scope decision' },
+    { name: 'two-way-door', color: '1d76db', description: 'Easily reversible / feature-flaggable change (Kent S03)' },
+    { name: 'one-way-door', color: 'b60205', description: 'Irreversible or high blast-radius architectural migration (Kent S03)' },
+    { name: 'complexity:easy', color: '0e8a16', description: 'Low complexity: isolated UI, styling, typography, or simple bugfix' },
+    { name: 'complexity:moderate', color: 'fbca04', description: 'Moderate complexity: contained multi-file feature or endpoint' },
+    { name: 'complexity:hard', color: 'd93f0b', description: 'High complexity: cross-cutting, deep architecture, or heavy state' }
   ];
-  const matchedNeedsHuman = needsHumanKeywords.filter(kw => fullText.includes(kw));
 
-  let autonomyLabel;
-  let autonomyRationale;
-
-  if (isOneWayDoor) {
-    autonomyLabel = 'needs-human';
-    autonomyRationale = `One-way door detected (${matchedOneWay.join(', ')}). Irreversible architectural or state changes require explicit human consultation.`;
-  } else if (matchedNeedsHuman.length > 0) {
-    autonomyLabel = 'needs-human';
-    autonomyRationale = `Explicit human decision or architectural scope requested (${matchedNeedsHuman.join(', ')}).`;
-  } else if (body.trim().length < 40 && !title.toLowerCase().startsWith('fix')) {
-    autonomyLabel = 'needs-human';
-    autonomyRationale = `Issue specification is brief (${body.trim().length} chars). Requires clearer acceptance criteria before agent pickup.`;
-  } else {
-    autonomyLabel = 'agent-ready';
-    autonomyRationale = 'Defined scope, bounded blast radius, and verifiable via Vitest/Playwright deterministic test suites and Cloudflare preview.';
+  for (const lbl of labelDefinitions) {
+    try {
+      await github.rest.issues.createLabel({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        name: lbl.name,
+        color: lbl.color,
+        description: lbl.description
+      });
+    } catch {
+      // Label already exists
+    }
   }
 
-  // 4. Apply Labels
   try {
     await github.rest.issues.addLabels({
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number: context.issue.number,
-      labels: [doorLabel, autonomyLabel]
+      labels: [doorLabel, autonomyLabel, complexityLabel]
     });
   } catch (err) {
     if (core && core.warning) {
@@ -92,18 +178,19 @@ module.exports = async function triageIssue({ github, context, core }) {
     }
   }
 
-  // 5. Post Structured Triage Comment
-  const commentBody = `### 🧭 Automated Issue Triage & Reversibility Assessment
+  // 6. Post Structured Feasibility & Triage Comment
+  const commentBody = `### 🧭 Automated Issue Triage & Feasibility Matrix (Kent C. Dodds S03 Framework)
 
-#### 1. Autonomy & Complexity Rating: \`${autonomyLabel}\`
-• **Assessment:** ${autonomyRationale}  
-• **Standard:** Evaluated under [ADR 0002](https://github.com/bovas85/mega/blob/main/docs/decisions/0002-agent-ready-vs-needs-human.md) and [ADR 0008](https://github.com/bovas85/mega/blob/main/docs/decisions/0008-automated-issue-triage-and-reversibility-doors.md).
+| Dimension | Classification | Assessment & Rationale |
+| :--- | :--- | :--- |
+| **Door Classification** | \`${doorLabel}\` | ${doorTypeDesc} |
+| **Complexity Level** | \`${complexityLabel}\` | ${complexityRationale} |
+| **Autonomy Rating** | \`${autonomyLabel}\` | ${autonomyRationale} |
+| **Auto-Pickup Status** | ${isAutoPickupEligible ? '🚀 **AUTO-PICKUP ACTIVE**' : '⏸️ **AWAITING HUMAN DECISION**'} | ${isAutoPickupEligible ? 'Any Two-Way Door of Easy or Moderate complexity is auto-claimed by agent daemon.' : 'Hard complexity or One-Way Door: paused for explicit human consultation.'} |
 
-#### 2. Reversibility & Door Type: \`${doorLabel}\` (${doorTypeDesc})
-• **Door Analysis:** ${isOneWayDoor ? `This change involves potential one-way door characteristics (${matchedOneWay.join(', ')}). High blast-radius or irreversible state change.` : `This change is a two-way door. It can be rolled back cleanly via git revert or disabling the feature flag without data destruction.`}  
-• **Reversibility Principle:** Two-way doors are safe for rapid iteration and agent execution, whereas one-way doors must pause for explicit human sign-off.
+---
 
-#### 3. Feature Flaggability: Verified (\`${isFlaggable ? 'YES' : 'NO'}\`)
+#### 1. Feature Flaggability: Verified (\`${isFlaggable ? 'YES' : 'NO'}\`)
 • **Recommended Flag:** \`${flagName}\`  
 • **Nuxt 4 / Cloudflare Runtime Config:**
 \`\`\`ts
@@ -132,8 +219,8 @@ export default defineNuxtConfig({
 ---
 
 #### 🏁 Next Action
-${autonomyLabel === 'agent-ready' && doorLabel === 'two-way-door'
-  ? '✅ **Eligible for autonomous development:** `bovas-bot` or agent may create a feature branch, implement the feature flag, write deterministic tests, and open a PR for `bovas85` review.'
+${isAutoPickupEligible
+  ? '🚀 **Auto-pickup in progress:** This issue meets the Feasibility Matrix criteria for autonomous execution (`two-way-door` + `easy`/`moderate` complexity). The agent daemon (`github-doorbell`) will automatically claim this issue, create a feature branch, implement changes, and open a PR for `bovas85` review.'
   : '⏸️ **Awaiting human decision:** This issue requires review or clarification from `bovas85` before code implementation begins.'}
 `;
 
