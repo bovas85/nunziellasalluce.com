@@ -16,6 +16,20 @@ vi.mock("vue-router", async (importOriginal) => {
   };
 });
 
+const mockRuntimeConfig = {
+  public: {
+    enableCarouselSwipeFix: true,
+  },
+};
+
+vi.mock("#app", async (importOriginal) => {
+  const original = await importOriginal<typeof import("#app")>();
+  return {
+    ...original,
+    useRuntimeConfig: vi.fn(() => mockRuntimeConfig),
+  };
+});
+
 describe("TheCarousel", () => {
   const mockImage = {
     id: 1,
@@ -64,6 +78,7 @@ describe("TheCarousel", () => {
 
   beforeEach(() => {
     vi.restoreAllMocks();
+    mockRuntimeConfig.public.enableCarouselSwipeFix = true;
   });
 
   it("renders the Swiper and SwiperSlide elements", () => {
@@ -142,5 +157,71 @@ describe("TheCarousel", () => {
     expect(button.exists()).toBe(true);
     await button.trigger("click");
     expect(mockPush).toHaveBeenCalledWith("/project-1");
+  });
+
+  describe("enableCarouselSwipeFix feature flag", () => {
+    it("applies has-swipe-fix class when enableCarouselSwipeFix is true", () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      expect(container.classes()).toContain("has-swipe-fix");
+    });
+
+    it("omits has-swipe-fix and is-swiping classes when enableCarouselSwipeFix is false", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = false;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      expect(container.classes()).not.toContain("has-swipe-fix");
+
+      const swiper = wrapper.findComponent(Swiper);
+      await swiper.vm.$emit("sliderMove");
+      expect(container.classes()).not.toContain("is-swiping");
+    });
+
+    it("toggles is-swiping class during sliderMove and transitionEnd when enabled", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      const swiper = wrapper.findComponent(Swiper);
+
+      expect(container.classes()).not.toContain("is-swiping");
+
+      await swiper.vm.$emit("sliderMove");
+      expect(container.classes()).toContain("is-swiping");
+
+      await swiper.vm.$emit("transitionEnd");
+      expect(container.classes()).not.toContain("is-swiping");
+    });
+
+    it("keeps is-swiping on touchEnd when swiper is animating, and removes on transitionEnd", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      const swiper = wrapper.findComponent(Swiper);
+
+      await swiper.vm.$emit("sliderMove");
+      expect(container.classes()).toContain("is-swiping");
+
+      // swiper animating is true
+      await swiper.vm.$emit("touchEnd", { animating: true });
+      expect(container.classes()).toContain("is-swiping");
+
+      await swiper.vm.$emit("transitionEnd");
+      expect(container.classes()).not.toContain("is-swiping");
+    });
+
+    it("clears is-swiping on touchEnd immediately if swiper is not animating", async () => {
+      mockRuntimeConfig.public.enableCarouselSwipeFix = true;
+      const wrapper = mount(TheCarousel, mountOptions);
+      const container = wrapper.find(".swiper-container");
+      const swiper = wrapper.findComponent(Swiper);
+
+      await swiper.vm.$emit("sliderMove");
+      expect(container.classes()).toContain("is-swiping");
+
+      // swiper animating is false
+      await swiper.vm.$emit("touchEnd", { animating: false });
+      expect(container.classes()).not.toContain("is-swiping");
+    });
   });
 });
