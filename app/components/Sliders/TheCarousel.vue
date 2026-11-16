@@ -151,7 +151,8 @@ const swiperOptions = {
           >
             <UILazyImage
               class="image"
-              :hover="true"
+              :hover="false"
+              :lazyload="false"
               :image="item.acf.hero.desktop_bg"
               type="case_study"
               :title="item.acf.hero.title"
@@ -284,53 +285,53 @@ const swiperOptions = {
 
   &.has-swipe-fix {
     :deep(.swiper-slide-item) {
-      .text-section .subtitle {
-        @include media(lg) {
-          @media (hover: hover) and (pointer: fine) {
-            opacity: 0;
-            transform: translateY(500%);
-            transition: all 0.4s ease-in-out;
-          }
-
-          @media (hover: none), (pointer: coarse) {
+      @media (hover: none), (pointer: coarse), (width <= 1007px) {
+        .text-section {
+          .subtitle {
             opacity: 1 !important;
             transform: none !important;
             transition: none !important;
-          }
-        }
 
-        @media (hover: none), (pointer: coarse) {
-          opacity: 1 !important;
-          transform: none !important;
-          transition: none !important;
-        }
-
-        &--show {
-          @media (hover: none), (pointer: coarse) {
-            transition: none !important;
-            box-shadow: 0 0 0 1px white !important;
-            font-weight: 300 !important;
-          }
-        }
-      }
-
-      @media (hover: hover) and (pointer: fine) {
-        &:hover {
-          .text-section .subtitle {
-            @include media(lg) {
-              opacity: 1;
-              transform: translateY(0);
+            &--show {
+              opacity: 1 !important;
+              transform: none !important;
+              transition: none !important;
+              box-shadow: 0 0 0 1px white !important;
+              font-weight: 300 !important;
             }
           }
         }
-      }
 
-      @media (hover: none), (pointer: coarse) {
         &:hover {
           .text-section .subtitle {
             opacity: 1 !important;
             transform: none !important;
             transition: none !important;
+          }
+        }
+
+        img {
+          transform: none !important;
+          transition: none !important;
+
+          &:hover {
+            transform: none !important;
+            z-index: 0 !important;
+          }
+        }
+      }
+
+      @media only screen and (width >= 1008px) and (hover: hover) and (pointer: fine) {
+        .text-section .subtitle {
+          opacity: 0;
+          transform: translateY(500%);
+          transition: all 0.4s ease-in-out;
+        }
+
+        &:hover {
+          .text-section .subtitle {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
       }
@@ -338,27 +339,25 @@ const swiperOptions = {
 
     &.is-swiping {
       :deep(.swiper-slide-item) {
-        pointer-events: none !important;
+        @media only screen and (width >= 1008px) and (hover: hover) and (pointer: fine) {
+          pointer-events: none !important;
 
-        .text-section .subtitle,
-        .text-section .subtitle--show,
-        img {
-          transition: none !important;
-        }
+          .text-section .subtitle,
+          .text-section .subtitle--show,
+          img {
+            transition: none !important;
+          }
 
-        @media (hover: hover) and (pointer: fine) {
           &:hover {
             .text-section .subtitle {
-              @include media(lg) {
-                opacity: 0 !important;
-                transform: translateY(500%) !important;
-                transition: none !important;
-              }
+              opacity: 0 !important;
+              transform: translateY(500%) !important;
+              transition: none !important;
             }
           }
         }
 
-        @media (hover: none), (pointer: coarse) {
+        @media (hover: none), (pointer: coarse), (width <= 1007px) {
           .text-section .subtitle,
           .text-section .subtitle--show {
             opacity: 1 !important;
