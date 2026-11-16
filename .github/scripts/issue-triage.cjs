@@ -2,9 +2,22 @@ module.exports = async function triageIssue({ github, context, core }) {
   const issue = context.payload.issue;
   const title = issue.title || '';
   const body = issue.body || '';
+  const existingLabels = (issue.labels || []).map(l => (l.name || '').toLowerCase());
   const fullText = `${title}\n${body}`.toLowerCase();
 
-  // 1. Reversibility & Door Type (Kent C. Dodds S03 Framework)
+  const isCleanup =
+    existingLabels.includes('cleanup') ||
+    title.toLowerCase().startsWith('chore(cleanup)') ||
+    fullText.includes('## standardized cleanup specification') ||
+    (fullText.includes('ready when') && fullText.includes('how to verify'));
+  const isCleanupReady = existingLabels.includes('cleanup-ready');
+  const isFriction =
+    existingLabels.includes('friction') ||
+    title.toLowerCase().startsWith('friction:') ||
+    fullText.includes('## standardized friction log') ||
+    (fullText.includes('what happened') && fullText.includes('how to reproduce'));
+
+  // 1. Reversibility & Door Type
   const oneWayIndicators = [
     'drop table',
     'drop column',
@@ -80,7 +93,7 @@ module.exports = async function triageIssue({ github, context, core }) {
     'format'
   ];
   const matchedEasy = easyIndicators.filter(kw => fullText.includes(kw));
-  const isEasyPrefix = /^(fix\((style|css|copy|typo)\)|chore\((deps|lint|format)\)|docs:)/i.test(title);
+  const isEasyPrefix = /^(fix\((style|css|copy|typo)\)|chore\((deps|lint|format|cleanup)\)|docs:)/i.test(title);
 
   let complexityLevel;
   let complexityRationale;
@@ -92,7 +105,7 @@ module.exports = async function triageIssue({ github, context, core }) {
       : `High complexity / cross-cutting indicators detected (${matchedHard.join(', ')}).`;
   } else if (matchedEasy.length > 0 || isEasyPrefix) {
     complexityLevel = 'easy';
-    complexityRationale = 'Low cognitive load: isolated UI, styling, copy, or self-contained defect fix.';
+    complexityRationale = 'Low cognitive load: isolated UI, styling, copy, cleanup, or self-contained defect fix.';
   } else {
     complexityLevel = 'moderate';
     complexityRationale = 'Moderate complexity: contained multi-file component logic, route, or endpoint integration.';
@@ -100,8 +113,8 @@ module.exports = async function triageIssue({ github, context, core }) {
 
   const complexityLabel = `complexity:${complexityLevel}`;
 
-  // 3. Autonomy Rating & Auto-Pickup Determination (Kent S03 Feasibility Matrix)
-  // Kent's Rule: Any Two-Way Door of Easy or Moderate complexity (excluding Hard) is auto picked up.
+  // 3. Autonomy Rating & Auto-Pickup Determination (Feasibility Matrix)
+  // Any Two-Way Door of Easy or Moderate complexity (excluding Hard) is eligible unless held as deferred cleanup.
   let autonomyLabel;
   let autonomyRationale;
   let isAutoPickupEligible;
@@ -119,17 +132,15 @@ module.exports = async function triageIssue({ github, context, core }) {
     autonomyRationale = `Issue specification is brief (${body.trim().length} chars). Requires clearer acceptance criteria before agent pickup.`;
     isAutoPickupEligible = false;
   } else {
-    // Two-way door with easy or moderate complexity -> auto-pickup eligible
     autonomyLabel = 'agent-ready';
     autonomyRationale = `Two-way door with ${complexityLevel} complexity. Well-bounded blast radius and verifiable via automated Vitest/Playwright suites and Cloudflare preview.`;
-    isAutoPickupEligible = true;
+    isAutoPickupEligible = !isCleanup || isCleanupReady;
   }
 
   // 4. Feature Flaggability Verification
-  // Kent's Rule: Feature flags turn One-Way Doors into Two-Way Doors.
-  const isFlaggable = true;
+  const isFlaggable = !isCleanup;
   const cleanTitleWords = title
-    .replace(/^(feat|fix|perf|refactor|chore|test)(\([^)]+\))?:\s*/i, '')
+    .replace(/^(feat|fix|perf|refactor|chore|test|friction)(\([^)]+\))?:\s*/i, '')
     .replace(/[^a-zA-Z0-9 ]/g, ' ')
     .trim()
     .split(/\s+/)
@@ -144,11 +155,14 @@ module.exports = async function triageIssue({ github, context, core }) {
   const labelDefinitions = [
     { name: 'agent-ready', color: '0e8a16', description: 'Defined requirements, deterministic verification, autonomous execution' },
     { name: 'needs-human', color: 'fbca04', description: 'Requires human architectural, financial, or scope decision' },
-    { name: 'two-way-door', color: '1d76db', description: 'Easily reversible / feature-flaggable change (Kent S03)' },
-    { name: 'one-way-door', color: 'b60205', description: 'Irreversible or high blast-radius architectural migration (Kent S03)' },
+    { name: 'two-way-door', color: '1d76db', description: 'Easily reversible / feature-flaggable change' },
+    { name: 'one-way-door', color: 'b60205', description: 'Irreversible or high blast-radius architectural migration' },
     { name: 'complexity:easy', color: '0e8a16', description: 'Low complexity: isolated UI, styling, typography, or simple bugfix' },
     { name: 'complexity:moderate', color: 'fbca04', description: 'Moderate complexity: contained multi-file feature or endpoint' },
-    { name: 'complexity:hard', color: 'd93f0b', description: 'High complexity: cross-cutting, deep architecture, or heavy state' }
+    { name: 'complexity:hard', color: 'd93f0b', description: 'High complexity: cross-cutting, deep architecture, or heavy state' },
+    { name: 'friction', color: 'e99695', description: 'Operational or developer-experience friction encountered during work' },
+    { name: 'cleanup', color: 'c5def5', description: 'Deferred legacy/migration cleanup with Ready when and How to verify' },
+    { name: 'cleanup-ready', color: '0e8a16', description: 'Cleanup prerequisite verified; safe for removal PR' }
   ];
 
   for (const lbl of labelDefinitions) {
@@ -165,12 +179,16 @@ module.exports = async function triageIssue({ github, context, core }) {
     }
   }
 
+  const labelsToApply = [doorLabel, autonomyLabel, complexityLabel];
+  if (isFriction) labelsToApply.push('friction');
+  if (isCleanup) labelsToApply.push('cleanup');
+
   try {
     await github.rest.issues.addLabels({
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number: context.issue.number,
-      labels: [doorLabel, autonomyLabel, complexityLabel]
+      labels: [...new Set(labelsToApply)]
     });
   } catch (err) {
     if (core && core.warning) {
@@ -178,19 +196,28 @@ module.exports = async function triageIssue({ github, context, core }) {
     }
   }
 
+  const issueTypeLabel = isCleanup ? 'cleanup' : (isFriction ? 'friction' : 'standard');
+  const autoPickupCell = (isCleanup && !isCleanupReady)
+    ? '⏳ **HELD FOR CLEANUP VERIFICATION**'
+    : (isAutoPickupEligible ? '🚀 **AUTO-PICKUP ACTIVE**' : '⏸️ **AWAITING HUMAN DECISION**');
+  const autoPickupNote = (isCleanup && !isCleanupReady)
+    ? 'Deferred cleanup issue: held until scheduled verification confirms `How to verify` passes (promote with `cleanup-ready`).'
+    : (isAutoPickupEligible ? 'Any Two-Way Door of Easy or Moderate complexity is auto-claimed by agent daemon.' : 'Hard complexity or One-Way Door: paused for explicit human consultation.');
+
   // 6. Post Structured Feasibility & Triage Comment
-  const commentBody = `### 🧭 Automated Issue Triage & Feasibility Matrix (Kent C. Dodds S03 Framework)
+  const commentBody = `### 🧭 Automated Issue Triage & Feasibility Matrix
 
 | Dimension | Classification | Assessment & Rationale |
 | :--- | :--- | :--- |
+| **Issue Type** | \`${issueTypeLabel}\` | ${isCleanup ? 'Deferred legacy/migration cleanup' : (isFriction ? 'Standardized friction report' : 'Standard feature or defect')} |
 | **Door Classification** | \`${doorLabel}\` | ${doorTypeDesc} |
 | **Complexity Level** | \`${complexityLabel}\` | ${complexityRationale} |
 | **Autonomy Rating** | \`${autonomyLabel}\` | ${autonomyRationale} |
-| **Auto-Pickup Status** | ${isAutoPickupEligible ? '🚀 **AUTO-PICKUP ACTIVE**' : '⏸️ **AWAITING HUMAN DECISION**'} | ${isAutoPickupEligible ? 'Any Two-Way Door of Easy or Moderate complexity is auto-claimed by agent daemon.' : 'Hard complexity or One-Way Door: paused for explicit human consultation.'} |
+| **Auto-Pickup Status** | ${autoPickupCell} | ${autoPickupNote} |
 
 ---
 
-#### 1. Feature Flaggability: Verified (\`${isFlaggable ? 'YES' : 'NO'}\`)
+#### 1. Feature Flaggability: ${isFlaggable ? 'Verified (`YES`)' : 'Not Applicable (`NO`)'}
 • **Recommended Flag:** \`${flagName}\`  
 • **Nuxt 4 / Cloudflare Runtime Config:**
 \`\`\`ts
@@ -219,9 +246,11 @@ export default defineNuxtConfig({
 ---
 
 #### 🏁 Next Action
-${isAutoPickupEligible
-  ? '🚀 **Auto-pickup in progress:** This issue meets the Feasibility Matrix criteria for autonomous execution (`two-way-door` + `easy`/`moderate` complexity). The agent daemon (`github-doorbell`) will automatically claim this issue, create a feature branch, implement changes, and open a PR for `bovas85` review.'
-  : '⏸️ **Awaiting human decision:** This issue requires review or clarification from `bovas85` before code implementation begins.'}
+${(isCleanup && !isCleanupReady)
+  ? '⏳ **Held for verification:** This cleanup issue remains paused until its `How to verify` condition passes and `cleanup-ready` is applied.'
+  : (isAutoPickupEligible
+    ? '🚀 **Auto-pickup in progress:** This issue meets the Feasibility Matrix criteria for autonomous execution (`two-way-door` + `easy`/`moderate` complexity). The agent daemon (`github-doorbell`) will automatically claim this issue, create a feature branch, implement changes, and open a PR for `bovas85` review.'
+    : '⏸️ **Awaiting human decision:** This issue requires review or clarification from `bovas85` before code implementation begins.')}
 `;
 
   await github.rest.issues.createComment({
