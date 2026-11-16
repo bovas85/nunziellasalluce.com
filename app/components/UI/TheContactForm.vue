@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import Config from "@/assets/config";
+import { useRuntimeConfig } from "#app";
 import { useLocalStorage, useNetwork } from "@vueuse/core";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+
+const config = useRuntimeConfig();
+const enableNormalizeContactFormButton = computed(
+  () => config?.public?.enableNormalizeContactFormButton !== false,
+);
 
 const { isOnline } = useNetwork();
 
@@ -321,7 +327,10 @@ const sendForm = async () => {
           />
           <button
             :disabled="disabled || saved"
-            :class="{ 'is-disabled': disabled || saved }"
+            :class="{
+              'is-disabled': disabled || saved,
+              'is-normalized': enableNormalizeContactFormButton,
+            }"
             class="button button--contact"
             @click.prevent="sendForm()"
           >
