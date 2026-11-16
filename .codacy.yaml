@@ -4,6 +4,14 @@ exclude_paths:
 engines:
   stylelint:
     enabled: false
+  opengrep:
+    exclude_paths:
+      - "**/*.spec.ts"
+      - "tools/**"
+  semgrep:
+    exclude_paths:
+      - "**/*.spec.ts"
+      - "tools/**"
   biome:
     exclude_paths:
       - "app/components/UI/TheContactForm.spec.ts"

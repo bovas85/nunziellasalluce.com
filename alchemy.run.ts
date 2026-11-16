@@ -15,7 +15,7 @@ export const Website = Cloudflare.Website.Nuxt("NunziellaSalluceSite", {
       Config.withDefault(Redacted.make("")),
     ),
     PROTECTED_CASE_STUDIES: Config.String("PROTECTED_CASE_STUDIES").pipe(
-      Config.withDefault("fd-surgery"),
+      Config.withDefault(""),
     ),
   },
 });
