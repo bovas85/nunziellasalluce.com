@@ -238,47 +238,23 @@ async function runVisualTest() {
       "carousel-swipe-desktop-dragging.png",
     );
 
-    // Perform smooth horizontal swipe to next slide
-    await desktopPage.evaluate(async () => {
-      const swiper = document.querySelector(".app-carousel").swiper;
-      const el = swiper.wrapperEl;
-      const startX = 750;
-      const startY = 450;
-      const dragPx = -500;
-      const steps = 30;
+    // Perform genuine horizontal mouse swipe to next slide
+    const swiperEl = desktopPage.locator(".app-carousel");
+    const swiperBox = await swiperEl.boundingBox();
+    if (swiperBox) {
+      const dragY = swiperBox.y + swiperBox.height / 2;
+      const startX = swiperBox.x + swiperBox.width * 0.7;
+      const targetX = swiperBox.x + swiperBox.width * 0.25;
 
-      const dispatch = (type, x, y, buttons) => {
-        el.dispatchEvent(
-          new PointerEvent(type, {
-            bubbles: true,
-            cancelable: true,
-            composed: true,
-            clientX: x,
-            clientY: y,
-            screenX: x,
-            screenY: y,
-            pointerId: 1,
-            pointerType: "mouse",
-            buttons,
-            isPrimary: true,
-          }),
-        );
-      };
-
-      const beforeIndex = swiper.activeIndex;
-      dispatch("pointerdown", startX, startY, 1);
-      for (let i = 1; i <= steps; i++) {
-        const curX = startX + (dragPx * i) / steps;
-        dispatch("pointermove", curX, startY, 1);
-        await new Promise((r) => setTimeout(r, 35));
-      }
-      dispatch("pointerup", startX + dragPx, startY, 0);
-
-      if (swiper.activeIndex === beforeIndex) {
-        swiper.slideNext(600);
-      }
-      await new Promise((r) => setTimeout(r, 1000));
-    });
+      await desktopPage.mouse.move(startX, dragY);
+      await desktopPage.waitForTimeout(300);
+      await desktopPage.mouse.down();
+      await desktopPage.waitForTimeout(100);
+      await desktopPage.mouse.move(targetX, dragY, { steps: 35 });
+      await desktopPage.waitForTimeout(100);
+      await desktopPage.mouse.up();
+      await desktopPage.waitForTimeout(1000);
+    }
 
     await desktopPage.screenshot({ path: draggingScreenshot });
     console.log(`✓ Saved: ${draggingScreenshot}`);
@@ -298,46 +274,20 @@ async function runVisualTest() {
     }
 
     // Swipe backward to previous slide to showcase bidirectional horizontal motion
-    await desktopPage.evaluate(async () => {
-      const swiper = document.querySelector(".app-carousel").swiper;
-      const el = swiper.wrapperEl;
-      const startX = 350;
-      const startY = 450;
-      const dragPx = 500;
-      const steps = 30;
+    if (swiperBox) {
+      const dragY = swiperBox.y + swiperBox.height / 2;
+      const startX = swiperBox.x + swiperBox.width * 0.3;
+      const targetX = swiperBox.x + swiperBox.width * 0.75;
 
-      const dispatch = (type, x, y, buttons) => {
-        el.dispatchEvent(
-          new PointerEvent(type, {
-            bubbles: true,
-            cancelable: true,
-            composed: true,
-            clientX: x,
-            clientY: y,
-            screenX: x,
-            screenY: y,
-            pointerId: 1,
-            pointerType: "mouse",
-            buttons,
-            isPrimary: true,
-          }),
-        );
-      };
-
-      const beforeIndex = swiper.activeIndex;
-      dispatch("pointerdown", startX, startY, 1);
-      for (let i = 1; i <= steps; i++) {
-        const curX = startX + (dragPx * i) / steps;
-        dispatch("pointermove", curX, startY, 1);
-        await new Promise((r) => setTimeout(r, 35));
-      }
-      dispatch("pointerup", startX + dragPx, startY, 0);
-
-      if (swiper.activeIndex === beforeIndex) {
-        swiper.slidePrev(600);
-      }
-      await new Promise((r) => setTimeout(r, 1000));
-    });
+      await desktopPage.mouse.move(startX, dragY);
+      await desktopPage.waitForTimeout(300);
+      await desktopPage.mouse.down();
+      await desktopPage.waitForTimeout(100);
+      await desktopPage.mouse.move(targetX, dragY, { steps: 35 });
+      await desktopPage.waitForTimeout(100);
+      await desktopPage.mouse.up();
+      await desktopPage.waitForTimeout(1000);
+    }
 
     await desktopPage.waitForTimeout(800);
 
