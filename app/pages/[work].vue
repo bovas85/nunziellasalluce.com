@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAsyncData } from "#app";
+import { useAsyncData, useRuntimeConfig } from "#app";
 import { useHead } from "#imports";
 import Config from "@/assets/config";
 import { useWindowScroll } from "@vueuse/core";
@@ -68,6 +68,65 @@ const nextProject = computed<Project | null>(() => {
   return projects.value[getIndex.value + 1] || null;
 });
 
+const runtimeConfig = useRuntimeConfig();
+
+// Verify access check
+const { data: authStatus, refresh: refreshAuth } = await useAsyncData(
+  "case-study-auth",
+  () => fetchFn("/api/verify-access").catch(() => ({ authenticated: false })),
+  {
+    default: () => ({ authenticated: false }),
+  },
+);
+
+const isAuthenticated = ref(Boolean(authStatus.value?.authenticated));
+
+const isProtected = computed(() => {
+  const currentProj = projects.value[getIndex.value];
+  if (!currentProj) return false;
+
+  if (route?.query?.preview_gate === "1" || route?.query?.protected === "1") {
+    return true;
+  }
+
+  const protectedSlugs = (runtimeConfig.public?.protectedCaseStudies || "")
+    .split(",")
+    .map((s: string) => s.trim().toLowerCase())
+    .filter(Boolean);
+
+  if (
+    currentProj.slug &&
+    protectedSlugs.includes(currentProj.slug.toLowerCase())
+  ) {
+    return true;
+  }
+
+  return Boolean(
+    currentProj.content?.protected ||
+    currentProj.protected ||
+    currentProj.acf?.protected === true ||
+    currentProj.acf?.protected === "true" ||
+    currentProj.acf?.is_protected === true ||
+    currentProj.acf?.is_protected === "true" ||
+    currentProj.acf?.password_protected === true ||
+    currentProj.acf?.password_protected === "true" ||
+    currentProj.acf?.requires_password === true ||
+    currentProj.acf?.requires_password === "true",
+  );
+});
+
+const onUnlocked = async () => {
+  isAuthenticated.value = true;
+  await refreshAuth();
+  if (import.meta.client) {
+    animateHeader.value = true;
+    await nextTick();
+    stepLength = document.querySelectorAll(".step").length - 2;
+    handleScroll();
+    window.addEventListener("resize", scrollamaResize, { passive: true });
+  }
+};
+
 const capitalizeEveryWord = (str: string) => {
   return str.replace(/\b\w/g, (l) => l.toUpperCase());
 };
@@ -81,6 +140,15 @@ if (!project.value && import.meta.server) {
 }
 
 useHead(() => {
+  if (isProtected.value && !isAuthenticated.value) {
+    const formattedTitle = projectTitle.value.replaceAll("-", " ");
+    const capitalizedTitle = capitalizeEveryWord(formattedTitle);
+    return {
+      title: `${capitalizedTitle || "Case Study"} - Protected | Nunziella Salluce`,
+      meta: [{ name: "robots", content: "noindex, nofollow" }],
+    };
+  }
+
   if (
     project.value &&
     projectTitle.value &&
@@ -227,13 +295,15 @@ const scrollamaResize = () => {
 
 onMounted(async () => {
   if (import.meta.client) {
-    animateHeader.value = true;
-    // Wait for the DOM to be fully rendered before initialising scrollama
-    await nextTick();
-    // Cache .step count once after the DOM is ready (avoids repeated queries on scroll)
-    stepLength = document.querySelectorAll(".step").length - 2;
-    handleScroll();
-    window.addEventListener("resize", scrollamaResize, { passive: true });
+    if (!isProtected.value || isAuthenticated.value) {
+      animateHeader.value = true;
+      // Wait for the DOM to be fully rendered before initialising scrollama
+      await nextTick();
+      // Cache .step count once after the DOM is ready (avoids repeated queries on scroll)
+      stepLength = document.querySelectorAll(".step").length - 2;
+      handleScroll();
+      window.addEventListener("resize", scrollamaResize, { passive: true });
+    }
   }
 });
 
@@ -247,72 +317,87 @@ onBeforeUnmount(() => {
 
 <template>
   <div v-if="project != null" class="case-study">
-    <SectionsWorkHero :project="project" :animate-header="animateHeader" />
-
-    <SectionsWorkClientIntro :project="project" :animate-intro="animateIntro" />
-
-    <template v-if="isMarketing">
-      <SectionsWorkEmailNewsletter
-        :project="project"
-        :animate-email="animateEmail"
-      />
-
-      <SectionsWorkRichMedia :project="project" :animate-rich="animateRich" />
-
-      <SectionsWorkDigitalInfographics
-        :project="project"
-        :animate-digital="animateDigital"
+    <template v-if="isProtected && !isAuthenticated">
+      <UICaseStudyPasswordGate
+        :project-title="projectTitle"
+        @unlocked="onUnlocked"
       />
     </template>
 
     <template v-else>
-      <SectionsWorkTheBrand :project="project" :animate-brand="animateBrand" />
+      <SectionsWorkHero :project="project" :animate-header="animateHeader" />
 
-      <SectionsWorkTheChallenge
+      <SectionsWorkClientIntro
         :project="project"
-        :animate-challenge="animateChallenge"
+        :animate-intro="animateIntro"
       />
 
-      <ClientOnly>
-        <SectionsWorkFinalProduct
+      <template v-if="isMarketing">
+        <SectionsWorkEmailNewsletter
           :project="project"
-          :animate-final="animateFinal"
+          :animate-email="animateEmail"
         />
-      </ClientOnly>
-    </template>
 
-    <div
-      v-if="previousProject && nextProject"
-      class="work-navigation step"
-      :class="{ animated: animateBottomImage }"
-    >
-      <div class="container-fluid is-flex">
-        <NuxtLink class="previous" :to="`/${previousProject.slug}`">
-          <UILazyImage
-            v-if="previousProject.acf?.hero"
-            class="image"
-            :hover="false"
-            :image="previousProject.acf.hero.desktop_bg"
-            :image-mobile="previousProject.acf.hero.mobile_bg"
-          >
-            <span>{{ previousProject.acf.hero.title }}</span>
-          </UILazyImage>
-          <p>Previous Project</p>
-        </NuxtLink>
-        <NuxtLink class="next" :to="`/${nextProject.slug}`">
-          <UILazyImage
-            v-if="nextProject.acf?.hero"
-            class="image"
-            :hover="false"
-            :image="nextProject.acf.hero.desktop_bg"
-            :image-mobile="nextProject.acf.hero.mobile_bg"
-          >
-            <span>{{ nextProject.acf.hero.title }}</span>
-          </UILazyImage>
-          <p>Next Project</p>
-        </NuxtLink>
+        <SectionsWorkRichMedia :project="project" :animate-rich="animateRich" />
+
+        <SectionsWorkDigitalInfographics
+          :project="project"
+          :animate-digital="animateDigital"
+        />
+      </template>
+
+      <template v-else>
+        <SectionsWorkTheBrand
+          :project="project"
+          :animate-brand="animateBrand"
+        />
+
+        <SectionsWorkTheChallenge
+          :project="project"
+          :animate-challenge="animateChallenge"
+        />
+
+        <ClientOnly>
+          <SectionsWorkFinalProduct
+            :project="project"
+            :animate-final="animateFinal"
+          />
+        </ClientOnly>
+      </template>
+
+      <div
+        v-if="previousProject && nextProject"
+        class="work-navigation step"
+        :class="{ animated: animateBottomImage }"
+      >
+        <div class="container-fluid is-flex">
+          <NuxtLink class="previous" :to="`/${previousProject.slug}`">
+            <UILazyImage
+              v-if="previousProject.acf?.hero"
+              class="image"
+              :hover="false"
+              :image="previousProject.acf.hero.desktop_bg"
+              :image-mobile="previousProject.acf.hero.mobile_bg"
+            >
+              <span>{{ previousProject.acf.hero.title }}</span>
+            </UILazyImage>
+            <p>Previous Project</p>
+          </NuxtLink>
+          <NuxtLink class="next" :to="`/${nextProject.slug}`">
+            <UILazyImage
+              v-if="nextProject.acf?.hero"
+              class="image"
+              :hover="false"
+              :image="nextProject.acf.hero.desktop_bg"
+              :image-mobile="nextProject.acf.hero.mobile_bg"
+            >
+              <span>{{ nextProject.acf.hero.title }}</span>
+            </UILazyImage>
+            <p>Next Project</p>
+          </NuxtLink>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
   <UINotFound v-else />
 </template>

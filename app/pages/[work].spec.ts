@@ -10,6 +10,8 @@ import WorkPage from "./[work].vue";
 let mockProjects: unknown[] = [];
 let mockSlug = "my-project";
 let returnNullData = false;
+let mockAuthData = { authenticated: false };
+let mockRuntimeConfig = { public: { protectedCaseStudies: "" } };
 
 // ---------------------------------------------------------------------------
 // Shared project factory
@@ -69,6 +71,7 @@ vi.mock("#app", async (importOriginal) => {
   const actual = await importOriginal<typeof import("#app")>();
   return {
     ...actual,
+    useRuntimeConfig: vi.fn(() => mockRuntimeConfig),
     useAsyncData: vi
       .fn()
       .mockImplementation(
@@ -85,13 +88,21 @@ vi.mock("#app", async (importOriginal) => {
           }
 
           if (returnNullData) {
-            return { data: ref(null) };
+            return { data: ref(null), refresh: vi.fn() };
           }
 
           if (key === "projects") {
-            return { data: ref(mockProjects) };
+            return { data: ref(mockProjects), refresh: vi.fn() };
           }
-          return { data: ref(null) };
+          if (key === "case-study-auth") {
+            return {
+              data: ref(mockAuthData),
+              refresh: vi.fn().mockImplementation(async () => {
+                mockAuthData = { authenticated: true };
+              }),
+            };
+          }
+          return { data: ref(null), refresh: vi.fn() };
         },
       ),
   };
@@ -136,6 +147,8 @@ describe("[work].vue — data fetch", () => {
     // Reset shared state before each test
     mockSlug = "my-project";
     mockProjects = [makeProject()];
+    mockAuthData = { authenticated: false };
+    mockRuntimeConfig = { public: { protectedCaseStudies: "" } };
     returnNullData = false;
   });
 
@@ -300,5 +313,62 @@ describe("[work].vue — data fetch", () => {
     const wrapper = await mountSuspended(WorkPage);
     const nextLink = wrapper.find("a.next");
     expect(nextLink.attributes("href")).toBe("/my-project");
+  });
+
+  it("renders password gate when project has acf.protected = 'true' and visitor is unauthenticated", async () => {
+    mockProjects = [makeProject({ protected: "true" })];
+    mockAuthData = { authenticated: false };
+
+    const wrapper = await mountSuspended(WorkPage);
+
+    expect(wrapper.find(".case-study").exists()).toBe(true);
+    expect(wrapper.find("[data-testid='password-gate']").exists()).toBe(true);
+    expect(wrapper.findComponent({ name: "SectionsWorkHero" }).exists()).toBe(
+      false,
+    );
+  });
+
+  it("renders password gate when project slug is in runtimeConfig.public.protectedCaseStudies and visitor is unauthenticated", async () => {
+    mockProjects = [makeProject()];
+    mockSlug = "my-project";
+    mockRuntimeConfig.public.protectedCaseStudies = "other-slug,my-project";
+    mockAuthData = { authenticated: false };
+
+    const wrapper = await mountSuspended(WorkPage);
+
+    expect(wrapper.find("[data-testid='password-gate']").exists()).toBe(true);
+    expect(wrapper.findComponent({ name: "SectionsWorkHero" }).exists()).toBe(
+      false,
+    );
+  });
+
+  it("renders full case study when visitor is authenticated for a protected project", async () => {
+    mockProjects = [makeProject({ protected: "true" })];
+    mockAuthData = { authenticated: true };
+
+    const wrapper = await mountSuspended(WorkPage);
+
+    expect(wrapper.find("[data-testid='password-gate']").exists()).toBe(false);
+    expect(wrapper.findComponent({ name: "SectionsWorkHero" }).exists()).toBe(
+      true,
+    );
+  });
+
+  it("unlocks full case study when password gate emits unlocked event", async () => {
+    mockProjects = [makeProject({ protected: "true" })];
+    mockAuthData = { authenticated: false };
+
+    const wrapper = await mountSuspended(WorkPage);
+
+    const gate = wrapper.findComponent({ name: "CaseStudyPasswordGate" });
+    expect(gate.exists()).toBe(true);
+
+    await gate.vm.$emit("unlocked");
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find("[data-testid='password-gate']").exists()).toBe(false);
+    expect(wrapper.findComponent({ name: "SectionsWorkHero" }).exists()).toBe(
+      true,
+    );
   });
 });

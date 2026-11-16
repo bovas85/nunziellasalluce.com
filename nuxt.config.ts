@@ -108,10 +108,12 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    caseStudyPassword: process.env.CASE_STUDY_PASSWORD || "",
     public: {
       enableCvLivePreview: process.env.ENABLE_CV_LIVE_PREVIEW !== "false",
       enableNormalizeContactFormButton:
         process.env.ENABLE_NORMALIZE_CONTACT_FORM_BUTTON !== "false",
+      protectedCaseStudies: process.env.PROTECTED_CASE_STUDIES || "fd-surgery",
     },
   },
 });

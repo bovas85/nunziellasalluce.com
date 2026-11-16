@@ -5,5 +5,5 @@
     "MD033": false,
     "MD041": false,
   },
-  "ignores": [".github", ".github/**"],
+  "ignores": [".github", ".github/**", ".worktree*", ".worktree*/**"],
 }

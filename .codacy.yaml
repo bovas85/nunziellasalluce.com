@@ -1,10 +1,13 @@
 ---
+exclude_paths:
+  - "tools/**"
 engines:
   stylelint:
     enabled: false
   biome:
     exclude_paths:
       - "app/components/UI/TheContactForm.spec.ts"
+      - "tools/**"
   markdownlint:
     exclude_paths:
       - ".github/instructions/**"
