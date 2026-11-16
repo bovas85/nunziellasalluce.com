@@ -84,4 +84,20 @@ describe("CaseStudyPasswordGate.vue", () => {
     expect(wrapper.emitted("unlocked")).toBeFalsy();
     vi.unstubAllGlobals();
   });
+
+  it("automatically verifies password on mount if query parameter p is present", async () => {
+    const fetchSpy = vi.fn().mockResolvedValue({ success: true });
+    vi.stubGlobal("$fetch", fetchSpy);
+
+    const wrapper = await mountSuspended(CaseStudyPasswordGate, {
+      route: "/private?p=auto-secret",
+    });
+
+    expect(fetchSpy).toHaveBeenCalledWith("/api/verify-access", {
+      method: "POST",
+      body: { password: "auto-secret" },
+    });
+    expect(wrapper.emitted("unlocked")).toBeTruthy();
+    vi.unstubAllGlobals();
+  });
 });

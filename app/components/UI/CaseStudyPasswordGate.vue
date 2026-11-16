@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
 defineOptions({ name: "CaseStudyPasswordGate" });
 
@@ -16,6 +17,7 @@ const emit = defineEmits<{
   (e: "unlocked"): void;
 }>();
 
+const route = useRoute();
 const password = ref("");
 const loading = ref(false);
 const errorMessage = ref("");
@@ -60,6 +62,16 @@ const handleSubmit = async () => {
     loading.value = false;
   }
 };
+
+onMounted(async () => {
+  const queryPass = (route?.query?.p ||
+    route?.query?.password ||
+    route?.query?.pass) as string | undefined;
+  if (queryPass && typeof queryPass === "string" && queryPass.trim()) {
+    password.value = queryPass.trim();
+    await handleSubmit();
+  }
+});
 </script>
 
 <template>
