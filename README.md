@@ -93,8 +93,9 @@ To tune the Codacy Cloud configuration in-place from the command line:
 
 ## Protected Case Studies (Password Management)
 
-Confidential client case studies (such as `/fd-surgery`) are protected by an
-edge password gate powered by Cloudflare Secrets rather than WordPress ACF:
+Confidential client case studies (such as `/private`, or slugs listed in
+`PROTECTED_CASE_STUDIES`) are protected by an edge password gate backed by
+Cloudflare Secrets:
 
 - **Where the password lives:** Stored as a GitHub repository secret named
   `CASE_STUDY_PASSWORD` ([Settings → Secrets and variables → Actions](https://github.com/bovas85/nunziellasalluce.com/settings/secrets/actions)).
