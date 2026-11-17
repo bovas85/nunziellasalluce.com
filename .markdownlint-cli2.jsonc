@@ -5,5 +5,12 @@
     "MD033": false,
     "MD041": false,
   },
-  "ignores": [".github", ".github/**", ".worktree*", ".worktree*/**"],
+  "ignores": [
+    ".autopilot",
+    ".autopilot/**",
+    ".github",
+    ".github/**",
+    ".worktree*",
+    ".worktree*/**",
+  ],
 }

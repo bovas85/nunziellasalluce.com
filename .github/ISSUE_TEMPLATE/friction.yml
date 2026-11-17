@@ -3,6 +3,18 @@ description: Report recurring developer, CI, or operational friction encountered
 title: "friction: "
 labels: ["friction"]
 body:
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: P0 (blocking now), P1 (costs time on most PRs), P2 (worth fixing), P3 (nice to have)
+      options:
+        - P2
+        - P1
+        - P0
+        - P3
+    validations:
+      required: true
   - type: textarea
     id: what_happened
     attributes:

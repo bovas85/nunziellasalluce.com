@@ -1,0 +1,16 @@
+{
+  "reviewers": {
+    "low": [],
+    "medium": ["Codacy Static Code Analysis"],
+    "high": ["Codacy Static Code Analysis"]
+  },
+  "humanApprovalFor": ["low", "medium", "high"],
+  "autoMergeFor": [],
+  "mergeMethod": "squash",
+  "deployCheck": [
+    "node",
+    "tools/verify-deploy-health.mjs",
+    "--url",
+    "https://nunziellasalluce.com"
+  ]
+}

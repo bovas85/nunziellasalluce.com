@@ -1,0 +1,95 @@
+{
+  "generatedFrom": ["app/pages", "server/routes"],
+  "features": [
+    {
+      "route": "/",
+      "feature": "Home page & work carousel",
+      "source": "app/pages/index.vue",
+      "reach": "Navigate directly to /; fetches WordPress page 18 and case studies via /wp-json proxy.",
+      "actions": [
+        "Browse case study slides",
+        "Swipe/drag carousel",
+        "Open case study CTA"
+      ],
+      "verify": "node tools/control-nunziella.mjs request GET / --contains \"Nunziella\" && node tools/control-nunziella.mjs browse --path / --record"
+    },
+    {
+      "route": "/about",
+      "feature": "About & CV live preview",
+      "source": "app/pages/about.vue",
+      "reach": "Navigate to /about; renders WordPress page 310, CV image preview gated by enableCvLivePreview, and PDF download link.",
+      "actions": ["Scroll CV preview", "Download CV PDF"],
+      "verify": "node tools/control-nunziella.mjs request GET /about --contains \"about\" && node tools/control-nunziella.mjs browse --path /about --record"
+    },
+    {
+      "route": "/contact",
+      "feature": "Contact page & form",
+      "source": "app/pages/contact.vue",
+      "reach": "Navigate to /contact; submits form payload to WordPress Contact Form 7 proxy (Config.api.postFormContact).",
+      "actions": ["Fill and validate contact form", "Submit inquiry"],
+      "verify": "node tools/control-nunziella.mjs request GET /contact --contains \"contact\" && node tools/control-nunziella.mjs browse --path /contact --record"
+    },
+    {
+      "route": "/privacy-policy",
+      "feature": "Privacy policy",
+      "source": "app/pages/privacy-policy.vue",
+      "reach": "Navigate directly to /privacy-policy (public static/CMS page).",
+      "actions": ["Read privacy policy"],
+      "verify": "node tools/control-nunziella.mjs request GET /privacy-policy"
+    },
+    {
+      "route": "/private",
+      "feature": "Private case study route",
+      "source": "app/pages/private.vue",
+      "reach": "Navigate to /private (requires ENABLE_PRIVATE_CASE_STUDY_ROUTE !== false; shows password gate unless authenticated via login).",
+      "actions": [
+        "Unlock via /api/verify-access",
+        "View private case study content"
+      ],
+      "verify": "node tools/control-nunziella.mjs login && node tools/control-nunziella.mjs browse --path /private --record"
+    },
+    {
+      "route": "/[work]",
+      "feature": "Dynamic case study & optional password gate",
+      "source": "app/pages/[work].vue",
+      "reach": "Navigate to /<slug> (e.g. /fd-surgery); append ?preview_gate=1 to test gate UI on any slug, or login first for protected slugs.",
+      "actions": [
+        "Submit case study password",
+        "View unlocked case study sections"
+      ],
+      "verify": "node tools/control-nunziella.mjs browse --path /fd-surgery --record"
+    },
+    {
+      "route": "/[...slug]",
+      "feature": "404 Not Found fallback",
+      "source": "app/pages/[...slug].vue",
+      "reach": "Navigate to any unmatched path (e.g. /does-not-exist) to verify NotFound component.",
+      "actions": ["Return to home"],
+      "verify": "node tools/control-nunziella.mjs request GET /does-not-exist"
+    },
+    {
+      "route": "/api/verify-access",
+      "feature": "Case study edge password gate API",
+      "source": "server/routes/api/verify-access.get.ts, server/routes/api/verify-access.post.ts",
+      "reach": "GET /api/verify-access checks auth cookie; POST /api/verify-access validates CASE_STUDY_PASSWORD and sets HTTP-only cookie.",
+      "actions": ["GET auth status", "POST password verification"],
+      "verify": "node tools/control-nunziella.mjs login && node tools/control-nunziella.mjs request GET /api/verify-access --contains '\"authenticated\":true'"
+    },
+    {
+      "route": "/health",
+      "feature": "HTML health status page",
+      "source": "server/routes/health.get.ts",
+      "reach": "GET /health; no auth or seed required.",
+      "actions": ["Inspect commit SHA and deploy status HTML"],
+      "verify": "node tools/control-nunziella.mjs request GET /health --contains \"Healthy\""
+    },
+    {
+      "route": "/health.json",
+      "feature": "JSON health & commit SHA endpoint",
+      "source": "server/routes/health.json.get.ts",
+      "reach": "GET /health.json; returns { ok, status, commitSha, deploy }.",
+      "actions": ["Verify live commit SHA against expected merge SHA"],
+      "verify": "node tools/control-nunziella.mjs health --origin http://127.0.0.1:3000"
+    }
+  ]
+}

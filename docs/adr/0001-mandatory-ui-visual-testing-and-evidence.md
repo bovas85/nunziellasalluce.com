@@ -147,3 +147,9 @@ must adhere to strict optimization guidelines:
 - **Exempt from:** Pure backend services, headless APIs without frontends,
   data migrations, internal CLI tools without GUI output, and documentation-only
   changes.
+
+## Revisit If
+
+- Visual regression SaaS (Chromatic, Percy, Playwright trace hosting) replaces
+  committed `.github/assets/` walkthroughs, or repo clone size grows beyond
+  50 MB due to media artifacts.

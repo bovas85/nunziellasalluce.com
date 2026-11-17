@@ -35,5 +35,15 @@ Thumbs.db
 # Worktrees
 .worktree*
 
+# Autopilot audit and local verification artifacts
+.autopilot/
+
+# Gemini CLI GitHub Actions temporary credentials & runtime files
+gha-creds-*.json
+.gemini/settings.json
+.gemini/commands/
+.gemini/telemetry.log
+gemini-artifacts/
+
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md

@@ -29,20 +29,8 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Generate Nuxt types
-        run: yarn nuxt prepare
-
-      - name: Run ESLint
-        run: yarn lint
-
-      - name: Run Stylelint
-        run: yarn lint:css
-
-      - name: Run Markdownlint
-        run: yarn lint:md
-
-      - name: Run Test Coverage
-        run: yarn test:coverage
+      - name: Run full verify gate (prepare, lint, typecheck, format, map, tests)
+        run: yarn verify
 
       - name: Run Codacy Coverage Reporter
         env:

@@ -3,6 +3,7 @@
 dist/
 node_modules/
 archive/
+.autopilot/
 yarn.lock
 package-lock.json
 public/Nunziella Salluce CV.pdf:Zone.Identifier
