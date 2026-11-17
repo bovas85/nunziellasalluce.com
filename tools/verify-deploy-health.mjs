@@ -38,10 +38,14 @@ function parseArgs() {
   }
 
   if (!options.expectedSha) {
-    try {
-      options.expectedSha = execSync('git rev-parse HEAD', { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
-    } catch {
-      options.expectedSha = 'any';
+    if (process.env.SHIP_PR_SHA) {
+      options.expectedSha = process.env.SHIP_PR_SHA;
+    } else {
+      try {
+        options.expectedSha = execSync('git rev-parse HEAD', { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+      } catch {
+        options.expectedSha = 'any';
+      }
     }
   }
 

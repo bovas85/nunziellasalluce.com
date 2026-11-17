@@ -1,0 +1,3 @@
+yarn lint:all
+yarn format:check
+node tools/control-nunziella.mjs map --check

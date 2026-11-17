@@ -65,7 +65,8 @@ Whenever an `agent-ready` pull request is created, updated, or remains unmerged:
    | CI / Test / Linter Failure | Agent-Ready    | Pull logs, reproduce locally, apply fix, commit, push, verify.          |
    | Deploy Preview Issue       | Agent-Ready    | Verify deployment URL, inspect runtime logs/DOM, resolve discrepancies. |
    | Review Feedback (Bugs)     | Agent-Ready    | Reproduce feedback, update code/tests, record updated evidence, push.   |
-   | Merge Execution            | Needs-Human    | Strict repo invariant: Merging remains restricted to human maintainers. |
+   | Medium/High PR Review      | Agent-Ready    | Spawn an independent `review-pr` subagent (never the coding agent).     |
+   | Merge Execution            | Needs-Human    | Strict repo invariant: Merging remains restricted to `bovas85`.         |
    | Ambiguous Design Fork      | Needs-Human    | Formulate concise question or structured summary for human decision.    |
 
 3. **Handback and Completion Gate:**
@@ -94,6 +95,14 @@ Whenever an `agent-ready` pull request is created, updated, or remains unmerged:
 - Requires strict adherence to the No-Autonomous-Merge invariant to prevent
   accidental merges without human review.
 
+## Revisit If
+
+- `bovas85` enables autonomous `low`-risk merges in
+  [`.github/ship-pr.json`](../../.github/ship-pr.json) and GitHub branch
+  protection, or a dedicated GitHub PR review bot replaces subagent review.
+
 ## References
 
 - [ADR 0001: Mandatory Visual Testing and Media Evidence](0001-mandatory-ui-visual-testing-and-evidence.md)
+- [Ship-PR Skill](../../.agents/skills/ship-pr/SKILL.md)
+- [Review-PR Skill](../../.agents/skills/review-pr/SKILL.md)

@@ -111,6 +111,7 @@ After initiating any recovery action:
 
   ```bash
   node tools/verify-deploy-health.mjs --url "https://nunziellasalluce.com"
+  node tools/control-nunziella.mjs browse --path / --record --origin "https://nunziellasalluce.com"
   ```
 
   And verify in a browser that `/`, `/about`, `/contact`, and case study routes
@@ -120,3 +121,25 @@ After initiating any recovery action:
       connectivity.
 - [ ] Document root cause and add regression tests before reproposing the
       reverted changes.
+
+## 5. Backups & Tested Restore
+
+### WordPress CMS (`nunziella.moustachedesign.fyi`)
+
+- WordPress content and media are backed up externally at the WordPress hosting
+  provider.
+- **Quarterly restore check:** verify an isolated restore in the WordPress
+  hosting dashboard (confirm pages `18`, `235`, `310`, `383` and case studies
+  JSON respond cleanly).
+
+### Cloudflare KV (`ContactSubmissions`)
+
+- Run an isolated export/restore roundtrip test locally or against a target KV
+  namespace (with `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, and
+  `CLOUDFLARE_KV_NAMESPACE_ID`):
+
+  ```bash
+  node tools/verify-kv-restore.mjs
+  # Or live export check:
+  # node tools/verify-kv-restore.mjs --live --namespace-id <KV_NAMESPACE_ID>
+  ```
