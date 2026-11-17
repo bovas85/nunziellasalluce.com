@@ -29,9 +29,6 @@ Thumbs.db
 .env.*
 !.env.example
 
-# Local Netlify folder
-.netlify
-
 # Alchemy runtime cache & local state
 .alchemy
 

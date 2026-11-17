@@ -12,8 +12,8 @@ incidents, rolling back faulty releases, and restoring service for
 - **State & Data:** Cloudflare KV Namespace (`ContactSubmissions`)
 - **CI/CD:** GitHub Actions (`.github/workflows/deploy-cloudflare.yml`)
   triggered on push to `main`
-- **Deploy Previews:** Netlify (for pull requests only; production publishing
-  disabled via `ignore = "exit 0"`)
+- **Deploy Previews:** Cloudflare Workers via Alchemy (automated on PRs to
+  `main`)
 - **Health Verification:** `/health` (HTML dashboard) and `/health.json`
   (Nitro static endpoint)
 
@@ -100,26 +100,6 @@ If GitHub Actions is unavailable or degraded:
    ```bash
    node tools/verify-deploy-health.mjs
    ```
-
-### Method D: Emergency Standby via Netlify (Full Cloudflare Outage)
-
-If Cloudflare suffers an extended global service outage:
-
-1. In `netlify.toml`, temporarily remove or comment out:
-
-   ```toml
-   [context.production]
-     ignore = "exit 0"
-   ```
-
-2. Trigger production build on Netlify or deploy manually:
-
-   ```bash
-   yarn generate
-   npx netlify deploy --prod --dir=dist
-   ```
-
-3. Update DNS CNAME record for `nunziellasalluce.com` to point to Netlify.
 
 ## 4. Post-Incident Verification Checklist
 

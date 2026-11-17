@@ -18,10 +18,7 @@ export interface HealthReport {
 }
 
 export function getHealthReport(): HealthReport {
-  const envSha =
-    process.env.COMMIT_REF ||
-    process.env.CF_PAGES_COMMIT_SHA ||
-    process.env.GITHUB_SHA;
+  const envSha = process.env.CF_PAGES_COMMIT_SHA || process.env.GITHUB_SHA;
 
   let sha = envSha || "";
   let message = "Build deployment";
@@ -46,10 +43,7 @@ export function getHealthReport(): HealthReport {
     }
   }
 
-  const environment =
-    process.env.CONTEXT ||
-    process.env.NODE_ENV ||
-    (process.env.NETLIFY ? "netlify" : "production");
+  const environment = process.env.NODE_ENV || "production";
 
   const githubRepo = "bovas85/nunziellasalluce.com";
   const commitUrl =

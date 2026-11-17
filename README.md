@@ -1,7 +1,6 @@
 # Nunziella Salluce Design
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1860f5a126ed43e6b4a24b61bd5fa37e)](https://app.codacy.com/gh/bovas85/nunziellasalluce.com/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/a709b57f-44b5-4522-9309-2bdc2978acfe/deploy-status)](https://app.netlify.com/sites/nunziellasalluce/deploys)
 
 > Nuxt 4 + WordPress REST API for a portfolio site
 
@@ -24,15 +23,12 @@ $ yarn generate
 
 ## Deployment
 
-The static site is generated to `.output/public` and can be deployed to
-any static hosting:
+Production and PR previews are deployed to Cloudflare Workers via Alchemy
+(`.github/workflows/deploy-cloudflare.yml`):
 
 ```bash
-# preview deploy to Netlify (doesn't affect production)
-$ npx netlify-cli deploy --dir=.output/public
-
-# production deploy to Netlify
-$ npx netlify-cli deploy --dir=.output/public --prod
+# deploy manually via Alchemy
+$ yarn alchemy deploy --yes
 ```
 
 ## Codacy Static Analysis

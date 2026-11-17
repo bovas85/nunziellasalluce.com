@@ -9,7 +9,7 @@ export default {
     ? "/wp-json"
     : "https://nunziella.moustachedesign.fyi/wp-json",
   client: "https://nunziella.moustachedesign.fyi",
-  url: "https://nunziellasalluce.netlify.com",
+  url: "https://nunziellasalluce.com",
   loadDbName: "starter_wp",
   api: {
     homePage: "/wp/v2/pages/18/",
