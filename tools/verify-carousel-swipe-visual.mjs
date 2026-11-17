@@ -9,7 +9,7 @@
  * 3. Desktop drag / swipe gesture (stable subtitles and CTA, transitions suppressed mid-swipe, no flashing)
  * 4. Desktop settle state on new active slide
  * 5. Mobile viewport (390x844 iPhone / Touch) touch swipe stability with subtitles visible
- * 6. High-definition MP4 & MOV walkthrough video (.github/assets/carousel-swipe-walkthrough.mp4 & .mov)
+ * 6. High-definition MP4 walkthrough video (.github/assets/carousel-swipe-walkthrough.mp4)
  *
  * Usage:
  *   node tools/verify-carousel-swipe-visual.mjs
@@ -29,7 +29,6 @@ function parseArgs() {
     url: "",
     outDir: path.resolve(".github/assets"),
     mp4Path: path.resolve(".github/assets/carousel-swipe-walkthrough.mp4"),
-    movPath: path.resolve(".github/assets/carousel-swipe-walkthrough.mov"),
     tempDir: "/tmp/carousel_swipe_visual",
   };
 
@@ -40,8 +39,6 @@ function parseArgs() {
       options.outDir = path.resolve(args[++i]);
     } else if (args[i] === "--mp4" && args[i + 1]) {
       options.mp4Path = path.resolve(args[++i]);
-    } else if (args[i] === "--mov" && args[i + 1]) {
-      options.movPath = path.resolve(args[++i]);
     }
   }
   return options;
@@ -78,7 +75,9 @@ async function waitForServer(url, timeoutMs = 30000) {
     }
     await new Promise((r) => setTimeout(r, 400));
   }
-  throw new Error(`Server at ${url} did not become ready within ${timeoutMs}ms`);
+  throw new Error(
+    `Server at ${url} did not become ready within ${timeoutMs}ms`,
+  );
 }
 
 async function startNuxtServer() {
@@ -335,8 +334,9 @@ async function runVisualTest() {
 
     const initialSlideTitle = await mobilePage.evaluate(
       () =>
-        document.querySelector(".swiper-slide-active h3")?.textContent?.trim() ||
-        "",
+        document
+          .querySelector(".swiper-slide-active h3")
+          ?.textContent?.trim() || "",
     );
 
     const mobileScreenshot = path.join(
@@ -378,7 +378,9 @@ async function runVisualTest() {
       if (waitMs > 0) await mobilePage.waitForTimeout(waitMs);
       const state = await mobilePage.evaluate(() => {
         const activeSlide = document.querySelector(".swiper-slide-active");
-        const sub = activeSlide?.querySelector(".subtitle:not(.subtitle--show)");
+        const sub = activeSlide?.querySelector(
+          ".subtitle:not(.subtitle--show)",
+        );
         const btn = activeSlide?.querySelector(".subtitle--show");
         const imgs = Array.from(
           document.querySelectorAll(".swiper-slide-item img"),
@@ -409,9 +411,7 @@ async function runVisualTest() {
       });
 
       if (state.url !== "/") {
-        throw new Error(
-          `Mobile swipe inadvertently navigated to ${state.url}`,
-        );
+        throw new Error(`Mobile swipe inadvertently navigated to ${state.url}`);
       }
       if (state.subOpacity !== "1" || state.btnOpacity !== "1") {
         throw new Error(
@@ -432,8 +432,9 @@ async function runVisualTest() {
 
     const settledSlideTitle = await mobilePage.evaluate(
       () =>
-        document.querySelector(".swiper-slide-active h3")?.textContent?.trim() ||
-        "",
+        document
+          .querySelector(".swiper-slide-active h3")
+          ?.textContent?.trim() || "",
     );
     if (!settledSlideTitle || settledSlideTitle === initialSlideTitle) {
       throw new Error(
@@ -446,12 +447,10 @@ async function runVisualTest() {
 
     await mobileContext.close();
 
-    // 4. Generate MP4 and MOV Video Walkthroughs via ffmpeg
-    console.log(
-      "\n[4/4] Encoding Walkthrough Videos (.mp4 & .mov) via ffmpeg...",
-    );
+    // 4. Generate H.264 MP4 Video Walkthrough via ffmpeg
+    console.log("\n[4/4] Encoding Walkthrough Video (.mp4) via ffmpeg...");
     if (recordedVideoPath && fs.existsSync(recordedVideoPath)) {
-      // 4a. Encode MP4 (H.264, universally supported across browsers, GitHub & mobile)
+      // Encode MP4 (H.264, universally supported across browsers, GitHub & mobile)
       execFileSync(
         "ffmpeg",
         [
@@ -474,23 +473,6 @@ async function runVisualTest() {
       );
       console.log(`✓ Generated MP4 Walkthrough: ${opts.mp4Path}`);
 
-      // 4b. Encode MOV (ProRes / QuickTime compatible)
-      execFileSync(
-        "ffmpeg",
-        [
-          "-y",
-          "-i",
-          recordedVideoPath,
-          "-c:v",
-          "libx264",
-          "-pix_fmt",
-          "yuv420p",
-          opts.movPath,
-        ],
-        { stdio: "ignore" },
-      );
-      console.log(`✓ Generated MOV Walkthrough: ${opts.movPath}`);
-
       // Also copy to T3 userdata attachments for easy embedding/linking
       const attachmentDir = "/home/leelium/.t3/userdata/attachments";
       if (fs.existsSync(attachmentDir)) {
@@ -498,13 +480,8 @@ async function runVisualTest() {
           attachmentDir,
           "carousel-swipe-walkthrough.mp4",
         );
-        const destMov = path.join(
-          attachmentDir,
-          "carousel-swipe-walkthrough.mov",
-        );
         fs.copyFileSync(opts.mp4Path, destMp4);
-        fs.copyFileSync(opts.movPath, destMov);
-        console.log(`✓ Exported attachments: ${destMp4}, ${destMov}`);
+        console.log(`✓ Exported attachment: ${destMp4}`);
       }
     }
 
@@ -515,7 +492,6 @@ async function runVisualTest() {
     console.log(`- ${draggingScreenshot}`);
     console.log(`- ${mobileScreenshot}`);
     console.log(`- ${opts.mp4Path}`);
-    console.log(`- ${opts.movPath}`);
   } finally {
     await browser.close();
     if (serverProc) {

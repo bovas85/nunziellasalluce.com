@@ -661,7 +661,40 @@ async function cmdBrowse(flags) {
     let videoPath = null;
     if (flags.record && page.video()) {
       await context.close();
-      videoPath = await page.video().path();
+      const rawVideoPath = await page.video().path();
+      const mp4VideoPath = rawVideoPath.replace(/\.webm$/i, ".mp4");
+      try {
+        execFileSync(
+          "ffmpeg",
+          [
+            "-y",
+            "-i",
+            rawVideoPath,
+            "-vf",
+            "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+            "-c:v",
+            "libx264",
+            "-preset",
+            "fast",
+            "-crf",
+            "23",
+            "-pix_fmt",
+            "yuv420p",
+            "-movflags",
+            "+faststart",
+            mp4VideoPath,
+          ],
+          { stdio: "ignore" },
+        );
+        if (fs.existsSync(mp4VideoPath) && mp4VideoPath !== rawVideoPath) {
+          fs.rmSync(rawVideoPath, { force: true });
+          videoPath = mp4VideoPath;
+        } else {
+          videoPath = rawVideoPath;
+        }
+      } catch {
+        videoPath = rawVideoPath;
+      }
       artifacts.push(videoPath);
     } else {
       await context.close();
