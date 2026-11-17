@@ -8,7 +8,7 @@
  * 2. Invalid password error alert feedback
  * 3. Mobile viewport layout (390x844 iPhone / Safari)
  * 4. Successful verification & unlock transition rendering real case study hero & content
- * 5. Animated walkthrough GIF (.github/assets/case-study-password-gate-walkthrough.gif)
+ * 5. H.264 MP4 walkthrough video (.github/assets/case-study-password-gate-walkthrough.mp4)
  *
  * Usage:
  *   node tools/verify-password-gate-visual.mjs
@@ -32,8 +32,8 @@ function parseArgs() {
   const options = {
     url: "",
     outDir: path.resolve(".github/assets"),
-    gifPath: path.resolve(
-      ".github/assets/case-study-password-gate-walkthrough.gif",
+    mp4Path: path.resolve(
+      ".github/assets/case-study-password-gate-walkthrough.mp4",
     ),
     tempDir: "/tmp/case_study_gate_visual",
   };
@@ -43,8 +43,8 @@ function parseArgs() {
       options.url = args[++i].replace(/\/$/, "");
     } else if (args[i] === "--out" && args[i + 1]) {
       options.outDir = path.resolve(args[++i]);
-    } else if (args[i] === "--gif" && args[i + 1]) {
-      options.gifPath = path.resolve(args[++i]);
+    } else if (args[i] === "--mp4" && args[i + 1]) {
+      options.mp4Path = path.resolve(args[++i]);
     }
   }
   return options;
@@ -81,30 +81,32 @@ async function waitForServer(url, timeoutMs = 25000) {
     }
     await new Promise((r) => setTimeout(r, 400));
   }
-  throw new Error(`Server at ${url} did not become ready within ${timeoutMs}ms`);
+  throw new Error(
+    `Server at ${url} did not become ready within ${timeoutMs}ms`,
+  );
 }
 
 async function startNuxtServer() {
   const serverEntry = path.resolve(".output/server/index.mjs");
   if (!fs.existsSync(serverEntry)) {
-    console.log("[Visual Test] .output/server/index.mjs not found. Building Nuxt node-server...");
-    execFileSync(
-      "npx",
-      ["nuxt", "build"],
-      {
-        env: {
-          ...process.env,
-          NITRO_PRESET: "node-server",
-          PROTECTED_CASE_STUDIES: PROTECTED_SLUG,
-          CASE_STUDY_PASSWORD: TEST_VALID_PASS,
-        },
-        stdio: "inherit",
-      },
+    console.log(
+      "[Visual Test] .output/server/index.mjs not found. Building Nuxt node-server...",
     );
+    execFileSync("npx", ["nuxt", "build"], {
+      env: {
+        ...process.env,
+        NITRO_PRESET: "node-server",
+        PROTECTED_CASE_STUDIES: PROTECTED_SLUG,
+        CASE_STUDY_PASSWORD: TEST_VALID_PASS,
+      },
+      stdio: "inherit",
+    });
   }
 
   const port = await getAvailablePort();
-  console.log(`[Visual Test] Starting authentic Nuxt server on port ${port}...`);
+  console.log(
+    `[Visual Test] Starting authentic Nuxt server on port ${port}...`,
+  );
 
   const serverProc = spawn("node", [serverEntry], {
     env: {
@@ -262,11 +264,11 @@ async function runVisualTest() {
     await desktopPage.screenshot({ path: frame5 });
     frames.push(frame5);
 
-    // 5. Generate Animated Walkthrough GIF via ffmpeg
-    console.log("\n[5/5] Generating Animated Walkthrough GIF...");
-    const gifDir = path.dirname(opts.gifPath);
-    if (!fs.existsSync(gifDir)) {
-      fs.mkdirSync(gifDir, { recursive: true });
+    // 5. Generate H.264 Walkthrough MP4 via ffmpeg
+    console.log("\n[5/5] Generating Walkthrough MP4...");
+    const mp4Dir = path.dirname(opts.mp4Path);
+    if (!fs.existsSync(mp4Dir)) {
+      fs.mkdirSync(mp4Dir, { recursive: true });
     }
 
     // Sequence for realistic reading pacing:
@@ -305,25 +307,37 @@ async function runVisualTest() {
           "-i",
           path.join(seqDir, "step_%03d.png"),
           "-vf",
-          "scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=128[p];[s1][p]paletteuse=dither=bayer:bayer_scale=3",
-          opts.gifPath,
+          "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+          "-c:v",
+          "libx264",
+          "-preset",
+          "slow",
+          "-crf",
+          "22",
+          "-pix_fmt",
+          "yuv420p",
+          "-movflags",
+          "+faststart",
+          opts.mp4Path,
         ],
         { stdio: "ignore" },
       );
-      console.log(`✓ Generated Walkthrough GIF: ${opts.gifPath}`);
+      console.log(`✓ Generated Walkthrough MP4: ${opts.mp4Path}`);
 
       // Also copy to attachments directory if available
       const attachmentDir = "/home/leelium/.t3/userdata/attachments";
       if (fs.existsSync(attachmentDir)) {
         const dest = path.join(
           attachmentDir,
-          "case-study-password-gate-walkthrough.gif",
+          "case-study-password-gate-walkthrough.mp4",
         );
-        fs.copyFileSync(opts.gifPath, dest);
+        fs.copyFileSync(opts.mp4Path, dest);
         console.log(`✓ Exported attachment: ${dest}`);
       }
     } catch {
-      console.warn("Notice: ffmpeg failed or not found, screenshots preserved.");
+      console.warn(
+        "Notice: ffmpeg failed or not found, screenshots preserved.",
+      );
     }
 
     console.log("\n=== Visual Test Suite Passed Successfully ===");
@@ -332,7 +346,7 @@ async function runVisualTest() {
     console.log(`- ${errorScreenshot}`);
     console.log(`- ${mobileScreenshot}`);
     console.log(`- ${unlockedScreenshot}`);
-    console.log(`- ${opts.gifPath}`);
+    console.log(`- ${opts.mp4Path}`);
   } finally {
     await browser.close();
     if (serverProc) {

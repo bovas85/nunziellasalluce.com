@@ -44,7 +44,7 @@ operational problems:
   change must be visually validated on both desktop and mobile viewports.
 - **Evidence in Motion:** Dynamic interactions, state transitions, loading
   indicators, and validation states must be demonstrated in motion via
-  animated walkthrough recordings or video.
+  H.264 `.mp4` walkthrough video recordings.
 - **Repository Hygiene:** Media assets must adhere to strict optimization
   standards so that repository clone times and disk footprints remain lean.
 
@@ -100,9 +100,10 @@ and interactive states:
 The visual verification run must produce standardized, committed media files
 stored in the repository's asset directory (e.g., `.github/assets/`):
 
-- **Animated Walkthrough (Preferred):** An animated looping GIF or video
-  demonstrating the complete user flow in motion from initial state through
-  interaction to completion.
+- **Walkthrough Video (Preferred):** An H.264 `.mp4` video (`yuv420p` with
+  `-movflags +faststart`) demonstrating the complete user flow in motion from
+  initial state through interaction to completion. Skip `.mov` (redundant) and
+  `.gif` (poor mobile playback and color banding).
 - **Static Keyframe Screenshots:** High-resolution PNGs capturing distinct
   states (desktop default, mobile viewport, error/alert state, and success
   view).
@@ -111,7 +112,7 @@ stored in the repository's asset directory (e.g., `.github/assets/`):
 
 Every pull request modifying UI must include the following in its description:
 
-1. **Embedded Animated Walkthrough:** The animated GIF or video displayed
+1. **Embedded Walkthrough Video:** The H.264 `.mp4` walkthrough displayed
    prominently at the top of the PR description.
 2. **Screenshot Gallery:** A clear comparison or multi-viewport gallery
    showing desktop and mobile renderings.
@@ -119,7 +120,7 @@ Every pull request modifying UI must include the following in its description:
    to reproduce the test locally:
 
    ```bash
-   npm run test:visual
+   yarn test:visual
    ```
 
 ## Media Optimization Standards
@@ -127,17 +128,18 @@ Every pull request modifying UI must include the following in its description:
 To ensure repository efficiency and prevent bloat, all visual media assets
 must adhere to strict optimization guidelines:
 
-- **Dimensions:** Walkthrough GIFs must be scaled to a maximum width of 800px.
-- **Color Palette:** GIFs generated with tools such as `ffmpeg` must utilize
-  two-pass palette generation (`palettegen` / `paletteuse`) with dithering to
-  achieve crisp typography and graphics without color banding.
-- **File Size Ceiling:** Animated walkthrough GIFs must remain under 1MB. For
-  longer or higher-fidelity flows exceeding 1MB, an MP4/WebM video or an
-  externally hosted asset must be used instead.
+- **Codec & Container:** Encode walkthrough videos as H.264 `.mp4`
+  (`-c:v libx264 -pix_fmt yuv420p -movflags +faststart`) for universal desktop,
+  mobile Safari, and GitHub playback.
+- **Resolution & Quality:** Capture desktop (`1280x800`) or mobile (`390x844`)
+  flows and encode with CRF `22`–`24` (with even dimensions) so text and
+  transitions stay crisp without bloated file sizes.
+- **File Size Ceiling:** Keep committed `.mp4` walkthroughs compact (typically
+  under 2MB).
 - **Format Selection:**
   - **PNG:** For static state screenshots.
-  - **GIF (Optimized):** For standard UI interactions and PR embeds (< 1MB).
-  - **MP4 / WebM:** For extended recordings or complex media flows.
+  - **MP4 (H.264):** For all UI interaction walkthroughs and PR embeds (skip
+    `.mov` and `.gif`).
 
 ## Scope and Applicability
 
