@@ -107,11 +107,14 @@ After initiating any recovery action:
 
 - [ ] Query `/health.json` and verify status is `"healthy"` and
       `commitSha` matches the rollback target.
-- [ ] Run automated visual and console verification:
+- [ ] Run automated health and visual verification against production:
 
   ```bash
-  node scripts/verify-flow.mjs --url "https://nunziellasalluce.com"
+  node tools/verify-deploy-health.mjs --url "https://nunziellasalluce.com"
   ```
+
+  And verify in a browser that `/`, `/about`, `/contact`, and case study routes
+  render cleanly with zero console or network errors.
 
 - [ ] Test the contact form submission endpoint to confirm Cloudflare KV
       connectivity.

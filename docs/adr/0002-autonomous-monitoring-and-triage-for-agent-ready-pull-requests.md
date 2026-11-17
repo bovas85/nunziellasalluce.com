@@ -97,4 +97,3 @@ Whenever an `agent-ready` pull request is created, updated, or remains unmerged:
 ## References
 
 - [ADR 0001: Mandatory Visual Testing and Media Evidence](0001-mandatory-ui-visual-testing-and-evidence.md)
-- [PR Linking & Watching Protocol](file:///.t3_code_instructions)
