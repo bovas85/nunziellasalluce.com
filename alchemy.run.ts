@@ -13,15 +13,17 @@ const PROD_DOMAIN = {
   name: "nunziellasalluce.com",
   aliases: ["www.nunziellasalluce.com"],
 } as const;
+const PROD_KV_TITLE = "nunziellasalluce-ContactSubmissions-prod";
 
-const useCloudflareState = Boolean(
-  process.env.CI ||
-  (process.env.CLOUDFLARE_ACCOUNT_ID && process.env.CLOUDFLARE_API_TOKEN),
+// 1. Declare Cloudflare Resources (pinned by title on `prod` so CI adopts the same
+// namespace across runs even with local state; stage-scoped on PR previews)
+export const SubmissionsKV = Cloudflare.KV.Namespace(
+  "ContactSubmissions",
+  Effect.gen(function* () {
+    const stage = yield* Alchemy.Stage;
+    return stage === PROD_STAGE ? { title: PROD_KV_TITLE } : {};
+  }),
 );
-
-// 1. Declare Cloudflare Resources (stage-scoped so PR previews isolate from prod;
-// no server routes read or write SUBMISSIONS yet)
-export const SubmissionsKV = Cloudflare.KV.Namespace("ContactSubmissions");
 
 // 2. Declare the Nuxt Site using native Cloudflare.Website.Nuxt
 export const Website = Cloudflare.Website.Nuxt(
@@ -69,7 +71,9 @@ export default Alchemy.Stack(
   "nunziellasalluce",
   {
     providers: Cloudflare.providers(),
-    state: useCloudflareState ? Cloudflare.state() : Alchemy.localState(),
+    // Note: Cloudflare.state() requires `Secrets Store: Edit` on CLOUDFLARE_API_TOKEN.
+    // Local state + pinned `prod` Worker name / KV title + `--adopt` updates prod in-place.
+    state: Alchemy.localState(),
   },
   Effect.gen(function* () {
     const site = yield* Website;
