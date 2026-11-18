@@ -102,12 +102,17 @@ export async function fetchHealth(targetUrl, fetchImpl = fetch) {
     if (!res.ok) {
       const bodyText = await res.text().catch(() => "");
       const cfChallenge = isCloudflareChallenge(res, bodyText);
+      const hasCfMitigatedHeader =
+        res.headers?.get?.("cf-mitigated")?.toLowerCase() === "challenge";
+      const challengeSuffix = hasCfMitigatedHeader
+        ? " (cf-mitigated: challenge)"
+        : " (Cloudflare challenge)";
       return {
         ok: false,
         status: res.status,
         cfChallenge,
         error: cfChallenge
-          ? `HTTP ${res.status} ${res.statusText} (cf-mitigated: challenge)`
+          ? `HTTP ${res.status} ${res.statusText}${challengeSuffix}`
           : `HTTP ${res.status} ${res.statusText}`,
       };
     }
@@ -232,9 +237,11 @@ export async function verifyDeployHealth(opts, deps = {}) {
   const maxWaitMs = opts.timeoutSeconds * 1000;
   let activeUrl = opts.url;
   let usedFallback = false;
+  let pendingFallbackProbe = false;
   let lastResult = null;
 
-  while (Date.now() - startTime < maxWaitMs) {
+  while (Date.now() - startTime < maxWaitMs || pendingFallbackProbe) {
+    pendingFallbackProbe = false;
     const result = await fetchHealthImpl(activeUrl);
     lastResult = result;
 
@@ -278,6 +285,7 @@ export async function verifyDeployHealth(opts, deps = {}) {
       );
       activeUrl = opts.fallbackUrl;
       usedFallback = true;
+      pendingFallbackProbe = true;
       continue;
     } else {
       console.log(

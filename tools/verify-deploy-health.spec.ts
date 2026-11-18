@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   DEFAULT_USER_AGENT,
   fetchHealth,
@@ -8,6 +8,10 @@ import {
 } from "./verify-deploy-health.mjs";
 
 describe("verify-deploy-health", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it("parses --url, --fallback-url, --expected-sha, --timeout, and --poll-interval", () => {
     const parsed = parseArgs([
       "--url",
@@ -29,6 +33,17 @@ describe("verify-deploy-health", () => {
       timeoutSeconds: 45,
       pollIntervalSeconds: 2,
     });
+  });
+
+  it("reads fallbackUrl from DEPLOY_HEALTH_FALLBACK_URL when --fallback-url is omitted", () => {
+    vi.stubEnv(
+      "DEPLOY_HEALTH_FALLBACK_URL",
+      "https://env-worker.nunziellasalluce.workers.dev/",
+    );
+    const parsed = parseArgs(["--expected-sha", "abc1234"]);
+    expect(parsed.fallbackUrl).toBe(
+      "https://env-worker.nunziellasalluce.workers.dev",
+    );
   });
 
   it("detects Cloudflare challenge responses from cf-mitigated header or challenge HTML", () => {
@@ -59,8 +74,8 @@ describe("verify-deploy-health", () => {
     ).toBe(false);
   });
 
-  it("sends explicit User-Agent and flags cfChallenge on 403 challenge responses", async () => {
-    const fetchMock = vi.fn(async (_url, init) => {
+  it("sends explicit User-Agent and formats challenge source accurately on 403 challenge responses", async () => {
+    const fetchHeaderMock = vi.fn(async (_url, init) => {
       expect(init.headers["User-Agent"]).toBe(DEFAULT_USER_AGENT);
       expect(init.headers.Accept).toBe("application/json");
       return new Response("<html><title>Just a moment...</title></html>", {
@@ -70,12 +85,32 @@ describe("verify-deploy-health", () => {
       });
     });
 
-    const result = await fetchHealth("https://nunziellasalluce.com", fetchMock);
-    expect(result).toEqual({
+    const headerResult = await fetchHealth(
+      "https://nunziellasalluce.com",
+      fetchHeaderMock,
+    );
+    expect(headerResult).toEqual({
       ok: false,
       status: 403,
       cfChallenge: true,
       error: "HTTP 403 Forbidden (cf-mitigated: challenge)",
+    });
+
+    const fetchHtmlMock = vi.fn(async () => {
+      return new Response("<html><title>Just a moment...</title></html>", {
+        status: 403,
+        statusText: "Forbidden",
+      });
+    });
+    const htmlResult = await fetchHealth(
+      "https://nunziellasalluce.com",
+      fetchHtmlMock,
+    );
+    expect(htmlResult).toEqual({
+      ok: false,
+      status: 403,
+      cfChallenge: true,
+      error: "HTTP 403 Forbidden (Cloudflare challenge)",
     });
   });
 
@@ -135,6 +170,55 @@ describe("verify-deploy-health", () => {
     ]);
     expect(sleepMock).not.toHaveBeenCalled();
     expect(notifyMock).toHaveBeenCalledTimes(1);
+    expect(notifyMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: "https://nunziellasalluce-nunziellasall6vkqibl253uw4fwqtcyeuiwu.nunziellasalluce.workers.dev",
+      }),
+      true,
+    );
+  });
+
+  it("does not re-switch or infinite-loop if fallback URL also returns a challenge", async () => {
+    const probedUrls = [];
+    const fetchHealthMock = vi.fn(async (url) => {
+      probedUrls.push(url);
+      return {
+        ok: false,
+        status: 403,
+        cfChallenge: true,
+        error: "HTTP 403 Forbidden (cf-mitigated: challenge)",
+      };
+    });
+    const notifyMock = vi.fn(async () => {});
+
+    const outcome = await verifyDeployHealth(
+      {
+        url: "https://nunziellasalluce.com",
+        fallbackUrl:
+          "https://nunziellasalluce-nunziellasall6vkqibl253uw4fwqtcyeuiwu.nunziellasalluce.workers.dev",
+        expectedSha: "69e116dd44ee4f25bda3038a1a37e02072ffa1e1",
+        timeoutSeconds: 0.04,
+        pollIntervalSeconds: 0.05,
+      },
+      {
+        fetchHealth: fetchHealthMock,
+        sendDiscordNotification: notifyMock,
+        sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
+      },
+    );
+
+    expect(outcome.ok).toBe(false);
+    expect(outcome.usedFallback).toBe(true);
+    expect(probedUrls).toEqual([
+      "https://nunziellasalluce.com",
+      "https://nunziellasalluce-nunziellasall6vkqibl253uw4fwqtcyeuiwu.nunziellasalluce.workers.dev",
+    ]);
+    expect(notifyMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: "https://nunziellasalluce-nunziellasall6vkqibl253uw4fwqtcyeuiwu.nunziellasalluce.workers.dev",
+      }),
+      false,
+    );
   });
 
   it("does not fall back on non-challenge HTTP errors such as 404 or 500", async () => {
