@@ -117,8 +117,9 @@ After initiating any recovery action:
   And verify in a browser that `/`, `/about`, `/contact`, and case study routes
   render cleanly with zero console or network errors.
 
-- [ ] Test the contact form submission endpoint to confirm Cloudflare KV
-      connectivity.
+- [ ] Test the `/contact` form submission endpoint
+      (`/wp-json/contact-form-7/v1/contact-forms/78/feedback`) to confirm
+      WordPress Contact Form 7 proxy connectivity.
 - [ ] Document root cause and add regression tests before reproposing the
       reverted changes.
 
