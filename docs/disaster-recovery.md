@@ -11,7 +11,7 @@ incidents, rolling back faulty releases, and restoring service for
   (`Cloudflare.Website.Nuxt`)
 - **State & Data:** Cloudflare KV Namespace (`ContactSubmissions`)
 - **CI/CD:** GitHub Actions (`.github/workflows/deploy-cloudflare.yml`)
-  triggered on push to `main`
+  triggered on push to `main` (or manual `workflow_dispatch`)
 - **Deploy Previews:** Cloudflare Workers via Alchemy (automated on PRs to
   `main`)
 - **Health Verification:** `/health` (HTML dashboard) and `/health.json`
@@ -44,7 +44,9 @@ This is the fastest method to instantly restore traffic to a previous working
 deployment without waiting for a CI/CD build.
 
 1. Open the [Cloudflare Dashboard](https://dash.cloudflare.com).
-2. Navigate to **Workers & Pages** -> **NunziellaSalluceSite**.
+2. Navigate to **Workers & Pages** ->
+   **`nunziellasalluce-nunziellasall6vkqibl253uw4fwqtcyeuiwu`** (the Alchemy
+   `NunziellaSalluceSite` production Worker).
 3. Select the **Deployments** tab.
 4. Locate the last known-good deployment (verified commit SHA).
 5. Click the three dots menu (**...**) next to the target deployment and select
@@ -89,10 +91,15 @@ If GitHub Actions is unavailable or degraded:
    yarn install --ignore-engines
    ```
 
-2. Deploy directly via Alchemy:
+2. Deploy directly via Alchemy (passing `CASE_STUDY_PASSWORD` and
+   `PROTECTED_CASE_STUDIES` so protected case-study settings are preserved):
 
    ```bash
-   CLOUDFLARE_ACCOUNT_ID="<ID>" CLOUDFLARE_API_TOKEN="<TOKEN>" yarn alchemy deploy --yes
+   CLOUDFLARE_ACCOUNT_ID="<ID>" \
+   CLOUDFLARE_API_TOKEN="<TOKEN>" \
+   CASE_STUDY_PASSWORD="<PASSWORD>" \
+   PROTECTED_CASE_STUDIES="<SLUGS>" \
+   yarn alchemy deploy --stage prod --adopt --yes
    ```
 
 3. Run the post-deploy verification:

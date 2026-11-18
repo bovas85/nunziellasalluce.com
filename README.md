@@ -27,8 +27,11 @@ Production and PR previews are deployed to Cloudflare Workers via Alchemy
 (`.github/workflows/deploy-cloudflare.yml`):
 
 ```bash
-# deploy manually via Alchemy
+# deploy an isolated preview stage via Alchemy
 $ yarn alchemy deploy --yes
+
+# deploy production (requires CASE_STUDY_PASSWORD)
+$ CASE_STUDY_PASSWORD="<PASSWORD>" yarn alchemy deploy --stage prod --adopt --yes
 ```
 
 ## Codacy Static Analysis
