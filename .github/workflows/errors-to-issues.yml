@@ -143,7 +143,7 @@ jobs:
           TRACKING_ISSUE: ${{ steps.file-issue.outputs.issue_number }}
         with:
           gemini_api_key: ${{ secrets.GEMINI_CLI_LLM }}
-          gemini_model: "gemini-2.5-flash"
+          gemini_model: "gemini-3.8-flash"
           settings: |
             {
               "model": {
