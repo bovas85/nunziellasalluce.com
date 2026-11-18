@@ -108,6 +108,9 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && steps.check-env.outputs.skip != 'true'
         run: |
           echo "Verifying production health against: https://nunziellasalluce.com"
-          node tools/verify-deploy-health.mjs --url "https://nunziellasalluce.com" --expected-sha "${{ github.sha }}"
+          node tools/verify-deploy-health.mjs \
+            --url "https://nunziellasalluce.com" \
+            --fallback-url "https://nunziellasalluce-nunziellasall6vkqibl253uw4fwqtcyeuiwu.nunziellasalluce.workers.dev" \
+            --expected-sha "${{ github.sha }}"
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
