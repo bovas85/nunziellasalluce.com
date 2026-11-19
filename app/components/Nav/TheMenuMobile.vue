@@ -19,7 +19,7 @@ const closeMenu = () => {
     <div
       class="mobile-menu-portal"
       :class="{ 'is-open': navOpen }"
-      :style="{ display: navOpen ? 'block' : 'none' }"
+      :inert="!navOpen"
     >
       <div
         class="overlay"
@@ -109,14 +109,22 @@ const closeMenu = () => {
   overflow: hidden;
   z-index: 9999;
   pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s linear 0.6s;
 
   &.is-open {
     pointer-events: auto;
+    visibility: visible;
+    transition: visibility 0s linear 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-delay: 0s;
   }
 }
 
 .overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -126,20 +134,29 @@ const closeMenu = () => {
   pointer-events: none;
   z-index: -2;
   cursor: pointer;
-  transition: all 0.6s ease-in-out;
+  transition:
+    opacity 0.6s ease-in-out,
+    visibility 0s linear 0.6s;
 
   &.is-visible {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     z-index: 9000;
+    transition:
+      opacity 0.6s ease-in-out,
+      visibility 0s linear 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-delay: 0s;
   }
 }
 
 .right-nav {
   background: white;
   overflow: auto;
-  position: fixed;
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -147,7 +164,6 @@ const closeMenu = () => {
   inset: 60px 0 0;
   width: 100%;
   height: calc(100% - 60px);
-  height: calc(100vh - 60px);
   opacity: 1;
   visibility: hidden;
   pointer-events: none;
@@ -157,12 +173,11 @@ const closeMenu = () => {
   transform: translateX(102%);
   transition:
     transform 0.6s ease-in-out,
-    visibility 0.6s ease-in-out;
+    visibility 0s linear 0.6s;
 
   @include media(sm) {
     top: 90px;
     height: calc(100% - 90px);
-    height: calc(100vh - 90px);
   }
 
   &.is-visible {
@@ -170,6 +185,13 @@ const closeMenu = () => {
     visibility: visible;
     pointer-events: auto;
     transform: translateX(0);
+    transition:
+      transform 0.6s ease-in-out,
+      visibility 0s linear 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-delay: 0s;
   }
 
   .close-button {

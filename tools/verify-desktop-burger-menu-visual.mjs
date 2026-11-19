@@ -216,9 +216,40 @@ async function runVisualTest() {
     await desktopPage.screenshot({ path: desktopClosedPng });
     console.log(`✓ Saved: ${desktopClosedPng}`);
 
-    // Click burger menu on desktop to open drawer
+    // Verify no horizontal overflow when drawer is closed off-screen
+    const desktopOverflowClosed = await desktopPage.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth: window.innerWidth,
+    }));
+    assert(
+      desktopOverflowClosed.scrollWidth <= desktopOverflowClosed.innerWidth,
+      `Desktop closed drawer caused horizontal overflow: ${JSON.stringify(desktopOverflowClosed)}`,
+    );
+
+    // Click burger menu on desktop to open drawer and verify smooth slide-in animation
     await desktopPage.click(".nav-mobile-toggle");
-    await desktopPage.waitForTimeout(900);
+    await desktopPage.waitForTimeout(220);
+    const desktopMidOpen = await desktopPage.evaluate(() => {
+      const drawer = document.querySelector(".right-nav");
+      const transform = drawer ? getComputedStyle(drawer).transform : "none";
+      const tx =
+        transform && transform !== "none"
+          ? new DOMMatrixReadOnly(transform).m41
+          : 0;
+      return {
+        visibility: drawer ? getComputedStyle(drawer).visibility : null,
+        tx,
+        innerWidth: window.innerWidth,
+      };
+    });
+    assert(
+      desktopMidOpen.visibility === "visible" &&
+        desktopMidOpen.tx > 10 &&
+        desktopMidOpen.tx < desktopMidOpen.innerWidth,
+      `Desktop drawer should slide smoothly rather than snap open: ${JSON.stringify(desktopMidOpen)}`,
+    );
+
+    await desktopPage.waitForTimeout(700);
 
     const desktopOpen = await desktopPage.evaluate(() => {
       const toggle = document.querySelector(".nav-mobile-toggle");
@@ -254,9 +285,34 @@ async function runVisualTest() {
     await desktopPage.screenshot({ path: desktopOpenPng });
     console.log(`✓ Saved: ${desktopOpenPng}`);
 
-    // Close drawer via toggle button
+    // Close drawer via toggle button and verify smooth slide-out animation
     await desktopPage.click(".nav-mobile-toggle");
-    await desktopPage.waitForTimeout(800);
+    await desktopPage.waitForTimeout(220);
+    const desktopMidClose = await desktopPage.evaluate(() => {
+      const drawer = document.querySelector(".right-nav");
+      const transform = drawer ? getComputedStyle(drawer).transform : "none";
+      const tx =
+        transform && transform !== "none"
+          ? new DOMMatrixReadOnly(transform).m41
+          : 0;
+      return {
+        visibility: drawer ? getComputedStyle(drawer).visibility : null,
+        tx,
+      };
+    });
+    assert(
+      desktopMidClose.visibility === "visible" && desktopMidClose.tx > 10,
+      `Desktop drawer should slide out smoothly rather than vanish abruptly: ${JSON.stringify(desktopMidClose)}`,
+    );
+    await desktopPage.waitForTimeout(700);
+    const desktopClosedVis = await desktopPage.evaluate(() => {
+      const drawer = document.querySelector(".right-nav");
+      return drawer ? getComputedStyle(drawer).visibility : null;
+    });
+    assert(
+      desktopClosedVis === "hidden",
+      `Desktop drawer should become hidden after close animation, got ${desktopClosedVis}`,
+    );
 
     // Scroll down to verify sticky header with burger toggle on desktop
     console.log("\n[2/4] Verifying Desktop Scrolled Sticky Header...");
@@ -389,8 +445,37 @@ async function runVisualTest() {
       `Mobile initial nav state invalid: ${JSON.stringify(mobileInitial)}`,
     );
 
+    const mobileOverflowClosed = await mobilePage.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth: window.innerWidth,
+    }));
+    assert(
+      mobileOverflowClosed.scrollWidth <= mobileOverflowClosed.innerWidth,
+      `Mobile closed drawer caused horizontal overflow: ${JSON.stringify(mobileOverflowClosed)}`,
+    );
+
     await mobilePage.click(".nav-mobile-toggle");
-    await mobilePage.waitForTimeout(800);
+    await mobilePage.waitForTimeout(220);
+    const mobileMidOpen = await mobilePage.evaluate(() => {
+      const drawer = document.querySelector(".right-nav");
+      const transform = drawer ? getComputedStyle(drawer).transform : "none";
+      const tx =
+        transform && transform !== "none"
+          ? new DOMMatrixReadOnly(transform).m41
+          : 0;
+      return {
+        visibility: drawer ? getComputedStyle(drawer).visibility : null,
+        tx,
+        innerWidth: window.innerWidth,
+      };
+    });
+    assert(
+      mobileMidOpen.visibility === "visible" &&
+        mobileMidOpen.tx > 5 &&
+        mobileMidOpen.tx < mobileMidOpen.innerWidth,
+      `Mobile drawer should animate smoothly on open: ${JSON.stringify(mobileMidOpen)}`,
+    );
+    await mobilePage.waitForTimeout(700);
     const mobileOpen = await mobilePage.evaluate(() => {
       const drawer = document.querySelector(".right-nav");
       return {
