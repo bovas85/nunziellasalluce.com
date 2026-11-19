@@ -106,11 +106,13 @@ describe("TheNav", () => {
     expect(wrapper.find(".navigation").classes()).toContain("nav-open");
 
     useState("menuScrolled").value = true;
+    useState("menuScrolledDone").value = true;
     mockRoute.path = "/about";
     await nextTick();
 
     expect(wrapper.find(".navigation").classes()).not.toContain("nav-open");
     expect(useState("menuScrolled").value).toBe(false);
+    expect(useState("menuScrolledDone").value).toBe(false);
     expect(document.body.style.overflow).toBe("visible");
   });
 
@@ -182,6 +184,40 @@ describe("TheNav", () => {
       expect(useState("menuScrolledDone").value).toBe(false);
       expect(wrapper.find(".navigation").classes()).not.toContain("scrolled");
       expect(wrapper.find(".navigation").classes()).not.toContain("done");
+    } finally {
+      document.documentElement.scrollTop = 0;
+      vi.useRealTimers();
+    }
+  });
+
+  it("clears pending scroll timers on unmount without mutating scroll state", async () => {
+    vi.useFakeTimers();
+    try {
+      Object.defineProperty(document.documentElement, "scrollTop", {
+        value: 0,
+        writable: true,
+        configurable: true,
+      });
+
+      const wrapper = await mountSuspended(TheNav, {
+        global: {
+          stubs: {
+            teleport: true,
+          },
+        },
+      });
+
+      vi.advanceTimersByTime(60);
+      document.documentElement.scrollTop = 240;
+      window.dispatchEvent(new Event("scroll"));
+      await nextTick();
+
+      wrapper.unmount();
+      vi.advanceTimersByTime(500);
+      await nextTick();
+
+      expect(useState("menuScrolled").value).toBe(false);
+      expect(useState("menuScrolledDone").value).toBe(false);
     } finally {
       document.documentElement.scrollTop = 0;
       vi.useRealTimers();

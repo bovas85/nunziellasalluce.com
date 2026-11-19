@@ -116,10 +116,14 @@ const closeMenu = () => {
     pointer-events: auto;
     visibility: visible;
     transition: visibility 0s linear 0s;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    transition-delay: 0s;
+    transition: none;
   }
 }
 
@@ -146,10 +150,14 @@ const closeMenu = () => {
     transition:
       opacity 0.6s ease-in-out,
       visibility 0s linear 0s;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    transition-delay: 0s;
+    transition: none;
   }
 }
 
@@ -188,10 +196,14 @@ const closeMenu = () => {
     transition:
       transform 0.6s ease-in-out,
       visibility 0s linear 0s;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    transition-delay: 0s;
+    transition: none;
   }
 
   .close-button {
