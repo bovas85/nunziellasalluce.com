@@ -176,13 +176,19 @@ async function runVisualTest() {
 
     const laptopMetrics = await laptopPage.evaluate(() => {
       const wrapper = document.querySelector(".contact-form--wrapper");
+      const form = document.querySelector(".contact-form");
       const rect = wrapper ? wrapper.getBoundingClientRect() : null;
+      const formRect = form ? form.getBoundingClientRect() : null;
       return {
         exists: Boolean(wrapper),
         className: wrapper?.className ?? "",
         opacity: wrapper ? getComputedStyle(wrapper).opacity : null,
         left: rect ? rect.left : -1,
+        right: rect ? rect.right : -1,
         width: rect ? rect.width : 0,
+        formLeft: formRect ? formRect.left : -1,
+        formRight: formRect ? formRect.right : -1,
+        viewportWidth: window.innerWidth,
         overflowX:
           document.documentElement.scrollWidth >
           document.documentElement.clientWidth,
@@ -195,9 +201,13 @@ async function runVisualTest() {
         laptopMetrics.className.includes("animated"),
       `Form must be visible immediately at 1280x720 without scrolling, got ${JSON.stringify(laptopMetrics)}`,
     );
+    const laptopLeftGap = laptopMetrics.formLeft;
+    const laptopRightGap =
+      laptopMetrics.viewportWidth - laptopMetrics.formRight;
     assert(
-      laptopMetrics.left > 250 && laptopMetrics.width <= 840,
-      `Form must be right-offset on desktop, got ${JSON.stringify(laptopMetrics)}`,
+      Math.abs(laptopLeftGap - laptopRightGap) <= 1 &&
+        laptopMetrics.width <= 840,
+      `Form must be centered horizontally on desktop, got ${JSON.stringify(laptopMetrics)}`,
     );
     assert(!laptopMetrics.overflowX, "No horizontal overflow at 1280x720");
     assert(
@@ -258,19 +268,28 @@ async function runVisualTest() {
 
     const desktopInitial = await desktopPage.evaluate(() => {
       const wrapper = document.querySelector(".contact-form--wrapper");
+      const form = document.querySelector(".contact-form");
       const rect = wrapper ? wrapper.getBoundingClientRect() : null;
+      const formRect = form ? form.getBoundingClientRect() : null;
       return {
         opacity: wrapper ? getComputedStyle(wrapper).opacity : null,
         left: rect ? rect.left : -1,
         width: rect ? rect.width : 0,
+        formLeft: formRect ? formRect.left : -1,
+        formRight: formRect ? formRect.right : -1,
+        viewportWidth: window.innerWidth,
         overflowX:
           document.documentElement.scrollWidth >
           document.documentElement.clientWidth,
       };
     });
+    const desktopLeftGap = desktopInitial.formLeft;
+    const desktopRightGap =
+      desktopInitial.viewportWidth - desktopInitial.formRight;
     assert(
-      desktopInitial.opacity === "1" && desktopInitial.left > 250,
-      `Desktop initial form state invalid: ${JSON.stringify(desktopInitial)}`,
+      desktopInitial.opacity === "1" &&
+        Math.abs(desktopLeftGap - desktopRightGap) <= 1,
+      `Desktop initial form must be visible and centered: ${JSON.stringify(desktopInitial)}`,
     );
     assert(!desktopInitial.overflowX, "No horizontal overflow at 1280x800");
 
