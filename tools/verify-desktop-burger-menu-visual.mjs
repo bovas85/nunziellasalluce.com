@@ -185,18 +185,29 @@ async function runVisualTest() {
     await desktopPage.waitForTimeout(700);
 
     const desktopInitial = await desktopPage.evaluate(() => {
+      const nav = document.querySelector(".navigation");
       const toggle = document.querySelector(".nav-mobile-toggle");
       const desktopNav = document.querySelector(".nav-desktop");
       const rect = toggle ? toggle.getBoundingClientRect() : null;
       return {
+        navBg: nav ? getComputedStyle(nav).backgroundColor : null,
         toggleExists: Boolean(toggle),
         toggleDisplay: toggle ? getComputedStyle(toggle).display : null,
         toggleWidth: rect ? rect.width : 0,
         toggleHeight: rect ? rect.height : 0,
         desktopNavExists: Boolean(desktopNav),
+        awwwardsBadgeExists: Boolean(document.querySelector("#awwwards")),
       };
     });
 
+    assert(
+      desktopInitial.navBg === "rgba(0, 0, 0, 0)",
+      `Desktop nav background must start transparent, got ${desktopInitial.navBg}`,
+    );
+    assert(
+      !desktopInitial.awwwardsBadgeExists,
+      "Floating #awwwards nominee badge must not render on home",
+    );
     assert(desktopInitial.toggleExists, "Desktop burger toggle must exist");
     assert(
       desktopInitial.toggleDisplay !== "none" &&
@@ -216,9 +227,40 @@ async function runVisualTest() {
     await desktopPage.screenshot({ path: desktopClosedPng });
     console.log(`✓ Saved: ${desktopClosedPng}`);
 
-    // Click burger menu on desktop to open drawer
+    // Verify no horizontal overflow when drawer is closed off-screen
+    const desktopOverflowClosed = await desktopPage.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth: window.innerWidth,
+    }));
+    assert(
+      desktopOverflowClosed.scrollWidth <= desktopOverflowClosed.innerWidth,
+      `Desktop closed drawer caused horizontal overflow: ${JSON.stringify(desktopOverflowClosed)}`,
+    );
+
+    // Click burger menu on desktop to open drawer and verify smooth slide-in animation
     await desktopPage.click(".nav-mobile-toggle");
-    await desktopPage.waitForTimeout(900);
+    await desktopPage.waitForTimeout(220);
+    const desktopMidOpen = await desktopPage.evaluate(() => {
+      const drawer = document.querySelector(".right-nav");
+      const transform = drawer ? getComputedStyle(drawer).transform : "none";
+      const tx =
+        transform && transform !== "none"
+          ? new DOMMatrixReadOnly(transform).m41
+          : 0;
+      return {
+        visibility: drawer ? getComputedStyle(drawer).visibility : null,
+        tx,
+        innerWidth: window.innerWidth,
+      };
+    });
+    assert(
+      desktopMidOpen.visibility === "visible" &&
+        desktopMidOpen.tx > 10 &&
+        desktopMidOpen.tx < desktopMidOpen.innerWidth,
+      `Desktop drawer should slide smoothly rather than snap open: ${JSON.stringify(desktopMidOpen)}`,
+    );
+
+    await desktopPage.waitForTimeout(700);
 
     const desktopOpen = await desktopPage.evaluate(() => {
       const toggle = document.querySelector(".nav-mobile-toggle");
@@ -254,9 +296,34 @@ async function runVisualTest() {
     await desktopPage.screenshot({ path: desktopOpenPng });
     console.log(`✓ Saved: ${desktopOpenPng}`);
 
-    // Close drawer via toggle button
+    // Close drawer via toggle button and verify smooth slide-out animation
     await desktopPage.click(".nav-mobile-toggle");
-    await desktopPage.waitForTimeout(800);
+    await desktopPage.waitForTimeout(220);
+    const desktopMidClose = await desktopPage.evaluate(() => {
+      const drawer = document.querySelector(".right-nav");
+      const transform = drawer ? getComputedStyle(drawer).transform : "none";
+      const tx =
+        transform && transform !== "none"
+          ? new DOMMatrixReadOnly(transform).m41
+          : 0;
+      return {
+        visibility: drawer ? getComputedStyle(drawer).visibility : null,
+        tx,
+      };
+    });
+    assert(
+      desktopMidClose.visibility === "visible" && desktopMidClose.tx > 10,
+      `Desktop drawer should slide out smoothly rather than vanish abruptly: ${JSON.stringify(desktopMidClose)}`,
+    );
+    await desktopPage.waitForTimeout(700);
+    const desktopClosedVis = await desktopPage.evaluate(() => {
+      const drawer = document.querySelector(".right-nav");
+      return drawer ? getComputedStyle(drawer).visibility : null;
+    });
+    assert(
+      desktopClosedVis === "hidden",
+      `Desktop drawer should become hidden after close animation, got ${desktopClosedVis}`,
+    );
 
     // Scroll down to verify sticky header with burger toggle on desktop
     console.log("\n[2/4] Verifying Desktop Scrolled Sticky Header...");
@@ -272,15 +339,42 @@ async function runVisualTest() {
       const rect = toggle ? toggle.getBoundingClientRect() : null;
       return {
         navPosition: nav ? getComputedStyle(nav).position : null,
+        navBg: nav ? getComputedStyle(nav).backgroundColor : null,
+        navShadow: nav ? getComputedStyle(nav).boxShadow : null,
+        hasScrolledDone: Boolean(
+          nav?.classList.contains("scrolled") &&
+          nav?.classList.contains("done"),
+        ),
         toggleTop: rect ? rect.top : -1,
         toggleVisible: rect ? rect.width > 0 && rect.height > 0 : false,
       };
     });
     assert(
       scrolledToggle.navPosition === "fixed" &&
+        scrolledToggle.hasScrolledDone &&
+        scrolledToggle.navBg === "rgb(231, 231, 231)" &&
+        scrolledToggle.navShadow !== "none" &&
         scrolledToggle.toggleVisible &&
         scrolledToggle.toggleTop >= 0,
-      `Scrolled sticky burger toggle must remain fixed and visible, got ${JSON.stringify(scrolledToggle)}`,
+      `Scrolled sticky header on desktop must change background to #e7e7e7 and stay visible, got ${JSON.stringify(scrolledToggle)}`,
+    );
+
+    const desktopScrolledPng = path.join(
+      opts.outDir,
+      "burger-menu-desktop-scrolled.png",
+    );
+    await desktopPage.screenshot({ path: desktopScrolledPng });
+    console.log(`✓ Saved: ${desktopScrolledPng}`);
+
+    await desktopPage.evaluate(() => window.scrollTo(0, 0));
+    await desktopPage.waitForTimeout(800);
+    const desktopResetBg = await desktopPage.evaluate(() => {
+      const nav = document.querySelector(".navigation");
+      return nav ? getComputedStyle(nav).backgroundColor : null;
+    });
+    assert(
+      desktopResetBg === "rgba(0, 0, 0, 0)",
+      `Desktop nav background must reset to transparent at top, got ${desktopResetBg}`,
     );
 
     // Navigate to About via burger drawer on desktop
@@ -373,24 +467,56 @@ async function runVisualTest() {
     await mobilePage.waitForTimeout(500);
 
     const mobileInitial = await mobilePage.evaluate(() => {
+      const nav = document.querySelector(".navigation");
       const toggle = document.querySelector(".nav-mobile-toggle");
       const desktopNav = document.querySelector(".nav-desktop");
       const rect = toggle ? toggle.getBoundingClientRect() : null;
       return {
+        navBg: nav ? getComputedStyle(nav).backgroundColor : null,
         toggleDisplay: toggle ? getComputedStyle(toggle).display : null,
         toggleVisible: rect ? rect.width > 0 && rect.height > 0 : false,
         desktopNavExists: Boolean(desktopNav),
       };
     });
     assert(
-      mobileInitial.toggleDisplay !== "none" &&
+      mobileInitial.navBg === "rgba(0, 0, 0, 0)" &&
+        mobileInitial.toggleDisplay !== "none" &&
         mobileInitial.toggleVisible &&
         !mobileInitial.desktopNavExists,
       `Mobile initial nav state invalid: ${JSON.stringify(mobileInitial)}`,
     );
 
+    const mobileOverflowClosed = await mobilePage.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth: window.innerWidth,
+    }));
+    assert(
+      mobileOverflowClosed.scrollWidth <= mobileOverflowClosed.innerWidth,
+      `Mobile closed drawer caused horizontal overflow: ${JSON.stringify(mobileOverflowClosed)}`,
+    );
+
     await mobilePage.click(".nav-mobile-toggle");
-    await mobilePage.waitForTimeout(800);
+    await mobilePage.waitForTimeout(220);
+    const mobileMidOpen = await mobilePage.evaluate(() => {
+      const drawer = document.querySelector(".right-nav");
+      const transform = drawer ? getComputedStyle(drawer).transform : "none";
+      const tx =
+        transform && transform !== "none"
+          ? new DOMMatrixReadOnly(transform).m41
+          : 0;
+      return {
+        visibility: drawer ? getComputedStyle(drawer).visibility : null,
+        tx,
+        innerWidth: window.innerWidth,
+      };
+    });
+    assert(
+      mobileMidOpen.visibility === "visible" &&
+        mobileMidOpen.tx > 5 &&
+        mobileMidOpen.tx < mobileMidOpen.innerWidth,
+      `Mobile drawer should animate smoothly on open: ${JSON.stringify(mobileMidOpen)}`,
+    );
+    await mobilePage.waitForTimeout(700);
     const mobileOpen = await mobilePage.evaluate(() => {
       const drawer = document.querySelector(".right-nav");
       return {
@@ -406,6 +532,59 @@ async function runVisualTest() {
     const mobileOpenPng = path.join(opts.outDir, "burger-menu-mobile-open.png");
     await mobilePage.screenshot({ path: mobileOpenPng });
     console.log(`✓ Saved: ${mobileOpenPng}`);
+
+    // Close mobile drawer and verify scrolled nav background change on mobile
+    await mobilePage.click(".nav-mobile-toggle");
+    await mobilePage.waitForTimeout(800);
+    for (let y = 0; y <= 600; y += 150) {
+      await mobilePage.evaluate((top) => window.scrollTo(0, top), y);
+      await mobilePage.waitForTimeout(60);
+    }
+    await mobilePage.waitForTimeout(1200);
+
+    const mobileScrolled = await mobilePage.evaluate(() => {
+      const nav = document.querySelector(".navigation");
+      const toggle = document.querySelector(".nav-mobile-toggle");
+      const rect = toggle ? toggle.getBoundingClientRect() : null;
+      return {
+        navPosition: nav ? getComputedStyle(nav).position : null,
+        navBg: nav ? getComputedStyle(nav).backgroundColor : null,
+        navShadow: nav ? getComputedStyle(nav).boxShadow : null,
+        hasScrolledDone: Boolean(
+          nav?.classList.contains("scrolled") &&
+          nav?.classList.contains("done"),
+        ),
+        toggleTop: rect ? rect.top : -1,
+        toggleVisible: rect ? rect.width > 0 && rect.height > 0 : false,
+      };
+    });
+    assert(
+      mobileScrolled.navPosition === "fixed" &&
+        mobileScrolled.hasScrolledDone &&
+        mobileScrolled.navBg === "rgb(231, 231, 231)" &&
+        mobileScrolled.navShadow !== "none" &&
+        mobileScrolled.toggleVisible &&
+        mobileScrolled.toggleTop >= 0,
+      `Mobile scrolled header must change background to #e7e7e7, got ${JSON.stringify(mobileScrolled)}`,
+    );
+
+    const mobileScrolledPng = path.join(
+      opts.outDir,
+      "burger-menu-mobile-scrolled.png",
+    );
+    await mobilePage.screenshot({ path: mobileScrolledPng });
+    console.log(`✓ Saved: ${mobileScrolledPng}`);
+
+    await mobilePage.evaluate(() => window.scrollTo(0, 0));
+    await mobilePage.waitForTimeout(800);
+    const mobileResetBg = await mobilePage.evaluate(() => {
+      const nav = document.querySelector(".navigation");
+      return nav ? getComputedStyle(nav).backgroundColor : null;
+    });
+    assert(
+      mobileResetBg === "rgba(0, 0, 0, 0)",
+      `Mobile nav background must reset to transparent at top, got ${mobileResetBg}`,
+    );
 
     assert(
       mobileConsoleErrors.length === 0 && mobilePageErrors.length === 0,
