@@ -106,6 +106,22 @@ describe("Domain Agent router and scenarios", () => {
       ).passed,
     ).toBe(false);
 
+    const execDeny = vi
+      .fn()
+      .mockReturnValueOnce(JSON.stringify({ response: "Deploy to Netlify" }))
+      .mockReturnValueOnce(
+        JSON.stringify({
+          response: JSON.stringify({ passed: false, reason: "Violates Never" }),
+        }),
+      );
+    expect(
+      evaluateScenarioGemini(
+        emptyAgent,
+        { title: "G3", ask: "Ask", expect: "Expect", never: "Netlify" },
+        execDeny,
+      ),
+    ).toEqual({ title: "G3", passed: false, reason: "Violates Never" });
+
     const logs = [];
     const logFn = (msg) => logs.push(msg);
     expect(
