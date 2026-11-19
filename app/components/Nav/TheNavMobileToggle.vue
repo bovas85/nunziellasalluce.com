@@ -25,15 +25,17 @@ const route = useRoute();
       <div v-if="!navOpen" key="closed" class="rotate">
         <IconsBurgerMenu
           :fill="
-            ((route.path === '/' || route.path === '/privacy-policy') &&
-              'black') ||
+            route.path === '/' ||
+            route.path === '/contact' ||
+            route.path === '/privacy-policy' ||
             menuScrolled
               ? 'black'
               : 'white'
           "
           :stroke="
-            ((route.path === '/' || route.path === '/privacy-policy') &&
-              'black') ||
+            route.path === '/' ||
+            route.path === '/contact' ||
+            route.path === '/privacy-policy' ||
             menuScrolled
               ? 'black'
               : 'white'
@@ -42,7 +44,10 @@ const route = useRoute();
       </div>
       <div v-else key="open" class="rotate">
         <div
-          :class="(route.path === '/' || navOpen) && 'black'"
+          :class="
+            (route.path === '/' || route.path === '/contact' || navOpen) &&
+            'black'
+          "
           class="close-icon"
         >
           <span class="close-icon--line" />

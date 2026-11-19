@@ -90,6 +90,7 @@ async function startNuxtServer() {
         ...process.env,
         NITRO_PRESET: "node-server",
         ENABLE_DESKTOP_BURGER_MENU: "true",
+        NUXT_PUBLIC_ENABLE_DESKTOP_BURGER_MENU: "true",
       },
       stdio: "inherit",
     });
@@ -105,6 +106,7 @@ async function startNuxtServer() {
       NITRO_PORT: String(port),
       HOST: "127.0.0.1",
       ENABLE_DESKTOP_BURGER_MENU: "true",
+      NUXT_PUBLIC_ENABLE_DESKTOP_BURGER_MENU: "true",
     },
     stdio: "pipe",
   });
@@ -288,6 +290,53 @@ async function runVisualTest() {
     await desktopPage.waitForLoadState("networkidle");
     await desktopPage.waitForTimeout(700);
 
+    const aboutState = await desktopPage.evaluate(() => {
+      const toggle = document.querySelector(".nav-mobile-toggle");
+      const drawer = document.querySelector(".right-nav");
+      const rect = toggle ? toggle.getBoundingClientRect() : null;
+      return {
+        pathname: window.location.pathname,
+        drawerVisibility: drawer ? getComputedStyle(drawer).visibility : null,
+        toggleVisible: rect ? rect.width > 0 && rect.height > 0 : false,
+      };
+    });
+    assert(
+      aboutState.pathname === "/about" &&
+        aboutState.drawerVisibility === "hidden" &&
+        aboutState.toggleVisible,
+      `About route navigation from drawer failed: ${JSON.stringify(aboutState)}`,
+    );
+
+    // Navigate to /contact via burger drawer and verify black burger icon contrast
+    await desktopPage.click(".nav-mobile-toggle");
+    await desktopPage.waitForTimeout(800);
+    await desktopPage.click('.right-nav .menu a[href="/contact"]');
+    await desktopPage.waitForLoadState("networkidle");
+    await desktopPage.waitForTimeout(700);
+
+    const contactState = await desktopPage.evaluate(() => {
+      const toggle = document.querySelector(".nav-mobile-toggle");
+      const paths = toggle
+        ? [...toggle.querySelectorAll("svg path")].map((p) => ({
+            stroke: p.getAttribute("stroke"),
+            fill: p.getAttribute("fill"),
+          }))
+        : [];
+      const rect = toggle ? toggle.getBoundingClientRect() : null;
+      return {
+        pathname: window.location.pathname,
+        toggleVisible: rect ? rect.width > 0 && rect.height > 0 : false,
+        paths,
+      };
+    });
+    assert(
+      contactState.pathname === "/contact" &&
+        contactState.toggleVisible &&
+        contactState.paths[0]?.stroke === "black" &&
+        contactState.paths[1]?.fill === "black",
+      `Contact route burger icon must be visible and black: ${JSON.stringify(contactState)}`,
+    );
+
     await desktopPage.close();
     await desktopContext.close();
 
@@ -311,8 +360,34 @@ async function runVisualTest() {
       hasTouch: true,
     });
     const mobilePage = await mobileContext.newPage();
+    const mobileConsoleErrors = [];
+    const mobilePageErrors = [];
+    mobilePage.on("console", (msg) => {
+      if (msg.type() === "error") mobileConsoleErrors.push(msg.text());
+    });
+    mobilePage.on("pageerror", (err) => {
+      mobilePageErrors.push(err.message);
+    });
+
     await mobilePage.goto(targetUrl, { waitUntil: "networkidle" });
     await mobilePage.waitForTimeout(500);
+
+    const mobileInitial = await mobilePage.evaluate(() => {
+      const toggle = document.querySelector(".nav-mobile-toggle");
+      const desktopNav = document.querySelector(".nav-desktop");
+      const rect = toggle ? toggle.getBoundingClientRect() : null;
+      return {
+        toggleDisplay: toggle ? getComputedStyle(toggle).display : null,
+        toggleVisible: rect ? rect.width > 0 && rect.height > 0 : false,
+        desktopNavExists: Boolean(desktopNav),
+      };
+    });
+    assert(
+      mobileInitial.toggleDisplay !== "none" &&
+        mobileInitial.toggleVisible &&
+        !mobileInitial.desktopNavExists,
+      `Mobile initial nav state invalid: ${JSON.stringify(mobileInitial)}`,
+    );
 
     await mobilePage.click(".nav-mobile-toggle");
     await mobilePage.waitForTimeout(800);
@@ -331,6 +406,11 @@ async function runVisualTest() {
     const mobileOpenPng = path.join(opts.outDir, "burger-menu-mobile-open.png");
     await mobilePage.screenshot({ path: mobileOpenPng });
     console.log(`✓ Saved: ${mobileOpenPng}`);
+
+    assert(
+      mobileConsoleErrors.length === 0 && mobilePageErrors.length === 0,
+      `Unexpected mobile browser errors: console=${JSON.stringify(mobileConsoleErrors)} page=${JSON.stringify(mobilePageErrors)}`,
+    );
 
     await mobileContext.close();
 

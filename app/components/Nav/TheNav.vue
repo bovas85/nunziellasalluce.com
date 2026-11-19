@@ -270,13 +270,19 @@ watch(
   }
 
   &.contact,
-  &.about,
-  &.scrolled.done.contact,
-  &.scrolled.done.about {
+  &.about {
     background-color: transparent;
 
     .navbar :deep(a) {
       color: white;
+    }
+
+    &.scrolled.done {
+      background-color: white;
+
+      .navbar :deep(a) {
+        color: $secondary;
+      }
     }
   }
 
