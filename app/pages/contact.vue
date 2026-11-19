@@ -237,10 +237,9 @@ onBeforeUnmount(() => {
 
         @include media(lg) {
           width: auto;
-          margin: 0;
+          margin: 0 auto;
           padding: 0 $gap;
-          margin-left: auto;
-          margin-right: 10vw;
+          justify-self: center;
         }
       }
 
@@ -265,8 +264,6 @@ onBeforeUnmount(() => {
 
     .contact-form--wrapper {
       @include media(lg) {
-        margin-left: auto;
-        margin-right: 10vw;
         min-height: 546px;
       }
 
