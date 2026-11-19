@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRuntimeConfig } from "#app";
 import { useWindowScroll, watchThrottled } from "@vueuse/core";
-import { computed, ref, watch } from "vue";
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -18,20 +18,24 @@ const navOpen = useState("navOpen", () => false);
 
 const { y } = useWindowScroll();
 
-let scrollTimeout1: ReturnType<typeof setTimeout>;
-let scrollTimeout2: ReturnType<typeof setTimeout>;
+let scrollTimeout1: ReturnType<typeof setTimeout> | undefined;
+let scrollTimeout2: ReturnType<typeof setTimeout> | undefined;
 
 watchThrottled(
   y,
   (newY) => {
+    if (!import.meta.client) return;
+
     // If we scroll past 150px, trigger the sticky menu animations
     if (newY > 150) {
-      if (!menuScrolled.value) {
+      if (!menuScrolled.value || !menuScrolledDone.value) {
         clearTimeout(scrollTimeout1);
         clearTimeout(scrollTimeout2);
-        scrollTimeout1 = setTimeout(() => {
-          menuScrolled.value = true;
-        }, 150);
+        if (!menuScrolled.value) {
+          scrollTimeout1 = setTimeout(() => {
+            menuScrolled.value = true;
+          }, 150);
+        }
         scrollTimeout2 = setTimeout(() => {
           menuScrolledDone.value = true;
         }, 400);
@@ -44,7 +48,7 @@ watchThrottled(
       menuScrolledDone.value = false;
     }
   },
-  { throttle: 50 },
+  { throttle: 50, immediate: true },
 );
 
 const menuItems = ["", "work", "about", "contact"];
@@ -70,6 +74,8 @@ watch(navOpen, (newVal) => {
 watch(
   () => route.path,
   () => {
+    clearTimeout(scrollTimeout1);
+    clearTimeout(scrollTimeout2);
     navOpen.value = false;
     menuScrolled.value = false;
     menuScrolledDone.value = false;
@@ -80,6 +86,11 @@ watch(
     }
   },
 );
+
+onBeforeUnmount(() => {
+  clearTimeout(scrollTimeout1);
+  clearTimeout(scrollTimeout2);
+});
 </script>
 
 <template>
@@ -164,6 +175,13 @@ watch(
   margin: 0 auto;
   padding: 0 $gap;
   position: fixed;
+  transition:
+    background-color 0.6s ease-in-out,
+    box-shadow 0.6s ease-in-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 
   @include media(sm) {
     height: 90px;
@@ -261,11 +279,20 @@ watch(
   }
 
   &.scrolled.done {
+    background-color: $lightgrey;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+    transition:
+      background-color 0.6s ease-in-out,
+      box-shadow 0.6s ease-in-out;
+
     @include media(lg) {
       position: fixed;
-      background-color: white;
       transition: all 0.6s ease-in-out;
       transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
     }
   }
 
@@ -278,7 +305,8 @@ watch(
     }
 
     &.scrolled.done {
-      background-color: white;
+      background-color: $lightgrey;
+      box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
 
       .navbar :deep(a) {
         color: $secondary;
@@ -288,6 +316,11 @@ watch(
 
   &.static {
     background-color: transparent;
+
+    &.scrolled.done {
+      background-color: $lightgrey;
+      box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+    }
   }
 
   &.nav-open {

@@ -135,4 +135,56 @@ describe("TheNav", () => {
     expect(modalContainer.exists()).toBe(true);
     expect(modalContainer.classes()).toContain("is-hidden-desktop");
   });
+
+  it("applies scrolled and done classes after scrolling past 150px and resets at top", async () => {
+    vi.useFakeTimers();
+    try {
+      Object.defineProperty(document.documentElement, "scrollTop", {
+        value: 0,
+        writable: true,
+        configurable: true,
+      });
+
+      const wrapper = await mountSuspended(TheNav, {
+        global: {
+          stubs: {
+            teleport: true,
+          },
+        },
+      });
+
+      expect(wrapper.find(".navigation").classes()).not.toContain("scrolled");
+      expect(wrapper.find(".navigation").classes()).not.toContain("done");
+
+      vi.advanceTimersByTime(60);
+      document.documentElement.scrollTop = 220;
+      window.dispatchEvent(new Event("scroll"));
+      await nextTick();
+
+      vi.advanceTimersByTime(150);
+      await nextTick();
+      expect(useState("menuScrolled").value).toBe(true);
+      expect(wrapper.find(".navigation").classes()).toContain("scrolled");
+      expect(wrapper.find(".navigation").classes()).not.toContain("done");
+
+      vi.advanceTimersByTime(250);
+      await nextTick();
+      expect(useState("menuScrolledDone").value).toBe(true);
+      expect(wrapper.find(".navigation").classes()).toContain("scrolled");
+      expect(wrapper.find(".navigation").classes()).toContain("done");
+
+      vi.advanceTimersByTime(60);
+      document.documentElement.scrollTop = 0;
+      window.dispatchEvent(new Event("scroll"));
+      await nextTick();
+
+      expect(useState("menuScrolled").value).toBe(false);
+      expect(useState("menuScrolledDone").value).toBe(false);
+      expect(wrapper.find(".navigation").classes()).not.toContain("scrolled");
+      expect(wrapper.find(".navigation").classes()).not.toContain("done");
+    } finally {
+      document.documentElement.scrollTop = 0;
+      vi.useRealTimers();
+    }
+  });
 });
