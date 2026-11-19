@@ -150,4 +150,96 @@ describe("LazyImage", () => {
     expect(desktopSource?.attributes("srcset")).toBe(defaultImage.sizes.ultra);
     expect(desktopSource?.attributes("data-srcset")).toBeUndefined();
   });
+
+  it("skips forced mobile bio override and webp sources when highQuality is true", () => {
+    const bioImage = {
+      id: 256,
+      url: "https://nunziella.moustachedesign.fyi/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design.jpg",
+      sizes: {
+        large:
+          "https://nunziella.moustachedesign.fyi/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design-1920x1080.jpg",
+        ultra:
+          "https://nunziella.moustachedesign.fyi/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design.jpg",
+      },
+    } as unknown as WPImage;
+
+    const wrapper = mount(LazyImage, {
+      props: {
+        image: bioImage,
+        imageMobile: undefined,
+        highQuality: true,
+        lazyload: false,
+      },
+    });
+
+    const sources = wrapper.findAll("source");
+    const webpSources = sources.filter(
+      (s) => s.attributes("type") === "image/webp",
+    );
+    expect(webpSources).toHaveLength(0);
+
+    const mobileSource = sources.find(
+      (s) => s.attributes("media") === "(max-width: 576px)",
+    );
+    expect(mobileSource?.attributes("srcset")).toBe(bioImage.sizes.ultra);
+
+    const tabletSource = sources.find(
+      (s) =>
+        s.attributes("media") === "(min-width: 577px) and (max-width: 1023px)",
+    );
+    expect(tabletSource?.attributes("srcset")).toBe(bioImage.sizes.ultra);
+
+    const img = wrapper.find("img");
+    expect(img.attributes("src")).toBe(bioImage.sizes.ultra);
+  });
+
+  it("uses ultra/url fallback on mobile viewport when highQuality is true", () => {
+    const originalInnerWidth = window.innerWidth;
+    const originalMatchMedia = window.matchMedia;
+    Object.defineProperty(window, "innerWidth", {
+      writable: true,
+      configurable: true,
+      value: 390,
+    });
+    window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: query.includes("1023px"),
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
+    try {
+      const bioImage = {
+        id: 256,
+        url: "https://nunziella.moustachedesign.fyi/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design.jpg",
+        sizes: {
+          large:
+            "https://nunziella.moustachedesign.fyi/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design-1920x1080.jpg",
+          ultra:
+            "https://nunziella.moustachedesign.fyi/wp-content/uploads/2018/08/Bio-Nunziella-Salluce-Design.jpg",
+        },
+      } as unknown as WPImage;
+
+      const wrapper = mount(LazyImage, {
+        props: {
+          image: bioImage,
+          highQuality: true,
+          lazyload: false,
+        },
+      });
+
+      expect(wrapper.find("img").attributes("src")).toBe(bioImage.sizes.ultra);
+    } finally {
+      Object.defineProperty(window, "innerWidth", {
+        writable: true,
+        configurable: true,
+        value: originalInnerWidth,
+      });
+      window.matchMedia = originalMatchMedia;
+    }
+  });
 });

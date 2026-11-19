@@ -126,6 +126,10 @@ export default defineNuxtConfig({
         process.env.ENABLE_NORMALIZE_CONTACT_FORM_BUTTON !== "false",
       enableDesktopBurgerMenu:
         process.env.ENABLE_DESKTOP_BURGER_MENU !== "false",
+      enableAboutBgQualityFix:
+        process.env.ENABLE_ABOUT_BG_QUALITY_FIX !== undefined
+          ? process.env.ENABLE_ABOUT_BG_QUALITY_FIX !== "false"
+          : process.env.ENABLE_PREVENT_PIXELATED_LOW_QUALITY !== "false",
       protectedCaseStudies: process.env.PROTECTED_CASE_STUDIES || "",
     },
   },

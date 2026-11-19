@@ -6,6 +6,7 @@ interface ImageSourceProps {
   image?: WPImage;
   imageMobile?: WPImage;
   isThumb?: boolean;
+  highQuality?: boolean;
 }
 
 export function useImageSources(
@@ -14,6 +15,7 @@ export function useImageSources(
 ) {
   const mobileSrc = computed(() => {
     if (
+      !props.highQuality &&
       props.image?.url
         ?.toLowerCase()
         .includes("bio-nunziella-salluce-design.jpg")
@@ -22,6 +24,16 @@ export function useImageSources(
     }
     if (props.imageMobile?.url && props.imageMobile?.id !== props.image?.id) {
       return props.imageMobile.url;
+    }
+    if (props.highQuality) {
+      return (
+        props.image?.sizes?.ultra ||
+        props.image?.url ||
+        props.image?.sizes?.large ||
+        props.image?.sizes?.medium_large ||
+        props.image?.sizes?.medium ||
+        ""
+      );
     }
     return (
       props.image?.sizes?.large ||
@@ -33,6 +45,17 @@ export function useImageSources(
   });
 
   const getMobileFallback = () => {
+    if (props.highQuality) {
+      if (props.imageMobile?.url && props.imageMobile?.id !== props.image?.id) {
+        return props.imageMobile.url;
+      }
+      return (
+        props.image?.sizes?.ultra ||
+        props.image?.url ||
+        props.image?.sizes?.large ||
+        ""
+      );
+    }
     if (import.meta.client && window.innerWidth < 577) {
       return mobileSrc.value;
     }
