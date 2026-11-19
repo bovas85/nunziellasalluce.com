@@ -155,4 +155,43 @@ describe("TheMenuMobile", () => {
     await link.trigger("click");
     expect(wrapper.emitted("close")).toBeTruthy();
   });
+
+  it("keeps portal in layout without display:none so slide transitions can animate", async () => {
+    const closedWrapper = await mountSuspended(TheMenuMobile, {
+      props: {
+        menuItems: ["about"],
+        navOpen: false,
+      },
+      global: {
+        stubs: {
+          teleport: true,
+        },
+      },
+    });
+
+    const closedPortal = closedWrapper.find(".mobile-menu-portal");
+    expect(closedPortal.exists()).toBe(true);
+    expect(closedPortal.classes()).not.toContain("is-open");
+    expect(closedPortal.attributes("inert")).toBeDefined();
+    expect((closedPortal.element as HTMLElement).style.display).not.toBe(
+      "none",
+    );
+
+    const openWrapper = await mountSuspended(TheMenuMobile, {
+      props: {
+        menuItems: ["about"],
+        navOpen: true,
+      },
+      global: {
+        stubs: {
+          teleport: true,
+        },
+      },
+    });
+
+    const openPortal = openWrapper.find(".mobile-menu-portal");
+    expect(openPortal.classes()).toContain("is-open");
+    expect(openPortal.attributes("inert")).toBeUndefined();
+    expect((openPortal.element as HTMLElement).style.display).not.toBe("none");
+  });
 });
