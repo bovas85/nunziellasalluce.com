@@ -34,11 +34,17 @@ onMounted(async () => {
 
     const formEl = document.querySelector(".contact-form--wrapper");
     if (formEl) {
+      const rect = formEl.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        showForm.value = true;
+        return;
+      }
+
       contactScroller = scrollama();
       contactScroller
         .setup({
           step: ".contact-form--wrapper",
-          offset: 0.8,
+          offset: 0.9,
           debug: false,
         })
         .onStepEnter(() => {
@@ -230,6 +236,7 @@ onBeforeUnmount(() => {
         }
 
         @include media(lg) {
+          width: auto;
           margin: 0;
           padding: 0 $gap;
           margin-left: auto;
