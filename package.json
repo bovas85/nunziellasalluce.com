@@ -24,6 +24,7 @@
     "test:coverage": "vitest run --coverage",
     "test:visual": "node tools/verify-password-gate-visual.mjs",
     "test:visual:carousel": "node tools/verify-carousel-swipe-visual.mjs",
+    "test:visual:nav": "node tools/verify-desktop-burger-menu-visual.mjs",
     "prepare": "husky"
   },
   "dependencies": {

@@ -55,12 +55,16 @@ const route = useRoute();
 
 <style lang="scss" scoped>
 .menu--mobile {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   cursor: pointer;
   background: transparent;
   border: none;
   padding: 0;
+  width: 36px;
+  height: 36px;
   color: inherit;
   font: inherit;
   line-height: inherit;

@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { useRuntimeConfig } from "#app";
 import { useWindowScroll, watchThrottled } from "@vueuse/core";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
+const runtimeConfig = useRuntimeConfig();
+const enableDesktopBurgerMenu = computed(
+  () => runtimeConfig.public?.enableDesktopBurgerMenu !== false,
+);
 const animating = ref(false);
 
 // State replacements for Vuex
@@ -121,17 +126,22 @@ watch(
 
         <NavTheNavMobileToggle
           class="nav-mobile-toggle"
+          :class="{ 'is-desktop-enabled': enableDesktopBurgerMenu }"
           :nav-open="navOpen"
           :menu-scrolled="menuScrolled"
           @toggle="toggleMenu"
         />
 
-        <NavTheNavDesktop class="nav-desktop" />
+        <NavTheNavDesktop v-if="!enableDesktopBurgerMenu" class="nav-desktop" />
       </nav>
     </div>
 
     <ClientOnly>
-      <div style="z-index: 9999" class="modal-container is-hidden-desktop">
+      <div
+        style="z-index: 9999"
+        class="modal-container"
+        :class="{ 'is-hidden-desktop': !enableDesktopBurgerMenu }"
+      >
         <NavTheMenuMobile
           :menu-items="menuItems"
           :nav-open="navOpen"
@@ -172,6 +182,12 @@ watch(
     .nav-mobile-toggle {
       @include media(lg) {
         display: none !important;
+      }
+
+      &.is-desktop-enabled {
+        @include media(lg) {
+          display: inline-flex !important;
+        }
       }
     }
 
@@ -269,6 +285,7 @@ watch(
   }
 
   &.nav-open {
+    position: fixed !important;
     background-color: white !important;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%) !important;
   }

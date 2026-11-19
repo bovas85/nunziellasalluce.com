@@ -242,6 +242,11 @@ const closeMenu = () => {
     color: black;
     text-transform: capitalize;
     font-weight: 400;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: $primary;
+    }
 
     &.nuxt-link-active {
       font-weight: bold;
@@ -256,6 +261,11 @@ const closeMenu = () => {
     text-decoration: none;
     color: black;
     font-weight: 600;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: $primary;
+    }
   }
 }
 
@@ -265,6 +275,24 @@ const closeMenu = () => {
   width: 100%;
   margin-top: $gap;
   margin-bottom: 50px;
+
+  .social {
+    &--behance {
+      background-position: 0 -24px;
+    }
+
+    &--linkedin {
+      background-position: -24px -24px;
+    }
+
+    &--dribbble {
+      background-position: -48px -24px;
+    }
+
+    &--instagram {
+      background-position: -72px -24px;
+    }
+  }
 
   img {
     border-radius: 100%;
