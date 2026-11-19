@@ -14,6 +14,8 @@ jobs:
   scenarios:
     name: Check Domain Agent Scenarios
     runs-on: ubuntu-latest
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
@@ -27,8 +29,6 @@ jobs:
 
       - name: Run live model scenario check (when GEMINI_API_KEY is configured)
         if: env.GEMINI_API_KEY != ''
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          npm install -g @google/gemini-cli
+          npm install -g @google/gemini-cli@0.35.2
           node tools/check-domain-agents.mjs --all --mode gemini
