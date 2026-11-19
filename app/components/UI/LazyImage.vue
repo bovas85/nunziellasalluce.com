@@ -26,6 +26,7 @@ const props = withDefaults(
     hover?: boolean;
     onHover?: boolean;
     hoverFixed?: boolean;
+    highQuality?: boolean;
   }>(),
   {
     svg: false,
@@ -46,6 +47,7 @@ const props = withDefaults(
     hover: true,
     onHover: false,
     hoverFixed: false,
+    highQuality: false,
   },
 );
 
@@ -129,7 +131,7 @@ useLazyVideo(props.lazyload ? [videoDesktopRef, videoMobileRef] : undefined);
     <picture>
       <!-- Mobile: max-width 576px -->
       <source
-        v-if="!svg"
+        v-if="!svg && !highQuality"
         media="(max-width: 576px)"
         :srcset="lazyload ? '/images/Homepage.svg' : `${mobileSrc}.webp`"
         :data-srcset="lazyload ? `${mobileSrc}.webp` : undefined"
@@ -143,7 +145,7 @@ useLazyVideo(props.lazyload ? [videoDesktopRef, videoMobileRef] : undefined);
 
       <!-- Tablet: 577px to 1023px -->
       <source
-        v-if="!svg"
+        v-if="!svg && !highQuality"
         media="(min-width: 577px) and (max-width: 1023px)"
         :srcset="
           lazyload
@@ -158,14 +160,24 @@ useLazyVideo(props.lazyload ? [videoDesktopRef, videoMobileRef] : undefined);
       <source
         media="(min-width: 577px) and (max-width: 1023px)"
         :srcset="
-          lazyload ? '/images/Homepage.svg' : image?.sizes?.large || image?.url
+          lazyload
+            ? '/images/Homepage.svg'
+            : highQuality
+              ? image?.sizes?.ultra || image?.url || image?.sizes?.large
+              : image?.sizes?.large || image?.url
         "
-        :data-srcset="lazyload ? image?.sizes?.large || image?.url : undefined"
+        :data-srcset="
+          lazyload
+            ? highQuality
+              ? image?.sizes?.ultra || image?.url || image?.sizes?.large
+              : image?.sizes?.large || image?.url
+            : undefined
+        "
       />
 
       <!-- Desktop: 1024px to 1920px -->
       <source
-        v-if="!svg"
+        v-if="!svg && !highQuality"
         media="(min-width: 1024px) and (max-width: 1920px)"
         :srcset="
           lazyload
@@ -203,7 +215,7 @@ useLazyVideo(props.lazyload ? [videoDesktopRef, videoMobileRef] : undefined);
 
       <!-- 4k: min-width 1921px -->
       <source
-        v-if="!svg"
+        v-if="!svg && !highQuality"
         media="(min-width: 1921px)"
         :srcset="
           lazyload

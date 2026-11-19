@@ -15,6 +15,10 @@ const config = useRuntimeConfig();
 const enableCvLivePreview = computed(
   () => config.public?.enableCvLivePreview !== false,
 );
+const enableAboutBgQualityFix = computed(() => {
+  const flag = config.public?.enableAboutBgQualityFix as unknown;
+  return flag !== false && flag !== "false";
+});
 
 const { data } = await useAsyncData(
   "aboutPage",
@@ -33,14 +37,22 @@ const aboutPage = computed(
 </script>
 
 <template>
-  <div v-if="aboutPage" class="about">
+  <div
+    v-if="aboutPage"
+    class="about"
+    :class="{ 'about--bg-quality-fix': enableAboutBgQualityFix }"
+  >
     <UILazyImage
       class="image"
       :image="aboutPage.about.desktop_image"
       :hover="false"
       position="right"
-      position-mobile="right"
-      :image-mobile="aboutPage.about.mobile_image"
+      :position-mobile="enableAboutBgQualityFix ? 'center-right' : 'right'"
+      :image-mobile="
+        enableAboutBgQualityFix ? undefined : aboutPage.about.mobile_image
+      "
+      :high-quality="enableAboutBgQualityFix"
+      :lazyload="!enableAboutBgQualityFix"
       home
     />
     <div v-if="aboutPage" class="container">
@@ -130,6 +142,45 @@ const aboutPage = computed(
     width: 100%;
     height: 100%;
     z-index: -1;
+  }
+
+  &.about--bg-quality-fix {
+    .image {
+      inset: 0 0 auto;
+      height: clamp(520px, 82vh, 760px);
+      height: clamp(520px, 82svh, 760px);
+      max-height: 100%;
+      overflow: hidden;
+
+      @include media(md) {
+        height: 100vh;
+        height: 100svh;
+        max-height: 100%;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0;
+        height: 28%;
+        background: linear-gradient(
+          to bottom,
+          rgb(145 117 77 / 0%) 0%,
+          #91754d 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      :deep(img) {
+        object-position: 75% center;
+
+        @include media(md) {
+          object-position: right center;
+          animation: none;
+        }
+      }
+    }
   }
 
   h1 {
