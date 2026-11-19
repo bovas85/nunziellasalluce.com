@@ -1,0 +1,34 @@
+name: Domain Agent Scenarios
+
+on:
+  pull_request:
+    paths:
+      - "agents/**"
+      - "tools/check-domain-agents.mjs"
+      - "tools/check-domain-agents.spec.ts"
+
+permissions:
+  contents: read
+
+jobs:
+  scenarios:
+    name: Check Domain Agent Scenarios
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Run Domain Agent lab self-test and scenario checks
+        run: node tools/check-domain-agents.mjs --all --self-test
+
+      - name: Run live model scenario check (when GEMINI_API_KEY is configured)
+        if: env.GEMINI_API_KEY != ''
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          npm install -g @google/gemini-cli
+          node tools/check-domain-agents.mjs --all --mode gemini
