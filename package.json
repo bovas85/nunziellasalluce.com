@@ -27,7 +27,8 @@
     "test:visual:nav": "node tools/verify-desktop-burger-menu-visual.mjs",
     "prepare": "husky",
     "test:visual:cv": "node tools/verify-cv-preview-visual.mjs",
-    "test:visual:contact": "node tools/verify-contact-page-visual.mjs"
+    "test:visual:contact": "node tools/verify-contact-page-visual.mjs",
+    "test:visual:work-anchor": "node tools/verify-work-menu-anchor-visual.mjs"
   },
   "dependencies": {
     "@vueuse/core": "14.3.0",

@@ -311,4 +311,15 @@ describe("Index Page", () => {
     scrollToSpy.mockRestore();
     vi.mocked(document.querySelector).mockRestore?.();
   });
+
+  it("reveals #work section immediately when route.hash is #work", async () => {
+    mockHash = "#work";
+    const wrapper = await mountSuspended(IndexPage);
+    await new Promise((r) => setTimeout(r, 0));
+
+    const workSection = wrapper.find("#work");
+    expect(workSection.exists()).toBe(true);
+    expect(workSection.find(".container").classes()).toContain("animated");
+    expect(workSection.find(".carousel").classes()).toContain("animated");
+  });
 });
