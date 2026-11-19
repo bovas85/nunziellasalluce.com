@@ -27,8 +27,8 @@ thread before taking any action below:
 
 - Push directly to `main` (stop and ask if a branch policy exception is needed).
 - Mutate or check out feature branches directly in the primary repo checkout
-  (always work in an isolated `git worktree` branched off `origin/main` so
-  concurrent threads never share working tree or git history).
+  (use an isolated `git worktree` off `origin/main` to avoid concurrent
+  branch collisions, or ask `bovas85` if direct checkout is required).
 - Merge any pull request (`bovas85` owns all merges; hand back when ready).
 - Deploy production or previews to Netlify (target Cloudflare Workers via
   Alchemy until a new Architecture Decision Record (ADR) changes hosting).
