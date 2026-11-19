@@ -72,7 +72,7 @@ describe("About Page", () => {
     expect(link.exists()).toBe(true);
     expect(link.attributes("target")).toBe("_blank");
     expect(link.attributes("rel")).toBe("noopener noreferrer");
-    expect(link.attributes("href")).toBe("/NunziellaSalluce2026.pdf");
+    expect(link.attributes("href")).toBe("/NunziellaSalluce-CV.pdf");
   });
 
   it("renders live scrollable CV preview image and container by default", async () => {
@@ -85,14 +85,14 @@ describe("About Page", () => {
 
     const img = wrapper.find("img.cv-preview__image");
     expect(img.exists()).toBe(true);
-    expect(img.attributes("src")).toBe("/NunziellaSalluce2026-preview.png");
+    expect(img.attributes("src")).toBe("/NunziellaSalluce-CV-preview.png");
     expect(img.attributes("alt")).toBe("Curriculum Vitae of Nunziella Salluce");
     expect(img.attributes("loading")).toBe("lazy");
 
     const source = container.find("source");
     expect(source.exists()).toBe(true);
     expect(source.attributes("srcset")).toBe(
-      "/NunziellaSalluce2026-preview.webp",
+      "/NunziellaSalluce-CV-preview.webp",
     );
     expect(source.attributes("type")).toBe("image/webp");
   });
@@ -104,6 +104,6 @@ describe("About Page", () => {
     expect(container.exists()).toBe(false);
     const link = wrapper.find("a.link");
     expect(link.exists()).toBe(true);
-    expect(link.attributes("href")).toBe("/NunziellaSalluce2026.pdf");
+    expect(link.attributes("href")).toBe("/NunziellaSalluce-CV.pdf");
   });
 });
