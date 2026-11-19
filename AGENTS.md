@@ -26,6 +26,9 @@ Only `bovas85` may authorize exceptions in writing on the active PR or issue
 thread before taking any action below:
 
 - Push directly to `main` (stop and ask if a branch policy exception is needed).
+- Mutate or check out feature branches directly in the primary repo checkout
+  (always work in an isolated `git worktree` branched off `origin/main` so
+  concurrent threads never share working tree or git history).
 - Merge any pull request (`bovas85` owns all merges; hand back when ready).
 - Deploy production or previews to Netlify (target Cloudflare Workers via
   Alchemy until a new Architecture Decision Record (ADR) changes hosting).
