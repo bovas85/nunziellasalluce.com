@@ -5,7 +5,7 @@
  *
  * Runs an automated Playwright scenario against the Nuxt application to visually verify:
  * 1. Short laptop viewport (1280x720) renders .contact-form--wrapper immediately visible (opacity: 1) without scrolling
- * 2. Desktop viewport (1280x800) shows right-offset alignment (width: auto; margin-left: auto; margin-right: 10vw)
+ * 2. Desktop viewport (1280x800) shows symmetric centered alignment (width: auto; margin: 0 auto; padding: 0 $gap; justify-self: center)
  * 3. Empty submit marks required fields invalid (is-danger) and shows field-level error messages
  * 4. Floating labels remain lifted on focus and when filled
  * 5. Contact Form 7 non-mail_sent responses (e.g. mail_failed) show .send-error without switching to .sent
@@ -288,7 +288,8 @@ async function runVisualTest() {
       desktopInitial.viewportWidth - desktopInitial.formRight;
     assert(
       desktopInitial.opacity === "1" &&
-        Math.abs(desktopLeftGap - desktopRightGap) <= 1,
+        Math.abs(desktopLeftGap - desktopRightGap) <= 1 &&
+        desktopInitial.width <= 840,
       `Desktop initial form must be visible and centered: ${JSON.stringify(desktopInitial)}`,
     );
     assert(!desktopInitial.overflowX, "No horizontal overflow at 1280x800");
