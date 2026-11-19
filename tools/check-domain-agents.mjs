@@ -245,7 +245,7 @@ export function evaluateScenarioDeterministic(agent, scenario) {
   };
 }
 
-export function evaluateScenarioGemini(agent, scenario) {
+export function evaluateScenarioGemini(agent, scenario, execFn = execFileSync) {
   const glossary = fs.existsSync(agent.glossaryMd)
     ? fs.readFileSync(agent.glossaryMd, "utf8")
     : "";
@@ -253,7 +253,7 @@ export function evaluateScenarioGemini(agent, scenario) {
     ? fs.readFileSync(agent.memoriesMd, "utf8")
     : "";
   const askPrompt = `${agent.job}\n\n### Glossary\n${glossary}\n\n### Memories\n${memories}\n\nQuestion:\n${scenario.ask}\n\nAnswer concisely using only the glossary and memories above.`;
-  const rawAnswer = execFileSync(
+  const rawAnswer = execFn(
     "gemini",
     [
       "-p",
@@ -269,7 +269,7 @@ export function evaluateScenarioGemini(agent, scenario) {
   );
   const answerText = JSON.parse(rawAnswer).response ?? rawAnswer;
   const judgePrompt = `Compare Agent Answer against Expect and Never.\nExpect: ${scenario.expect}\nNever: ${scenario.never}\nAgent Answer: ${answerText}\nReturn ONLY JSON: {"passed": true|false, "reason": "short sentence"}`;
-  const rawJudge = execFileSync(
+  const rawJudge = execFn(
     "gemini",
     [
       "-p",
@@ -333,7 +333,6 @@ export function runSelfTest(repoRoot = DEFAULT_ROOT) {
       throw new Error(`Baseline scenarios failed: ${JSON.stringify(baseline)}`);
     }
 
-    // Water down glossary & remove edge auth memory: scenario check must FAIL
     const gPath = path.join(labAgentDir, "glossary.md");
     const mPath = path.join(labAgentDir, "memories.md");
     fs.writeFileSync(
@@ -370,8 +369,12 @@ export function runSelfTest(repoRoot = DEFAULT_ROOT) {
   }
 }
 
-if (path.resolve(process.argv[1] ?? "") === __filename) {
-  const args = process.argv.slice(2);
+export function main(
+  args = process.argv.slice(2),
+  repoRoot = DEFAULT_ROOT,
+  execFn = execFileSync,
+  logFn = console.log,
+) {
   const useSelfTest = args.includes("--self-test");
   const useAll = args.includes("--all");
   const modeIdx = args.indexOf("--mode");
@@ -380,39 +383,39 @@ if (path.resolve(process.argv[1] ?? "") === __filename) {
 
   if (matchIdx !== -1) {
     const files = args.slice(matchIdx + 1).filter((a) => !a.startsWith("--"));
-    console.log(
-      JSON.stringify({ matches: matchFiles(DEFAULT_ROOT, files) }, null, 2),
-    );
-    process.exit(0);
+    logFn(JSON.stringify({ matches: matchFiles(repoRoot, files) }, null, 2));
+    return 0;
   }
 
   let exitCode = 0;
   if (useAll) {
-    const agents = discoverDomainAgents(DEFAULT_ROOT).filter((a) =>
+    const agents = discoverDomainAgents(repoRoot).filter((a) =>
       fs.existsSync(a.scenariosMd),
     );
     for (const agent of agents) {
       const scenarios = parseScenarios(agent.scenariosMd);
       const results = scenarios.map((s) =>
         mode === "gemini"
-          ? evaluateScenarioGemini(agent, s)
+          ? evaluateScenarioGemini(agent, s, execFn)
           : evaluateScenarioDeterministic(agent, s),
       );
       const ok = results.length > 0 && results.every((r) => r.passed);
-      console.log(
+      logFn(
         `[${ok ? "PASS" : "FAIL"}] ${agent.name} (${results.length} scenarios)`,
       );
       for (const r of results) {
-        console.log(
-          `  - ${r.passed ? "PASS" : "FAIL"}: ${r.title} (${r.reason})`,
-        );
+        logFn(`  - ${r.passed ? "PASS" : "FAIL"}: ${r.title} (${r.reason})`);
       }
       if (!ok) exitCode = 1;
     }
   }
   if (useSelfTest) {
-    const lab = runSelfTest(DEFAULT_ROOT);
-    console.log(JSON.stringify(lab, null, 2));
+    const lab = runSelfTest(repoRoot);
+    logFn(JSON.stringify(lab, null, 2));
   }
-  process.exit(exitCode);
+  return exitCode;
+}
+
+if (path.resolve(process.argv[1] ?? "") === __filename) {
+  process.exit(main());
 }
