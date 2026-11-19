@@ -134,12 +134,27 @@ const submitFormAPI = async () => {
   try {
     const fetchCall =
       (typeof globalThis !== "undefined" && globalThis.$fetch) || $fetch;
-    await fetchCall(`${Config.wpDomain}${Config.api.postFormContact}`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetchCall<{ status?: string } | undefined>(
+      `${Config.wpDomain}${Config.api.postFormContact}`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+    if (
+      response &&
+      typeof response === "object" &&
+      "status" in response &&
+      response.status &&
+      response.status !== "mail_sent"
+    ) {
+      throw new Error(`Form submission failed: ${response.status}`);
+    }
     disabled.value = false;
     sending.value = false;
+    sent.value = true;
+    saved.value = false;
+    storedData.value = null;
   } catch {
     disabled.value = false;
     sending.value = false;
@@ -163,7 +178,9 @@ const sendForm = async () => {
   sendError.value = false;
   error.value = false;
 
-  if (vNameInvalid.value) {
+  if (vFormInvalid.value) {
+    nameClicked.value = true;
+    emailClicked.value = true;
     error.value = true;
     clearTimeout(sendingTimeout);
     sendingTimeout = setTimeout(() => {
@@ -172,17 +189,8 @@ const sendForm = async () => {
     return false;
   }
 
-  if (vFormInvalid.value) {
-    error.value = true;
-    clearTimeout(sendingTimeout);
-    sendingTimeout = setTimeout(() => {
-      sending.value = false;
-    }, 5000);
-  } else {
-    sent.value = true;
-    disabled.value = true;
-    await submitFormAPI();
-  }
+  disabled.value = true;
+  await submitFormAPI();
 };
 </script>
 
@@ -195,7 +203,11 @@ const sendForm = async () => {
       @submit.prevent
     >
       <div class="name">
-        <label :class="{ selected: nameFocused || saved }" for="name"
+        <label
+          :class="{
+            selected: nameFocused || Boolean(form.yourName) || saved,
+          }"
+          for="name"
           >Full Name</label
         >
         <input
@@ -210,7 +222,10 @@ const sendForm = async () => {
           type="text"
           required
           @focus="nameFocused = true"
-          @blur="nameClicked = true"
+          @blur="
+            nameFocused = false;
+            nameClicked = true;
+          "
         />
         <i
           :class="{
@@ -230,7 +245,11 @@ const sendForm = async () => {
       </div>
 
       <div class="email">
-        <label :class="{ selected: emailFocused || saved }" for="email"
+        <label
+          :class="{
+            selected: emailFocused || Boolean(form.yourEmail) || saved,
+          }"
+          for="email"
           >Email</label
         >
         <input
@@ -245,7 +264,10 @@ const sendForm = async () => {
           type="email"
           required
           @focus="emailFocused = true"
-          @blur="emailClicked = true"
+          @blur="
+            emailFocused = false;
+            emailClicked = true;
+          "
         />
         <i
           :class="{
@@ -266,9 +288,10 @@ const sendForm = async () => {
 
       <div class="message">
         <label
-          :class="{ selected: messageFocused || saved }"
+          :class="{
+            selected: messageFocused || Boolean(form.yourMessage) || saved,
+          }"
           for="message"
-          @focus="messageFocused = true"
           >Message</label
         >
         <textarea
@@ -277,6 +300,8 @@ const sendForm = async () => {
           class="hidden-mobile"
           rows="5"
           name="message"
+          @focus="messageFocused = true"
+          @blur="messageFocused = false"
         />
         <textarea
           id="message_mobile"
@@ -286,6 +311,8 @@ const sendForm = async () => {
           placeholder="Write your message here ..."
           aria-label="Message"
           name="message_mobile"
+          @focus="messageFocused = true"
+          @blur="messageFocused = false"
         />
       </div>
 
@@ -326,9 +353,9 @@ const sendForm = async () => {
             class="hidden honeypot"
           />
           <button
-            :disabled="disabled || saved"
+            :disabled="disabled"
             :class="{
-              'is-disabled': disabled || saved,
+              'is-disabled': disabled,
               'is-normalized': enableNormalizeContactFormButton,
             }"
             class="button button--contact"
