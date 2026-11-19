@@ -194,9 +194,14 @@ async function runVisualTest() {
         toggleWidth: rect ? rect.width : 0,
         toggleHeight: rect ? rect.height : 0,
         desktopNavExists: Boolean(desktopNav),
+        awwwardsBadgeExists: Boolean(document.querySelector("#awwwards")),
       };
     });
 
+    assert(
+      !desktopInitial.awwwardsBadgeExists,
+      "Floating #awwwards nominee badge must not render on home",
+    );
     assert(desktopInitial.toggleExists, "Desktop burger toggle must exist");
     assert(
       desktopInitial.toggleDisplay !== "none" &&

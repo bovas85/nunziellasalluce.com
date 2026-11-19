@@ -27,21 +27,15 @@ describe("Default Layout", () => {
     expect(wrapper.text()).toContain("Test Content");
   });
 
-  it("renders awwwards badge on the home page '/'", async () => {
-    const wrapper = await mountSuspended(DefaultLayout, {
+  it("does not render the floating awwwards nominee badge on '/' or other pages", async () => {
+    const homeWrapper = await mountSuspended(DefaultLayout, {
       route: { path: "/" },
     });
-    const badge = wrapper.find("#awwwards");
-    expect(badge.exists()).toBe(true);
-    expect(badge.find("a").attributes("href")).toBe(
-      "https://www.awwwards.com/sites/nunziella-salluce-designer",
-    );
-  });
+    expect(homeWrapper.find("#awwwards").exists()).toBe(false);
 
-  it("does not render awwwards badge on other pages", async () => {
-    const wrapper = await mountSuspended(DefaultLayout, {
+    const aboutWrapper = await mountSuspended(DefaultLayout, {
       route: { path: "/about" },
     });
-    expect(wrapper.find("#awwwards").exists()).toBe(false);
+    expect(aboutWrapper.find("#awwwards").exists()).toBe(false);
   });
 });
