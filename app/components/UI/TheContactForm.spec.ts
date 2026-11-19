@@ -31,6 +31,7 @@ vi.mock("@vueuse/core", async (importOriginal) => {
 
 describe("TheContactForm", () => {
   const mountOptions = {
+    attachTo: document.body,
     global: {
       stubs: {
         NuxtLink: true,
@@ -42,6 +43,7 @@ describe("TheContactForm", () => {
   const mockFetch = vi.fn();
 
   beforeEach(() => {
+    document.body.innerHTML = "";
     mockRuntimeConfig.public.enableNormalizeContactFormButton = true;
     mockIsOnline.value = true;
     localStorage.clear();
@@ -60,8 +62,11 @@ describe("TheContactForm", () => {
 
   it("initially hides the validation error message", () => {
     const wrapper = mount(TheContactForm, mountOptions);
-    const errorMsg = wrapper.find(".send-error");
-    expect(errorMsg.exists()).toBe(true);
+    const errorMsgs = wrapper.findAll(".send-error");
+    expect(errorMsgs.length).toBeGreaterThan(0);
+    for (const msg of errorMsgs) {
+      expect(msg.isVisible()).toBe(false);
+    }
   });
 
   it("shows name and email field validation errors on blur", async () => {

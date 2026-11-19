@@ -367,14 +367,25 @@ async function runVisualTest() {
     await desktopPage.click("button.button--contact");
     await desktopPage.waitForTimeout(900);
 
-    const sentState = await desktopPage.evaluate(() => ({
-      sentVisible:
-        document.querySelector(".sent")?.classList.contains("is-visible") ??
-        false,
-    }));
+    const sentState = await desktopPage.evaluate(() => {
+      const errorEl = [...document.querySelectorAll(".send-error")].find((el) =>
+        el.textContent?.includes("error sending the form"),
+      );
+      return {
+        sentVisible:
+          document.querySelector(".sent")?.classList.contains("is-visible") ??
+          false,
+        errorHidden: errorEl
+          ? getComputedStyle(errorEl).display === "none"
+          : true,
+        remainingDraft: localStorage.getItem("contactFormData"),
+      };
+    });
     assert(
-      sentState.sentVisible,
-      `CF7 mail_sent must reveal .sent.is-visible: ${JSON.stringify(sentState)}`,
+      sentState.sentVisible &&
+        sentState.errorHidden &&
+        sentState.remainingDraft === null,
+      `CF7 mail_sent must reveal .sent.is-visible, clear .send-error, and clear draft: ${JSON.stringify(sentState)}`,
     );
 
     const desktopSentPng = path.join(

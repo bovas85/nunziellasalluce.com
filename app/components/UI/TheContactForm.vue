@@ -142,13 +142,13 @@ const submitFormAPI = async () => {
       },
     );
     if (
-      response &&
-      typeof response === "object" &&
-      "status" in response &&
-      response.status &&
+      !response ||
+      typeof response !== "object" ||
       response.status !== "mail_sent"
     ) {
-      throw new Error(`Form submission failed: ${response.status}`);
+      throw new Error(
+        `Form submission failed: ${response && typeof response === "object" && "status" in response ? String(response.status) : "missing status"}`,
+      );
     }
     disabled.value = false;
     sending.value = false;
