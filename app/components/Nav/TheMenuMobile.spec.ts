@@ -132,6 +132,48 @@ describe("TheMenuMobile", () => {
     expect(wrapper.emitted("close")).toBeTruthy();
   });
 
+  it("unlocks overflow and smoothly scrolls to #work when clicking Work on the home page", async () => {
+    const prevHref = window.location.href;
+    vi.mocked(useRoute).mockReturnValue({
+      path: "/",
+    } as RouteLocationNormalizedLoaded);
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    const scrollIntoView = vi.fn();
+    const workEl = document.createElement("section");
+    workEl.id = "work";
+    workEl.scrollIntoView = scrollIntoView;
+    document.body.appendChild(workEl);
+
+    try {
+      const wrapper = await mountSuspended(TheMenuMobile, {
+        props: {
+          menuItems: ["work"],
+          navOpen: true,
+        },
+        global: {
+          stubs: {
+            teleport: true,
+          },
+        },
+      });
+
+      const workLink = wrapper.findAll("a").find((l) => l.text() === "Work");
+      await workLink!.trigger("click");
+      await new Promise((r) => setTimeout(r, 0));
+
+      expect(wrapper.emitted("close")).toBeTruthy();
+      expect(document.body.style.overflow).toBe("visible");
+      expect(document.documentElement.style.overflow).toBe("visible");
+      expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "smooth" });
+      expect(window.location.hash).toBe("#work");
+    } finally {
+      workEl.remove();
+      window.history.replaceState(null, "", prevHref);
+    }
+  });
+
   it("renders 'work' as NuxtLink to '/#work' when not on home page", async () => {
     vi.mocked(useRoute).mockReturnValue({
       path: "/about",

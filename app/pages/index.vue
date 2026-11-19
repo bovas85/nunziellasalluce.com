@@ -5,7 +5,14 @@ import scrollama, {
   type ScrollamaInstance,
   type ScrollamaResponse,
 } from "scrollama";
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch,
+} from "vue";
 import { useRoute } from "vue-router";
 import type { HomePageACF, Project } from "~/types/acf";
 
@@ -114,6 +121,7 @@ const stepAnimations: Record<number, () => void> = {
 };
 
 let homeScroller: ScrollamaInstance | null = null;
+let workObserver: IntersectionObserver | null = null;
 
 const handleHomeStepEnter = (response: ScrollamaResponse) => {
   const animate = stepAnimations[response.index];
@@ -123,6 +131,15 @@ const handleHomeStepEnter = (response: ScrollamaResponse) => {
 const scrollamaHomeResize = () => {
   if (homeScroller) homeScroller.resize();
 };
+
+watch(
+  () => route.hash,
+  (newHash) => {
+    if (newHash === "#work") {
+      animateWork.value = true;
+    }
+  },
+);
 
 onMounted(async () => {
   if (import.meta.client) {
@@ -145,9 +162,27 @@ onMounted(async () => {
       })
       .onStepEnter(handleHomeStepEnter);
 
+    if (typeof IntersectionObserver !== "undefined") {
+      const workEl = document.getElementById("work");
+      if (workEl) {
+        workObserver = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              animateWork.value = true;
+            }
+          },
+          { threshold: 0.1 },
+        );
+        workObserver.observe(workEl);
+      }
+    }
+
     window.addEventListener("resize", scrollamaHomeResize, { passive: true });
 
     if (route.hash) {
+      if (route.hash === "#work") {
+        animateWork.value = true;
+      }
       window.scrollTo(0, 0);
       await nextTick();
       try {
@@ -166,6 +201,10 @@ onBeforeUnmount(() => {
   if (homeScroller) {
     homeScroller.destroy();
     homeScroller = null;
+  }
+  if (workObserver) {
+    workObserver.disconnect();
+    workObserver = null;
   }
   if (import.meta.client) {
     window.removeEventListener("resize", scrollamaHomeResize);
@@ -214,6 +253,14 @@ section {
 
   @include media(md) {
     margin: $gap * 3 auto;
+  }
+}
+
+#work {
+  scroll-margin-top: 76px;
+
+  @include media(sm) {
+    scroll-margin-top: 110px;
   }
 }
 </style>

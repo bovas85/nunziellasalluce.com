@@ -2,6 +2,15 @@
 import { useRoute } from "vue-router";
 
 const route = useRoute();
+
+const handleWorkClick = (event: MouseEvent) => {
+  if (import.meta.client && route.path === "/") {
+    if (route.hash === "#work") {
+      event.preventDefault();
+    }
+    document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+  }
+};
 </script>
 
 <template>
@@ -27,6 +36,7 @@ const route = useRoute();
       <NuxtLink
         :class="route.hash === '#work' && 'nuxt-link-active'"
         to="/#work"
+        @click="handleWorkClick"
         >Work</NuxtLink
       >
     </li>

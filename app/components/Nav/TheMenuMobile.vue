@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { nextTick } from "vue";
 import { useRoute } from "vue-router";
 
 defineProps<{
@@ -11,6 +12,27 @@ const route = useRoute();
 
 const closeMenu = () => {
   emit("close");
+};
+
+const handleWorkAnchorClick = async (event: MouseEvent) => {
+  event.preventDefault();
+  closeMenu();
+  if (import.meta.client) {
+    document.body.style.overflow = "visible";
+    document.documentElement.style.overflow = "visible";
+    await nextTick();
+    const el = document.getElementById("work");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+    try {
+      if (window.location.hash !== "#work") {
+        window.history.replaceState(null, "", "#work");
+      }
+    } catch {
+      // Ignore history errors in restricted environments
+    }
+  }
 };
 </script>
 
@@ -46,7 +68,7 @@ const closeMenu = () => {
             >
               Work
             </NuxtLink>
-            <a v-else href="#work" @click="closeMenu"> Work </a>
+            <a v-else href="#work" @click="handleWorkAnchorClick"> Work </a>
           </template>
         </div>
         <div class="bottom-section">
