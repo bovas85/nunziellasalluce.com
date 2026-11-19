@@ -68,16 +68,16 @@ const aboutPage = computed(
         >
           <picture>
             <source
-              srcset="/NunziellaSalluce2026-preview.webp"
+              srcset="/NunziellaSalluce-CV-preview.webp"
               type="image/webp"
             />
             <img
-              src="/NunziellaSalluce2026-preview.png"
+              src="/NunziellaSalluce-CV-preview.png"
               alt="Curriculum Vitae of Nunziella Salluce"
               class="cv-preview__image"
               loading="lazy"
-              width="780"
-              height="1864"
+              width="1200"
+              height="3402"
             />
           </picture>
         </div>
@@ -87,7 +87,7 @@ const aboutPage = computed(
           class="link"
           target="_blank"
           rel="noopener noreferrer"
-          href="/NunziellaSalluce2026.pdf"
+          href="/NunziellaSalluce-CV.pdf"
           >Download my CV</a
         >
       </p>
