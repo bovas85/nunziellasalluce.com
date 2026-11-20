@@ -25,4 +25,4 @@ are evaluated via manual observation, `/health.json`, and visual/CI checks.
 
 When a temporary rollout flag meets its removal condition, file a
 `chore(cleanup):` issue using [`.github/ISSUE_TEMPLATE/cleanup.yml`](../.github/ISSUE_TEMPLATE/cleanup.yml)
-so `legacy-reaper` can remove the flag and fallback branch.
+so scheduled maintenance can remove the flag and fallback branch.
