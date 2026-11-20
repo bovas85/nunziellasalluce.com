@@ -12,8 +12,10 @@ incidents, rolling back faulty releases, and restoring service for
 - **State & Data:** Cloudflare KV Namespace (`ContactSubmissions`)
 - **CI/CD:** GitHub Actions (`.github/workflows/deploy-cloudflare.yml`)
   triggered on push to `main` (or manual `workflow_dispatch`)
-- **Deploy Previews:** Cloudflare Workers via Alchemy (automated on PRs to
-  `main`)
+- **Deploy Previews:** Cloudflare Workers via Alchemy (pinned per PR as
+  `nunziellasalluce-pr-<number>` and cleaned up automatically when the PR
+  closes; `.github/workflows/prune-cloudflare-previews.yml` prunes historical
+  orphaned preview Workers and KV namespaces via `workflow_dispatch`)
 - **Health Verification:** `/health` (HTML dashboard) and `/health.json`
   (Nitro static endpoint)
 

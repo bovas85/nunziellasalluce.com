@@ -9,6 +9,11 @@ on:
     branches:
       - main
       - explore/alchemy-effect
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
   workflow_dispatch:
 
 permissions:
@@ -18,6 +23,10 @@ permissions:
 jobs:
   deploy-cloudflare:
     name: Deploy to Cloudflare
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    concurrency:
+      group: cloudflare-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
 
     steps:
@@ -54,11 +63,11 @@ jobs:
         if: steps.check-env.outputs.skip != 'true'
         run: |
           set -o pipefail
-          DEPLOY_ARGS=(--yes --no-input)
+          DEPLOY_ARGS=(--yes --no-input --adopt)
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             DEPLOY_ARGS+=(--stage "pr-${{ github.event.pull_request.number }}")
           elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            DEPLOY_ARGS+=(--stage prod --adopt)
+            DEPLOY_ARGS+=(--stage prod)
           else
             DEPLOY_ARGS+=(--stage "branch-${{ github.ref_slug }}")
           fi
@@ -114,3 +123,34 @@ jobs:
             --expected-sha "${{ github.sha }}"
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+  cleanup-pr-preview:
+    name: Cleanup PR Preview
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    concurrency:
+      group: cloudflare-${{ github.event.pull_request.number }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Delete PR preview Worker & KV namespace
+        run: |
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Cloudflare credentials not available; skipping preview cleanup."
+            exit 0
+          fi
+          node tools/cleanup-cloudflare-previews.mjs --pr "$PR_NUMBER" --apply
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

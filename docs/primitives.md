@@ -35,9 +35,12 @@ list in the same PR.
 
 ## 4. Cloudflare Workers Hosting & KV Storage (Alchemy)
 
-- **Roots:** `alchemy.run.ts`, `.github/workflows/deploy-cloudflare.yml`
+- **Roots:** `alchemy.run.ts`, `.github/workflows/deploy-cloudflare.yml`,
+  `.github/workflows/prune-cloudflare-previews.yml`,
+  `tools/cleanup-cloudflare-previews.mjs`
 - **Role:** Deploys the Nuxt stack (`NunziellaSalluceSite`) and
-  `ContactSubmissions` KV namespace to Cloudflare Workers (prod + PR previews).
+  `ContactSubmissions` KV namespace to Cloudflare Workers (prod + pinned PR
+  previews with automatic PR-close cleanup).
 - **adrs:**
   - [`docs/adr/0003-hosting-auth-and-branch-boundaries.md`](adr/0003-hosting-auth-and-branch-boundaries.md)
 
