@@ -1,0 +1,30 @@
+name: Prune Orphaned Cloudflare Previews
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prune-orphan-previews:
+    name: Prune Orphaned Previews
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Prune orphaned preview Workers & KV namespaces
+        run: |
+          OPEN_PRS=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 1000 --json number --jq '[.[].number] | join(",")')
+          node tools/cleanup-cloudflare-previews.mjs --prune-orphans ${OPEN_PRS:+--keep-pr "$OPEN_PRS"} --apply
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
