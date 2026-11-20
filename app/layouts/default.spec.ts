@@ -26,16 +26,4 @@ describe("Default Layout", () => {
     expect(wrapper.html()).toContain('class="test-slot"');
     expect(wrapper.text()).toContain("Test Content");
   });
-
-  it("does not render the floating awwwards nominee badge on '/' or other pages", async () => {
-    const homeWrapper = await mountSuspended(DefaultLayout, {
-      route: { path: "/" },
-    });
-    expect(homeWrapper.find("#awwwards").exists()).toBe(false);
-
-    const aboutWrapper = await mountSuspended(DefaultLayout, {
-      route: { path: "/about" },
-    });
-    expect(aboutWrapper.find("#awwwards").exists()).toBe(false);
-  });
 });

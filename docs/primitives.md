@@ -55,12 +55,13 @@ list in the same PR.
 ## 6. Autonomous Issue Triage & PR Lifecycle
 
 - **Roots:** `.github/workflows/issue-triage.yml`,
-  `.github/workflows/legacy-reaper.yml`, `.github/workflows/keep-tests-tight.yml`,
-  `.github/workflows/docs-freshness.yml`, `.github/workflows/friction-sweep.yml`,
-  `.github/workflows/errors-to-issues.yml`, `.github/scripts/issue-triage.cjs`,
-  `.github/ship-pr.json`, `.github/ISSUE_TEMPLATE/`, `.agents/skills/`
+  `.github/workflows/errors-to-issues.yml`,
+  `.github/workflows/domain-agents.yml`, `.github/scripts/issue-triage.cjs`,
+  `.github/ship-pr.json`, `.github/ISSUE_TEMPLATE/`, `.agents/skills/`,
+  `agents/`, `tools/check-domain-agents.mjs`
 - **Role:** Classifies issues (`P0`–`P3`, door, complexity, `needs-human`),
-  tracks friction/cleanup, and enforces subagent review + human merge.
+  tracks friction/cleanup, validates domain-agent scenarios, and enforces
+  subagent review + human merge.
 - **adrs:**
   - [`docs/adr/0002-autonomous-monitoring-and-triage-for-agent-ready-pull-requests.md`](adr/0002-autonomous-monitoring-and-triage-for-agent-ready-pull-requests.md)
   - [`docs/adr/0003-hosting-auth-and-branch-boundaries.md`](adr/0003-hosting-auth-and-branch-boundaries.md)
