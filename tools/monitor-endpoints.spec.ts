@@ -210,6 +210,75 @@ describe("monitor-endpoints", () => {
     expect(body).toContain("bike.moustachedesign.fyi");
   });
 
+  it("suppresses Discord alerts in --dry-run mode and formats slow-only latency alerts", async () => {
+    vi.stubEnv("DISCORD_WEBHOOK_URL", "https://discord.example/uptime");
+    let ticks = 0;
+    const now = () => {
+      ticks += 250;
+      return ticks;
+    };
+
+    const dryReport = await runMonitor({
+      targets: [
+        {
+          id: "slow-wp",
+          name: "Slow WP",
+          url: "https://api.moustachedesign.fyi/wp-json/",
+          latencyThresholdMs: 100,
+          validateJson: () => null,
+        },
+      ],
+      options: {
+        timeoutMs: 2000,
+        retries: 0,
+        retryDelayMs: 0,
+        json: false,
+        dryRun: true,
+        failOnSlow: false,
+      },
+      now,
+      fetchImpl: vi
+        .fn()
+        .mockResolvedValueOnce(
+          new Response(JSON.stringify({ ok: true }), { status: 200 }),
+        ),
+    });
+    expect(dryReport.ok).toBe(true);
+    expect(dryReport.summary.slow).toBe(1);
+    expect(dryReport.alertSent).toBe(false);
+
+    const slowFetch = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ ok: true }), { status: 200 }),
+      )
+      .mockResolvedValueOnce(new Response(null, { status: 204 }));
+    const slowReport = await runMonitor({
+      targets: [
+        {
+          id: "slow-wp",
+          name: "Slow WP",
+          url: "https://api.moustachedesign.fyi/wp-json/",
+          latencyThresholdMs: 100,
+          validateJson: () => null,
+        },
+      ],
+      options: {
+        timeoutMs: 2000,
+        retries: 0,
+        retryDelayMs: 0,
+        json: false,
+        dryRun: false,
+        failOnSlow: false,
+      },
+      now,
+      fetchImpl: slowFetch,
+    });
+    expect(slowReport.alertSent).toBe(true);
+    const body = String(slowFetch.mock.calls[1][1]?.body || "");
+    expect(body).toContain("Latency Alert");
+  });
+
   it("does not call Discord when all targets are ok or webhook is unset", async () => {
     vi.stubEnv("DISCORD_WEBHOOK_URL", "");
     const sent = await sendMonitorDiscordAlert([

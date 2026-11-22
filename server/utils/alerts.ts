@@ -71,6 +71,7 @@ export async function sendDiscordAlert({
       signal: AbortSignal.timeout(8_000),
       body: JSON.stringify({
         username,
+        allowed_mentions: { parse: [] },
         embeds: [
           {
             title,

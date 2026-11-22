@@ -30,10 +30,12 @@ Failures are detected through:
    and `https://api.moustachedesign.fyi`, alerting `DISCORD_WEBHOOK_URL` on
    downtime or latency spikes.
 
-2. **Contact Form Error & Latency Alerts (`/api/contact`):**
-   `server/routes/api/contact.post.ts` proxies form submissions to WordPress
-   Contact Form 7 and dispatches a PII-free Discord alert on upstream timeouts,
-   non-2xx responses, non-`mail_sent` delivery failures, or latency > 5000ms.
+2. **Contact Form Error & Latency Alerts (`/api/contact-alert`):**
+   `app/components/UI/TheContactForm.vue` submits directly to WordPress
+   Contact Form 7 and reports PII-free telemetry to
+   `server/routes/api/contact-alert.post.ts` on network/HTTP errors,
+   non-`mail_sent`/`validation_failed` statuses (`mail_failed`, `spam`, etc.),
+   or latency > 5000ms.
 
 3. **Automated Discord Webhook Alert:** The deploy guard prints a failure
    notification if post-deploy health check fails or times out.
@@ -139,9 +141,9 @@ After initiating any recovery action:
   And verify in a browser that `/`, `/about`, `/contact`, and case study routes
   render cleanly with zero console or network errors.
 
-- [ ] Test the `/contact` form submission endpoint (`/api/contact` ->
-      `https://nunziella.moustachedesign.fyi/wp-json/contact-form-7/v1/contact-forms/78/feedback`)
-      to confirm WordPress Contact Form 7 proxy connectivity.
+- [ ] Test the `/contact` form submission endpoint
+      (`/wp-json/contact-form-7/v1/contact-forms/78/feedback`) to confirm
+      WordPress Contact Form 7 connectivity.
 - [ ] Document root cause and add regression tests before reproposing the
       reverted changes.
 

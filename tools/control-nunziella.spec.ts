@@ -22,7 +22,7 @@ describe("control-nunziella CLI", () => {
     expect(parsed.codeRoutes).toContain("/");
     expect(parsed.codeRoutes).toContain("/health.json");
     expect(parsed.codeRoutes).toContain("/api/verify-access");
-    expect(parsed.codeRoutes).toContain("/api/contact");
+    expect(parsed.codeRoutes).toContain("/api/contact-alert");
   });
 
   it("performs request --contains and health checks against an HTTP endpoint", async () => {
@@ -38,12 +38,12 @@ describe("control-nunziella CLI", () => {
         );
         return;
       }
-      if (req.url === "/api/contact" && req.method === "POST") {
+      if (req.url === "/api/contact-alert" && req.method === "POST") {
         res.writeHead(400, { "Content-Type": "application/json" });
         res.end(
           JSON.stringify({
-            status: "validation_failed",
-            message: "Invalid contact form payload.",
+            ok: false,
+            error: "Invalid alert kind. Expected 'error' or 'latency'.",
           }),
         );
         return;
@@ -77,13 +77,15 @@ describe("control-nunziella CLI", () => {
         CLI_PATH,
         "request",
         "POST",
-        "/api/contact",
+        "/api/contact-alert",
         "--origin",
         origin,
         "--status",
         "400",
+        "--data",
+        "{}",
         "--contains",
-        "Invalid contact form payload",
+        "Invalid alert kind",
         "--json",
       ]);
       const statusJson = JSON.parse(statusRes.stdout);

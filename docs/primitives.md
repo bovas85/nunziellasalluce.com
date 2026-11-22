@@ -47,12 +47,12 @@ list in the same PR.
 ## 5. Health, Verification & Control CLI
 
 - **Roots:** `server/routes/health.get.ts`,
-  `server/routes/health.json.get.ts`, `server/routes/api/contact.post.ts`,
+  `server/routes/health.json.get.ts`, `server/routes/api/contact-alert.post.ts`,
   `server/utils/health.ts`, `server/utils/alerts.ts`,
   `tools/control-nunziella.mjs`, `tools/verify-deploy-health.mjs`,
   `tools/monitor-endpoints.mjs`, `tools/verify-kv-restore.mjs`,
   `tools/verify-*-visual.mjs`, `.github/workflows/uptime-monitor.yml`
-- **Role:** Exposes `/health`, `/health.json`, and `/api/contact` (with
+- **Role:** Exposes `/health`, `/health.json`, and `/api/contact-alert` (for
   error/latency Discord alerts), runs local and preview checks, monitors
   production and WordPress endpoints (`nunziella`, `bike`, `api`), verifies
   deployed SHA, and checks KV recovery.

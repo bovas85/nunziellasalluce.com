@@ -146,7 +146,7 @@ export async function probeOnce(target, options = {}) {
 
   let probeUrl = target.url;
   let fallbackUsed = false;
-  const startedAt = now();
+  let startedAt = now();
 
   try {
     let res = await fetchTargetResponse(probeUrl, { timeoutMs, fetchImpl });
@@ -156,6 +156,7 @@ export async function probeOnce(target, options = {}) {
       if (target.fallbackUrl && isCloudflareChallenge(res, bodyText)) {
         probeUrl = target.fallbackUrl;
         fallbackUsed = true;
+        startedAt = now();
         res = await fetchTargetResponse(probeUrl, { timeoutMs, fetchImpl });
       } else {
         const latencyMs = now() - startedAt;

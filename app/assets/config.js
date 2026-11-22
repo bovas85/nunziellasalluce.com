@@ -19,6 +19,6 @@ export default {
     projects: "/wp/v2/casestudies",
     caseStudy: "/wp/v2/casestudies?slug=",
     postFormContact: "/contact-form-7/v1/contact-forms/78/feedback",
-    contactForm: "/api/contact",
+    contactAlert: "/api/contact-alert",
   },
 };

@@ -120,6 +120,30 @@ const saveOfflineForm = () => {
   }, 2000);
 };
 
+const CONTACT_LATENCY_THRESHOLD_MS = 5000;
+
+type FetchFn = typeof $fetch;
+
+const reportContactAlert = (
+  fetchCall: FetchFn,
+  payload: {
+    kind: "error" | "latency";
+    cf7Status?: string;
+    httpStatus?: number;
+    latencyMs: number;
+    detail?: string;
+  },
+) => {
+  void Promise.resolve(
+    fetchCall(Config.api.contactAlert, {
+      method: "POST",
+      body: payload,
+    }),
+  ).catch(() => {
+    // Alert reporting must never block or surface errors to the visitor
+  });
+};
+
 const submitFormAPI = async () => {
   const formData = new FormData();
   formData.append("_wpcf7", "78");
@@ -131,31 +155,72 @@ const submitFormAPI = async () => {
   formData.append("your-message", form.value.yourMessage);
   formData.append("acceptance-privacy", form.value.youAgree ? "1" : "");
 
+  const fetchCall =
+    (typeof globalThis !== "undefined" && globalThis.$fetch) || $fetch;
+  const startedAt = Date.now();
+
   try {
-    const fetchCall =
-      (typeof globalThis !== "undefined" && globalThis.$fetch) || $fetch;
-    const response = await fetchCall<{ status?: string } | undefined>(
-      Config.api.contactForm,
-      {
-        method: "POST",
-        body: formData,
-      },
-    );
+    const response = await fetchCall<
+      { status?: string; message?: string } | undefined
+    >(`${Config.wpDomain}${Config.api.postFormContact}`, {
+      method: "POST",
+      body: formData,
+    });
+    const latencyMs = Math.max(0, Date.now() - startedAt);
+
     if (
       !response ||
       typeof response !== "object" ||
       response.status !== "mail_sent"
     ) {
-      throw new Error(
-        `Form submission failed: ${response && typeof response === "object" && "status" in response ? String(response.status) : "missing status"}`,
-      );
+      const cf7Status =
+        response && typeof response === "object" && "status" in response
+          ? String(response.status)
+          : "missing_status";
+      if (cf7Status !== "validation_failed") {
+        reportContactAlert(fetchCall, {
+          kind: "error",
+          cf7Status,
+          httpStatus: 200,
+          latencyMs,
+          detail:
+            response && typeof response === "object" && "message" in response
+              ? String(response.message)
+              : undefined,
+        });
+      }
+      throw new Error(`Form submission failed: ${cf7Status}`);
     }
+
+    if (latencyMs > CONTACT_LATENCY_THRESHOLD_MS) {
+      reportContactAlert(fetchCall, {
+        kind: "latency",
+        cf7Status: "mail_sent",
+        httpStatus: 200,
+        latencyMs,
+      });
+    }
+
     disabled.value = false;
     sending.value = false;
     sent.value = true;
     saved.value = false;
     storedData.value = null;
-  } catch {
+  } catch (err) {
+    const latencyMs = Math.max(0, Date.now() - startedAt);
+    const errorObj = err as
+      { statusCode?: number; status?: number; message?: string } | undefined;
+    const isThrownStatusError =
+      errorObj?.message?.startsWith("Form submission failed:") ?? false;
+    if (!isThrownStatusError) {
+      reportContactAlert(fetchCall, {
+        kind: "error",
+        cf7Status: "network_or_http_error",
+        httpStatus: errorObj?.statusCode ?? errorObj?.status,
+        latencyMs,
+        detail: errorObj?.message,
+      });
+    }
     disabled.value = false;
     sending.value = false;
     sendError.value = true;
