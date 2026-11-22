@@ -135,7 +135,7 @@ const submitFormAPI = async () => {
     const fetchCall =
       (typeof globalThis !== "undefined" && globalThis.$fetch) || $fetch;
     const response = await fetchCall<{ status?: string } | undefined>(
-      `${Config.wpDomain}${Config.api.postFormContact}`,
+      Config.api.contactForm,
       {
         method: "POST",
         body: formData,

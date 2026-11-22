@@ -54,6 +54,9 @@ export const Website = Cloudflare.Website.Nuxt(
     const caseStudyPassword = yield* Config.Redacted(
       "CASE_STUDY_PASSWORD",
     ).pipe(Config.withDefault(Redacted.make("")), Effect.orDie);
+    const discordWebhookUrl = yield* Config.Redacted(
+      "DISCORD_WEBHOOK_URL",
+    ).pipe(Config.withDefault(Redacted.make("")), Effect.orDie);
 
     if (isProd && Redacted.value(caseStudyPassword).trim().length === 0) {
       return yield* Effect.die(
@@ -76,6 +79,7 @@ export const Website = Cloudflare.Website.Nuxt(
       env: {
         SUBMISSIONS: SubmissionsKV,
         CASE_STUDY_PASSWORD: caseStudyPassword,
+        DISCORD_WEBHOOK_URL: discordWebhookUrl,
         PROTECTED_CASE_STUDIES: Config.String("PROTECTED_CASE_STUDIES").pipe(
           Config.withDefault(""),
         ),

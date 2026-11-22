@@ -480,6 +480,7 @@ export async function performRequest({
   targetPath = "/",
   origin = DEFAULT_LOCAL_ORIGIN,
   contains,
+  expectedStatus,
   data,
   dump,
   cookieHeader = "",
@@ -511,11 +512,14 @@ export async function performRequest({
   }
 
   const containsOk = contains ? text.includes(String(contains)) : true;
-  const ok = res.ok && containsOk;
+  const statusOk =
+    expectedStatus !== undefined ? res.status === expectedStatus : res.ok;
+  const ok = statusOk && containsOk;
   return {
     ok,
     url,
     status: res.status,
+    expectedStatus: expectedStatus ?? null,
     contains: contains || null,
     containsMatched: containsOk,
     bytes: Buffer.byteLength(text),
@@ -527,11 +531,19 @@ async function cmdRequest(positionals, flags) {
   const method = positionals[0] || "GET";
   const targetPath = positionals[1] || "/";
   const origin = resolveLocalOrigin(flags.origin);
+  const parsedStatus =
+    flags.status !== undefined
+      ? Number.parseInt(String(flags.status), 10)
+      : undefined;
+  const expectedStatus = Number.isFinite(parsedStatus)
+    ? parsedStatus
+    : undefined;
   const result = await performRequest({
     method,
     targetPath,
     origin,
     contains: typeof flags.contains === "string" ? flags.contains : undefined,
+    expectedStatus,
     data: typeof flags.data === "string" ? flags.data : undefined,
     dump: typeof flags.dump === "string" ? flags.dump : undefined,
     cookieHeader: buildCookieHeader(origin),
@@ -883,7 +895,7 @@ Usage:
   node tools/control-nunziella.mjs doctor [--origin <url>] [--json]
   node tools/control-nunziella.mjs dev [--port 3000] [--json]
   node tools/control-nunziella.mjs login [--origin <url>] [--password <pass>] [--json]
-  node tools/control-nunziella.mjs request <METHOD> <path> [--origin <url>] [--contains <text>] [--dump <file>] [--data <json>] [--json]
+  node tools/control-nunziella.mjs request <METHOD> <path> [--origin <url>] [--status <code>] [--contains <text>] [--dump <file>] [--data <json>] [--json]
   node tools/control-nunziella.mjs execute --code-file <file> [--origin <url>] [--json]
   node tools/control-nunziella.mjs browse [--origin <url>] --path <path> [--record] [--mobile] [--out <dir>] [--json]
   node tools/control-nunziella.mjs map [<feature>] [--check] [--json]

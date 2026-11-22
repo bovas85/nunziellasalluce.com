@@ -20,6 +20,7 @@
     "format:check": "prettier --check AGENTS.md docs/ .github/ .agents/ tools/control-nunziella.mjs tools/control-nunziella.spec.ts tools/verify-kv-restore.mjs",
     "verify": "yarn nuxt prepare && yarn lint:all && yarn format:check && node tools/control-nunziella.mjs map --check && CI=1 yarn test:coverage",
     "control-nunziella": "node tools/control-nunziella.mjs",
+    "monitor:uptime": "node tools/monitor-endpoints.mjs",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:visual": "node tools/verify-password-gate-visual.mjs",

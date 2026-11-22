@@ -142,9 +142,7 @@ describe("TheContactForm", () => {
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
     const fetchArgs = mockFetch.mock.calls[0];
-    expect(fetchArgs[0]).toContain(
-      "/wp-json/contact-form-7/v1/contact-forms/78/feedback",
-    );
+    expect(fetchArgs[0]).toBe("/api/contact");
   });
 
   it("handles API failure during submission", async () => {

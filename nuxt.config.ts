@@ -110,6 +110,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     caseStudyPassword: process.env.CASE_STUDY_PASSWORD || "",
+    discordWebhookUrl: process.env.DISCORD_WEBHOOK_URL || "",
     public: {
       enableCarouselSwipeFix:
         process.env.ENABLE_PREVENT_TEXT_AND_BUTTON !== undefined

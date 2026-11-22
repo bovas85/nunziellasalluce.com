@@ -23,16 +23,29 @@ incidents, rolling back faulty releases, and restoring service for
 
 Failures are detected through:
 
-1. **Automated Discord Webhook Alert:** The deploy guard prints a failure
+1. **Scheduled Uptime & WordPress Latency Monitor:**
+   `.github/workflows/uptime-monitor.yml` runs `tools/monitor-endpoints.mjs`
+   every 15 minutes against `https://nunziellasalluce.com/health.json`,
+   `https://nunziella.moustachedesign.fyi`, `https://bike.moustachedesign.fyi`,
+   and `https://api.moustachedesign.fyi`, alerting `DISCORD_WEBHOOK_URL` on
+   downtime or latency spikes.
+
+2. **Contact Form Error & Latency Alerts (`/api/contact`):**
+   `server/routes/api/contact.post.ts` proxies form submissions to WordPress
+   Contact Form 7 and dispatches a PII-free Discord alert on upstream timeouts,
+   non-2xx responses, non-`mail_sent` delivery failures, or latency > 5000ms.
+
+3. **Automated Discord Webhook Alert:** The deploy guard prints a failure
    notification if post-deploy health check fails or times out.
 
-2. **Post-Deploy Healthcheck Script:**
+4. **Post-Deploy & Uptime Scripts:**
 
    ```bash
    node tools/verify-deploy-health.mjs --url "https://nunziellasalluce.com"
+   node tools/monitor-endpoints.mjs --dry-run
    ```
 
-3. **Manual Endpoint Inspection:**
+5. **Manual Endpoint Inspection:**
 
    ```bash
    curl -fsSL https://nunziellasalluce.com/health.json
@@ -126,9 +139,9 @@ After initiating any recovery action:
   And verify in a browser that `/`, `/about`, `/contact`, and case study routes
   render cleanly with zero console or network errors.
 
-- [ ] Test the `/contact` form submission endpoint
-      (`/wp-json/contact-form-7/v1/contact-forms/78/feedback`) to confirm
-      WordPress Contact Form 7 proxy connectivity.
+- [ ] Test the `/contact` form submission endpoint (`/api/contact` ->
+      `https://nunziella.moustachedesign.fyi/wp-json/contact-form-7/v1/contact-forms/78/feedback`)
+      to confirm WordPress Contact Form 7 proxy connectivity.
 - [ ] Document root cause and add regression tests before reproposing the
       reverted changes.
 

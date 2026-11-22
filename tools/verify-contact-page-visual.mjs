@@ -239,7 +239,7 @@ async function runVisualTest() {
     });
 
     let cf7Mode = "mail_failed";
-    await desktopPage.route("**/wp-json/contact-form-7/**", async (route) => {
+    await desktopPage.route("**/api/contact", async (route) => {
       if (cf7Mode === "mail_failed") {
         await route.fulfill({
           status: 200,
@@ -460,7 +460,7 @@ async function runVisualTest() {
         }),
       );
     });
-    await mobilePage.route("**/wp-json/contact-form-7/**", async (route) => {
+    await mobilePage.route("**/api/contact", async (route) => {
       await route.fulfill({
         status: 200,
         contentType: "application/json",
