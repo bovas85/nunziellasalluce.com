@@ -80,6 +80,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CASE_STUDY_PASSWORD: ${{ secrets.CASE_STUDY_PASSWORD }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           PROTECTED_CASE_STUDIES: ${{ vars.PROTECTED_CASE_STUDIES || '' }}
 
       - name: Comment Preview URL on PR

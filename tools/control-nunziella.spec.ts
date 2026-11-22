@@ -22,6 +22,7 @@ describe("control-nunziella CLI", () => {
     expect(parsed.codeRoutes).toContain("/");
     expect(parsed.codeRoutes).toContain("/health.json");
     expect(parsed.codeRoutes).toContain("/api/verify-access");
+    expect(parsed.codeRoutes).toContain("/api/contact-alert");
   });
 
   it("performs request --contains and health checks against an HTTP endpoint", async () => {
@@ -33,6 +34,16 @@ describe("control-nunziella CLI", () => {
             ok: true,
             status: "healthy",
             commitSha: "abc1234567",
+          }),
+        );
+        return;
+      }
+      if (req.url === "/api/contact-alert" && req.method === "POST") {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(
+          JSON.stringify({
+            ok: false,
+            error: "Invalid alert kind. Expected 'error' or 'latency'.",
           }),
         );
         return;
@@ -61,6 +72,26 @@ describe("control-nunziella CLI", () => {
       const reqJson = JSON.parse(reqRes.stdout);
       expect(reqJson.ok).toBe(true);
       expect(reqJson.containsMatched).toBe(true);
+
+      const statusRes = await execFileAsync("node", [
+        CLI_PATH,
+        "request",
+        "POST",
+        "/api/contact-alert",
+        "--origin",
+        origin,
+        "--status",
+        "400",
+        "--data",
+        "{}",
+        "--contains",
+        "Invalid alert kind",
+        "--json",
+      ]);
+      const statusJson = JSON.parse(statusRes.stdout);
+      expect(statusJson.ok).toBe(true);
+      expect(statusJson.status).toBe(400);
+      expect(statusJson.expectedStatus).toBe(400);
 
       const healthRes = await execFileAsync("node", [
         CLI_PATH,

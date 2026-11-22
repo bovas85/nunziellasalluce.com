@@ -23,16 +23,31 @@ incidents, rolling back faulty releases, and restoring service for
 
 Failures are detected through:
 
-1. **Automated Discord Webhook Alert:** The deploy guard prints a failure
+1. **Scheduled Uptime & WordPress Latency Monitor:**
+   `.github/workflows/uptime-monitor.yml` runs `tools/monitor-endpoints.mjs`
+   every 15 minutes against `https://nunziellasalluce.com/health.json`,
+   `https://nunziella.moustachedesign.fyi`, `https://bike.moustachedesign.fyi`,
+   and `https://api.moustachedesign.fyi`, alerting `DISCORD_WEBHOOK_URL` on
+   downtime or latency spikes.
+
+2. **Contact Form Error & Latency Alerts (`/api/contact-alert`):**
+   `app/components/UI/TheContactForm.vue` submits directly to WordPress
+   Contact Form 7 and reports PII-free telemetry to
+   `server/routes/api/contact-alert.post.ts` on network/HTTP errors,
+   non-`mail_sent`/`validation_failed` statuses (`mail_failed`, `spam`, etc.),
+   or latency > 5000ms.
+
+3. **Automated Discord Webhook Alert:** The deploy guard prints a failure
    notification if post-deploy health check fails or times out.
 
-2. **Post-Deploy Healthcheck Script:**
+4. **Post-Deploy & Uptime Scripts:**
 
    ```bash
    node tools/verify-deploy-health.mjs --url "https://nunziellasalluce.com"
+   node tools/monitor-endpoints.mjs --dry-run
    ```
 
-3. **Manual Endpoint Inspection:**
+5. **Manual Endpoint Inspection:**
 
    ```bash
    curl -fsSL https://nunziellasalluce.com/health.json
@@ -128,7 +143,7 @@ After initiating any recovery action:
 
 - [ ] Test the `/contact` form submission endpoint
       (`/wp-json/contact-form-7/v1/contact-forms/78/feedback`) to confirm
-      WordPress Contact Form 7 proxy connectivity.
+      WordPress Contact Form 7 connectivity.
 - [ ] Document root cause and add regression tests before reproposing the
       reverted changes.
 

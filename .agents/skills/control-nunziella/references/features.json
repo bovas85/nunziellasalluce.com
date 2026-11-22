@@ -25,9 +25,20 @@
       "route": "/contact",
       "feature": "Contact page & form",
       "source": "app/pages/contact.vue",
-      "reach": "Navigate to /contact; submits form payload to WordPress Contact Form 7 proxy (Config.api.postFormContact).",
+      "reach": "Navigate to /contact; submits form payload directly to WordPress Contact Form 7 and reports errors or latency spikes to /api/contact-alert.",
       "actions": ["Fill and validate contact form", "Submit inquiry"],
       "verify": "node tools/control-nunziella.mjs request GET /contact --contains \"contact\" && node tools/control-nunziella.mjs browse --path /contact --record"
+    },
+    {
+      "route": "/api/contact-alert",
+      "feature": "Contact form error & latency Discord alert API",
+      "source": "server/routes/api/contact-alert.post.ts",
+      "reach": "POST /api/contact-alert validates PII-free telemetry and dispatches Discord alerts on Contact Form 7 delivery failures or latency spikes.",
+      "actions": [
+        "Validate alert payload",
+        "Dispatch Discord error or latency alert"
+      ],
+      "verify": "node tools/control-nunziella.mjs request POST /api/contact-alert --status 400 --data '{}' --contains \"Invalid alert kind\""
     },
     {
       "route": "/privacy-policy",

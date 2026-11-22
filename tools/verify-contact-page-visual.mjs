@@ -239,6 +239,13 @@ async function runVisualTest() {
     });
 
     let cf7Mode = "mail_failed";
+    await desktopPage.route("**/api/contact-alert", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true }),
+      });
+    });
     await desktopPage.route("**/wp-json/contact-form-7/**", async (route) => {
       if (cf7Mode === "mail_failed") {
         await route.fulfill({
@@ -459,6 +466,13 @@ async function runVisualTest() {
           youAgree: true,
         }),
       );
+    });
+    await mobilePage.route("**/api/contact-alert", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true }),
+      });
     });
     await mobilePage.route("**/wp-json/contact-form-7/**", async (route) => {
       await route.fulfill({
