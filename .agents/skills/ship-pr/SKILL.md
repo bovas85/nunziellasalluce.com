@@ -12,7 +12,10 @@ description:
    changes primitives or ADRs, update [`docs/primitives.md`](../../../docs/primitives.md).
 2. Run `yarn verify` and local `control-nunziella` proof (`doctor`, `dev`,
    `request --contains` / `execute`, `browse --record` for UI; `preview --pr`
-   only for production-like Cloudflare/KV/secret changes).
+   for production-like Cloudflare/KV/secret changes and any PR modifying API
+   endpoints, proxies, or form submission paths—verify the live API-driven
+   interaction on the deploy preview rather than relying solely on mocked
+   routes).
 3. For `medium` and `high` risk PRs, spawn an **independent** review subagent
    following [`.agents/skills/review-pr/SKILL.md`](../review-pr/SKILL.md). Never
    let the agent that wrote the code review its own `medium`/`high` PR. Fix any
